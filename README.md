@@ -8,3 +8,4 @@ Develop a web application allowing clients to view and make purchases from a ret
 ## Team Members
 
 * Patrick Spensieri
+* Pablo Gonzalez
