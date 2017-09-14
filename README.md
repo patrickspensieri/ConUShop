@@ -24,20 +24,20 @@ TODO: Write history
 
 ## Domain
 
-www.conu.shop
+www.conu.shop<br>
 Currently redirects to GitHub repository
 
 ## Credits
 
-Karlo Gonzales 40014922
-Patrick Spensieri 4006417
-Andy Pham 4006071
-Laxman Velauthapillai 4000111
-Tusman Akhter 40003476
-Pablo Gonzalez 40003141
-Tajbig Choudhury 40002177
-Rajeevan Vairamuthu 40000112
-Alexandre Masmoudi 27755473
+Karlo Gonzales 40014922<br>
+Patrick Spensieri 4006417<br>
+Andy Pham 4006071<br>
+Laxman Velauthapillai 4000111<br>
+Tusman Akhter 40003476<br>
+Pablo Gonzalez 40003141<br>
+Tajbig Choudhury 40002177<br>
+Rajeevan Vairamuthu 40000112<br>
+Alexandre Masmoudi 27755473<br>
 
 ## License
 
