@@ -35,7 +35,7 @@ Andy Pham 4006071<br>
 Laxman Velauthapillai 40000111<br>
 Tusman Akhter 40003476<br>
 Pablo Gonzalez 40003141<br>
-Tajbig Choudhury 40002177<br>
+Tajbid Choudhury 40002177<br>
 Rajeevan Vairamuthu 40000112<br>
 Alexandre Masmoudi 27755473<br>
 Mazen Nahle 27003315<br>
