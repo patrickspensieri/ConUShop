@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "TODO: Write a project description",
   "main": "index.js",
+  "engines": {
+    "node": "6.11.1"
+  },
   "scripts": {
     "start": "node index.js"
   },
@@ -14,6 +17,10 @@
     "express": "*",
     "ejs": "*",
     "pg": "*"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
   },
   "author": "",
   "license": "ISC",
