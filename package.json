@@ -1,0 +1,24 @@
+{
+  "name": "soen343",
+  "version": "1.0.0",
+  "description": "TODO: Write a project description",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patrickspensieri/soen343.git"
+  },
+  "dependencies": {
+    "express": "*",
+    "ejs": "*",
+    "pg": "*"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patrickspensieri/soen343/issues"
+  },
+  "homepage": "https://github.com/patrickspensieri/soen343#readme"
+}
