@@ -1,31 +1,32 @@
 {
   "name": "soen343",
   "version": "1.0.0",
-  "description": "TODO: Write a project description",
-  "main": "index.js",
+  "description": "Concordia electronics storefront",
   "engines": {
     "node": "6.11.1"
   },
+  "main": "index.js",
   "scripts": {
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/patrickspensieri/soen343.git"
+    "start": "node index.js",
+    "test": "node test.js"
   },
   "dependencies": {
-    "express": "*",
-    "ejs": "*",
+    "ejs": "2.5.6",
+    "express": "4.15.2",
     "pg": "*"
   },
   "devDependencies": {
     "request": "^2.81.0",
     "tape": "^4.7.0"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/patrickspensieri/soen343/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-getting-started"
   },
-  "homepage": "https://github.com/patrickspensieri/soen343#readme"
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
 }
