@@ -4,11 +4,15 @@ TODO: Write a project description
 
 ## Installation
 
-TODO: Describe the installation process
+1. Install Nodejs: https://nodejs.org/en/download/
+2. Install Heroku-Cli: https://devcenter.heroku.com/articles/heroku-cli
+
 
 ## Usage
 
-TODO: Write usage instructions
+1. npm install
+2. npm start || heroku local
+3. open browser to localhost:5000
 
 ## Contributing
 

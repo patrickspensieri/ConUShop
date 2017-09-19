@@ -22,8 +22,8 @@ app.get('/', function(request, response) {
         for (let row of result.rows) {
             console.log(JSON.stringify(row));
         }
-        response.render('pages/index',
-            //{jsonData: JSON.parse(JSON.stringify(result)).rows}
+        response.render('pages/index'
+            //,{jsonData: JSON.parse(JSON.stringify(result)).rows}
         );
 
 
