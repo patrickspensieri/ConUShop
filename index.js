@@ -14,23 +14,19 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+client.connect();
+
+client.query('SELECT * FROM television', (err, result) => {
+    if (err) throw err;
+    for (let row of result.rows) {
+        console.log(JSON.stringify(row));
+    }
+//,{jsonData: JSON.parse(JSON.stringify(result)).rows}
+    client.end();
+});
+
 app.get('/', function(request, response) {
-    client.connect();
-
-    client.query('SELECT * FROM television', (err, result) => {
-        if (err) throw err;
-        for (let row of result.rows) {
-            console.log(JSON.stringify(row));
-        }
-        response.render('pages/index'
-            //,{jsonData: JSON.parse(JSON.stringify(result)).rows}
-        );
-
-
-        client.end();
-    });
-
-
+    response.render('pages/index');
 });
 
 app.listen(app.get('port'), function() {
