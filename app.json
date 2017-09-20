@@ -1,0 +1,7 @@
+{
+  "name": "SOEN343",
+  "description": "Concordia electronics storefront",
+  "repository": "https://github.com/patrickspensieri/soen343.git",
+  "keywords": ["node", "express", "heroku"],
+  "image": "heroku/nodejs"
+}
