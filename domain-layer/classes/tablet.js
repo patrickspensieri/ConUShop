@@ -1,9 +1,6 @@
-//JS class for laptops
-class laptops extends portableComputer {
-
-    laptops.numInstances = (laptops.numInstances || 0) + 1; // not tested yet
-
-    constructor(modelnum, brand, display, processor, ram, harddisk, cpu, os, battery, camera, touchscreen, dimensions, weight, price){
+class tablet extends portableComputer {
+    tablet.numInstances = (laptops.numInstances || 0) + 1; // not tested yet
+    constructor (modelnum, brand, display, processor, ram, harddisk, cpu, os, battery, camera, dimensions, weight, price) {
         //should inherited from electronicDevice
         modelnum = super.modelnumMethod() // (This method is located in parent electronicDevice, it must evaluate the instance of the class and determine the number of laptops;);
         this.brand = brand;
@@ -23,13 +20,10 @@ class laptops extends portableComputer {
         this.battery = battery;
         this.camera = camera;
 
-        //not inherited part!
-        this.touchscreen = touchscreen;
-
+        //no specific attributes
     }
 
     newEntry(){
-        console.log('The laptop' + this.modelnum +'has been created, there is ' + this.numInstances + ' laptops available');
+        console.log('The tablet' + this.modelnum +'has been created, there is ' + this.numInstances + ' tablets available');
     }
-
 }
