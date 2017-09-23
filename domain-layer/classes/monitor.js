@@ -1,3 +1,5 @@
+var electronicDevice = require('./electronicDevice.js');
+
 class monitor extends electronicDevice {
     constructor(modelNumber, brand, weight, price, displaySize){
         super(modelNumber, brand, weight, price);
@@ -8,3 +10,5 @@ class monitor extends electronicDevice {
         console.log(this.modelNumber + " " + this.brand + " " + this.weight + " " + this.price + " " + this.displaySize);
     }
 }
+
+module.exports = monitor;

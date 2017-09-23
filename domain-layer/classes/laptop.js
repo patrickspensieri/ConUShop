@@ -1,3 +1,5 @@
+var portableComputer = require('./portableComputer.js');
+
 //JS class for laptops
 class laptop extends portableComputer {
 
@@ -21,3 +23,5 @@ class laptop extends portableComputer {
         + this.os + " " + this.battery + " " + this.camera + " " + this.touchscreen);
     }
 }
+
+module.exports = laptop;

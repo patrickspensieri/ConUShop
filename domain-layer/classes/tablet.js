@@ -1,3 +1,5 @@
+var portableComputer = require('./portableComputer.js');
+
 class tablet extends portableComputer {
     tablet.numInstances = (laptops.numInstances || 0) + 1; // not tested yet
     constructor (modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions, displaySize, os, battery, camera) {
@@ -10,3 +12,5 @@ class tablet extends portableComputer {
         console.log('The tablet' + this.modelnum +'has been created, there is ' + this.numInstances + ' tablets available');
     }
 }
+
+module.exports = tablet;

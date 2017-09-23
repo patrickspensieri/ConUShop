@@ -1,3 +1,5 @@
+var computer = require('./computer.js');
+
 class portableComputer extends computer {
     constructor(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions, displaySize, os, battery, camera) {
         super(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions)
@@ -13,3 +15,5 @@ class portableComputer extends computer {
         + this.os + " " + this.battery + " " + this.camera);
     }
 }
+
+module.exports = portableComputer;

@@ -1,3 +1,5 @@
+var electronicDevice = require('./electronicDevice.js');
+
 class computer extends electronicDevice {
     constructor(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions){
         super(modelNumber, brand, weight, price);
@@ -13,3 +15,5 @@ class computer extends electronicDevice {
         + this.ram + " " + this.hardDrive + " " + this.cpuCores + " " + this.dimensions);
     }
 }
+
+module.exports = computer;

@@ -10,3 +10,5 @@ class electronicDevice {
         console.log(this.modelNumber + " " + this.brand + " " + this.weight + " " + this.price);
     }
 }
+
+module.exports = electronicDevice;

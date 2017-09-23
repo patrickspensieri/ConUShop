@@ -1,3 +1,5 @@
+var electronicDevice = require('./electronicDevice.js');
+
 class television extends electronicDevice {
     constructor(modelNumber, brand, weight, price, dimensions){
         super(modelNumber, brand, weight, price);
@@ -8,3 +10,5 @@ class television extends electronicDevice {
         console.log(this.modelNumber + " " + this.brand + " " + this.weight + " " + this.price + " " + this.dimensions);
     }
 }
+
+module.exports = television;
