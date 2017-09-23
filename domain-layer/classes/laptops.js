@@ -1,5 +1,5 @@
 //JS class for laptops
-class laptops extends computer {
+class laptops extends portableComputer {
 
   laptops.numInstances = (laptops.numInstances || 0) + 1; // not tested yet
 
@@ -17,11 +17,13 @@ class laptops extends computer {
     this.cpu = cpu;
     this.dimensions = dimensions;
 
-    //not inherited part!
+    //should be inherited from portableComputer
     this.display = display;
     this.os = os;
     this.battery = battery;
     this.camera = camera;
+
+    //not inherited part!
     this.touchscreen = touchscreen;
 
   }
