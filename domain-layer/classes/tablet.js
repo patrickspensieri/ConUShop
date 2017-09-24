@@ -1,4 +1,4 @@
-var portableComputer = require('./portableComputer.js');
+var portableComputer = require('./portableComputer');
 
 class tablet extends portableComputer {
     tablet.numInstances = (laptops.numInstances || 0) + 1; // not tested yet

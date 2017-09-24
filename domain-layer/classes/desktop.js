@@ -1,4 +1,4 @@
-var computer = require('./computer.js');
+var computer = require('./computer');
 
 class desktop extends computer {
     constructor(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions){

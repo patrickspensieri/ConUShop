@@ -1,4 +1,4 @@
-var electronicDevice = require('./electronicDevice.js');
+var electronicDevice = require('./electronicDevice');
 
 class computer extends electronicDevice {
     constructor(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions){

@@ -1,4 +1,4 @@
-var portableComputer = require('./portableComputer.js');
+var portableComputer = require('./portableComputer');
 
 //JS class for laptops
 class laptop extends portableComputer {

@@ -1,4 +1,4 @@
-var electronicDevice = require('./electronicDevice.js');
+var electronicDevice = require('./electronicDevice');
 
 class monitor extends electronicDevice {
     constructor(modelNumber, brand, weight, price, displaySize){
