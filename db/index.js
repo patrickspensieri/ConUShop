@@ -5,16 +5,18 @@
 require('dotenv').config();
 
 // create a new pool of clients for reading from db
-const {Pool} = require('pg');
+const {Client} = require('pg');
 
 // toggle between remote and local connection
+let client = null;
 if (process.env.PG_USE_HEROKU) {
-    const pool = new Pool({
+    client = new Client({
         connectionString: process.env.PG_CONNECTION_STRING,
         ssl: process.env.PG_SSL,
     });
-} else {
-    const pool = new Pool({
+}
+else {
+    client = new Client({
         user: process.env.PG_USER,
         host: process.env.PG_HOST,
         database: process.env.PG_DB,
@@ -22,10 +24,10 @@ if (process.env.PG_USE_HEROKU) {
         port: process.env.PG_PORT,
     });
 }
+client.connect();
 
-// export module to be used across application
 module.exports = {
     query: (text, params, callback) => {
-        return pool.query(text, params, callback);
+        return client.query(text, params, callback);
     },
 };
