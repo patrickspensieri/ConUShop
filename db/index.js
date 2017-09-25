@@ -2,27 +2,30 @@
 // DATABASE ADAPTER FILE
 // require this file instead of requiring 'pg' directly thoughout application
 
-// set connectionString if needed
+require('dotenv').config();
 
+// create a new pool of clients for reading from db
 const {Pool} = require('pg');
-// create a new pool of clients
-const pool = new Pool({
-    user: 'patrickspensieri',
-    host: 'localhost',
-    database: 'local_heroku1',
-    password: '',
-    port: 5432,}
-);
+
+// toggle between remote and local connection
+if (process.env.PG_USE_HEROKU) {
+    const pool = new Pool({
+        connectionString: process.env.PG_CONNECTION_STRING,
+        ssl: process.env.PG_SSL,
+    });
+} else {
+    const pool = new Pool({
+        user: process.env.PG_USER,
+        host: process.env.PG_HOST,
+        database: process.env.PG_DB,
+        password: process.env.PG_PASSWORD,
+        port: process.env.PG_PORT,
+    });
+}
 
 // export module to be used across application
 module.exports = {
     query: (text, params, callback) => {
         return pool.query(text, params, callback);
-    }
-}
-
-// let {Client} = require('pg');
-// let client = new Client({
-//     connectionString: 'postgres://kkpbujauwlnekb:8c221de6a032ef270df3d9c1048336529f38477b7adbddade13a3c6d22d52f27@ec2-54-243-255-57.compute-1.amazonaws.com:5432/d3n2v1itic5914',
-//     ssl: true,
-// });
+    },
+};

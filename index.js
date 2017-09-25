@@ -2,6 +2,8 @@ let express = require('express');
 let app = express();
 // require routes file
 require('./routes')(app, {});
+// read environment values from .env
+require('dotenv').config();
 
 // set port from .env, default to 5000
 app.set('port', (process.env.PORT || 5000));

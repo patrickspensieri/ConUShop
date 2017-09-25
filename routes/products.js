@@ -13,6 +13,6 @@ router.get('/monitors', (req, res, next) => {
             return next(err);
         }
         return next(JSON.stringify(res.rows));
-    })
+    });
 });
 module.exports = router;
