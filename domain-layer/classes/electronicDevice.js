@@ -1,5 +1,5 @@
 class electronicDevice {
-    constructor(modelNumber, brand, weight, price){
+    constructor(modelNumber, brand, weight, price) {
         this.modelNumber = modelNumber;
         this.brand = brand;
         this.weight = weight;
@@ -7,7 +7,7 @@ class electronicDevice {
     }
 
     display() {
-        console.log(this.modelNumber + " " + this.brand + " " + this.weight + " " + this.price);
+        console.log(this.modelNumber + ' ' + this.brand + ' ' + this.weight + ' ' + this.price);
     }
 }
 

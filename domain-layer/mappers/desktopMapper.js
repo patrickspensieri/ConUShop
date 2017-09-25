@@ -1,31 +1,28 @@
-var desktop = require('../../domain-layer/classes/desktop');
-var desktopTDG = require('../../data-source-layer/TDG/desktopTDG');
+let desktop = require('../../domain-layer/classes/desktop');
+let desktopTDG = require('../../data-source-layer/TDG/desktopTDG');
 
-class desktopMapper{
-
-    static find(id){
+class desktopMapper {
+    static find(id) {
 
     }
 
-    static findAll(){
-        var desktops = [];
-        var allDesktops = desktopTDG.findAll();
+    static findAll() {
+        let desktops = [];
+        let allDesktops = desktopTDG.findAll();
         console.log(allDesktops);
+    }
+
+    static insert(desktopObject) {
 
     }
 
-    static insert(desktopObject){
+    static update(desktopObject) {
 
     }
 
-    static update(desktopObject){
+    static delete(desktopObject) {
 
     }
-
-    static delete(desktopObject){
-
-    }
-
 }
 
 module.exports = desktopMapper;

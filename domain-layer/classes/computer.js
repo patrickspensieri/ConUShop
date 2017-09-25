@@ -1,7 +1,7 @@
-var electronicDevice = require('./electronicDevice');
+let electronicDevice = require('./electronicDevice');
 
 class computer extends electronicDevice {
-    constructor(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions){
+    constructor(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions) {
         super(modelNumber, brand, weight, price);
         this.processor = processor;
         this.ram = ram;
@@ -11,8 +11,8 @@ class computer extends electronicDevice {
     }
 
     display() {
-        console.log(this.modelNumber + " " + this.brand + " " + this.weight + " " + this.price + " " + this.processor
-        + this.ram + " " + this.hardDrive + " " + this.cpuCores + " " + this.dimensions);
+        console.log(this.modelNumber + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
+        + this.ram + ' ' + this.hardDrive + ' ' + this.cpuCores + ' ' + this.dimensions);
     }
 }
 

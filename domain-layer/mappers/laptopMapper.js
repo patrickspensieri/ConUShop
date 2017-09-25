@@ -1,25 +1,24 @@
-var laptop = require('../../domain-layer/classes/laptop');
-var laptopTDG = require('../../data-source-layer/TDG/laptopTDG');
+let laptop = require('../../domain-layer/classes/laptop');
+let laptopTDG = require('../../data-source-layer/TDG/laptopTDG');
 
-class laptopMapper{
-    
-    static find(id){
-
-    }
-
-    static findAll(){
+class laptopMapper {
+    static find(id) {
 
     }
 
-    static insert(desktopObject){
+    static findAll() {
 
     }
 
-    static update(desktopObject){
+    static insert(desktopObject) {
 
     }
 
-    static delete(desktopObject){
+    static update(desktopObject) {
+
+    }
+
+    static delete(desktopObject) {
 
     }
 }

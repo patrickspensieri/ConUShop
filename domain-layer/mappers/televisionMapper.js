@@ -1,25 +1,24 @@
-var television = require('../../domain-layer/classes/television');
-var televisionTDG = require('../../data-source-layer/TDG/televisionTDG');
+let television = require('../../domain-layer/classes/television');
+let televisionTDG = require('../../data-source-layer/TDG/televisionTDG');
 
-class televisionMapper{
-    
-    static find(id){
-
-    }
-
-    static findAll(){
+class televisionMapper {
+    static find(id) {
 
     }
 
-    static insert(desktopObject){
+    static findAll() {
 
     }
 
-    static update(desktopObject){
+    static insert(desktopObject) {
 
     }
 
-    static delete(desktopObject){
+    static update(desktopObject) {
+
+    }
+
+    static delete(desktopObject) {
 
     }
 }

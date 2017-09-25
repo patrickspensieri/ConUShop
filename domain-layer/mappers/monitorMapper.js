@@ -1,25 +1,24 @@
-var monitor = require('../../domain-layer/classes/monitor');
-var monitorTDG = require('../../data-source-layer/TDG/monitorTDG');
+let monitor = require('../../domain-layer/classes/monitor');
+let monitorTDG = require('../../data-source-layer/TDG/monitorTDG');
 
-class monitorMapper{
-    
-    static find(id){
-
-    }
-
-    static findAll(){
+class monitorMapper {
+    static find(id) {
 
     }
 
-    static insert(desktopObject){
+    static findAll() {
 
     }
 
-    static update(desktopObject){
+    static insert(desktopObject) {
 
     }
 
-    static delete(desktopObject){
+    static update(desktopObject) {
+
+    }
+
+    static delete(desktopObject) {
 
     }
 }
