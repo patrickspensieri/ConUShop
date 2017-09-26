@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "node test.js",
-    "lint": "eslint index.js --fix"
+    "lint": "eslint index.js db routes --fix"
   },
   "dependencies": {
     "dotenv": "^4.0.0",

@@ -7,15 +7,14 @@ require('dotenv').config();
 // create a new pool of clients for reading from db
 const {Client} = require('pg');
 
-// toggle between remote and local connection
+// process.env.KEY values are stored in your private .env file
 let client = null;
 if (process.env.PG_USE_HEROKU) {
     client = new Client({
         connectionString: process.env.PG_CONNECTION_STRING,
         ssl: process.env.PG_SSL,
     });
-}
-else {
+} else {
     client = new Client({
         user: process.env.PG_USER,
         host: process.env.PG_HOST,

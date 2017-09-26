@@ -2,7 +2,7 @@
 // ROUTER FOR PRODUCTS
 
 let express = require('express');
-let router = express.Router();
+let router = new express.Router();
 // require database adapter
 let db = require('../db');
 
