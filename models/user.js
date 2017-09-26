@@ -1,113 +1,46 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
+var bcrypt = require('bcryptjs');
 
-var User = require('../models/user');
-
-// Register
-router.get('/register', function(req, res) {
-    res.render('register');
-});
-
-// Login
-router.get('/login', function(req, res){
-    res.render('login');
-});
-
-// dashboard
-router.get('/dashboard', function(req, res){
-    res.render('dashboard');
-});
-
-// Register User
-router.post('/register', function(req, res){
-    var name = req.body.name;
-    var email = req.body.email;
-    var username = req.body.username;
-    var password = req.body.password;
-    var password2 = req.body.password2;
-
-    // Validation
-    req.checkBody('name', 'Name is required').notEmpty();
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Email is not valid').isEmail();
-    req.checkBody('username', 'Username is required').notEmpty();
-    req.checkBody('password', 'Password is required').notEmpty();
-    req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-
-    var errors = req.validationErrors();
-
-    if(errors){
-        res.render('register',{
-            errors:errors
-        });
-    } else {
-        var newUser = new User({
-            name: name,
-            email:email,
-            username: username,
-            password: password
-        });
-
-        User.createUser(newUser, function(err, user){
-            if(err) throw err;
-            console.log(user);
-        });
-
-        req.flash('success_msg', 'You are registered and can now login');
-
-        res.redirect('/users/login');
+// User Schema
+var UserSchema = mongoose.Schema({
+    username: {
+        type: String,
+        index:true
+    },
+    password: {
+        type: String
+    },
+    email: {
+        type: String
+    },
+    name: {
+        type: String
     }
 });
 
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-        User.getUserByUsername(username, function(err, user){
-            if(err) throw err;
-            if(!user){
-                return done(null, false, {message: 'Unknown User'});
-            }
+var User = module.exports = mongoose.model('User', UserSchema);
 
-            User.comparePassword(password, user.password, function(err, isMatch){
-                if(err) throw err;
-                if(isMatch){
-                    return done(null, user);
-                } else {
-                    return done(null, false, {message: 'Invalid password'});
-                }
-            });
+module.exports.createUser = function(newUser, callback){
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(newUser.password, salt, function(err, hash) {
+            newUser.password = hash;
+            newUser.save(callback);
         });
-    }));
-
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-    User.getUserById(id, function(err, user) {
-        done(err, user);
     });
-});
+}
 
-router.post('/login',
-    passport.authenticate('local', {successRedirect:'/users/dashboard', failureRedirect:'/users/login',failureFlash: true}),
-    function(req, res) {
-        res.redirect('/');
+module.exports.getUserByUsername = function(username, callback){
+    var query = {username: username};
+    User.findOne(query, callback);
+}
+
+module.exports.getUserById = function(id, callback){
+    User.findById(id, callback);
+}
+
+module.exports.comparePassword = function(candidatePassword, hash, callback){
+    bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+        if(err) throw err;
+        callback(null, isMatch);
     });
-
-//FIX Logout goes to login screen
-router.post('/logout',
-    function(req, res) {
-        res.redirect('/');
-    });
-
-router.get('/logout', function(req, res){
-    req.logout();
-
-    req.flash('success_msg', 'You are logged out');
-
-    res.redirect('/users/login');
-});
-
-module.exports = router;
+}
