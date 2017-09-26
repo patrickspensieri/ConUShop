@@ -1,26 +1,43 @@
-var portableComputer = require('./portableComputer');
+let portableComputer = require('./portableComputer');
 
-//JS class for laptops
+/**
+ * Class describes a laptop.
+ * @class laptop
+ * @export
+ * @extends portableComputer
+ */
 class laptop extends portableComputer {
-
-    laptop.numInstances = (laptop.numInstances || 0) + 1; // not tested yet
-
-    constructor(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions, displaySize, os, battery, camera, touchscreen){
-        //should inherited from electronicDevice
-        modelnum = super.modelnumMethod() // (This method is located in parent electronicDevice, it must evaluate the instance of the class and determine the number of laptops;);
-        super(modelNumber, brand, weight, price, processor, ram, hardDrive, cpuCores, dimensions, displaySize, os, battery, camera)
+  /**
+   * @constructor
+   * @param {string} modelNumber model number of laptop.
+   * @param {string} brand brand of laptop.
+   * @param {number} displaySize  size of laptop screen.
+   * @param {string} processor processor in laptop.
+   * @param {number} ram ram amount in laptop.
+   * @param {number} hardDrive hardDrive size of laptop.
+   * @param {number} cpuCores amount of cores in processor in laptop.
+   * @param {string} os operating system of laptop.
+   * @param {string} battery battery information of laptop.
+   * @param {string} camera camera information of laptop.
+   * @param {boolean} touchscreen is display touchscreen or not.
+   * @param {string} dimensions dimensions of laptop.
+   * @param {number} weight weight of laptop.
+   * @param {number} price price of laptop
+   */
+    constructor(modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, touchscreen, dimensions, weight, price) {
+        super(modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, dimensions, weight, price);
         this.touchscreen = touchscreen;
-
     }
 
-    newEntry(){
-        console.log('The laptop' + this.modelnum +'has been created, there is ' + this.numInstances + ' laptops available');
-    }
-
+    /**
+     * Displays information about laptop object. 
+     * To be run on an instance of laptop.
+     * @method display
+     */
     display() {
-        console.log(this.modelNumber + " " + this.brand + " " + this.weight + " " + this.price + " " + this.processor
-        + this.ram + " " + this.hardDrive + " " + this.cpuCores + " " + this.dimensions + " " + this.display + " "
-        + this.os + " " + this.battery + " " + this.camera + " " + this.touchscreen);
+        console.log(this.modelNumber + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
+        + this.ram + ' ' + this.hardDrive + ' ' + this.cpuCores + ' ' + this.dimensions + ' ' + this.display + ' '
+        + this.os + ' ' + this.battery + ' ' + this.camera + ' ' + this.touchscreen);
     }
 }
 
