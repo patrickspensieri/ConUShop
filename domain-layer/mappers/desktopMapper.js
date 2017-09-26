@@ -15,13 +15,13 @@ class desktopMapper {
 
     static insert(desktopObject) {
         desktopTDG.insert(desktopObject.modelNumber, desktopObject.brand, desktopObject.processor,
-            desktopObject.ram, desktopObject.hardDrive, desktopObject.cpuCores, desktopObject.dimension,
+            desktopObject.ram, desktopObject.hardDrive, desktopObject.cpuCores, desktopObject.dimensions,
             desktopObject.weight, desktopObject.price)
     }
 
     static update(desktopObject) {
         desktopTDG.update(desktopObject.modelNumber, desktopObject.brand, desktopObject.processor,
-            desktopObject.ram, desktopObject.hardDrive, desktopObject.cpuCores, desktopObject.dimension,
+            desktopObject.ram, desktopObject.hardDrive, desktopObject.cpuCores, desktopObject.dimensions,
             desktopObject.weight, desktopObject.price)
     }
 

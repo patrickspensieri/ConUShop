@@ -3,23 +3,28 @@ let televisionTDG = require('../../data-source-layer/TDG/televisionTDG');
 
 class televisionMapper {
     static find(id) {
-
+        let television = televisionTDG.find(id);
+        console.log(television);
     }
 
     static findAll() {
-
+        let televisions = [];
+        let alltelevisions = televisionTDG.findAll();
+        console.log(alltelevisions);
     }
 
-    static insert(desktopObject) {
-
+    static insert(televisionObject) {
+        televisionTDG.insert(televisionObject.modelNumber, televisionObject.brand, televisionObject.dimensions,
+            televisionObject.weight, televisionObject.price)
     }
 
-    static update(desktopObject) {
-
+    static update(televisionObject) {
+        televisionTDG.update(televisionObject.modelNumber, televisionObject.brand, televisionObject.dimensions,
+            televisionObject.weight, televisionObject.price)
     }
 
-    static delete(desktopObject) {
-
+    static delete(televisionObject) {
+        televisionTDG.delete(televisionObject.modelNumber);
     }
 }
 

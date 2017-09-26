@@ -36,11 +36,11 @@ class desktopTDG{
 /**
 * @param insert
 */
-    static insert(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimension, weight, price){
+    static insert(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price){
         db.connect();
         
         let query_string = 'INSERT INTO desktop VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)'
-        let query_values = [modelNumber, brand, processor, ram, hardDrive, cpuCores, dimension, weight, price]
+        let query_values = [modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price]
 
         db.query(query_string, query_values, (err, result) => {
             if (err){
@@ -50,11 +50,11 @@ class desktopTDG{
         });
     }
 
-    static update(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimension, weight, price){
+    static update(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price){
         db.connect();
         
         let query_string = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, "hard drive"=$5, "cpu cores"=$6, dimensions=$7, weight=$8, price=$9 WHERE "modelId"=$1'
-        let query_values = [modelNumber, brand, processor, ram, hardDrive, cpuCores, dimension, weight, price]
+        let query_values = [modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price]
 
         db.query(query_string, query_values, (err, result) => {
             if (err){
