@@ -8,7 +8,7 @@ class desktopMapper {
     }
 
     static findAll() {
-        let desktops = [];
+        //let desktops = [];
         let allDesktops = desktopTDG.findAll();
         console.log(allDesktops);
     }
@@ -16,13 +16,13 @@ class desktopMapper {
     static insert(desktopObject) {
         desktopTDG.insert(desktopObject.modelNumber, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.hardDrive, desktopObject.cpuCores, desktopObject.dimensions,
-            desktopObject.weight, desktopObject.price)
+            desktopObject.weight, desktopObject.price);
     }
 
     static update(desktopObject) {
         desktopTDG.update(desktopObject.modelNumber, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.hardDrive, desktopObject.cpuCores, desktopObject.dimensions,
-            desktopObject.weight, desktopObject.price)
+            desktopObject.weight, desktopObject.price);
     }
 
     static delete(desktopObject) {
