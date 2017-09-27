@@ -26,7 +26,7 @@ if (process.env.PG_USE_HEROKU) {
 client.connect();
 
 let getAllTelevisions = (req,res,next) => {
-    client.query('SELECT * FROM television', [], (err, data) => {
+    client.query('SELECT * FROM television', (err, data) => {
         if (err) {
             return next(err);
         }
@@ -36,7 +36,7 @@ let getAllTelevisions = (req,res,next) => {
 
 let getTelevision = (req, res, next) => {
     let id = parseInt(req.params.id);
-    client.query(`SELECT * FROM television WHERE model=${id}`, [], (err, data) =>{
+    client.query(`SELECT * FROM television WHERE model=${id}`, (err, data) =>{
         if (err) {
             return next(err);
         }
@@ -45,7 +45,7 @@ let getTelevision = (req, res, next) => {
 };
 
 let getAllMonitors = (req,res,next) => {
-    client.query('SELECT * FROM monitor', [], (err, data) => {
+    client.query('SELECT * FROM monitor', (err, data) => {
         if (err) {
             return next(err);
         }
@@ -55,7 +55,7 @@ let getAllMonitors = (req,res,next) => {
 
 let getMonitor = (req, res, next) => {
     let id = parseInt(req.params.id);
-    client.query(`SELECT * FROM monitor WHERE model=${id}`, [], (err, data) =>{
+    client.query(`SELECT * FROM monitor WHERE model=${id}`, (err, data) =>{
         if (err) {
             return next(err);
         }
@@ -64,7 +64,7 @@ let getMonitor = (req, res, next) => {
 };
 
 let getAllDesktops = (req,res,next) => {
-    client.query('SELECT * FROM desktop', [], (err, data) => {
+    client.query('SELECT * FROM desktop', (err, data) => {
         if (err) {
             return next(err);
         }
@@ -74,7 +74,7 @@ let getAllDesktops = (req,res,next) => {
 
 let getDesktop = (req, res, next) => {
     let id = parseInt(req.params.id);
-    client.query(`SELECT * FROM desktop WHERE model=${id}`, [], (err, data) =>{
+    client.query(`SELECT * FROM desktop WHERE model=${id}`, (err, data) =>{
         if (err) {
             return next(err);
         }
@@ -83,7 +83,7 @@ let getDesktop = (req, res, next) => {
 };
 
 let getAllLaptops = (req,res,next) => {
-    client.query('SELECT * FROM laptop', [], (err, data) => {
+    client.query('SELECT * FROM laptop', (err, data) => {
         if (err) {
             return next(err);
         }
@@ -93,7 +93,7 @@ let getAllLaptops = (req,res,next) => {
 
 let getLaptop = (req, res, next) => {
     let id = parseInt(req.params.id);
-    client.query(`SELECT * FROM laptop WHERE model=${id}`, [], (err, data) =>{
+    client.query(`SELECT * FROM laptop WHERE model=${id}`, (err, data) =>{
         if (err) {
             return next(err);
         }
@@ -102,7 +102,7 @@ let getLaptop = (req, res, next) => {
 };
 
 let getAllTablets = (req,res,next) => {
-    client.query('SELECT * FROM tablet', [], (err, data) => {
+    client.query('SELECT * FROM tablet', (err, data) => {
         if (err) {
             return next(err);
         }
@@ -112,7 +112,7 @@ let getAllTablets = (req,res,next) => {
 
 let getTablet = (req, res, next) => {
     let id = parseInt(req.params.id);
-    client.query(`SELECT * FROM tablet WHERE model=${id}`, [], (err, data) =>{
+    client.query(`SELECT * FROM tablet WHERE model=${id}`, (err, data) =>{
         if (err) {
             return next(err);
         }
