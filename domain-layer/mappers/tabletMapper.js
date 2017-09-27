@@ -11,19 +11,30 @@ class tabletMapper {
    * Maps the returned value to an object of type tablet.
    * @static
    * @param {string} id model number of tablet to be found.
+   * @return tablet object.
    */
     static find(id) {
         let tablet = tabletTDG.find(id);
-        console.log(tablet);
+        return new tablet(tablet.modelNumber, tablet.brand, tablet.displaySize, tablet.processor,
+            tablet.ram, tablet.hardDrive, tablet.cpuCores, tablet.os,
+            tablet.battery, tablet.camera, tablet.dimensions,
+            tablet.weight, tablet.price);
     }
 
   /**
    * Maps all returned values into objects of type tablet.
    * @static
+   * @return array of tablet objects.
    */
     static findAll() {
+        let tablets = [];
         let allTablets = tabletTDG.findAll();
-        console.log(allTablets);
+        for (var tablet of allTablets){
+            tablets.push(new tablet(tablet.modelNumber, tablet.brand, tablet.displaySize, tablet.processor,
+                tablet.ram, tablet.hardDrive, tablet.cpuCores, tablet.os,
+                tablet.battery, tablet.camera, tablet.dimensions,
+                tablet.weight, tablet.price));
+        }
     }
 
   /**

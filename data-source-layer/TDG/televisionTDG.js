@@ -19,7 +19,6 @@ class televisionTDG {
                 console.log(err.message);
             }
             db.end();
-            console.log(result.rows); // for testing purposes
             return result.rows;
         });
     }
@@ -36,7 +35,6 @@ class televisionTDG {
                 console.log(err.message);
             }
             db.end();
-            console.log(result.rows); // for testing purposes
             return result.rows;
         });
     }

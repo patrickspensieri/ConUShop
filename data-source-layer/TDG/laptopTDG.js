@@ -18,7 +18,6 @@ class laptopTDG {
                 console.log(err.message);
             }
             db.end();
-            console.log(result.rows);
             return result.rows;
         });
     }
@@ -35,7 +34,6 @@ class laptopTDG {
                 console.log(err.message);
             }
             db.end();
-            console.log(result.rows);
             return result.rows;
         });
     }

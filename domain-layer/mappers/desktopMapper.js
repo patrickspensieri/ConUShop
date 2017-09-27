@@ -11,20 +11,29 @@ class desktopMapper {
    * Maps the returned value to an object of type desktop.
    * @static
    * @param {string} id model number of desktop to be found.
+   * @return desktop object.
    */
     static find(id) {
         let desktop = desktopTDG.find(id);
-        console.log(desktop);
+        return new desktop(desktop.modelNumber, desktop.brand, desktop.processor,
+            desktop.ram, desktop.hardDrive, desktop.cpuCores, desktop.dimensions,
+            desktop.weight, desktop.price);
     }
 
   /**
    * Maps all returned values into objects of type desktop.
    * @static
+   * @return array of desktop objects.
    */
     static findAll() {
-        // let desktops = [];
+        let desktops = [];
         let allDesktops = desktopTDG.findAll();
-        console.log(allDesktops);
+        for (var desktop of allDesktops){
+            desktops.push(new desktop(desktop.modelNumber, desktop.brand, desktop.processor,
+                desktop.ram, desktop.hardDrive, desktop.cpuCores, desktop.dimensions,
+                desktop.weight, desktop.price));
+        }
+        return desktops;
     }
 
   /**

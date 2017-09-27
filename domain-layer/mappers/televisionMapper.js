@@ -11,20 +11,26 @@ class televisionMapper {
    * Maps the returned value to an object of type television.
    * @static
    * @param {string} id model number of television to be found.
+   * @return television object.
    */
     static find(id) {
         let television = televisionTDG.find(id);
-        console.log(television);
+        return new television(television.modelNumber, television.brand, television.dimensions,
+            television.weight, television.price);
     }
 
   /**
    * Maps all returned values into objects of type television.
    * @static
+   * @return array of television objects.
    */
     static findAll() {
         let televisions = [];
-        let alltelevisions = televisionTDG.findAll();
-        console.log(alltelevisions);
+        let allTelevisions = televisionTDG.findAll();
+        for (var television of allTelevisions){
+            televisions.push(new television(television.modelNumber, television.brand, television.dimensions,
+                television.weight, television.price));
+        }
     }
 
   /**

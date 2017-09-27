@@ -11,19 +11,31 @@ class laptopMapper {
    * Maps the returned value to an object of type laptop.
    * @static
    * @param {string} id model number of laptop to be found.
+   * @return laptop object.
    */
     static find(id) {
         let laptop = laptopTDG.find(id);
-        console.log(laptop);
+        return new laptop(laptop.modelNumber, laptop.brand, laptop.displaySize, laptop.processor,
+            laptop.ram, laptop.hardDrive, laptop.cpuCores, laptop.os,
+            laptop.battery, laptop.camera, laptop.touchScreen, laptop.dimensions,
+            laptop.weight, laptop.price);
     }
 
   /**
    * Maps all returned values into objects of type laptop.
    * @static
+   * @return array of laptop objects.
    */
     static findAll() {
+        let laptops = [];
         let allLaptops = laptopTDG.findAll();
-        console.log(allLaptops);
+        for (var laptop of allLaptops){
+            laptops.push(new laptop(laptop.modelNumber, laptop.brand, laptop.displaySize, laptop.processor,
+                laptop.ram, laptop.hardDrive, laptop.cpuCores, laptop.os,
+                laptop.battery, laptop.camera, laptop.touchScreen, laptop.dimensions,
+                laptop.weight, laptop.price));
+        }
+        return laptops;
     }
 
   /**

@@ -11,20 +11,27 @@ class monitorMapper {
    * Maps the returned value to an object of type monitor.
    * @static
    * @param {string} id model number of monitor to be found.
+   * @return monitor object.
    */
     static find(id) {
         let monitor = monitorTDG.find(id);
-        console.log(monitor);
+        return new monitor(monitor.modelNumber, monitor.brand, monitor.size,
+            monitor.weight, monitor.price);
     }
 
   /**
    * Maps all returned values into objects of type monitor.
    * @static
+   * @return array of monitor objects.
    */
     static findAll() {
         let monitors = [];
         let allmonitors = monitorTDG.findAll();
-        console.log(allmonitors);
+        for (var monitor of allMonitors){
+            monitors.push(new monitor(monitor.modelNumber, monitor.brand, monitor.size,
+                monitor.weight, monitor.price));
+        }
+        return monitors;
     }
 
   /**
