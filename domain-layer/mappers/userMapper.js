@@ -28,10 +28,10 @@ class userMapper {
         let users = [];
         let allusers = userTDG.findAll();
         for (var user of allusers){
-            users.push(new user(user.if, user.isAdmin, user.firstName,
+            users.push(new user(user.id, user.isAdmin, user.firstName,
                 user.lastName, user.address, user.email, user.phone));
         }
-    }  {
+    }
 
 
   /**
@@ -40,7 +40,7 @@ class userMapper {
    * @param {Object} userObject an object of type user.
    */
     static insert(userObject) {
-        userTDG.insert(userObject.if, userObject.isAdmin, userObject.firstName,
+        userTDG.insert(userObject.id, userObject.isAdmin, userObject.firstName,
             userObject.lastName, userObject.address, userObject.email, userObject.phone);
     }
 
@@ -50,7 +50,7 @@ class userMapper {
    * @param {Object} userObject an object of type user.
    */
     static update(userObject) {
-        userTDG.update(userObject.if, userObject.isAdmin, userObject.firstName,
+        userTDG.update(userObject.id, userObject.isAdmin, userObject.firstName,
             userObject.lastName, userObject.address, userObject.email, userObject.phone);
     }
 
