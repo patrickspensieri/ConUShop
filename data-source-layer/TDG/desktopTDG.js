@@ -1,4 +1,4 @@
-let db = require('../db');
+let db = require('../../db/index');
 
 /**
  * Desktop table data gateway
@@ -12,13 +12,10 @@ class desktopTDG {
    * @param {string} id model number of desktop to be found.
    */
     static find(id) {
-        db.connect();
-
         db.query('SELECT * FROM desktop WHERE "modelId"=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
             return result.rows;
         });
     }
@@ -28,13 +25,10 @@ class desktopTDG {
    * @static
    */
     static findAll() {
-        db.connect();
-
         db.query('SELECT * FROM desktop', (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
             return result.rows;
         });
     }
@@ -53,8 +47,6 @@ class desktopTDG {
    * @param {number} price price of desktop.
    */
     static insert(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price) {
-        db.connect();
-
         let queryString = 'INSERT INTO desktop VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
         let queryValues = [modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price];
 
@@ -62,7 +54,6 @@ class desktopTDG {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
         });
     }
 
@@ -80,8 +71,6 @@ class desktopTDG {
    * @param {number} price price of desktop.
    */
     static update(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price) {
-        db.connect();
-
         let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, "hard drive"=$5, "cpu cores"=$6, dimensions=$7, weight=$8, price=$9 WHERE "modelId"=$1';
         let queryValues = [modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price];
 
@@ -89,7 +78,6 @@ class desktopTDG {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
         });
     }
 
@@ -99,13 +87,10 @@ class desktopTDG {
    * @param {string} id model number of desktop to be deleted.
    */
     static delete(id) {
-      db.connect();
-
       db.query('DELETE FROM desktop WHERE "modelId"=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
-          db.end();
           console.log('This Desktop has been deleted from the database');
       });
     }

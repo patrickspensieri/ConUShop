@@ -29,7 +29,7 @@ class tabletMapper {
     static findAll() {
         let tablets = [];
         let allTablets = tabletTDG.findAll();
-        for (var tablet of allTablets){
+        for (let tablet of allTablets) {
             tablets.push(new tablet(tablet.modelNumber, tablet.brand, tablet.displaySize, tablet.processor,
                 tablet.ram, tablet.hardDrive, tablet.cpuCores, tablet.os,
                 tablet.battery, tablet.camera, tablet.dimensions,

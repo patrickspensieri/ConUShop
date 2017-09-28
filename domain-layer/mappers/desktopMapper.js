@@ -28,7 +28,7 @@ class desktopMapper {
     static findAll() {
         let desktops = [];
         let allDesktops = desktopTDG.findAll();
-        for (var desktop of allDesktops){
+        for (let desktop of allDesktops) {
             desktops.push(new desktop(desktop.modelNumber, desktop.brand, desktop.processor,
                 desktop.ram, desktop.hardDrive, desktop.cpuCores, desktop.dimensions,
                 desktop.weight, desktop.price));

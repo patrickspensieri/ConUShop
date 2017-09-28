@@ -1,4 +1,4 @@
-let db = require('../db');
+let db = require('../../db/index');
 
 /**
  * Monitor table data gateway
@@ -12,13 +12,10 @@ class monitorTDG {
    * @param {string} id model number of monitor to be found.
    */
     static find(id) {
-        db.connect();
-
         db.query('SELECT * FROM monitor WHERE "modelId"=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
             return result.rows;
         });
     }
@@ -28,13 +25,10 @@ class monitorTDG {
    * @static
    */
     static findAll() {
-        db.connect();
-
         db.query('SELECT * FROM monitor', (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
             return result.rows;
         });
     }
@@ -49,8 +43,6 @@ class monitorTDG {
    * @param {number} price price of monitor.
    */
     static insert(modelNumber, brand, size, weight, price) {
-        db.connect();
-
         let queryString = 'INSERT INTO monitor VALUES($1, $2, $3, $4, $5)';
         let queryValues = [modelNumber, brand, size, weight, price];
 
@@ -58,7 +50,6 @@ class monitorTDG {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
         });
     }
 
@@ -72,8 +63,6 @@ class monitorTDG {
    * @param {number} price price of monitor.
    */
     static update(modelNumber, brand, size, weight, price) {
-        db.connect();
-
         let queryString = 'UPDATE monitor SET brand=$2, size=$3, weight=$4, price=$5 WHERE "modelId"=$1';
         let queryValues = [modelNumber, brand, size, weight, price];
 
@@ -81,7 +70,6 @@ class monitorTDG {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
         });
     }
 
@@ -91,13 +79,10 @@ class monitorTDG {
    * @param {string} id model number of monitor to be deleted.
    */
     static delete(id) {
-      db.connect();
-
       db.query('DELETE FROM monitor WHERE "modelId"=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
-          db.end();
           console.log('This monitor has been deleted from the database');
       });
     }

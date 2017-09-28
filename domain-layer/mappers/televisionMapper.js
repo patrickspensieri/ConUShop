@@ -27,7 +27,7 @@ class televisionMapper {
     static findAll() {
         let televisions = [];
         let allTelevisions = televisionTDG.findAll();
-        for (var television of allTelevisions){
+        for (let television of allTelevisions) {
             televisions.push(new television(television.modelNumber, television.brand, television.dimensions,
                 television.weight, television.price));
         }

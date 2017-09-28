@@ -29,7 +29,7 @@ class laptopMapper {
     static findAll() {
         let laptops = [];
         let allLaptops = laptopTDG.findAll();
-        for (var laptop of allLaptops){
+        for (let laptop of allLaptops) {
             laptops.push(new laptop(laptop.modelNumber, laptop.brand, laptop.displaySize, laptop.processor,
                 laptop.ram, laptop.hardDrive, laptop.cpuCores, laptop.os,
                 laptop.battery, laptop.camera, laptop.touchScreen, laptop.dimensions,

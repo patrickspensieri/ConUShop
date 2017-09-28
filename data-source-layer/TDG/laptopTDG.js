@@ -1,4 +1,4 @@
-let db = require('../db');
+let db = require('../../db/index');
 
 /**
  * Laptop table data gateway
@@ -12,12 +12,10 @@ class laptopTDG {
    * @param {string} id model number of laptop to be found.
    */
     static find(id) {
-        db.connect();
         db.query('SELECT * FROM laptop WHERE "modelId"=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
             return result.rows;
         });
     }
@@ -27,13 +25,10 @@ class laptopTDG {
    * @static
    */
     static findAll() {
-        db.connect();
-
         db.query('SELECT * FROM laptop', (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
             return result.rows;
         });
     }
@@ -57,8 +52,6 @@ class laptopTDG {
    * @param {number} price price of laptop.
    */
     static insert(modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, touchScreen, dimensions, weight, price) {
-        db.connect();
-
         let queryString = 'INSERT INTO laptop VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
         let queryValues = [modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, touchScreen, dimensions, weight, price];
 
@@ -66,7 +59,6 @@ class laptopTDG {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
         });
     }
 
@@ -89,7 +81,6 @@ class laptopTDG {
    * @param {number} price price of laptop
    */
     static update(modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, touchScreen, dimensions, weight, price) {
-        db.connect();
         let queryString = 'UPDATE laptop SET brand=$2, displaySize=$3, processor=$4, ram=$5, hardDrive=$6, cpuCores=$7, os=$8, battery=$9, camera=$10, touchScreen=$11, dimensions=$12, weight=$13, price=$14, WHERE "modelId"=$1';
         let queryValues = [modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, touchScreen, dimensions, weight, price];
 
@@ -97,7 +88,6 @@ class laptopTDG {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
         });
     }
 
@@ -107,13 +97,10 @@ class laptopTDG {
    * @param {string} id model number of laptop to be deleted.
    */
     static delete(id) {
-        db.connect();
-
         db.query('DELETE FROM laptop WHERE "modelId"=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            db.end();
             console.log('This Laptop has been deleted from the database');
         });
     }

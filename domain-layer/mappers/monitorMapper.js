@@ -27,7 +27,7 @@ class monitorMapper {
     static findAll() {
         let monitors = [];
         let allmonitors = monitorTDG.findAll();
-        for (var monitor of allMonitors){
+        for (let monitor of allMonitors) {
             monitors.push(new monitor(monitor.modelNumber, monitor.brand, monitor.size,
                 monitor.weight, monitor.price));
         }

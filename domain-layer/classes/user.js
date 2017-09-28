@@ -3,7 +3,7 @@
  * @class user
  * @export
  */
-class user  {
+class user {
   /**
    * @constructor
    * @param {string} id the id of user
@@ -30,7 +30,7 @@ class user  {
      * @method display
      */
     display() {
-        console.log(this.id + ' ' + this.isAdmin + ' ' + this.firstName + ' ' + this.lastName + ' ' + this.address + ' ' + this.email +  ' ' + this.phone);
+        console.log(this.id + ' ' + this.isAdmin + ' ' + this.firstName + ' ' + this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone);
     }
 }
 
