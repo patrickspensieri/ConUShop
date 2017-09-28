@@ -33,26 +33,30 @@ class userTDG {
         });
     }
 
+// TODO removed ID since it is not known until entered into database
   /**
    * Inserts an object into the user table.
    * @static
-   * @param {string} id the id of user
    * @param {boolean} isAdmin is user client or admin
    * @param {string} firstName first name of user
    * @param {string} lastName last name of user
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
+   * @param {string} password password of user
    */
-    static insert(id, isAdmin, firstName, lastName, address, email, phone) {
-        let queryString = 'INSERT INTO user VALUES($1, $2, $3, $4, $5, $6, $7)';
-        let queryValues = [id, isAdmin, firstName, lastName, address, email, phone];
+    static insert(isAdmin, firstName, lastName, address, email, phone, password) {
+        let queryString = 'INSERT INTO users ("isAdmin", "firstName", "lastName", address, email, "phoneNumber", password) VALUES($1, $2, $3, $4, $5, $6, $7)';
+        let queryValues = [isAdmin, firstName, lastName, address, email, phone, password];
 
+        // TODO update userObject ID once query completed
+        // OR
+        // query to get next available primary key
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            console.log('New'+ this.id +'user has been created');
+            console.log('New user '+ firstName +' has been created');
         });
     }
 

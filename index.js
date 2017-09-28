@@ -1,13 +1,11 @@
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var expressValidator = require('express-validator');
-var session = require('express-session');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var mongo = require('mongodb');
-var mongoose = require('mongoose');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let exphbs = require('express-handlebars');
+let expressValidator = require('express-validator');
+let session = require('express-session');
+let passport = require('passport');
+let LocalStrategy = require('passport-local').Strategy;
 
 let express = require('express');
 let app = express();
@@ -26,21 +24,18 @@ app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
-mongoose.connect('mongodb://localhost/loginapp');
-var db = mongoose.connection;
-
-var users = require('./routes/users');
-var routes = require('./routes/authenticate');
+let users = require('./routes/users');
+let routes = require('./routes/authenticate');
 // BodyParser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 // Express Session
 app.use(session({
     secret: 'secret',
     saveUninitialized: true,
-    resave: true
+    resave: true,
 }));
 
 // Passport init
@@ -50,21 +45,19 @@ app.use(passport.session());
 // Express Validator
 app.use(expressValidator({
     errorFormatter: function(param, msg, value) {
-        var namespace = param.split('.')
-            , root    = namespace.shift()
-            , formParam = root;
+        let namespace = param.split('.'),
+             root = namespace.shift(),
+             formParam = root;
 
-        while(namespace.length) {
+        while (namespace.length) {
             formParam += '[' + namespace.shift() + ']';
         }
         return {
-            param : formParam,
-            msg   : msg,
-            value : value
+            param: formParam,
+            msg: msg,
+            value: value,
         };
-    }
+    },
 }));
 
 app.use('/users', users);
-
-
