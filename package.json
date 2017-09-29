@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest",
-    "lint": "eslint index.js db routes --fix"
+    "lint": "eslint index.js db routes domain-layer data-source-layer --fix"
   },
   "dependencies": {
     "bcryptjs": "*",

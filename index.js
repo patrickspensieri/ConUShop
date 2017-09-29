@@ -45,9 +45,9 @@ app.use(passport.session());
 // Express Validator
 app.use(expressValidator({
     errorFormatter: function(param, msg, value) {
-        let namespace = param.split('.'),
-             root = namespace.shift(),
-             formParam = root;
+        let namespace = param.split('.');
+        let root = namespace.shift();
+        let formParam = root;
 
         while (namespace.length) {
             formParam += '[' + namespace.shift() + ']';

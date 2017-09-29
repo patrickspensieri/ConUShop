@@ -5,6 +5,7 @@ let LocalStrategy = require('passport-local').Strategy;
 let UserMapper = require('../domain-layer/mappers/userMapper');
 let User = require('../domain-layer/classes/user');
 let bcrypt = require('bcryptjs');
+let db = require('../db/index');
 
 // Register
 router.get('/register', function(req, res) {
@@ -29,7 +30,6 @@ router.post('/register', function(req, res) {
     let address = req.body.address;
     let email = req.body.email;
     let password = req.body.password;
-    let password2 = req.body.password2;
 
     // Validation
     req.checkBody('firstName', 'First Name is required').notEmpty();
@@ -48,36 +48,32 @@ router.post('/register', function(req, res) {
             errors: errors,
         });
     } else {
-        // let newUser = new User({
-        //     name: name,
-        //     email: email,
-        //     username: username,
-        //     password: password,
-        // });
-        //
         let newUser = new User(firstName, lastName, address, email, phoneNumber);
-        // save user into storage
-        // User.createUser(newUser, function(err, user) {
-        //     if (err) throw err;
-        //     console.log(user);
-        // });
         createUser(newUser, password, function(err, user) {
             if (err) throw err;
-            console.log(user);
         });
         res.redirect('/users/login');
     }
 });
 
+// configure local strategy
 passport.use(new LocalStrategy(
-    function(username, password, done) {
-        User.getUserByUsername(username, function(err, user) {
+    // login form contains email, not  username
+    {
+        usernameField: 'email',
+        passwordField: 'password',
+    },
+    // passport parses credentials contained in the login request
+    // THEN invokes the verify callback to find user whos credentials are given
+    // IF credentials are valid, 'done' is invoked and user is passed to passport
+    // ELSE false credentials lead to failure, invoke 'done' with false
+    function(email, password, done) {
+            user = getUserByEmail(email, function(err, user) {
             if (err) throw err;
             if (!user) {
-                return done(null, false, {message: 'Unknown User'});
+                return done(null, false, {message: 'Unknown User, cannot find via email'});
             }
-
-            User.comparePassword(password, user.password, function(err, isMatch) {
+            comparePassword(password, user.password, function(err, isMatch) {
                 if (err) throw err;
                 if (isMatch) {
                     return done(null, user);
@@ -93,7 +89,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    User.getUserById(id, function(err, user) {
+    getUserById(id, function(err, user) {
         done(err, user);
     });
 });
@@ -115,19 +111,46 @@ router.get('/logout', function(req, res) {
     res.redirect('/users/login');
 });
 
-// TODO move into more appropriate place
-/**
- * [createUser description]
- * @param  {[type]}   newUser  [description]
- * @param {string} plainPassword user's pasword in plain text
- * @param  {Function} callback [description]
- */
+// TODO make use of domain-layer code once find is fixed
 createUser = function(newUser, plainPassword, callback) {
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(plainPassword, salt, function(err, hash) {
             newUser.password = hash;
             UserMapper.insert(newUser);
         });
+    });
+};
+
+// TODO make use of domain-layer code once find is fixed
+getUserByEmail = function(email, callback) {
+    db.query('SELECT * FROM users WHERE "email" = $1', [email], (err, res) => {
+        if (err) {
+            console.log(err.message);
+        }
+        // TODO check if database email column is set to unique
+        let row = res.rows[0];
+        callback(err, new User(row.firstName, row.lastName, row.address, row.email, row.phone, row.id, row.password));
+    });
+};
+
+// TODO make use of domain-layer code once find is fixed
+getUserById = function(id, callback) {
+    db.query('SELECT * FROM users WHERE "id" = $1', [id], (err, res) => {
+        if (err) {
+            console.log(err.message);
+        }
+        let row = res.rows[0];
+        callback(err, new User(row.firstName, row.lastName, row.address, row.email, row.phone, row.id, row.password));
+    });
+};
+
+// TODO move function to more appropriate place
+comparePassword = function(candidatePassword, hash, callback) {
+    bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+        if (err) {
+            throw err;
+        }
+        callback(null, isMatch);
     });
 };
 

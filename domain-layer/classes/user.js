@@ -13,13 +13,14 @@ class user {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    */
-    constructor(firstName, lastName, address, email, phone, id) {
+    constructor(firstName, lastName, address, email, phone, id, password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.phone = phone;
+        this.password = password;
         this.isAdmin = false;
     }
 
