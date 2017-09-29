@@ -30,3 +30,5 @@ module.exports = {
         return client.query(text, params, callback);
     },
 };
+
+module.exports = client;

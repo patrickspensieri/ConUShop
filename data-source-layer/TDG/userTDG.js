@@ -58,6 +58,7 @@ class userTDG {
             }
             console.log('New user '+ firstName +' has been created');
         });
+
     }
 
   /**

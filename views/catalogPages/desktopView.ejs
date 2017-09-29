@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+
+<body>
+
+<div class="">
+    <nav>
+        <ul class="">
+            <li role="navMenu"><a href="/">Dashboard</a></li>
+            <li role="navMenu"><a href="/users/logout">Logout</a></li>
+            <li role="navMenu"><a href="/users/login">Login</a></li>
+            <li role="navMenu"><a href="/users/register">Register</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="jumbotron text-center">
+    <h1>CONU SHOP PLACEHOLDER</h1>
+    <!--%= jsonData %-->
+</div>
+
+<form method="post" action="/inventory/desktopView">
+    <div class="AddDesktop">
+        <label>modeNumber</label>
+        <input type="text" class="" name="modelNumber" placeholder="modeNumber">
+    </div>
+    <div class="AddDesktop">
+        <label>brand</label>
+        <input type="text" class="" name="brand" placeholder="brand">
+    </div>
+    <div class="AddDesktop">
+        <label>processor</label>
+        <input type="text" class="" name="processor" placeholder="processor">
+    </div>
+    <div class="AddDesktop">
+        <label>ram</label>
+        <input type="text" class="" name="ram" placeholder="ram">
+    </div>
+    <div class="AddDesktop">
+        <label>hardDrive</label>
+        <input type="text" class="" name="hardDrive" placeholder="hardDrive">
+    </div>
+    <div class="AddDesktop">
+        <label>cpuCores</label>
+        <input type="text" class="" name="cpuCores" placeholder="cpuCores">
+    </div>
+    <div class="AddDesktop">
+        <label>dimensions</label>
+        <input type="text" class="" name="dimensions" placeholder="dimensions">
+    </div>
+    <div class="AddDesktop">
+        <label>weight</label>
+        <input type="text" class="" name="weight" placeholder="weight">
+    </div>
+    <div class="AddDesktop">
+        <label>price</label>
+        <input type="text" class="" name="price" placeholder="price">
+    </div>
+    <button type="submit" class="">Add new Desktop item</button>
+</form></br>
+<div>
+    <% if (typeof data!='undefined') { %>
+        <ol>
+        <% for(var i = 0; i < data.length; i++) { %> 
+            <li>
+                <ul>
+                    <li>model: <%= data[i].model %></li>
+                    <li>brand: <%= data[i].brand %></li>
+                    <li>processor: <%= data[i].processor %></li>
+                    <li>ram: <%= data[i].ram %></li>
+                    <li>storage: <%= data[i].storage %></li>
+                    <li>cores: <%= data[i].cores %></li>
+                    <li>dimensions <%= data[i].dimensions %></li>
+                    <li>weight: <%= data[i].weight %></li>
+                    <li>price: <%= data[i].price %></li>
+                </ul>
+            </li><br>
+        <% } %>
+        </ol>
+    <% } %>
+</div>
+</body>
+</html>

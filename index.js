@@ -21,6 +21,14 @@ app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
+app.get('/', function(request, response) {
+    response.render('pages/index');
+});
+
+let users = require('./routes/users');
+let inventory = require('./routes/inventory');
+
+
 // BodyParser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -56,6 +64,5 @@ app.use(expressValidator({
     },
 }));
 
-// TODO why does moving this to /routes/index.js cause an error?
-let users = require('./routes/users');
 app.use('/users', users);
+app.use('/inventory', inventory);

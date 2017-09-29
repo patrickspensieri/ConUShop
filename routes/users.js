@@ -10,28 +10,36 @@ let db = require('../db/index');
 // TODO move logic to controllers
 // TODO protect routes
 
+// Get Dashboard
+router.get('/dashboard', ensureAuthenticated, function(req, res) {
+    res.render('pages/dashboard');
+});
+
+// Register
+router.get('/failPage', function(req, res) {
+    res.render('pages/failPage');
+});
+
 // Register
 router.get('/register', function(req, res) {
-    res.render('register');
+    res.render('pages/register');
 });
 
 // Login
 router.get('/login', function(req, res) {
-    res.render('login');
+    res.render('pages/login');
 });
 
 // dashboard
 router.get('/dashboard', function(req, res) {
-    res.render('dashboard', {
-        firstName: req.user.firstName,
-    });
+    res.render('pages/dashboard');
 });
 
 // Register User
 router.post('/register', function(req, res) {
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
-    let phoneNumber = req.body.phoneNumber;
+    let phoneNumber = req.body.phone;
     let address = req.body.address;
     let email = req.body.email;
     let password = req.body.password;
@@ -39,7 +47,7 @@ router.post('/register', function(req, res) {
     // Validation
     req.checkBody('firstName', 'First Name is required').notEmpty();
     req.checkBody('lastName', 'Last Name is required').notEmpty();
-    req.checkBody('phoneNumber', 'Phone Number is required').notEmpty();
+    req.checkBody('phone', 'Phone Number is required').notEmpty();
     req.checkBody('address', 'Address is required').notEmpty();
     req.checkBody('email', 'Email is required').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
@@ -49,7 +57,7 @@ router.post('/register', function(req, res) {
     let errors = req.validationErrors();
 
     if (errors) {
-        res.render('register', {
+        res.render('pages/register', {
             errors: errors,
         });
     } else {
@@ -102,7 +110,8 @@ passport.deserializeUser(function(id, done) {
 });
 
 router.post('/login',
-    passport.authenticate('local', {successRedirect: '/users/dashboard', failureRedirect: '/users/login'}),
+    passport.authenticate('local', {successRedirect: 'dashboard',
+        failureRedirect: 'failPage'}),
     function(req, res) {
         res.redirect('/');
     });
@@ -164,4 +173,20 @@ comparePassword = function(candidatePassword, hash, callback) {
         callback(null, isMatch);
     });
 };
+
+/**
+ * Ensure the user is logged in and prevent him from accessing pages
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*}
+ */
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        res.redirect('/users/login');
+    }
+}
+
 module.exports = router;
