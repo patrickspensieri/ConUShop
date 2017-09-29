@@ -44,16 +44,16 @@ class userTDG {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    */
-    static insert(id, isAdmin, firstName, lastName, address, email, phone) {
-        let queryString = 'INSERT INTO user VALUES($1, $2, $3, $4, $5, $6, $7)';
-        let queryValues = [id, isAdmin, firstName, lastName, address, email, phone];
+    static insert(id, isAdmin, firstName, lastName, address, email, phone, password) {
+        let queryString = 'INSERT INTO users VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
+        let queryValues = [id, isAdmin, firstName, lastName, address, email, phone, password];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            console.log('New'+ this.id +'user has been created');
         });
+
     }
 
   /**

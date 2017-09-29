@@ -14,7 +14,7 @@ class user {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    */
-    constructor(id, isAdmin, firstName, lastName, address, email, phone) {
+    constructor(id, isAdmin, firstName, lastName, address, email, phone, password) {
         this.id = id;
         this.isAdmin = isAdmin;
         this.firstName = firstName;
@@ -22,6 +22,8 @@ class user {
         this.address = address;
         this.email = email;
         this.phone = phone;
+        this.password = password;
+
     }
 
     /**
@@ -30,7 +32,7 @@ class user {
      * @method display
      */
     display() {
-        console.log(this.id + ' ' + this.isAdmin + ' ' + this.firstName + ' ' + this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone);
+        console.log(this.id + ' ' + this.isAdmin + ' ' + this.firstName + ' ' + this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.password);
     }
 }
 

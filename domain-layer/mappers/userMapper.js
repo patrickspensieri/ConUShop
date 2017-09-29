@@ -31,7 +31,7 @@ class userMapper {
             users.push(new user(user.if, user.isAdmin, user.firstName,
                 user.lastName, user.address, user.email, user.phone));
         }
-    }  {
+    }
 
 
   /**
@@ -40,9 +40,9 @@ class userMapper {
    * @param {Object} userObject an object of type user.
    */
     static insert(userObject) {
-        userTDG.insert(userObject.if, userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone);
-    }
+        userTDG.insert(userObject.id, userObject.isAdmin, userObject.firstName,
+            userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password);
+   }
 
   /**
    * Maps an objects attributes to seperate values for TDG update method.
