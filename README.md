@@ -12,7 +12,7 @@ TODO: Write a project description
 
 1. npm install
 2. npm start || heroku local
-3. open browser to localhost:5000
+3. open browser to localhost:5000 
 
 ## Contributing
 
@@ -28,10 +28,20 @@ TODO: Write history
 
 ## Domain
 
-www.conu.shop<br>
-Currently redirects to GitHub repository<br>
-https://conu-shop.herokuapp.com/<br>
-Test deployment
+* www.conu.shop
+
+## Inventory Paths
+
+* www.conu.shop/products/television
+* www.conu.shop/products/monitor
+* www.conu.shop/products/laptop
+* www.conu.shop/products/desktop
+* www.conu.shop/products/tablet
+* www.conu.shop/products/television/:id
+* www.conu.shop/products/monitor/:id
+* www.conu.shop/products/laptop/:id
+* www.conu.shop/products/desktop/:id
+* www.conu.shop/products/tablet/:id
 
 ## Credits
 
