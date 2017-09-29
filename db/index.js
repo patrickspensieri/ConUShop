@@ -135,3 +135,5 @@ module.exports = {
     getAllTablets: getAllTablets,
     getTablet: getTablet,
 };
+
+module.exports = client;
