@@ -10,12 +10,9 @@ let desktopMapper = require('../domain-layer/mappers/desktopMapper');
 
 router.get('/desktopView', function(req, res) {
     inventory.getDesktopList(function(err, data) {
-        /*
-        for (let row of data.rows) {
-        // Access To all the rows
-        }
-        */
-    res.render('../views/catalogPages/desktopView');
+        res.render('../views/catalogPages/desktopView', {
+            data: data.rows
+        });
     });
 });
 

@@ -60,6 +60,27 @@
         <input type="text" class="" name="price" placeholder="price">
     </div>
     <button type="submit" class="">Add new Desktop item</button>
-</form>
+</form></br>
+<div>
+    <% if (typeof data!='undefined') { %>
+        <ol>
+        <% for(var i = 0; i < data.length; i++) { %> 
+            <li>
+                <ul>
+                    <li>model: <%= data[i].model %></li>
+                    <li>brand: <%= data[i].brand %></li>
+                    <li>processor: <%= data[i].processor %></li>
+                    <li>ram: <%= data[i].ram %></li>
+                    <li>storage: <%= data[i].storage %></li>
+                    <li>cores: <%= data[i].cores %></li>
+                    <li>dimensions <%= data[i].dimensions %></li>
+                    <li>weight: <%= data[i].weight %></li>
+                    <li>price: <%= data[i].price %></li>
+                </ul>
+            </li><br>
+        <% } %>
+        </ol>
+    <% } %>
+</div>
 </body>
 </html>
