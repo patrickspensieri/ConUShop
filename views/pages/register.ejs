@@ -6,7 +6,14 @@
 
 <body>
 <h2 class="page-header">Register</h2>
-<div class="alert alert-danger">Insert Error Message</div>
+<div class="alert alert-danger">
+    <% if (typeof errors != 'undefined') { %>
+        <% for(var i = 0; i < errors.length; i++) { %>
+            <span style='color:red;'><%= errors[i].msg %></span></br>
+        <% } %>
+    <% } %>
+</div>
+
 <form method="post" action="/users/register">
     <div class="form-group">
         <label>First Name</label>

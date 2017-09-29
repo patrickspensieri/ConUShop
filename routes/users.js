@@ -9,27 +9,27 @@ let User = require('../models/user');
 
 // Get Dashboard
 router.get('/dashboard', ensureAuthenticated, function(req, res) {
-    res.render('dashboard');
+    res.render('pages/dashboard');
 });
 
 // Register
 router.get('/failPage', function(req, res) {
-    res.render('failPage');
+    res.render('pages/failPage');
 });
 
 // Register
 router.get('/register', function(req, res) {
-    res.render('register');
+    res.render('pages/register');
 });
 
 // Login
 router.get('/login', function(req, res) {
-    res.render('login');
+    res.render('pages/login');
 });
 
 // dashboard
 router.get('/dashboard', function(req, res) {
-    res.render('dashboard');
+    res.render('pages/dashboard');
 });
 
 // Register User
@@ -55,7 +55,7 @@ router.post('/register', function(req, res) {
     let errors = req.validationErrors();
 
     if (errors) {
-        res.render('register', {
+        res.render('pages/register', {
             errors: errors,
         });
     } else {
@@ -63,9 +63,7 @@ router.post('/register', function(req, res) {
         let tempId = '0';
 
         db.query('SELECT * FROM users', [], (err, res) => {
-            if (err) {
-                return next(err);
-            }
+            if (err) throw err;
 
             tempId = res.rows.rowCount + 1;
         });
