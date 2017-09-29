@@ -1,3 +1,12 @@
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let exphbs = require('express-handlebars');
+let expressValidator = require('express-validator');
+let session = require('express-session');
+let passport = require('passport');
+let LocalStrategy = require('passport-local').Strategy;
+
 let express = require('express');
 let app = express();
 // require routes file
@@ -14,3 +23,41 @@ app.set('view engine', 'ejs');
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+let users = require('./routes/users');
+let routes = require('./routes/authenticate');
+// BodyParser Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
+
+// Express Session
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true,
+}));
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Express Validator
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        let namespace = param.split('.'),
+             root = namespace.shift(),
+             formParam = root;
+
+        while (namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param: formParam,
+            msg: msg,
+            value: value,
+        };
+    },
+}));
+
+app.use('/users', users);
