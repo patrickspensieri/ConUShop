@@ -7,6 +7,9 @@ let User = require('../domain-layer/classes/user');
 let bcrypt = require('bcryptjs');
 let db = require('../db/index');
 
+// TODO move logic to controllers
+// TODO protect routes
+
 // Register
 router.get('/register', function(req, res) {
     res.render('register');
@@ -19,7 +22,9 @@ router.get('/login', function(req, res) {
 
 // dashboard
 router.get('/dashboard', function(req, res) {
-    res.render('dashboard');
+    res.render('dashboard', {
+        firstName: req.user.firstName,
+    });
 });
 
 // Register User
@@ -84,10 +89,12 @@ passport.use(new LocalStrategy(
         });
     }));
 
+// session maintained via cookie browser
+// save user object into session, uses id by default
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
-
+// retrieve user object from cookie
 passport.deserializeUser(function(id, done) {
     getUserById(id, function(err, user) {
         done(err, user);
@@ -122,14 +129,18 @@ createUser = function(newUser, plainPassword, callback) {
 };
 
 // TODO make use of domain-layer code once find is fixed
+// TODO check if database email column is set to unique
 getUserByEmail = function(email, callback) {
     db.query('SELECT * FROM users WHERE "email" = $1', [email], (err, res) => {
         if (err) {
             console.log(err.message);
         }
-        // TODO check if database email column is set to unique
-        let row = res.rows[0];
-        callback(err, new User(row.firstName, row.lastName, row.address, row.email, row.phone, row.id, row.password));
+        if (typeof(res.rows[0]) == 'undefined') {
+            callback(err, null);
+        } else {
+            callback(err, new User(res.rows[0].firstName, res.rows[0].lastName, res.rows[0].address,
+             res.rows[0].email, res.rows[0].phone, res.rows[0].id, res.rows[0].password));
+         }
     });
 };
 
@@ -153,5 +164,4 @@ comparePassword = function(candidatePassword, hash, callback) {
         callback(null, isMatch);
     });
 };
-
 module.exports = router;
