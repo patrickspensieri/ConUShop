@@ -1,9 +1,9 @@
 /**
  * Class describes a user.
- * @class user
+ * @class User
  * @export
  */
-class user {
+class User {
   /**
    * @constructor
    * @param {string} firstName first name of user
@@ -37,4 +37,4 @@ class user {
     }
 }
 
-module.exports = user;
+module.exports = User;

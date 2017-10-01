@@ -2,21 +2,23 @@ let db = require('../../db/index');
 
 /**
  * Television table data gateway
- * @class televisionTDG
+ * @class TelevisionTDG
  * @export
  */
-class televisionTDG {
+class TelevisionTDG {
   /**
    * Finds one object from the television table.
    * @static
    * @param {string} id model number of television to be found.
    */
-    static find(id) {
-        db.query('SELECT * FROM television WHERE "modelId"=$1', [id], (err, result) => {
+    static find(id, callback) {
+        db.query('SELECT * FROM television WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            return result.rows;
+            else {
+                return callback(null, result.rows);
+            }
         });
     }
 
@@ -24,27 +26,29 @@ class televisionTDG {
    * Finds all objects from the television table.
    * @static
    */
-    static findAll() {
+    static findAll(callback) {
         db.query('SELECT * FROM television', (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            return result.rows;
+            else {
+                return callback(null, result.rows);
+            }
         });
     }
 
   /**
    * Inserts an object into the television table.
    * @static
-   * @param {string} modelNumber model number of television.
+   * @param {string} model model number of television.
    * @param {string} brand brand of television.
    * @param {string} dimensions dimensions of television.
    * @param {number} weight weight of television.
    * @param {number} price price of television.
    */
-    static insert(modelNumber, brand, dimensions, weight, price) {
-        let queryString = 'INSERT INTO television VALUES($1, $2, $3, $4, $5)';
-        let queryValues = [modelNumber, brand, dimensions, weight, price];
+    static insert(model, brand, dimensions, weight, price) {
+        let queryString = 'INSERT INTO television (model, brand, dimensions, weight, price) VALUES($1, $2, $3, $4, $5)';
+        let queryValues = [model, brand, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
@@ -56,15 +60,15 @@ class televisionTDG {
   /**
    * Updates an object in the television table.
    * @static
-   * @param {string} modelNumber model number of television.
+   * @param {string} model model number of television.
    * @param {string} brand brand of television.
    * @param {string} dimensions dimensions of television.
    * @param {number} weight weight of television.
    * @param {number} price price of television
    */
-    static update(modelNumber, brand, dimensions, weight, price) {
-        let queryString = 'UPDATE television SET brand=$2, dimensions=$3, weight=$4, price=$5 WHERE "modelId"=$1';
-        let queryValues = [modelNumber, brand, dimensions, weight, price];
+    static update(model, brand, dimensions, weight, price) {
+        let queryString = 'UPDATE television SET brand=$2, dimensions=$3, weight=$4, price=$5 WHERE model=$1';
+        let queryValues = [model, brand, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
@@ -79,7 +83,7 @@ class televisionTDG {
    * @param {string} id model number of television to be deleted.
    */
     static delete(id) {
-      db.query('DELETE FROM television WHERE "modelId"=$1', [id], (err, result) =>{
+      db.query('DELETE FROM television WHERE model=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
@@ -88,4 +92,4 @@ class televisionTDG {
     }
 }
 
-module.exports = televisionTDG;
+module.exports = TelevisionTDG;

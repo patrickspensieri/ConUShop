@@ -1,18 +1,18 @@
 /**
  * Class describes an electronic device.
- * @class electronicDevice
+ * @class ElectronicDevice
  * @export
  */
-class electronicDevice {
+class ElectronicDevice {
     /**
      * @constructor 
-     * @param {string} modelNumber model number of electronic device.
+     * @param {string} model model number of electronic device.
      * @param {string} brand brand of electronic device.
      * @param {number} weight weight of electronic device.
      * @param {number} price price of electronic device.
      */
-    constructor(modelNumber, brand, weight, price) {
-        this.modelNumber = modelNumber;
+    constructor(model, brand, weight, price) {
+        this.model = model;
         this.brand = brand;
         this.weight = weight;
         this.price = price;
@@ -24,8 +24,8 @@ class electronicDevice {
      * @method display
      */
     display() {
-        console.log(this.modelNumber + ' ' + this.brand + ' ' + this.weight + ' ' + this.price);
+        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price);
     }
 }
 
-module.exports = electronicDevice;
+module.exports = ElectronicDevice;

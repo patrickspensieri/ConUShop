@@ -1,39 +1,36 @@
-let inventory = require('../models/viewInventory');
-
 let express = require('express');
 let router = express.Router();
 
-let desktop = require('../domain-layer/classes/desktop');
-
-let desktopMapper = require('../domain-layer/mappers/desktopMapper');
+let Desktop = require('../domain-layer/classes/Desktop');
+let DesktopMapper = require('../domain-layer/mappers/DesktopMapper');
 
 
 router.get('/desktopView', function(req, res) {
-    inventory.getDesktopList(function(err, data) {
+    DesktopMapper.findAll(function(err, data) {
         res.render('../views/catalogPages/desktopView', {
-            data: data.rows
+            data: data
         });
     });
 });
 
 router.post('/desktopView', function(req, res) {
-    let modelNumber = req.body.modelNumber;
+    let model = req.body.model;
     let brand = req.body.brand;
     let processor = req.body.processor;
     let ram = req.body.ram;
-    let hardDrive = req.body.hardDrive;
-    let cpuCores = req.body.cpuCores;
+    let storage = req.body.storage;
+    let cores = req.body.cores;
     let dimensions = req.body.dimensions;
     let weight = req.body.weight;
     let price = req.body.price;
 
     // Validation
-    req.checkBody('modelNumber', 'Can not be empty').notEmpty();
+    req.checkBody('model', 'Can not be empty').notEmpty();
     req.checkBody('brand', 'Can not be empty').notEmpty();
     req.checkBody('processor', 'Can not be empty').notEmpty();
     req.checkBody('ram', 'Can not be empty').notEmpty();
-    req.checkBody('hardDrive', 'Can not be empty').notEmpty();
-    req.checkBody('cpuCores', 'Can not be empty').notEmpty();
+    req.checkBody('storage', 'Can not be empty').notEmpty();
+    req.checkBody('cores', 'Can not be empty').notEmpty();
     req.checkBody('dimensions', 'Can not be empty').notEmpty();
     req.checkBody('weight', 'Can not be empty').notEmpty();
     req.checkBody('price', 'Can not be empty').notEmpty();
@@ -46,10 +43,10 @@ router.post('/desktopView', function(req, res) {
             errors: errors,
         });
     } else {
-        let newDesktop = new desktop(modelNumber, brand, processor, ram,
-            hardDrive, cpuCores, dimensions, weight, price);
+        let newDesktop = new Desktop(model, brand, processor, ram,
+            storage, cores, dimensions, weight, price);
 
-        desktopMapper.insert(newDesktop);
+        DesktopMapper.insert(newDesktop);
 
         res.redirect('/inventory/desktopView');
     }

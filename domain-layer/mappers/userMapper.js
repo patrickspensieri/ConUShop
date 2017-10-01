@@ -1,22 +1,29 @@
-let user = require('../../domain-layer/classes/user');
-let userTDG = require('../../data-source-layer/TDG/userTDG');
+let User = require('../../domain-layer/classes/User');
+let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 
 /**
- * user object mapper
- * @class userMapper
+ * User object mapper
+ * @class UserMapper
  * @export
  */
-class userMapper {
+class UserMapper {
   /**
    * Maps the returned value to an object of type user.
    * @static
    * @param {string} id id of user to be found.
    * @return user object.
    */
-    static find(id) {
-        let user = userTDG.find(id);
-        return new user(user.id, user.isAdmin, user.firstName,
-            user.weight, user.price);
+    static find(id, callback) {
+        UserTDG.find(id, function(err, result){
+            if (err) {
+                console.log('Error during user find query', null);
+            }
+            else{
+                value = result.rows[0];
+                return callback(null, new User(value.id, value.isAdmin, value.firstName,
+                    value.lastName, value.address, value.email, value.phoneNumber));
+            }
+        });
     }
 
   /**
@@ -24,13 +31,20 @@ class userMapper {
    * @static
    * @return array of user objects.
    */
-    static findAll() {
-        let users = [];
-        let allusers = userTDG.findAll();
-        for (var user of allusers){
-            users.push(new user(user.id, user.isAdmin, user.firstName,
-                user.lastName, user.address, user.email, user.phone));
-        }
+    static findAll(callback) {
+        UserTDG.findAll(function(err, result){
+            let users = [];
+            if (err) {
+                console.log('Error during user findALL query', null);
+            }
+            else {
+                for (let value of result) {
+                    users.push(new User(value.id, value.isAdmin, value.firstName,
+                        value.lastName, value.address, value.email, value.phoneNumber));
+                }
+                return callback(null, users);
+            }
+        });
     }
 
 
@@ -42,7 +56,7 @@ class userMapper {
    * @param {Object} userObject an object of type user.
    */
     static insert(userObject) {
-        userTDG.insert(userObject.isAdmin, userObject.firstName,
+        UserTDG.insert(userObject.isAdmin, userObject.firstName,
             userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password);
     }
 
@@ -52,7 +66,7 @@ class userMapper {
    * @param {Object} userObject an object of type user.
    */
     static update(userObject) {
-        userTDG.update(userObject.id, userObject.isAdmin, userObject.firstName,
+        UserTDG.update(userObject.id, userObject.isAdmin, userObject.firstName,
             userObject.lastName, userObject.address, userObject.email, userObject.phone);
     }
 
@@ -62,8 +76,8 @@ class userMapper {
    * @param {Object} userObject an object of type user.
    */
     static delete(userObject) {
-        userTDG.delete(userObject.id);
+        UserTDG.delete(userObject.id);
     }
 }
 
-module.exports = userMapper;
+module.exports = UserMapper;

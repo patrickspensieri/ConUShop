@@ -1,22 +1,29 @@
-let monitor = require('../../domain-layer/classes/monitor');
-let monitorTDG = require('../../data-source-layer/TDG/monitorTDG');
+let Monitor = require('../../domain-layer/classes/Monitor');
+let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
 
 /**
- * monitor object mapper
- * @class monitorMapper
+ * Monitor object mapper
+ * @class MonitorMapper
  * @export
  */
-class monitorMapper {
+class MonitorMapper {
   /**
    * Maps the returned value to an object of type monitor.
    * @static
    * @param {string} id model number of monitor to be found.
    * @return monitor object.
    */
-    static find(id) {
-        let monitor = monitorTDG.find(id);
-        return new monitor(monitor.modelNumber, monitor.brand, monitor.size,
-            monitor.weight, monitor.price);
+    static find(id, callback) {
+        MonitorTDG.find(id, function(err, result){
+            if (err) {
+                console.log('Error during monitor find query', null);
+            }
+            else{
+                value = result.rows[0];
+                return callback(null, new Monitor(value.model, value.brand, value.size,
+                    value.weight, value.price));
+            }
+        });
     }
 
   /**
@@ -24,14 +31,20 @@ class monitorMapper {
    * @static
    * @return array of monitor objects.
    */
-    static findAll() {
-        let monitors = [];
-        let allmonitors = monitorTDG.findAll();
-        for (let monitor of allMonitors) {
-            monitors.push(new monitor(monitor.modelNumber, monitor.brand, monitor.size,
-                monitor.weight, monitor.price));
-        }
-        return monitors;
+    static findAll(callback) {
+        MonitorTDG.findAll(function(err, result){
+            let monitors = [];
+            if (err) {
+                console.log('Error during monitors findALL query', null);
+            }
+            else {
+                for (let value of result) {
+                    monitors.push(new Monitor(value.model, value.brand, value.size,
+                        value.weight, value.price));
+                }
+                return callback(null, monitors);
+            }
+        });
     }
 
   /**
@@ -40,7 +53,7 @@ class monitorMapper {
    * @param {Object} monitorObject an object of type monitor.
    */
     static insert(monitorObject) {
-        monitorTDG.insert(monitorObject.modelNumber, monitorObject.brand, monitorObject.size,
+        MonitorTDG.insert(monitorObject.model, monitorObject.brand, monitorObject.size,
             monitorObject.weight, monitorObject.price);
     }
 
@@ -50,7 +63,7 @@ class monitorMapper {
    * @param {Object} monitorObject an object of type monitor.
    */
     static update(monitorObject) {
-        monitorTDG.update(monitorObject.modelNumber, monitorObject.brand, monitorObject.size,
+        MonitorTDG.update(monitorObject.model, monitorObject.brand, monitorObject.size,
             monitorObject.weight, monitorObject.price);
     }
 
@@ -60,8 +73,8 @@ class monitorMapper {
    * @param {Object} monitorObject an object of type monitor.
    */
     static delete(monitorObject) {
-        monitorTDG.delete(monitorObject.modelNumber);
+        MonitorTDG.delete(monitorObject.model);
     }
 }
 
-module.exports = monitorMapper;
+module.exports = MonitorMapper;

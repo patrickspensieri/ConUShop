@@ -1,21 +1,21 @@
-let portableComputer = require('./portableComputer');
+let PortableComputer = require('./PortableComputer');
 
 /**
  * Class describes a tablet.
- * @class tablet
+ * @class Tablet
  * @export
- * @extends portableComputer
+ * @extends PortableComputer
  */
-class tablet extends portableComputer {
+class Tablet extends PortableComputer {
   /**
    * @constructor
-   * @param {string} modelNumber model number of tablet.
+   * @param {string} model model number of tablet.
    * @param {string} brand brand of tablet.
-   * @param {number} displaySize  size of tablet screen.
+   * @param {number} display  size of tablet screen.
    * @param {string} processor processor in tablet.
    * @param {number} ram ram amount in tablet.
-   * @param {number} hardDrive hardDrive size of tablet.
-   * @param {number} cpuCores amount of cores in processor in tablet.
+   * @param {number} storage storage size of tablet.
+   * @param {number} cores amount of cores in processor in tablet.
    * @param {string} os operating system of tablet.
    * @param {string} battery battery information of tablet.
    * @param {string} camera camera information of tablet.
@@ -23,9 +23,9 @@ class tablet extends portableComputer {
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet
    */
-    constructor(modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, dimensions, weight, price) {
-        super(modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, dimensions, weight, price);
+    constructor(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
+        super(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
     }
 }
 
-module.exports = tablet;
+module.exports = Tablet;

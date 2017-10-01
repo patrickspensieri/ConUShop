@@ -1,22 +1,29 @@
-let television = require('../../domain-layer/classes/television');
-let televisionTDG = require('../../data-source-layer/TDG/televisionTDG');
+let Television = require('../../domain-layer/classes/Television');
+let TelevisionTDG = require('../../data-source-layer/TDG/TelevisionTDG');
 
 /**
- * television object mapper
- * @class televisionMapper
+ * Television object mapper
+ * @class TelevisionMapper
  * @export
  */
-class televisionMapper {
+class TelevisionMapper {
   /**
    * Maps the returned value to an object of type television.
    * @static
    * @param {string} id model number of television to be found.
    * @return television object.
    */
-    static find(id) {
-        let television = televisionTDG.find(id);
-        return new television(television.modelNumber, television.brand, television.dimensions,
-            television.weight, television.price);
+    static find(id, callback) {
+        TelevisionTDG.find(id, function(err, result){
+            if (err) {
+                console.log('Error during television find query', null);
+            }
+            else{
+                value = result.rows[0];
+                return callback(null, new Television(value.model, value.brand, value.dimensions,
+                    value.weight, value.price));
+            }
+        });
     }
 
   /**
@@ -24,13 +31,20 @@ class televisionMapper {
    * @static
    * @return array of television objects.
    */
-    static findAll() {
-        let televisions = [];
-        let allTelevisions = televisionTDG.findAll();
-        for (let television of allTelevisions) {
-            televisions.push(new television(television.modelNumber, television.brand, television.dimensions,
-                television.weight, television.price));
-        }
+    static findAll(callback) {
+        TelevisionTDG.findAll(function(err, result){
+            let televisions = [];
+            if (err) {
+                console.log('Error during television findALL query', null);
+            }
+            else {
+                for (let value of result) {
+                    televisions.push(new Television(value.model, value.brand, value.dimensions,
+                        value.weight, value.price));
+                }
+                return callback(null, televisions);
+            }
+        });
     }
 
   /**
@@ -39,7 +53,7 @@ class televisionMapper {
    * @param {Object} televisionObject an object of type television.
    */
     static insert(televisionObject) {
-        televisionTDG.insert(televisionObject.modelNumber, televisionObject.brand, televisionObject.dimensions,
+        TelevisionTDG.insert(televisionObject.model, televisionObject.brand, televisionObject.dimensions,
             televisionObject.weight, televisionObject.price);
     }
 
@@ -49,7 +63,7 @@ class televisionMapper {
    * @param {Object} televisionObject an object of type television.
    */
     static update(televisionObject) {
-        televisionTDG.update(televisionObject.modelNumber, televisionObject.brand, televisionObject.dimensions,
+        TelevisionTDG.update(televisionObject.model, televisionObject.brand, televisionObject.dimensions,
             televisionObject.weight, televisionObject.price);
     }
 
@@ -59,8 +73,8 @@ class televisionMapper {
    * @param {Object} televisionObject an object of type television.
    */
     static delete(televisionObject) {
-        televisionTDG.delete(televisionObject.modelNumber);
+        TelevisionTDG.delete(televisionObject.model);
     }
 }
 
-module.exports = televisionMapper;
+module.exports = TelevisionMapper;

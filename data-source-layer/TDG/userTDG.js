@@ -2,21 +2,23 @@ let db = require('../../db/index');
 
 /**
  * User table data gateway
- * @class userTDG
+ * @class UserTDG
  * @export
  */
-class userTDG {
+class UserTDG {
   /**
    * Finds one object from the user table.
    * @static
    * @param {string} id id of user to be found.
    */
-    static find(id) {
-        db.query('SELECT * FROM user WHERE "modelId"=$1', [id], (err, result) => {
+    static find(id, callback) {
+        db.query('SELECT * FROM user WHERE id=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            return result.rows;
+            else {
+                return callback(null, result.rows);
+            }
         });
     }
 
@@ -24,12 +26,14 @@ class userTDG {
    * Finds all objects from the user table.
    * @static
    */
-    static findAll() {
+    static findAll(callback) {
         db.query('SELECT * FROM user', (err, result) => {
             if (err) {
                 console.log(err.message);
             }
-            return result.rows;
+            else {
+                return callback(null, result.rows);
+            }
         });
     }
 
@@ -73,7 +77,7 @@ class userTDG {
    * @param {number} phone phone number of user
    */
     static update(id, isAdmin, firstName, lastName, address, email, phone) {
-        let queryString = 'UPDATE user SET isAdmin=$2, firstName=$3, lastName=$4, address=$5, email=$6, phone=$7 WHERE "modelId"=$1';
+        let queryString = 'UPDATE user SET isAdmin=$2, firstName=$3, lastName=$4, address=$5, email=$6, phone=$7 WHERE id=$1';
         let queryValues = [id, isAdmin, firstName, lastName, address, email, phone];
 
         db.query(queryString, queryValues, (err, result) => {
@@ -86,10 +90,10 @@ class userTDG {
   /**
    * Deletes an objects in the user table.
    * @static
-   * @param {string} id model number of user to be deleted.
+   * @param {string} id id of user to be deleted.
    */
     static delete(id) {
-      db.query('DELETE FROM user WHERE "modelId"=$1', [id], (err, result) =>{
+      db.query('DELETE FROM user WHERE id=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
@@ -98,4 +102,4 @@ class userTDG {
     }
 }
 
-module.exports = userTDG;
+module.exports = UserTDG;
