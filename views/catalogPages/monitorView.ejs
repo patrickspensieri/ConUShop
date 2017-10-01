@@ -9,7 +9,7 @@
 <div class="">
     <nav>
         <ul class="">
-            <li role="navMenu"><a href="/">Dashboard</a></li>
+            <li role="navMenu"><a href="/users/dashboard">Dashboard</a></li>
             <li role="navMenu"><a href="/users/logout">Logout</a></li>
             <li role="navMenu"><a href="/users/login">Login</a></li>
             <li role="navMenu"><a href="/users/register">Register</a></li>
@@ -22,6 +22,45 @@
     <!--%= jsonData %-->
 </div>
 
-
+<form method="post" action="/inventory/monitorView">
+    <div class="AddMonitor">
+        <label>modeNumber</label>
+        <input type="text" class="" name="model" placeholder="model">
+    </div>
+    <div class="AddMonitor">
+        <label>brand</label>
+        <input type="text" class="" name="brand" placeholder="brand">
+    </div>
+    <div class="AddMonitor">
+        <label>size</label>
+        <input type="text" class="" name="size" placeholder="size">
+    </div>
+    <div class="AddMonitor">
+        <label>weight</label>
+        <input type="text" class="" name="weight" placeholder="weight">
+    </div>
+    <div class="AddMonitor">
+        <label>price</label>
+        <input type="text" class="" name="price" placeholder="price">
+    </div>
+    <button type="submit" class="">Add new Monitor item</button>
+</form></br>
+<div>
+    <% if (typeof data!='undefined') { %>
+        <ol>
+        <% for(var i = 0; i < data.length; i++) { %> 
+            <li>
+                <ul>
+                    <li>model: <%= data[i].model %></li>
+                    <li>brand: <%= data[i].brand %></li>
+                    <li>size: <%= data[i].size %></li>
+                    <li>weight: <%= data[i].weight %></li>
+                    <li>price: <%= data[i].price %></li>
+                </ul>
+            </li><br>
+        <% } %>
+        </ol>
+    <% } %>
+</div>
 </body>
 </html>

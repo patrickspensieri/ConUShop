@@ -26,7 +26,11 @@ app.listen(app.get('port'), function() {
 // });
 
 let users = require('./routes/users');
-let inventory = require('./routes/inventory');
+let desktopRouter = require('./routes/inventory/desktopRouter');
+let laptopRouter = require('./routes/inventory/laptopRouter');
+let tabletRouter = require('./routes/inventory/tabletRouter');
+let televisionRouter = require('./routes/inventory/televisionRouter');
+let monitorRouter = require('./routes/inventory/monitorRouter');
 
 
 // BodyParser Middleware
@@ -65,4 +69,8 @@ app.use(expressValidator({
 }));
 
 app.use('/users', users);
-app.use('/inventory', inventory);
+app.use('/inventory/desktopView', desktopRouter);
+app.use('/inventory/laptopView', laptopRouter);
+app.use('/inventory/monitorView', monitorRouter);
+app.use('/inventory/tabletView', tabletRouter);
+app.use('/inventory/televisionView', televisionRouter);

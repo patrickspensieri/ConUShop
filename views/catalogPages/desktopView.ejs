@@ -9,7 +9,7 @@
 <div class="">
     <nav>
         <ul class="">
-            <li role="navMenu"><a href="/">Dashboard</a></li>
+            <li role="navMenu"><a href="/users/dashboard">Dashboard</a></li>
             <li role="navMenu"><a href="/users/logout">Logout</a></li>
             <li role="navMenu"><a href="/users/login">Login</a></li>
             <li role="navMenu"><a href="/users/register">Register</a></li>
@@ -25,7 +25,7 @@
 <form method="post" action="/inventory/desktopView">
     <div class="AddDesktop">
         <label>modeNumber</label>
-        <input type="text" class="" name="model" placeholder="modeNumber">
+        <input type="text" class="" name="model" placeholder="model">
     </div>
     <div class="AddDesktop">
         <label>brand</label>
@@ -73,7 +73,7 @@
                     <li>ram: <%= data[i].ram %></li>
                     <li>storage: <%= data[i].storage %></li>
                     <li>cores: <%= data[i].cores %></li>
-                    <li>dimensions <%= data[i].dimensions %></li>
+                    <li>dimensions: <%= data[i].dimensions %></li>
                     <li>weight: <%= data[i].weight %></li>
                     <li>price: <%= data[i].price %></li>
                 </ul>
