@@ -1,21 +1,21 @@
-let computer = require('./computer');
+let Computer = require('./Computer');
 
 /**
  * Class describes a portable computer.
- * @class portableComputer
+ * @class PortableComputer
  * @export
- * @extends computer
+ * @extends Computer
  */
-class portableComputer extends computer {
+class PortableComputer extends Computer {
   /**
    * @constructor
-   * @param {string} modelNumber model number of portable computer.
+   * @param {string} model model number of portable computer.
    * @param {string} brand brand of portable computer.
-   * @param {number} displaySize  size of portable computer screen.
+   * @param {number} display  size of portable computer screen.
    * @param {string} processor processor in portable computer.
    * @param {number} ram ram amount in portable computer.
-   * @param {number} hardDrive hardDrive size of portable computer.
-   * @param {number} cpuCores amount of cores in processor in portable computer.
+   * @param {number} storage storage size of portable computer.
+   * @param {number} cores amount of cores in processor in portable computer.
    * @param {string} os operating system of portable computer.
    * @param {string} battery battery information of portable computer.
    * @param {string} camera camera information of portable computer.
@@ -23,9 +23,9 @@ class portableComputer extends computer {
    * @param {number} weight weight of portable computer.
    * @param {number} price price of portable computer
    */
-    constructor(modelNumber, brand, displaySize, processor, ram, hardDrive, cpuCores, os, battery, camera, dimensions, weight, price) {
-        super(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price);
-        this.displaySize = displaySize;
+    constructor(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
+        super(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+        this.display = display;
         this.os = os;
         this.battery = battery;
         this.camera = camera;
@@ -37,10 +37,10 @@ class portableComputer extends computer {
      * @method display
      */
     display() {
-        console.log(this.modelNumber + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
-        + this.ram + ' ' + this.hardDrive + ' ' + this.cpuCores + ' ' + this.dimensions + ' ' + this.display + ' '
+        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
+        + this.ram + ' ' + this.storage + ' ' + this.cores + ' ' + this.dimensions + ' ' + this.display + ' '
         + this.os + ' ' + this.battery + ' ' + this.camera);
     }
 }
 
-module.exports = portableComputer;
+module.exports = PortableComputer;

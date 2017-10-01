@@ -1,30 +1,30 @@
-let electronicDevice = require('./electronicDevice');
+let ElectronicDevice = require('./ElectronicDevice');
 
 /**
  * Class describes a computer.
- * @class computer
+ * @class Computer
  * @export
- * @extends electronicDevice
+ * @extends ElectronicDevice
  */
-class computer extends electronicDevice {
+class Computer extends ElectronicDevice {
     /**
      * @constructor 
-     * @param {string} modelNumber model number of computer.
+     * @param {string} model model number of computer.
      * @param {string} brand brand of computer.
      * @param {string} processor processor in computer.
      * @param {number} ram ram amount in computer.
-     * @param {number} hardDrive hardDrive size of computer.
-     * @param {number} cpuCores amount of cores in processor in computer.
+     * @param {number} storage storage size of computer.
+     * @param {number} cores amount of cores in processor in computer.
      * @param {string} dimensions dimensions of computer.
      * @param {number} weight weight of computer.
      * @param {number} price price of computer.
      */
-    constructor(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price) {
-        super(modelNumber, brand, weight, price);
+    constructor(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
+        super(model, brand, weight, price);
         this.processor = processor;
         this.ram = ram;
-        this.hardDrive = hardDrive;
-        this.cpuCores = cpuCores;
+        this.storage = storage;
+        this.cores = cores;
         this.dimensions = dimensions;
     }
 
@@ -34,9 +34,9 @@ class computer extends electronicDevice {
      * @method display
      */
     display() {
-        console.log(this.modelNumber + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
-        + this.ram + ' ' + this.hardDrive + ' ' + this.cpuCores + ' ' + this.dimensions);
+        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
+        + this.ram + ' ' + this.storage + ' ' + this.cores + ' ' + this.dimensions);
     }
 }
 
-module.exports = computer;
+module.exports = Computer;

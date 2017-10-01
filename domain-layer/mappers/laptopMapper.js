@@ -1,24 +1,31 @@
-let laptop = require('../../domain-layer/classes/laptop');
-let laptopTDG = require('../../data-source-layer/TDG/laptopTDG');
+let Laptop = require('../../domain-layer/classes/Laptop');
+let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
 
 /**
- * laptop object mapper
- * @class laptopMapper
+ * Laptop object mapper
+ * @class LaptopMapper
  * @export
  */
-class laptopMapper {
+class LaptopMapper {
   /**
    * Maps the returned value to an object of type laptop.
    * @static
    * @param {string} id model number of laptop to be found.
    * @return laptop object.
    */
-    static find(id) {
-        let laptop = laptopTDG.find(id);
-        return new laptop(laptop.modelNumber, laptop.brand, laptop.displaySize, laptop.processor,
-            laptop.ram, laptop.hardDrive, laptop.cpuCores, laptop.os,
-            laptop.battery, laptop.camera, laptop.touchScreen, laptop.dimensions,
-            laptop.weight, laptop.price);
+    static find(id, callback) {
+        LaptopTDG.find(id, function(err, result){
+            if (err) {
+                console.log('Error during laptop find query', null);
+            }
+            else{
+                value = result.rows[0];
+                return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
+                    value.ram, value.storage, value.cores, value.os,
+                    value.battery, value.camera, value.touch, value.dimensions,
+                    value.weight, value.price));
+            }
+        });
     }
 
   /**
@@ -26,16 +33,22 @@ class laptopMapper {
    * @static
    * @return array of laptop objects.
    */
-    static findAll() {
-        let laptops = [];
-        let allLaptops = laptopTDG.findAll();
-        for (let laptop of allLaptops) {
-            laptops.push(new laptop(laptop.modelNumber, laptop.brand, laptop.displaySize, laptop.processor,
-                laptop.ram, laptop.hardDrive, laptop.cpuCores, laptop.os,
-                laptop.battery, laptop.camera, laptop.touchScreen, laptop.dimensions,
-                laptop.weight, laptop.price));
-        }
-        return laptops;
+    static findAll(callback) {
+        LaptopTDG.findAll(function(err, result){
+            let laptops = [];
+            if (err) {
+                console.log('Error during laptop findAll query', null);
+            }
+            else {
+                for (let value of result) {
+                    laptops.push(new Laptop(value.model, value.brand, value.display, value.processor,
+                        value.ram, value.storage, value.cores, value.os,
+                        value.battery, value.camera, value.touch, value.dimensions,
+                        value.weight, value.price));
+                }
+                return callback(null, laptops);
+            }
+        });
     }
 
   /**
@@ -44,9 +57,9 @@ class laptopMapper {
    * @param {Object} laptopObject an object of type laptop.
    */
     static insert(laptopObject) {
-        laptopTDG.insert(laptopObject.modelNumber, laptopObject.brand, laptopObject.displaySize, laptopObject.processor,
-            laptopObject.ram, laptopObject.hardDrive, laptopObject.cpuCores, laptopObject.os,
-            laptopObject.battery, laptopObject.camera, laptopObject.touchScreen, laptopObject.dimensions,
+        LaptopTDG.insert(laptopObject.model, laptopObject.brand, laptopObject.display, laptopObject.processor,
+            laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
+            laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
             laptopObject.weight, laptopObject.price);
     }
 
@@ -56,9 +69,9 @@ class laptopMapper {
    * @param {Object} laptopObject an object of type laptop.
    */
     static update(laptopObject) {
-        laptopTDG.update(laptopObject.modelNumber, laptopObject.brand, laptopObject.displaySize, laptopObject.processor,
-            laptopObject.ram, laptopObject.hardDrive, laptopObject.cpuCores, laptopObject.os,
-            laptopObject.battery, laptopObject.camera, laptopObject.touchScreen, laptopObject.dimensions,
+        LaptopTDG.update(laptopObject.model, laptopObject.brand, laptopObject.display, laptopObject.processor,
+            laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
+            laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
             laptopObject.weight, laptopObject.price);
     }
 
@@ -68,8 +81,8 @@ class laptopMapper {
    * @param {Object} laptopObject an object of type laptop.
    */
     static delete(laptopObject) {
-            laptopTDG.delete(laptopObject.modelNumber);
+            LaptopTDG.delete(laptopObject.model);
     }
 }
 
-module.exports = laptopMapper;
+module.exports = LaptopMapper;

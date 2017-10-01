@@ -1,23 +1,30 @@
-let desktop = require('../../domain-layer/classes/desktop');
-let desktopTDG = require('../../data-source-layer/TDG/desktopTDG');
+let Desktop = require('../../domain-layer/classes/Desktop');
+let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
 
 /**
  * Desktop object mapper
- * @class desktopMapper
+ * @class DesktopMapper
  * @export
  */
-class desktopMapper {
+class DesktopMapper {
   /**
    * Maps the returned value to an object of type desktop.
    * @static
    * @param {string} id model number of desktop to be found.
    * @return desktop object.
    */
-    static find(id) {
-        let desktop = desktopTDG.find(id);
-        return new desktop(desktop.modelNumber, desktop.brand, desktop.processor,
-            desktop.ram, desktop.hardDrive, desktop.cpuCores, desktop.dimensions,
-            desktop.weight, desktop.price);
+    static find(id, callback) {
+        DesktopTDG.find(id, function(err, result){
+            if (err) {
+                console.log('Error during desktop find query', null);
+            }
+            else{
+                value = result.rows[0];
+                return callback(null, new Desktop(value.model, value.brand, value.processor,
+                    value.ram, value.storage, value.cores, value.dimensions,
+                    value.weight, value.price));
+            }
+        });
     }
 
   /**
@@ -25,15 +32,21 @@ class desktopMapper {
    * @static
    * @return array of desktop objects.
    */
-    static findAll() {
-        let desktops = [];
-        let allDesktops = desktopTDG.findAll();
-        for (let desktop of allDesktops) {
-            desktops.push(new desktop(desktop.modelNumber, desktop.brand, desktop.processor,
-                desktop.ram, desktop.hardDrive, desktop.cpuCores, desktop.dimensions,
-                desktop.weight, desktop.price));
-        }
-        return desktops;
+    static findAll(callback) {
+        DesktopTDG.findAll(function(err, result){
+            let desktops = [];
+            if (err) {
+                console.log('Error during desktop findALL query', null);
+            }
+            else {
+                for (let value of result) {
+                    desktops.push(new Desktop(value.model, value.brand, value.processor,
+                        value.ram, value.storage, value.cores, value.dimensions,
+                        value.weight, value.price));
+                }
+                return callback(null, desktops);
+            }
+        });
     }
 
   /**
@@ -42,8 +55,8 @@ class desktopMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static insert(desktopObject) {
-        desktopTDG.insert(desktopObject.modelNumber, desktopObject.brand, desktopObject.processor,
-            desktopObject.ram, desktopObject.hardDrive, desktopObject.cpuCores, desktopObject.dimensions,
+        DesktopTDG.insert(desktopObject.model, desktopObject.brand, desktopObject.processor,
+            desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
             desktopObject.weight, desktopObject.price);
     }
 
@@ -53,8 +66,8 @@ class desktopMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static update(desktopObject) {
-        desktopTDG.update(desktopObject.modelNumber, desktopObject.brand, desktopObject.processor,
-            desktopObject.ram, desktopObject.hardDrive, desktopObject.cpuCores, desktopObject.dimensions,
+        DesktopTDG.update(desktopObject.model, desktopObject.brand, desktopObject.processor,
+            desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
             desktopObject.weight, desktopObject.price);
     }
 
@@ -64,8 +77,8 @@ class desktopMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static delete(desktopObject) {
-        desktopTDG.delete(desktopObject.modelNumber);
+        DesktopTDG.delete(desktopObject.model);
     }
 }
 
-module.exports = desktopMapper;
+module.exports = DesktopMapper;

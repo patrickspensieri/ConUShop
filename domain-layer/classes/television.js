@@ -1,22 +1,22 @@
-let electronicDevice = require('./electronicDevice');
+let ElectronicDevice = require('./ElectronicDevice');
 
 /**
  * Class describes a television.
- * @class television
+ * @class Television
  * @export
- * @extends electronicDevice
+ * @extends ElectronicDevice
  */
-class television extends electronicDevice {
+class Television extends ElectronicDevice {
   /**
    * @constructor
-   * @param {string} modelNumber model number of television.
+   * @param {string} model model number of television.
    * @param {string} brand brand of television.
    * @param {string} dimensions dimensions of television.
    * @param {number} weight weight of television.
    * @param {number} price price of television.
    */
-    constructor(modelNumber, brand, dimensions, weight, price) {
-        super(modelNumber, brand, weight, price);
+    constructor(model, brand, dimensions, weight, price) {
+        super(model, brand, weight, price);
         this.dimensions = dimensions;
     }
 
@@ -26,8 +26,8 @@ class television extends electronicDevice {
      * @method display
      */
     display() {
-        console.log(this.modelNumber + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.dimensions);
+        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.dimensions);
     }
 }
 
-module.exports = television;
+module.exports = Television;

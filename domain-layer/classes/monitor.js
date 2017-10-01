@@ -1,22 +1,22 @@
-let electronicDevice = require('./electronicDevice');
+let ElectronicDevice = require('./ElectronicDevice');
 
 /**
  * Class describes a monitor.
- * @class monitor
+ * @class Monitor
  * @export
- * @extends electronicDevice
+ * @extends ElectronicDevice
  */
-class monitor extends electronicDevice {
+class Monitor extends ElectronicDevice {
   /**
    * @constructor
-   * @param {string} modelNumber model number of monitor.
+   * @param {string} model model number of monitor.
    * @param {string} brand brand of monitor.
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
    */
-    constructor(modelNumber, brand, size, weight, price) {
-        super(modelNumber, brand, weight, price);
+    constructor(model, brand, size, weight, price) {
+        super(model, brand, weight, price);
         this.size = size;
     }
 
@@ -26,8 +26,8 @@ class monitor extends electronicDevice {
      * @method display
      */
     display() {
-        console.log(this.modelNumber + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.displaySize);
+        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.display);
     }
 }
 
-module.exports = monitor;
+module.exports = Monitor;

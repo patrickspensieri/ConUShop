@@ -1,24 +1,31 @@
-let tablet = require('../../domain-layer/classes/tablet');
-let tabletTDG = require('../../data-source-layer/TDG/tabletTDG');
+let Tablet = require('../../domain-layer/classes/Tablet');
+let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
 
 /**
- * tablet object mapper
- * @class tabletMapper
+ * Tablet object mapper
+ * @class TabletMapper
  * @export
  */
-class tabletMapper {
+class TabletMapper {
   /**
    * Maps the returned value to an object of type tablet.
    * @static
    * @param {string} id model number of tablet to be found.
    * @return tablet object.
    */
-    static find(id) {
-        let tablet = tabletTDG.find(id);
-        return new tablet(tablet.modelNumber, tablet.brand, tablet.displaySize, tablet.processor,
-            tablet.ram, tablet.hardDrive, tablet.cpuCores, tablet.os,
-            tablet.battery, tablet.camera, tablet.dimensions,
-            tablet.weight, tablet.price);
+    static find(id, callback) {
+        TabletTDG.find(id, function(err, result){
+            if (err) {
+                console.log('Error during tablet find query', null);
+            }
+            else{
+                value = result.rows[0];
+                return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
+                    value.ram, value.storage, value.cores, value.os,
+                    value.battery, value.camera, value.dimensions,
+                    value.weight, value.price));
+            }
+        });
     }
 
   /**
@@ -26,15 +33,22 @@ class tabletMapper {
    * @static
    * @return array of tablet objects.
    */
-    static findAll() {
-        let tablets = [];
-        let allTablets = tabletTDG.findAll();
-        for (let tablet of allTablets) {
-            tablets.push(new tablet(tablet.modelNumber, tablet.brand, tablet.displaySize, tablet.processor,
-                tablet.ram, tablet.hardDrive, tablet.cpuCores, tablet.os,
-                tablet.battery, tablet.camera, tablet.dimensions,
-                tablet.weight, tablet.price));
-        }
+    static findAll(callback) {
+        TabletTDG.findAll(function(err, result){
+            let tablets = [];
+            if (err) {
+                console.log('Error during tablet findALL query', null);
+            }
+            else {
+                for (let value of result) {
+                    tablets.push(new Tablet(value.model, value.brand, value.display, value.processor,
+                        value.ram, value.storage, value.cores, value.os,
+                        value.battery, value.camera, value.dimensions,
+                        value.weight, value.price));
+                }
+                return callback(null, tablets);
+            }
+        });
     }
 
   /**
@@ -43,8 +57,8 @@ class tabletMapper {
    * @param {Object} tabletObject an object of type tablet.
    */
     static insert(tabletObject) {
-        TDG.insert(tabletObject.modelNumber, tabletObject.brand, tabletObject.displaySize, tabletObject.processor,
-            tabletObject.ram, tabletObject.hardDrive, tabletObject.cpuCores, tabletObject.os,
+        TabletTDG.insert(tabletObject.model, tabletObject.brand, tabletObject.display, tabletObject.processor,
+            tabletObject.ram, tabletObject.storage, tabletObject.cores, tabletObject.os,
             tabletObject.battery, tabletObject.camera, tabletObject.dimensions,
             tabletObject.weight, tabletObject.price);
     }
@@ -55,8 +69,8 @@ class tabletMapper {
    * @param {Object} tabletObject an object of type tablet.
    */
     static update(tabletObject) {
-        tabletTDG.update(tabletObject.modelNumber, tabletObject.brand, tabletObject.displaySize, tabletObject.processor,
-            tabletObject.ram, tabletObject.hardDrive, tabletObject.cpuCores, tabletObject.os,
+        TabletTDG.update(tabletObject.model, tabletObject.brand, tabletObject.display, tabletObject.processor,
+            tabletObject.ram, tabletObject.storage, tabletObject.cores, tabletObject.os,
             tabletObject.battery, tabletObject.camera, tabletObject.dimensions,
             tabletObject.weight, tabletObject.price);
     }
@@ -67,8 +81,8 @@ class tabletMapper {
    * @param {Object} tabletObject an object of type tablet.
    */
     static delete(tabletObject) {
-                    tabletTDG.delete(tabletObject.modelNumber);
+        TabletTDG.delete(tabletObject.model);
     }
 }
 
-module.exports = tabletMapper;
+module.exports = TabletMapper;

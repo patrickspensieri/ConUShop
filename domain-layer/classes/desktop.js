@@ -1,27 +1,27 @@
-let computer = require('./computer');
+let Computer = require('./Computer');
 
 /**
  * Class describes a desktop.
- * @class desktop
+ * @class Desktop
  * @export
- * @extends computer
+ * @extends Computer
  */
-class desktop extends computer {
+class Desktop extends Computer {
     /**
      * @constructor 
-     * @param {string} modelNumber model number of desktop.
+     * @param {string} model model number of desktop.
      * @param {string} brand brand of desktop.
      * @param {string} processor processor in desktop.
      * @param {number} ram ram amount in desktop.
-     * @param {number} hardDrive hardDrive size of desktop.
-     * @param {number} cpuCores amount of cores in processor in desktop.
+     * @param {number} storage storage size of desktop.
+     * @param {number} cores amount of cores in processor in desktop.
      * @param {string} dimensions dimensions of desktop.
      * @param {number} weight weight of desktop.
      * @param {number} price price of desktop.
      */
-    constructor(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price) {
-        super(modelNumber, brand, processor, ram, hardDrive, cpuCores, dimensions, weight, price);
+    constructor(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
+        super(model, brand, processor, ram, storage, cores, dimensions, weight, price);
     }
 }
 
-module.exports = desktop;
+module.exports = Desktop;
