@@ -37,7 +37,6 @@ router.get('/dashboard', function(req, res) {
 
 // Register User
 router.post('/register', function(req, res) {
-    console.log(req.body);
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let phoneNumber = req.body.phone;
