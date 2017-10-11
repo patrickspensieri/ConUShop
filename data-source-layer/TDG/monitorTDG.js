@@ -1,4 +1,4 @@
-let db = require('../../db/index');
+let db = require('../db/index');
 
 /**
  * Monitor table data gateway

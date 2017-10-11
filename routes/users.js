@@ -5,7 +5,7 @@ let LocalStrategy = require('passport-local').Strategy;
 let UserMapper = require('../domain-layer/mappers/userMapper');
 let User = require('../domain-layer/classes/user');
 let bcrypt = require('bcryptjs');
-let db = require('../db/index');
+let db = require('../data-source-layer/db/index');
 
 // TODO move logic to controllers
 // TODO protect routes
@@ -37,6 +37,7 @@ router.get('/dashboard', function(req, res) {
 
 // Register User
 router.post('/register', function(req, res) {
+    console.log(req.body);
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let phoneNumber = req.body.phone;

@@ -6,8 +6,6 @@ let passport = require('passport');
 
 let express = require('express');
 let app = express();
-// require routes file
-require('./routes')(app, {});
 // read environment values from .env
 require('dotenv').config();
 
@@ -20,18 +18,6 @@ app.set('view engine', 'ejs');
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
-
-// app.get('/', function(request, response) {
-//     response.render('pages/index');
-// });
-
-let users = require('./routes/users');
-let desktopRouter = require('./routes/inventory/desktopRouter');
-let laptopRouter = require('./routes/inventory/laptopRouter');
-let tabletRouter = require('./routes/inventory/tabletRouter');
-let televisionRouter = require('./routes/inventory/televisionRouter');
-let monitorRouter = require('./routes/inventory/monitorRouter');
-
 
 // BodyParser Middleware
 app.use(bodyParser.json());
@@ -68,9 +54,4 @@ app.use(expressValidator({
     },
 }));
 
-app.use('/users', users);
-app.use('/inventory/desktopView', desktopRouter);
-app.use('/inventory/laptopView', laptopRouter);
-app.use('/inventory/monitorView', monitorRouter);
-app.use('/inventory/tabletView', tabletRouter);
-app.use('/inventory/televisionView', televisionRouter);
+app.use(require('./routes'));
