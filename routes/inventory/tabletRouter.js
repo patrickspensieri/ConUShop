@@ -8,7 +8,7 @@ let TabletMapper = require('../../domain-layer/mappers/TabletMapper');
 router.get('/', function(req, res) {
     TabletMapper.findAll(function(err, data) {
         res.render('catalogPages/tabletView', {
-            data: data
+            data: data,
         });
     });
 });
@@ -58,6 +58,17 @@ router.post('/', function(req, res) {
 
         res.redirect('/inventory/tabletView');
     }
+});
+
+router.get('/:id/delete', function(req, res) {
+    TabletMapper.find(req.params.id, function(err, data) {
+        let newtablet = new Tablet(data.model, data.brand, data.display, data.processor, data.ram, data.storage,
+            data.cores, data.os, data.battery, data.camera, data.dimensions, data.weight, data.price);
+
+        TabletMapper.delete(newtablet);
+
+        res.redirect('/inventory/tabletView');
+    });
 });
 
 module.exports = router;

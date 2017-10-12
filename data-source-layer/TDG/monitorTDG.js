@@ -15,8 +15,7 @@ class MonitorTDG {
         db.query('SELECT * FROM monitor WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
-            }
-            else {
+            } else {
                 return callback(null, result.rows);
             }
         });
@@ -30,8 +29,7 @@ class MonitorTDG {
         db.query('SELECT * FROM monitor', (err, result) => {
             if (err) {
                 console.log(err.message);
-            }
-            else {
+            } else {
                 return callback(null, result.rows);
             }
         });

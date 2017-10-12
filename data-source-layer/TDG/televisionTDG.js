@@ -15,8 +15,7 @@ class TelevisionTDG {
         db.query('SELECT * FROM television WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
-            }
-            else {
+            } else {
                 return callback(null, result.rows);
             }
         });
@@ -30,8 +29,7 @@ class TelevisionTDG {
         db.query('SELECT * FROM television', (err, result) => {
             if (err) {
                 console.log(err.message);
-            }
-            else {
+            } else {
                 return callback(null, result.rows);
             }
         });

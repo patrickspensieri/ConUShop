@@ -8,8 +8,18 @@ let DesktopMapper = require('../../domain-layer/mappers/DesktopMapper');
 router.get('/', function(req, res) {
     DesktopMapper.findAll(function(err, data) {
         res.render('catalogPages/desktopView', {
-            data: data
+            data: data,
         });
+    });
+});
+
+router.get('/:id/delete', function(req, res) {
+    DesktopMapper.find(req.params.id, function(err, data) {
+        let newDesktop = new Desktop(data.model, data.brand, data.processor, data.ram,
+            data.storage, data.cores, data.dimensions, data.weight, data.price);
+        DesktopMapper.delete(newDesktop);
+
+        res.redirect('/inventory/desktopView');
     });
 });
 

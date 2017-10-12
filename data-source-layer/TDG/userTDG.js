@@ -15,8 +15,7 @@ class UserTDG {
         db.query('SELECT * FROM user WHERE id=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
-            }
-            else {
+            } else {
                 return callback(null, result.rows);
             }
         });
@@ -30,8 +29,7 @@ class UserTDG {
         db.query('SELECT * FROM user', (err, result) => {
             if (err) {
                 console.log(err.message);
-            }
-            else {
+            } else {
                 return callback(null, result.rows);
             }
         });
@@ -62,7 +60,6 @@ class UserTDG {
             }
             console.log('New user '+ firstName +' has been created');
         });
-
     }
 
   /**

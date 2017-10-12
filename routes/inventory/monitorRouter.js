@@ -8,7 +8,7 @@ let MonitorMapper = require('../../domain-layer/mappers/MonitorMapper');
 router.get('/', function(req, res) {
     MonitorMapper.findAll(function(err, data) {
         res.render('catalogPages/monitorView', {
-            data: data
+            data: data,
         });
     });
 });
@@ -41,6 +41,16 @@ router.post('/', function(req, res) {
 
         res.redirect('/inventory/monitorView');
     }
+});
+
+router.get('/:id/delete', function(req, res) {
+    MonitorMapper.find(req.params.id, function(err, data) {
+        let newmonitor = new Monitor(data.model, data.brand, data.size, data.weight, data.price);
+
+        MonitorMapper.delete(newmonitor);
+
+        res.redirect('/inventory/monitorView');
+    });
 });
 
 module.exports = router;

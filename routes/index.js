@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 
-//Registering all routes
+// Registering all routes
 router.use('/inventory/desktopView', require('./inventory/desktopRouter'));
 router.use('/inventory/laptopView', require('./inventory/laptopRouter'));
 router.use('/inventory/monitorView', require('./inventory/monitorRouter'));

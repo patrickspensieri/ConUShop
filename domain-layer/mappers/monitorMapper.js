@@ -14,12 +14,11 @@ class MonitorMapper {
    * @return monitor object.
    */
     static find(id, callback) {
-        MonitorTDG.find(id, function(err, result){
+        MonitorTDG.find(id, function(err, result) {
             if (err) {
                 console.log('Error during monitor find query', null);
-            }
-            else{
-                value = result.rows[0];
+            } else {
+                let value = result[0];
                 return callback(null, new Monitor(value.model, value.brand, value.size,
                     value.weight, value.price));
             }
@@ -32,12 +31,11 @@ class MonitorMapper {
    * @return array of monitor objects.
    */
     static findAll(callback) {
-        MonitorTDG.findAll(function(err, result){
+        MonitorTDG.findAll(function(err, result) {
             let monitors = [];
             if (err) {
                 console.log('Error during monitors findALL query', null);
-            }
-            else {
+            } else {
                 for (let value of result) {
                     monitors.push(new Monitor(value.model, value.brand, value.size,
                         value.weight, value.price));

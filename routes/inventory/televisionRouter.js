@@ -8,7 +8,7 @@ let TelevisionMapper = require('../../domain-layer/mappers/TelevisionMapper');
 router.get('/', function(req, res) {
     TelevisionMapper.findAll(function(err, data) {
         res.render('catalogPages/televisionView', {
-            data: data
+            data: data,
         });
     });
 });
@@ -41,6 +41,16 @@ router.post('/', function(req, res) {
 
         res.redirect('/inventory/televisionView');
     }
+});
+
+router.get('/:id/delete', function(req, res) {
+    TelevisionMapper.find(req.params.id, function(err, data) {
+        let newtelevision = new Television(data.model, data.brand, data.dimensions, data.weight, data.price);
+
+        TelevisionMapper.delete(newtelevision);
+
+        res.redirect('/inventory/televisionView');
+    });
 });
 
 module.exports = router;
