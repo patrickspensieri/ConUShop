@@ -11,8 +11,8 @@ require('dotenv').config();
 
 // set port from .env, default to 5000
 app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'));
-app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/presentation-layer/static'));
+app.set('views', __dirname + '/presentation-layer/views');
 app.set('view engine', 'ejs');
 
 app.listen(app.get('port'), function() {
