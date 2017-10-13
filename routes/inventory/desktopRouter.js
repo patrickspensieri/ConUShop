@@ -13,14 +13,12 @@ router.get('/', function(req, res) {
     });
 });
 
-router.get('/:id/delete', function(req, res) {
-    DesktopMapper.find(req.params.id, function(err, data) {
-        let newDesktop = new Desktop(data.model, data.brand, data.processor, data.ram,
-            data.storage, data.cores, data.dimensions, data.weight, data.price);
-        DesktopMapper.delete(newDesktop);
+router.post('/delete', function(req, res) {
+    //When ID map is created this will find the desktop in the ID map and delete
+    //from the ID map and the UoW will handle the database
+    DesktopMapper.delete(new Desktop(req.body.id));
 
-        res.redirect('/inventory/desktopView');
-    });
+    res.send({redirect: "/inventory/desktopView"});
 });
 
 router.post('/', function(req, res) {
