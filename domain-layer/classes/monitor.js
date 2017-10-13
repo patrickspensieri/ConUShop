@@ -1,4 +1,4 @@
-let ElectronicDevice = require('./ElectronicDevice');
+let ElectronicDevice = require('./electronicdevice');
 
 /**
  * Class describes a monitor.
