@@ -70,16 +70,4 @@ router.post('/', function(req, res) {
     }
 });
 
-
-router.get('/:id/delete', function(req, res) {
-    LaptopMapper.find(req.params.id, function(err, data) {
-        let newlaptop = new Laptop(data.model, data.brand, data.display, data.processor, data.ram, data.storage,
-            data.cores, data.os, data.battery, data.camera, data.touch, data.dimensions, data.weight, data.price);
-
-            LaptopMapper.delete(newlaptop);
-
-        res.redirect('/inventory/laptopView');
-    });
-});
-
 module.exports = router;

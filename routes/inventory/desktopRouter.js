@@ -13,6 +13,7 @@ router.get('/', function(req, res) {
     });
 });
 
+<<<<<<< HEAD
 router.post('/delete', function(req, res) {
     //When ID map is created this will find the desktop in the ID map and delete
     //from the ID map and the UoW will handle the database
@@ -21,6 +22,8 @@ router.post('/delete', function(req, res) {
     res.send({redirect: "/inventory/desktopView"});
 });
 
+=======
+>>>>>>> e809cc48767839d6cfa2b973329bf094cbda858b
 router.post('/', function(req, res) {
     let model = req.body.model;
     let brand = req.body.brand;
