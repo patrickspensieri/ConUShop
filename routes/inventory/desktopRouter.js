@@ -1,8 +1,8 @@
 let express = require('express');
 let router = express.Router();
 
-let Desktop = require('../../domain-layer/classes/Desktop');
-let DesktopMapper = require('../../domain-layer/mappers/DesktopMapper');
+let Desktop = require('../../domain-layer/classes/desktop');
+let DesktopMapper = require('../../domain-layer/mappers/desktopMapper');
 
 
 router.get('/', function(req, res) {
