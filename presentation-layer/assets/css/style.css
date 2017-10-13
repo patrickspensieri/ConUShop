@@ -4998,3 +4998,7 @@ td.invert-image a img {
         background-color: #932439;
     }
 }
+
+table, th, td {
+	border: 1px solid black;
+}

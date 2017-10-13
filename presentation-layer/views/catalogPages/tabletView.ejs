@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
 </head>
 
 <body>
@@ -79,27 +81,44 @@
 </form></br>
 <div>
     <% if (typeof data!='undefined') { %>
-        <ol>
+        <table>
+            <tr>
+                <td>Model</td>
+                <td>Brand</td>
+                <td>Display</td>
+                <td>Processor</td>
+                <td>Ram</td>
+                <td>Storage</td>
+                <td>Cores</td>
+                <td>OS</td>
+                <td>Battery</td>
+                <td>Camera</td>
+                <td>Dimensions</td>
+                <td>Weight</td>
+                <td>Price</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
         <% for(var i = 0; i < data.length; i++) { %> 
-            <li>
-                <ul>
-                    <li>model: <%= data[i].model %></li>
-                    <li>brand: <%= data[i].brand %></li>
-                    <li>display: <%= data[i].display %></li>
-                    <li>processor: <%= data[i].processor %></li>
-                    <li>ram: <%= data[i].ram %></li>
-                    <li>storage: <%= data[i].storage %></li>
-                    <li>cores: <%= data[i].cores %></li>
-                    <li>os <%= data[i].os %></li>
-                    <li>battery: <%= data[i].battery %></li>
-                    <li>camera: <%= data[i].camera %></li>
-                    <li>dimensions: <%= data[i].dimensions %></li>
-                    <li>weight: <%= data[i].weight %></li>
-                    <li>price: <%= data[i].price %></li>
-                </ul>
-            </li><br>
+            <tr>
+                <td><%= data[i].model %></td>
+                <td><%= data[i].brand %></td>
+                <td><%= data[i].display %></td>
+                <td><%= data[i].processor %></td>
+                <td><%= data[i].ram %></td>
+                <td><%= data[i].storage %></td>
+                <td><%= data[i].cores %></td>
+                <td><%= data[i].os %></td>
+                <td><%= data[i].battery %></td>
+                <td><%= data[i].camera %></td>
+                <td><%= data[i].dimensions %></td>
+                <td><%= data[i].weight %></td>
+                <td><%= data[i].price %></td>
+                <td><button>Edit</button></td>
+                <td><button onclick="deleteTablet('<%= data[i].model %>')">Delete</button></td>
+            </tr>
         <% } %>
-        </ol>
+        </table>
     <% } %>
 </div>
 </body>
