@@ -1,4 +1,4 @@
-const Laptop = require('../../../domain-layer/classes/Laptop');
+const Laptop = require('../../../domain-layer/classes/laptop');
 
 describe('domain-layer: Laptop class unit tests', () => {
     it('construstructor returns an object', () => {
