@@ -14,12 +14,11 @@ class DesktopMapper {
    * @return desktop object.
    */
     static find(id, callback) {
-        DesktopTDG.find(id, function(err, result){
+        DesktopTDG.find(id, function(err, result) {
             if (err) {
                 console.log('Error during desktop find query', null);
-            }
-            else{
-                value = result.rows[0];
+            } else {
+                let value = result[0];
                 return callback(null, new Desktop(value.model, value.brand, value.processor,
                     value.ram, value.storage, value.cores, value.dimensions,
                     value.weight, value.price));
@@ -33,12 +32,11 @@ class DesktopMapper {
    * @return array of desktop objects.
    */
     static findAll(callback) {
-        DesktopTDG.findAll(function(err, result){
+        DesktopTDG.findAll(function(err, result) {
             let desktops = [];
             if (err) {
                 console.log('Error during desktop findALL query', null);
-            }
-            else {
+            } else {
                 for (let value of result) {
                     desktops.push(new Desktop(value.model, value.brand, value.processor,
                         value.ram, value.storage, value.cores, value.dimensions,

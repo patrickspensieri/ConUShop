@@ -14,12 +14,11 @@ class TabletMapper {
    * @return tablet object.
    */
     static find(id, callback) {
-        TabletTDG.find(id, function(err, result){
+        TabletTDG.find(id, function(err, result) {
             if (err) {
                 console.log('Error during tablet find query', null);
-            }
-            else{
-                value = result.rows[0];
+            } else {
+                let value = result[0];
                 return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
                     value.ram, value.storage, value.cores, value.os,
                     value.battery, value.camera, value.dimensions,
@@ -34,12 +33,11 @@ class TabletMapper {
    * @return array of tablet objects.
    */
     static findAll(callback) {
-        TabletTDG.findAll(function(err, result){
+        TabletTDG.findAll(function(err, result) {
             let tablets = [];
             if (err) {
                 console.log('Error during tablet findALL query', null);
-            }
-            else {
+            } else {
                 for (let value of result) {
                     tablets.push(new Tablet(value.model, value.brand, value.display, value.processor,
                         value.ram, value.storage, value.cores, value.os,

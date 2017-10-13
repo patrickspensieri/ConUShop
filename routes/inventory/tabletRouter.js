@@ -8,7 +8,7 @@ let TabletMapper = require('../../domain-layer/mappers/TabletMapper');
 router.get('/', function(req, res) {
     TabletMapper.findAll(function(err, data) {
         res.render('catalogPages/tabletView', {
-            data: data
+            data: data,
         });
     });
 });

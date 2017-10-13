@@ -14,12 +14,11 @@ class TelevisionMapper {
    * @return television object.
    */
     static find(id, callback) {
-        TelevisionTDG.find(id, function(err, result){
+        TelevisionTDG.find(id, function(err, result) {
             if (err) {
                 console.log('Error during television find query', null);
-            }
-            else{
-                value = result.rows[0];
+            } else {
+                let value = result[0];
                 return callback(null, new Television(value.model, value.brand, value.dimensions,
                     value.weight, value.price));
             }
@@ -32,12 +31,11 @@ class TelevisionMapper {
    * @return array of television objects.
    */
     static findAll(callback) {
-        TelevisionTDG.findAll(function(err, result){
+        TelevisionTDG.findAll(function(err, result) {
             let televisions = [];
             if (err) {
                 console.log('Error during television findALL query', null);
-            }
-            else {
+            } else {
                 for (let value of result) {
                     televisions.push(new Television(value.model, value.brand, value.dimensions,
                         value.weight, value.price));

@@ -8,7 +8,7 @@ let MonitorMapper = require('../../domain-layer/mappers/MonitorMapper');
 router.get('/', function(req, res) {
     MonitorMapper.findAll(function(err, data) {
         res.render('catalogPages/monitorView', {
-            data: data
+            data: data,
         });
     });
 });

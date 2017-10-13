@@ -1,4 +1,4 @@
-let db = require('../../db/index');
+let db = require('../db/index');
 
 /**
  * Tablet table data gateway
@@ -15,8 +15,7 @@ class TabletTDG {
         db.query('SELECT * FROM tablet WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
-            }
-            else {
+            } else {
                 return callback(null, result.rows);
             }
         });
@@ -30,8 +29,7 @@ class TabletTDG {
         db.query('SELECT * FROM tablet', (err, result) => {
             if (err) {
                 console.log(err.message);
-            }
-            else {
+            } else {
                 return callback(null, result.rows);
             }
         });

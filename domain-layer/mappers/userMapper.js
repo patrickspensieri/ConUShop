@@ -14,11 +14,10 @@ class UserMapper {
    * @return user object.
    */
     static find(id, callback) {
-        UserTDG.find(id, function(err, result){
+        UserTDG.find(id, function(err, result) {
             if (err) {
                 console.log('Error during user find query', null);
-            }
-            else{
+            } else {
                 value = result.rows[0];
                 return callback(null, new User(value.id, value.isAdmin, value.firstName,
                     value.lastName, value.address, value.email, value.phoneNumber));
@@ -32,12 +31,11 @@ class UserMapper {
    * @return array of user objects.
    */
     static findAll(callback) {
-        UserTDG.findAll(function(err, result){
+        UserTDG.findAll(function(err, result) {
             let users = [];
             if (err) {
                 console.log('Error during user findALL query', null);
-            }
-            else {
+            } else {
                 for (let value of result) {
                     users.push(new User(value.id, value.isAdmin, value.firstName,
                         value.lastName, value.address, value.email, value.phoneNumber));

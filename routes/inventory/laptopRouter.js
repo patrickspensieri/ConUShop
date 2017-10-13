@@ -8,7 +8,7 @@ let LaptopMapper = require('../../domain-layer/mappers/LaptopMapper');
 router.get('/', function(req, res) {
     LaptopMapper.findAll(function(err, data) {
         res.render('catalogPages/laptopView', {
-            data: data
+            data: data,
         });
     });
 });

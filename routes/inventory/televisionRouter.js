@@ -8,7 +8,7 @@ let TelevisionMapper = require('../../domain-layer/mappers/TelevisionMapper');
 router.get('/', function(req, res) {
     TelevisionMapper.findAll(function(err, data) {
         res.render('catalogPages/televisionView', {
-            data: data
+            data: data,
         });
     });
 });

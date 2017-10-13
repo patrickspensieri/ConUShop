@@ -14,12 +14,11 @@ class LaptopMapper {
    * @return laptop object.
    */
     static find(id, callback) {
-        LaptopTDG.find(id, function(err, result){
+        LaptopTDG.find(id, function(err, result) {
             if (err) {
                 console.log('Error during laptop find query', null);
-            }
-            else{
-                value = result.rows[0];
+            } else {
+                let value = result[0];
                 return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
                     value.ram, value.storage, value.cores, value.os,
                     value.battery, value.camera, value.touch, value.dimensions,
@@ -34,12 +33,11 @@ class LaptopMapper {
    * @return array of laptop objects.
    */
     static findAll(callback) {
-        LaptopTDG.findAll(function(err, result){
+        LaptopTDG.findAll(function(err, result) {
             let laptops = [];
             if (err) {
                 console.log('Error during laptop findAll query', null);
-            }
-            else {
+            } else {
                 for (let value of result) {
                     laptops.push(new Laptop(value.model, value.brand, value.display, value.processor,
                         value.ram, value.storage, value.cores, value.os,

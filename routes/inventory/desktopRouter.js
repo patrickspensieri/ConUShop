@@ -8,7 +8,7 @@ let DesktopMapper = require('../../domain-layer/mappers/DesktopMapper');
 router.get('/', function(req, res) {
     DesktopMapper.findAll(function(err, data) {
         res.render('catalogPages/desktopView', {
-            data: data
+            data: data,
         });
     });
 });

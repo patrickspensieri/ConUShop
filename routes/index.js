@@ -1,15 +1,16 @@
-// routes/index.js
-// REGISTER ALL ROUTES
+let express = require('express');
+let router = express.Router();
 
-// require route files
-const products = require('./products');
+// Registering all routes
+router.use('/inventory/desktopView', require('./inventory/desktopRouter'));
+router.use('/inventory/laptopView', require('./inventory/laptopRouter'));
+router.use('/inventory/monitorView', require('./inventory/monitorRouter'));
+router.use('/inventory/tabletView', require('./inventory/tabletRouter'));
+router.use('/inventory/televisionView', require('./inventory/televisionRouter'));
+router.use('/users', require('./users'));
 
-// map path to route files
-module.exports = (app) => {
-    // map /products to products.js
-    app.use('/products', products);
-    // render home page
-    app.get('/', function(req, res) {
-        res.render('pages/index');
-    });
-};
+router.get('/', function(req, res) {
+    res.render('pages/index');
+});
+
+module.exports = router;
