@@ -1,4 +1,4 @@
-const Monitor = require('../../../domain-layer/classes/Monitor');
+const Monitor = require('../../../domain-layer/classes/monitor');
 
 describe('domain-layer: Monitor class unit tests', () => {
     it('construstructor returns an object', () => {
