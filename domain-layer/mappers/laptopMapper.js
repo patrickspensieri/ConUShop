@@ -1,5 +1,5 @@
-let Laptop = require('../../domain-layer/classes/Laptop');
-let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
+let Laptop = require('../../domain-layer/classes/laptop');
+let LaptopTDG = require('../../data-source-layer/TDG/laptopTDG');
 
 /**
  * Laptop object mapper
