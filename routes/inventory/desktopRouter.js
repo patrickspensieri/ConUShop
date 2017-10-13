@@ -13,16 +13,6 @@ router.get('/', function(req, res) {
     });
 });
 
-router.get('/:id/delete', function(req, res) {
-    DesktopMapper.find(req.params.id, function(err, data) {
-        let newDesktop = new Desktop(data.model, data.brand, data.processor, data.ram,
-            data.storage, data.cores, data.dimensions, data.weight, data.price);
-        DesktopMapper.delete(newDesktop);
-
-        res.redirect('/inventory/desktopView');
-    });
-});
-
 router.post('/', function(req, res) {
     let model = req.body.model;
     let brand = req.body.brand;

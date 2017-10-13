@@ -43,14 +43,4 @@ router.post('/', function(req, res) {
     }
 });
 
-router.get('/:id/delete', function(req, res) {
-    TelevisionMapper.find(req.params.id, function(err, data) {
-        let newtelevision = new Television(data.model, data.brand, data.dimensions, data.weight, data.price);
-
-        TelevisionMapper.delete(newtelevision);
-
-        res.redirect('/inventory/televisionView');
-    });
-});
-
 module.exports = router;
