@@ -1,4 +1,4 @@
-const Desktop = require('../../../domain-layer/classes/Desktop');
+const Desktop = require('../../../domain-layer/classes/desktop');
 
 describe('domain-layer: Desktop class unit tests', () => {
     it('construstructor returns an object', () => {
