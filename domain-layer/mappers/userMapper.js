@@ -1,5 +1,5 @@
-let User = require('../../domain-layer/classes/User');
-let UserTDG = require('../../data-source-layer/TDG/UserTDG');
+let User = require('../../domain-layer/classes/user');
+let UserTDG = require('../../data-source-layer/TDG/userTDG');
 
 /**
  * User object mapper
