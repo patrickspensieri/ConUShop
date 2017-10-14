@@ -1,5 +1,5 @@
-let User = require('../../domain-layer/classes/User');
-let UserTDG = require('../../data-source-layer/TDG/UserTDG');
+let User = require('../core/user');
+let UserTDG = require('../table-data-gateway/userTDG');
 
 /**
  * User object mapper
@@ -13,14 +13,14 @@ class UserMapper {
    * @param {string} id id of user to be found.
    * @return user object.
    */
-    static find(id, callback) {
-        UserTDG.find(id, function(err, result) {
+    static find(email, callback) {
+        UserTDG.find(email, function(err, result) {
             if (err) {
                 console.log('Error during user find query', null);
             } else {
-                value = result.rows[0];
-                return callback(null, new User(value.id, value.isAdmin, value.firstName,
-                    value.lastName, value.address, value.email, value.phoneNumber));
+                let value = result[0];
+                return callback(null, new User(value.firstName,
+                    value.lastName, value.address, value.email, value.phone, value.password, value.isAdmin));
             }
         });
     }
@@ -37,7 +37,7 @@ class UserMapper {
                 console.log('Error during user findALL query', null);
             } else {
                 for (let value of result) {
-                    users.push(new User(value.id, value.isAdmin, value.firstName,
+                    users.push(new User(value.isAdmin, value.firstName,
                         value.lastName, value.address, value.email, value.phoneNumber));
                 }
                 return callback(null, users);
@@ -76,6 +76,7 @@ class UserMapper {
     static delete(userObject) {
         UserTDG.delete(userObject.id);
     }
+
 }
 
 module.exports = UserMapper;

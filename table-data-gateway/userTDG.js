@@ -11,8 +11,8 @@ class UserTDG {
    * @static
    * @param {string} id id of user to be found.
    */
-    static find(id, callback) {
-        db.query('SELECT * FROM user WHERE id=$1', [id], (err, result) => {
+    static find(email, callback) {
+        db.query('SELECT * FROM users WHERE email=$1', [email], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {

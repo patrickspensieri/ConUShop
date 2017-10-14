@@ -1,5 +1,5 @@
-let Desktop = require('../../domain-layer/classes/Desktop');
-let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
+let Desktop = require('../core/products/desktop');
+let DesktopTDG = require('../table-data-gateway/desktopTDG');
 
 /**
  * Desktop object mapper
@@ -13,8 +13,8 @@ class DesktopMapper {
    * @param {string} id model number of desktop to be found.
    * @return desktop object.
    */
-    static find(id, callback) {
-        DesktopTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        DesktopTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during desktop find query', null);
             } else {

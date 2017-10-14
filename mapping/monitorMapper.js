@@ -1,5 +1,5 @@
-let Monitor = require('../../domain-layer/classes/Monitor');
-let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
+let Monitor = require('../core/products/monitor');
+let MonitorTDG = require('../table-data-gateway/monitorTDG');
 
 /**
  * Monitor object mapper
@@ -13,8 +13,8 @@ class MonitorMapper {
    * @param {string} id model number of monitor to be found.
    * @return monitor object.
    */
-    static find(id, callback) {
-        MonitorTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        MonitorTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during monitor find query', null);
             } else {

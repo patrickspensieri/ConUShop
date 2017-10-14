@@ -1,5 +1,5 @@
-let Television = require('../../domain-layer/classes/Television');
-let TelevisionTDG = require('../../data-source-layer/TDG/TelevisionTDG');
+let Television = require('../core/products/television');
+let TelevisionTDG = require('../table-data-gateway/televisionTDG');
 
 /**
  * Television object mapper
@@ -13,8 +13,8 @@ class TelevisionMapper {
    * @param {string} id model number of television to be found.
    * @return television object.
    */
-    static find(id, callback) {
-        TelevisionTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        TelevisionTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during television find query', null);
             } else {

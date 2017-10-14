@@ -11,8 +11,8 @@ class DesktopTDG {
    * @static
    * @param {string} id model number of desktop to be found.
    */
-    static find(id, callback) {
-        db.query('SELECT * FROM desktop WHERE model=$1', [id], (err, result) => {
+    static find(modelNumber, callback) {
+        db.query('SELECT * FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {

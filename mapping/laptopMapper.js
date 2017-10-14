@@ -1,5 +1,5 @@
-let Laptop = require('../../domain-layer/classes/Laptop');
-let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
+let Laptop = require('../core/products/laptop');
+let LaptopTDG = require('../table-data-gateway/laptopTDG');
 
 /**
  * Laptop object mapper
@@ -13,8 +13,8 @@ class LaptopMapper {
    * @param {string} id model number of laptop to be found.
    * @return laptop object.
    */
-    static find(id, callback) {
-        LaptopTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        LaptopTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during laptop find query', null);
             } else {

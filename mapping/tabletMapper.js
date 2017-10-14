@@ -1,5 +1,5 @@
-let Tablet = require('../../domain-layer/classes/Tablet');
-let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
+let Tablet = require('../core/products/tablet');
+let TabletTDG = require('../table-data-gateway/tabletTDG');
 
 /**
  * Tablet object mapper
@@ -13,8 +13,8 @@ class TabletMapper {
    * @param {string} id model number of tablet to be found.
    * @return tablet object.
    */
-    static find(id, callback) {
-        TabletTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        TabletTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during tablet find query', null);
             } else {

@@ -10,9 +10,9 @@
     <nav>
         <ul class="">
             <li role="navMenu"><a href="/">Dashboard</a></li>
-            <li role="navMenu"><a href="/users/logout">Logout</a></li>
-            <li role="navMenu"><a href="/users/login">Login</a></li>
-            <li role="navMenu"><a href="/users/register">Register</a></li>
+            <li role="navMenu"><a href="/account/logout">Logout</a></li>
+            <li role="navMenu"><a href="/account/login">Login</a></li>
+            <li role="navMenu"><a href="/account/register">Register</a></li>
         </ul>
     </nav>
 </div>
@@ -90,9 +90,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
                                     <div class="facts">
                                         <div class="register">
-                                            <form action="/users/login" method="post">
-                                                <input name="email" placeholder="Email Address" type="text" required="">
-                                                <input name="password" placeholder="Password" type="password" required="">
+                                            <form action="/account/login" method="post">
+                                                <input name="email" placeholder="email" type="text" required="">
+                                                <input name="password" placeholder="password" type="password" required="">
                                                 <div class="sign-up">
                                                     <input type="submit" value="Sign in"/>
                                                 </div>
@@ -103,7 +103,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-1">
                                     <div class="facts">
                                         <div class="register">
-                                            <form action="/users/register" method="post">
+                                            <form action="/account/register" method="post">
                                                 <input placeholder="First Name" name="firstName" type="text" required="">
                                                 <input placeholder="Last Name" name="lastName" type="text" required="">
                                                 <input placeholder="Email Address" name="email" type="email" required="">
@@ -188,7 +188,7 @@ potentially the script to start the login
             </div>
             <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                 <ul class="nav navbar-nav">
-                    <li><a href="/users/login" class="act">Home</a></li>
+                    <li><a href="/account/login" class="act">Home</a></li>
                     <!-- Mega Menu -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Products <b class="caret"></b></a>
