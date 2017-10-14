@@ -1,14 +1,14 @@
-let Desktop = require('../core/products/desktop');
-let Laptop = require('../core/products/laptop');
-let Monitor = require('../core/products/monitor');
-let Tablet = require('../core/products/tablet');
-let Television = require('../core/products/television');
+let Desktop = require('../domain-layer/classes/products/desktop');
+let Laptop = require('../domain-layer/classes/products/laptop');
+let Monitor = require('../domain-layer/classes/products/monitor');
+let Tablet = require('../domain-layer/classes/products/tablet');
+let Television = require('../domain-layer/classes/products/television');
 
-let desktopMapper = require('../mapping/desktopMapper');
-let laptopMapper = require('../mapping/laptopMapper');
-let monitorMapper = require('../mapping/monitorMapper');
-let tabletMapper = require('../mapping/tabletMapper');
-let televisionMapper = require('../mapping/televisionMapper');
+let desktopMapper = require('../domain-layer/mappers/desktopMapper');
+let laptopMapper = require('../domain-layer/mappers/laptopMapper');
+let monitorMapper = require('../domain-layer/mappers/monitorMapper');
+let tabletMapper = require('../domain-layer/mappers/tabletMapper');
+let televisionMapper = require('../domain-layer/mappers/televisionMapper');
 
 /**
  * Class describes a ProductCatalog.

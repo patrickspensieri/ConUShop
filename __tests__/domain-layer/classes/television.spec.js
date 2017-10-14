@@ -1,4 +1,4 @@
-const Television = require('../../../core/products/Television');
+const Television = require('../../../domain-layer/classes/products/Television');
 
 describe('domain-layer: Television class unit tests', () => {
     it('construstructor returns an object', () => {

@@ -1,5 +1,5 @@
-let Laptop = require('../core/products/laptop');
-let LaptopTDG = require('../table-data-gateway/laptopTDG');
+let Laptop = require('../domain-layer/classes/products/laptop');
+let LaptopTDG = require('../domain-source-layer/table-data-gateway/laptopTDG');
 
 /**
  * Laptop object mapper

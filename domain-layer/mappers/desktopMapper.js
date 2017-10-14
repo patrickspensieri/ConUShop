@@ -1,5 +1,5 @@
-let Desktop = require('../core/products/desktop');
-let DesktopTDG = require('../table-data-gateway/desktopTDG');
+let Desktop = require('../domain-layer/classes/products/desktop');
+let DesktopTDG = require('../domain-source-layer/table-data-gateway/desktopTDG');
 
 /**
  * Desktop object mapper

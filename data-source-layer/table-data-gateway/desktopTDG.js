@@ -1,4 +1,4 @@
-let db = require('../db/index');
+let db = require('../data-source-layer/db/index');
 
 /**
  * Desktop table data gateway

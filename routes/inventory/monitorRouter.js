@@ -1,8 +1,8 @@
 let express = require('express');
 let router = express.Router();
 
-let Monitor = require('../../core/products/Monitor');
-let MonitorMapper = require('../../mapping/MonitorMapper');
+let Monitor = require('../../domain-layer/classes/products/Monitor');
+let MonitorMapper = require('../../domain-layer/mappers/MonitorMapper');
 
 
 router.get('/', function(req, res) {

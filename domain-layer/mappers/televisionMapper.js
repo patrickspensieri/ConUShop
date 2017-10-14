@@ -1,5 +1,5 @@
-let Television = require('../core/products/television');
-let TelevisionTDG = require('../table-data-gateway/televisionTDG');
+let Television = require('../domain-layer/classes/products/television');
+let TelevisionTDG = require('../domain-source-layer/table-data-gateway/televisionTDG');
 
 /**
  * Television object mapper

@@ -1,8 +1,8 @@
 let express = require('express');
 let router = express.Router();
 
-let Television = require('../../core/products/Television');
-let TelevisionMapper = require('../../mapping/TelevisionMapper');
+let Television = require('../../domain-layer/classes/products/Television');
+let TelevisionMapper = require('../../domain-layer/mappers/TelevisionMapper');
 
 
 router.get('/', function(req, res) {
