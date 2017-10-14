@@ -1,5 +1,5 @@
 let User = require('./User');
-let userMapper = require('../domain-layer/mappers/userMapper');
+let userMapper = require('../../domain-layer/mappers/UserMapper');
 let bcrypt = require('bcryptjs');
 
 /**

@@ -1,5 +1,5 @@
-let Monitor = require('../domain-layer/classes/products/monitor');
-let MonitorTDG = require('../domain-source-layer/table-data-gateway/monitorTDG');
+let Monitor = require('../../domain-layer/classes/products/Monitor');
+let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
 
 /**
  * Monitor object mapper

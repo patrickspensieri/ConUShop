@@ -2,8 +2,8 @@ let express = require('express');
 let router = new express.Router();
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
-let UserMapper = require('../domain-layer/mappers/userMapper');
-let register = require('../domain-layer/Register');
+let UserMapper = require('../domain-layer/mappers/UserMapper');
+let register = require('../domain-layer/classes/Register');
 let bcrypt = require('bcryptjs');
 
 // configure local strategy

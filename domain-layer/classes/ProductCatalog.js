@@ -1,14 +1,14 @@
-let Desktop = require('../domain-layer/classes/products/desktop');
-let Laptop = require('../domain-layer/classes/products/laptop');
-let Monitor = require('../domain-layer/classes/products/monitor');
-let Tablet = require('../domain-layer/classes/products/tablet');
-let Television = require('../domain-layer/classes/products/television');
+let Desktop = require('../domain-layer/classes/products/Desktop');
+let Laptop = require('../domain-layer/classes/products/Laptop');
+let Monitor = require('../domain-layer/classes/products/Monitor');
+let Tablet = require('../domain-layer/classes/products/Tablet');
+let Television = require('../domain-layer/classes/products/Television');
 
-let desktopMapper = require('../domain-layer/mappers/desktopMapper');
-let laptopMapper = require('../domain-layer/mappers/laptopMapper');
-let monitorMapper = require('../domain-layer/mappers/monitorMapper');
-let tabletMapper = require('../domain-layer/mappers/tabletMapper');
-let televisionMapper = require('../domain-layer/mappers/televisionMapper');
+let desktopMapper = require('../domain-layer/mappers/DesktopMapper');
+let laptopMapper = require('../domain-layer/mappers/LaptopMapper');
+let monitorMapper = require('../domain-layer/mappers/MonitorMapper');
+let tabletMapper = require('../domain-layer/mappers/TabletMapper');
+let televisionMapper = require('../domain-layer/mappers/TelevisionMapper');
 
 /**
  * Class describes a ProductCatalog.
@@ -17,65 +17,93 @@ let televisionMapper = require('../domain-layer/mappers/televisionMapper');
  */
 class ProductCatalog {
 
-
-    constructor() {
+    static transactionComplete() {
+        this.transactionEnded = true;
+    }
+    static newTransaction(productType) {
+        this.productType = productType;
         this.transactionEnded = false;
     }
 
-    static  transactionComplete() {
-        transactionEnded = true;
-    }
-    static newTransaction(productType) {
+    static createProductSpecification(model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
 
-        let prodType = modelNumber.substring(0,2);
-
-        switch(prodType) {
+        switch(this.productType) {
             case "Desktop":
                 this.desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+                desktopMapper.insert(this.desktop);
                 break;
             case "Laptop":
                 this.laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
+                laptopMapper.insert(this.laptop);
                 break;
             case "Monitor":
                 this.monitor = new Monitor(model, brand, size, weight, price);
+                monitorMapper.insert(this.monitor);
                 break;
             case "Tablet":
                 this.tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+                tabletMapper.insert(this.tablet);
                 break;
-            case "television":
+            case "Television":
                 this.television = Television(model, brand, dimensions, weight, price);
+                televisionMapper.insert(this.television);
                 break;
         }
-        return transactionEnded;
+
+        transactionComplete();
     }
 
-    static createDesktop(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
-        desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
-        desktopMapper.insert(desktop);
+    static updateProductSpecification(model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
+
+        let tempProduct = findProductSpecification(model);
+
+        switch(this.productType) {
+            case "Desktop":
+                desktopMapper.update(tempProduct);
+                break;
+            case "Laptop":
+                laptopMapper.update(tempProduct);
+                break;
+            case "Monitor":
+                monitorMapper.update(tempProduct);
+                break;
+            case "Tablet":
+                tabletMapper.update(tempProduct);
+                break;
+            case "Television":
+                televisionMapper.update(tempProduct);
+                break;
+        }
+
+        transactionComplete();
     }
 
-    static createLaptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
-        laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
-        laptopMapper.insert(laptop);
+    static updateProductSpecification(model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
+
+        let tempProduct = findProductSpecification(model);
+
+        switch(this.productType) {
+            case "Desktop":
+                desktopMapper.delete(tempProduct);
+                break;
+            case "Laptop":
+                laptopMapper.delete(tempProduct);
+                break;
+            case "Monitor":
+                monitorMapper.delete(tempProduct);
+                break;
+            case "Tablet":
+                tabletMapper.delete(tempProduct);
+                break;
+            case "Television":
+                televisionMapper.delete(tempProduct);
+                break;
+        }
+
+        transactionComplete();
     }
 
-    static createMonitor(model, brand, size, weight, price) {
-        monitor = new Monitor(model, brand, size, weight, price);
-        monitorMapper.insert(monitor);
-    }
-
-    static createTablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
-        tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
-        tabletMapper.insert(tablet);
-    }
-
-    static createTelevision(model, brand, dimensions, weight, price) {
-        television = Television(model, brand, dimensions, weight, price);
-        televisionMapper.insert(television);
-    }
-
-    static findProductSpecification(modelNumber)
-{
+    static findProductSpecification(modelNumber) {
     let prodType = modelNumber.substring(0, 2);
 
     switch (prodType) {
@@ -132,7 +160,6 @@ class ProductCatalog {
             })
             break;
         }
-
     }
 }
 

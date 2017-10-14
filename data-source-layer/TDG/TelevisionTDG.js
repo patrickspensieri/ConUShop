@@ -1,4 +1,4 @@
-let db = require('../data-source-layer/db/index');
+let db = require('../../data-source-layer/db/index');
 
 /**
  * Television table data gateway

@@ -1,5 +1,5 @@
-let Tablet = require('../domain-layer/classes/products/tablet');
-let TabletTDG = require('../domain-source-layer/table-data-gateway/tabletTDG');
+let Tablet = require('../../domain-layer/classes/products/Tablet');
+let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
 
 /**
  * Tablet object mapper
