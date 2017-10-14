@@ -8,16 +8,6 @@ function deleteDesktop(id) {
     });
 }
 
-function deleteTelevision(id) {
-    $.post({
-        url: '/inventory/televisionView/delete',
-        data: {id: id},
-        success: function(response){
-            window.location.href = response.redirect;
-        }
-    });
-}
-
 function deleteMonitor(id) {
     $.post({
         url: '/inventory/monitorView/delete',

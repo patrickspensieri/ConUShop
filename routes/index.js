@@ -6,7 +6,6 @@ router.use('/inventory/desktopView', require('./inventory/desktopRouter'));
 router.use('/inventory/laptopView', require('./inventory/laptopRouter'));
 router.use('/inventory/monitorView', require('./inventory/monitorRouter'));
 router.use('/inventory/tabletView', require('./inventory/tabletRouter'));
-router.use('/inventory/televisionView', require('./inventory/televisionRouter'));
 router.use('/users', require('./users'));
 
 router.get('/', function(req, res) {
