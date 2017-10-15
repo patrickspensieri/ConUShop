@@ -1,34 +1,57 @@
-var express = require('express');
-var app = express();
-var { Client } = require('pg');
-var client = new Client({
-    connectionString : "postgres://kkpbujauwlnekb:8c221de6a032ef270df3d9c1048336529f38477b7adbddade13a3c6d22d52f27@ec2-54-243-255-57.compute-1.amazonaws.com:5432/d3n2v1itic5914",
-    ssl: true
-})
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let expressValidator = require('express-validator');
+let session = require('express-session');
+let passport = require('passport');
 
+let express = require('express');
+let app = express();
+// read environment values from .env
+require('dotenv').config();
+
+// set port from .env, default to 5000
 app.set('port', (process.env.PORT || 5000));
-
-app.use(express.static(__dirname + '/public'));
-
-
-app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/presentation-layer/assets'));
+app.set('views', __dirname + '/presentation-layer/views');
 app.set('view engine', 'ejs');
-
-client.connect();
-
-client.query('SELECT * FROM television', (err, result) => {
-    if (err) throw err;
-    for (let row of result.rows) {
-        console.log(JSON.stringify(row));
-    }
-//,{jsonData: JSON.parse(JSON.stringify(result)).rows}
-    client.end();
-});
-
-app.get('/', function(request, response) {
-    response.render('pages/index');
-});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+// BodyParser Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
+
+// Express Session
+app.use(session({
+    // TODO does secret need to be in .env?
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true,
+}));
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Express Validator
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        let namespace = param.split('.');
+        let root = namespace.shift();
+        let formParam = root;
+
+        while (namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param: formParam,
+            msg: msg,
+            value: value,
+        };
+    },
+}));
+
+app.use(require('./routes'));

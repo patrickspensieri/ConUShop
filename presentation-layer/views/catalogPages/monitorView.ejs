@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
+
+<body>
+
+<div class="">
+    <nav>
+        <ul class="">
+            <li role="navMenu"><a href="/users/dashboard">Dashboard</a></li>
+            <li role="navMenu"><a href="/users/logout">Logout</a></li>
+            <li role="navMenu"><a href="/users/login">Login</a></li>
+            <li role="navMenu"><a href="/users/register">Register</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="jumbotron text-center">
+    <h1>CONU SHOP PLACEHOLDER</h1>
+    <!--%= jsonData %-->
+</div>
+
+<form method="post" action="/inventory/monitorView">
+    <div class="AddMonitor">
+        <label>modeNumber</label>
+        <input type="text" class="" name="model" placeholder="model">
+    </div>
+    <div class="AddMonitor">
+        <label>brand</label>
+        <input type="text" class="" name="brand" placeholder="brand">
+    </div>
+    <div class="AddMonitor">
+        <label>size</label>
+        <input type="text" class="" name="size" placeholder="size">
+    </div>
+    <div class="AddMonitor">
+        <label>weight</label>
+        <input type="text" class="" name="weight" placeholder="weight">
+    </div>
+    <div class="AddMonitor">
+        <label>price</label>
+        <input type="text" class="" name="price" placeholder="price">
+    </div>
+    <button type="submit" class="">Add new Monitor item</button>
+</form></br>
+<div>
+    <% if (typeof data!='undefined') { %>
+        <table>
+            <tr>
+                <td>Model</td>
+                <td>Brand</td>
+                <td>Size</td>
+                <td>Weight</td>
+                <td>Price</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+        <% for(var i = 0; i < data.length; i++) { %> 
+            <tr>
+                <td><%= data[i].model %></td>
+                <td><%= data[i].brand %></td>
+                <td><%= data[i].size %></td>
+                <td><%= data[i].weight %></td>
+                <td><%= data[i].price %></td>
+                <td><button>Edit</button></td>
+                <td><button onclick="deleteMonitor('<%= data[i].model %>')">Delete</button></td>
+            </tr>
+        <% } %>
+        </table>
+    <% } %>
+</div>
+</body>
+</html>

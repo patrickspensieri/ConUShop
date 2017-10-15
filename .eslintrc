@@ -1,0 +1,9 @@
+{
+    "env": {
+        "es6": true
+    },
+    "rules": {
+        "max-len": [ WARN, 132 ],
+    },
+    "extends": "google"
+}

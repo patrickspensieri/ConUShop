@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
+
+<body>
+
+<div class="">
+    <nav>
+        <ul class="">
+            <li role="navMenu"><a href="/users/dashboard">Dashboard</a></li>
+            <li role="navMenu"><a href="/users/logout">Logout</a></li>
+            <li role="navMenu"><a href="/users/login">Login</a></li>
+            <li role="navMenu"><a href="/users/register">Register</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="jumbotron text-center">
+    <h1>CONU SHOP PLACEHOLDER</h1>
+    <!--%= jsonData %-->
+</div>
+
+<form method="post" action="/inventory/tabletView">
+    <div class="AddTablet">
+        <label>modeNumber</label>
+        <input type="text" class="" name="model" placeholder="model">
+    </div>
+    <div class="AddTablet">
+        <label>brand</label>
+        <input type="text" class="" name="brand" placeholder="brand">
+    </div>
+    <div class="AddTablet">
+        <label>display</label>
+        <input type="text" class="" name="display" placeholder="display">
+    </div>
+    <div class="AddTablet">
+        <label>processor</label>
+        <input type="text" class="" name="processor" placeholder="processor">
+    </div>
+    <div class="AddTablet">
+        <label>ram</label>
+        <input type="text" class="" name="ram" placeholder="ram">
+    </div>
+    <div class="AddTablet">
+        <label>storage</label>
+        <input type="text" class="" name="storage" placeholder="storage">
+    </div>
+    <div class="AddTablet">
+        <label>cores</label>
+        <input type="text" class="" name="cores" placeholder="cores">
+    </div>
+    <div class="AddTablet">
+        <label>os</label>
+        <input type="text" class="" name="os" placeholder="os">
+    </div>
+    <div class="AddTablet">
+        <label>battery</label>
+        <input type="text" class="" name="battery" placeholder="battery">
+    </div>
+    <div class="AddTablet">
+        <label>camera</label>
+        <input type="text" class="" name="camera" placeholder="camera">
+    </div>
+    <div class="AddTablet">
+        <label>dimensions</label>
+        <input type="text" class="" name="dimensions" placeholder="dimensions">
+    </div>
+    <div class="AddTablet">
+        <label>weight</label>
+        <input type="text" class="" name="weight" placeholder="weight">
+    </div>
+    <div class="AddTablet">
+        <label>price</label>
+        <input type="text" class="" name="price" placeholder="price">
+    </div>
+    <button type="submit" class="">Add new Tablet item</button>
+</form></br>
+<div>
+    <% if (typeof data!='undefined') { %>
+        <table>
+            <tr>
+                <td>Model</td>
+                <td>Brand</td>
+                <td>Display</td>
+                <td>Processor</td>
+                <td>Ram</td>
+                <td>Storage</td>
+                <td>Cores</td>
+                <td>OS</td>
+                <td>Battery</td>
+                <td>Camera</td>
+                <td>Dimensions</td>
+                <td>Weight</td>
+                <td>Price</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+        <% for(var i = 0; i < data.length; i++) { %> 
+            <tr>
+                <td><%= data[i].model %></td>
+                <td><%= data[i].brand %></td>
+                <td><%= data[i].display %></td>
+                <td><%= data[i].processor %></td>
+                <td><%= data[i].ram %></td>
+                <td><%= data[i].storage %></td>
+                <td><%= data[i].cores %></td>
+                <td><%= data[i].os %></td>
+                <td><%= data[i].battery %></td>
+                <td><%= data[i].camera %></td>
+                <td><%= data[i].dimensions %></td>
+                <td><%= data[i].weight %></td>
+                <td><%= data[i].price %></td>
+                <td><button>Edit</button></td>
+                <td><button onclick="deleteTablet('<%= data[i].model %>')">Delete</button></td>
+            </tr>
+        <% } %>
+        </table>
+    <% } %>
+</div>
+</body>
+</html>

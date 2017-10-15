@@ -28,10 +28,7 @@ TODO: Write history
 
 ## Domain
 
-www.conu.shop<br>
-Currently redirects to GitHub repository<br>
-https://conu-shop.herokuapp.com/<br>
-Test deployment
+* www.conu.shop
 
 ## Credits
 
