@@ -9,11 +9,14 @@
 <body>
 
 <div class="jumbotron text-center">
-    <h1>CONU SHOP PLACEHOLDER</h1>
     <!--%= jsonData %-->
 </div>
 
-<form method="post" action="/catalog/addDesktopProdSpec">
+<form method="post" action="/catalog/addProdSpec">
+    <div class="AddLaptop">
+        <label>Product Table: </label>
+        <input type="text" class="" name="formProductType" value="Laptop" readonly>
+    </div>
     <div class="AddLaptop">
         <label>modeNumber</label>
         <input type="text" class="" name="model" placeholder="model">
@@ -75,8 +78,8 @@
 <div>
     <% if (typeof data!='undefined') { %>
         <table>
-            <tr>
-                <td>Model</td>
+            <tr contenteditable='true'>
+                <td contenteditable='false'>Model</td>
                 <td>Brand</td>
                 <td>Display</td>
                 <td>Processor</td>
@@ -109,8 +112,8 @@
                 <td><%= data[i].dimensions %></td>
                 <td><%= data[i].weight %></td>
                 <td><%= data[i].price %></td>
-                <td><button>Edit</button></td>
-                <td><button onclick="deleteProdSpec('Laptop', '<%= data[i].model %>')">Delete</button></td>
+                <td><button onclick="updateProdSpec('Laptop', '<%= data[i] %>', '/catalog/laptopView')">Edit</button></td>
+                <td><button onclick="deleteProdSpec('Laptop', '<%= data[i].model %>', '/catalog/laptopView')">Delete</button></td>
             </tr>
         <% } %>
         </table>

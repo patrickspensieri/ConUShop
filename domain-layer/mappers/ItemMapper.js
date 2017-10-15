@@ -1,9 +1,9 @@
-let Item = require('../../domain-layer/classes/products/Item');
+let Item = require('../../domain-layer/classes/Item');
 let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
 
 /**
- * Laptop object mapper
- * @class LaptopMapper
+ * Item object mapper
+ * @class ItemMapper
  * @export
  */
 class ItemMapper {
@@ -36,8 +36,9 @@ class ItemMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    items.push(new Item(value.serialNumber, value.modelNumber));
+                    items.push(new Item(value.serialnumber, value.modelnumber));
                 }
+                console.log(items);
                 return callback(null, items);
             }
         });
@@ -49,6 +50,8 @@ class ItemMapper {
      * @param {Object} itemObject an object of type item.
      */
     static insert(itemObject) {
+        console.log(itemObject.serialNumber);
+        console.log(itemObject.modelNumber);
         ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber);
     }
 
@@ -57,8 +60,8 @@ class ItemMapper {
      * @static
      * @param {Object} itemObject an object of type item.
      */
-    static delete(itemObject) {
-        ItemTDG.delete(itemObject.serialNumber);
+    static delete(serialNumber) {
+        ItemTDG.delete(serialNumber);
     }
 }
 

@@ -3,12 +3,14 @@ let Laptop = require('../../domain-layer/classes/products/Laptop');
 let Monitor = require('../../domain-layer/classes/products/Monitor');
 let Tablet = require('../../domain-layer/classes/products/Tablet');
 let Television = require('../../domain-layer/classes/products/Television');
+let Item = require('../../domain-layer/classes/Item');
 
 let desktopMapper = require('../../domain-layer/mappers/DesktopMapper');
 let laptopMapper = require('../../domain-layer/mappers/LaptopMapper');
 let monitorMapper = require('../../domain-layer/mappers/MonitorMapper');
 let tabletMapper = require('../../domain-layer/mappers/TabletMapper');
 let televisionMapper = require('../../domain-layer/mappers/TelevisionMapper');
+let itemMapper = require('../../domain-layer/mappers/ItemMapper');
 
 /**
  * Class describes a ProductCatalog.
@@ -17,18 +19,9 @@ let televisionMapper = require('../../domain-layer/mappers/TelevisionMapper');
  */
 class ProductCatalog {
 
-    static transactionComplete() {
-        this.transactionEnded = true;
-    }
+    static createProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
 
-    static newTransaction(productType) {
-        this.productType = productType;
-        this.transactionEnded = false;
-    }
-
-    static createProductSpecification(model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
-
-        switch(this.productType) {
+        switch(productType) {
             case "Desktop":
                 this.desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
                 desktopMapper.insert(this.desktop);
@@ -46,17 +39,16 @@ class ProductCatalog {
                 tabletMapper.insert(this.tablet);
                 break;
             case "Television":
-                this.television = Television(model, brand, dimensions, weight, price);
+                this.television = new Television(model, brand, dimensions, weight, price);
                 televisionMapper.insert(this.television);
                 break;
         }
 
-        transactionComplete();
     }
 
-    static updateProductSpecification(model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
+    static updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
 
-        switch(this.productType) {
+        switch(productType) {
             case "Desktop":
                 this.desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
                 desktopMapper.update(this.desktop);
@@ -78,87 +70,85 @@ class ProductCatalog {
                 televisionMapper.update(this.television);
                 break;
         }
-
-        transactionComplete();
     }
 
-    static deleteProductSpecification(model) {
+    static deleteProductSpecification(productType, model) {
 
-        let tempProduct = findProductSpecification(model);
+        this.findProductSpecification(productType, model, function callback(err, result){
 
-        switch(this.productType) {
-            case "Desktop":
-                desktopMapper.delete(tempProduct);
-                break;
-            case "Laptop":
-                laptopMapper.delete(tempProduct);
-                break;
-            case "Monitor":
-                monitorMapper.delete(tempProduct);
-                break;
-            case "Tablet":
-                tabletMapper.delete(tempProduct);
-                break;
-            case "Television":
-                televisionMapper.delete(tempProduct);
-                break;
-        }
-        transactionComplete();
+            switch(productType) {
+                case "Desktop":
+                    desktopMapper.delete(result);
+                    break;
+                case "Laptop":
+                    laptopMapper.delete(result);
+                    break;
+                case "Monitor":
+                    monitorMapper.delete(result);
+                    break;
+                case "Tablet":
+                    tabletMapper.delete(result);
+                    break;
+                case "Television":
+                    televisionMapper.delete(result);
+                    break;
+            }
+        });
+
     }
 
-    static findProductSpecification(modelNumber) {
-    let prodType = modelNumber.substring(0, 2);
+    static findProductSpecification(productType, modelNumber, callback) {
 
-    switch (prodType) {
-        case "DS":
+    switch (productType) {
+        case "Desktop":
             desktopMapper.find(modelNumber, function (err, result) {
                 if (err) {
                     console.log('Error during desktop find query', null);
                 }
                 else {
-                    return result;
+                    return callback(null, result);
                 }
             })
             break;
 
-        case "LP":
+        case "Laptop":
             laptopMapper.find(modelNumber, function (err, result) {
                 if (err) {
                     console.log('Error during laptop find query', null);
                 }
                 else {
-                    return result;
+                    return callback(null, result);
                 }
             })
             break;
 
-        case "MN":
+        case "Monitor":
             monitorMapper.find(modelNumber, function (err, result) {
                 if (err) {
                     console.log('Error during monitor find query', null);
                 }
                 else {
-                    return result;
+                    return callback(null, result);
                 }
             })
             break;
-        case "TB":
+        case "Tablet":
             tabletMapper.find(modelNumber, function (err, result) {
                 if (err) {
                     console.log('Error during tablet find query', null);
                 }
                 else {
-                    return result;
+                    return callback(null, result);
                 }
             })
             break;
-        case "TV":
+        case "Television":
             televisionMapper.find(modelNumber, function (err, result) {
                 if (err) {
                     console.log('Error during television find query', null);
                 }
                 else {
-                    return result;
+                    return callback(null, result);
                 }
             })
             break;
@@ -210,6 +200,28 @@ class ProductCatalog {
                 break;
         }
     }
+
+
+    static addItem(serialNumber, modelNumber) {
+        this.item = new Item(serialNumber, modelNumber);
+        console.log(this.item);
+        itemMapper.insert(this.item);
+    }
+
+    static deleteItem(serialNumber) {
+        itemMapper.delete(serialNumber);
+    }
+
+    static getItems(callback)
+    {
+        itemMapper.findAll(function(err, data) {
+            if(err){
+                throw err;
+            }
+            return callback(null, data)
+        });
+    }
+
 }
 
 module.exports = ProductCatalog;

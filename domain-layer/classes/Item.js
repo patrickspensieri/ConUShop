@@ -15,6 +15,7 @@ class Item {
      * To be run on an instance of item.
      * @method display
      */
+
     display() {
         console.log(this.serialNumber + ' ' + this.modelNumber);
     }

@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
 </head>
 
 <body>
 
-
 <div class="jumbotron text-center">
-    <h1>CONU SHOP PLACEHOLDER</h1>
     <!--%= jsonData %-->
 </div>
 
 <form method="post" action="/catalog/addProdSpec">
     <div class="AddDesktop">
-        <label>modeNumber</label>
+        <label>Product Table: </label>
+        <input type="text" class="" name="formProductType" value="Desktop" readonly>
+    </div>
+    <div class="AddDesktop">
+        <label>modelNumber</label>
         <input type="text" class="" name="model" placeholder="model">
     </div>
     <div class="AddDesktop">
@@ -53,8 +57,8 @@
 </form></br>
 <div>
     <% if (typeof data!='undefined') { %>
-        <table>
-            <tr>
+        <table contenteditable="true">
+            <tr contenteditable="false">
                 <td>Model</td>
                 <td>Brand</td>
                 <td>Processor</td>
@@ -78,8 +82,8 @@
                 <td><%= data[i].dimensions %></td>
                 <td><%= data[i].weight %></td>
                 <td><%= data[i].price %></td>
-                <td><button>Edit</button></td>
-                <td><button onclick="deleteProdSpec('Desktop', '<%= data[i].model %>')">Delete</button></td>
+                <td contenteditable="false"><button onclick="updateProdSpec('Desktop', rowData, '/catalog/desktopView')">Edit</button></td>
+                <td contenteditable="false"><button onclick="deleteProdSpec('Desktop', '<%= data[i].model %>', '/catalog/desktopView')">Delete</button></td>
             </tr>
         <% } %>
         </table>

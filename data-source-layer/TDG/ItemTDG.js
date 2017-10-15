@@ -12,7 +12,7 @@ class ItemTDG {
      * @param {string} id serial number of item to be found.
      */
     static find(serialNumber) {
-        db.query('SELECT * FROM item WHERE serialNumber=$1', [serialNumber], (err, result) => {
+        db.query('SELECT * FROM item WHERE serialnumber=$1', [serialNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -43,8 +43,8 @@ class ItemTDG {
 
      */
     static insert(serialNumber, modelNumber) {
-        let queryString = 'INSERT INTO item (serialNumber, modelNumber) VALUES($1, $2)';
-        let queryValues = [model, serialNumber];
+        let queryString = 'INSERT INTO item (serialnumber, modelnumber) VALUES($1, $2)';
+        let queryValues = [serialNumber, modelNumber];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {

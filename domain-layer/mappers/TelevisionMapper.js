@@ -51,7 +51,7 @@ class TelevisionMapper {
    * @param {Object} televisionObject an object of type television.
    */
     static insert(televisionObject) {
-        TelevisionTDG.insert(televisionObject.model, televisionObject.brand, televisionObject.dimensions,
+      TelevisionTDG.insert(televisionObject.model, televisionObject.brand, televisionObject.dimensions,
             televisionObject.weight, televisionObject.price);
     }
 
