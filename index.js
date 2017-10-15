@@ -29,7 +29,7 @@ app.use(session({
     // TODO does secret need to be in .env?
     secret: 'secret',
     saveUninitialized: true,
-    resave: true
+    resave: true,
 }));
 
 // Passport init

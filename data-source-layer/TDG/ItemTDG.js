@@ -9,7 +9,7 @@ class ItemTDG {
     /**
      * Finds one object from the Item table.
      * @static
-     * @param {string} id serial number of item to be found.
+     * @param {string} serialNumber serial number of item to be found.
      */
     static find(serialNumber) {
         db.query('SELECT * FROM item WHERE serialnumber=$1', [serialNumber], (err, result) => {
@@ -24,6 +24,7 @@ class ItemTDG {
     /**
      * Finds all objects from the item table.
      * @static
+     * @param {function} callback function
      */
     static findAll(callback) {
         db.query('SELECT * FROM item', (err, result) => {
@@ -38,8 +39,8 @@ class ItemTDG {
     /**
      * Inserts an object into the item table.
      * @static
-     * @param {string} model number of product description.
-     * @param {string} serialNumber of item.
+     * @param {string} serialNumber number of product.
+     * @param {string} modelNumber of product description.
 
      */
     static insert(serialNumber, modelNumber) {
@@ -56,7 +57,7 @@ class ItemTDG {
     /**
      * Deletes an objects in the item table.
      * @static
-     * @param {string} id serial number of item to be deleted.
+     * @param {string} serialNumber serial number of item to be deleted.
      */
     static delete(serialNumber) {
         db.query('DELETE FROM item WHERE serialNumber=$1', [serialNumber], (err, result) =>{

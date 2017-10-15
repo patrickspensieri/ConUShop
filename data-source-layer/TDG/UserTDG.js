@@ -9,7 +9,7 @@ class UserTDG {
   /**
    * Finds one object from the user table.
    * @static
-   * @param {string} id id of user to be found.
+   * @param {string} modelNumber Model Number of user to be found.
    */
     static find(email, callback) {
         db.query('SELECT * FROM users WHERE email=$1', [email], (err, result) => {

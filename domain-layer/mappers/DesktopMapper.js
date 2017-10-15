@@ -10,7 +10,7 @@ class DesktopMapper {
   /**
    * Maps the returned value to an object of type desktop.
    * @static
-   * @param {string} id model number of desktop to be found.
+   * @param {string} modelNumber model number of desktop to be found.
    * @return desktop object.
    */
     static find(modelNumber, callback) {

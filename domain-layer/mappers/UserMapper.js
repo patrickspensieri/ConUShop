@@ -10,7 +10,7 @@ class UserMapper {
   /**
    * Maps the returned value to an object of type user.
    * @static
-   * @param {string} id id of user to be found.
+   * @param {string} email of user to be found.
    * @return user object.
    */
     static find(email, callback) {
@@ -76,7 +76,6 @@ class UserMapper {
     static delete(userObject) {
         UserTDG.delete(userObject.id);
     }
-
 }
 
 module.exports = UserMapper;

@@ -50,8 +50,6 @@ class ItemMapper {
      * @param {Object} itemObject an object of type item.
      */
     static insert(itemObject) {
-        console.log(itemObject.serialNumber);
-        console.log(itemObject.modelNumber);
         ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber);
     }
 

@@ -49,6 +49,12 @@ passport.deserializeUser(function(email, done) {
 // TODO move logic to controllers
 // TODO protect routes
 
+
+router.get('/TempClientPage', function(req, res) {
+    req.logout();
+    res.render('pages/TempClientPage');
+});
+
 // Login
 router.get('/login', function(req, res) {
     res.render('pages/login');
@@ -73,7 +79,6 @@ router.post('/logout',
 
 // Get Dashboard
 router.get('/adminDashboard', ensureAuthenticated, function(req, res) {
-
     res.render('pages/adminDashboard');
 });
 
@@ -109,7 +114,6 @@ router.post('/register', function(req, res) {
             errors: errors,
         });
     } else {
-
         register.createNewUser(firstName, lastName, address, email, phone, password, isAdmin, function(err, user) {
             if (err) throw err;
         });
@@ -131,28 +135,24 @@ comparePassword = function(candidatePassword, hash, callback) {
 
 /**
  * Ensure the user is logged in and prevent him from accessing pages
- * @param req
- * @param res
- * @param next
- * @returns {*}
+ * @param  {path} req
+ * @param  {path} res
+ * @param  {path} next
  */
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-
-        UserMapper.find(req.user.email, function (err, user) {
+        UserMapper.find(req.user.email, function(err, user) {
             if (err) {
                 throw err;
             }
 
             if (user.isAdmin) {
                 return next();
+            } else {
+                res.redirect('/account/TempClientPage');
             }
-            else{
-                res.redirect('/');
-            }
-        })
-    }
-    else{
+        });
+    } else {
         res.redirect('/');
     }
 }

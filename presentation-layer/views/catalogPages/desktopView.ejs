@@ -57,7 +57,7 @@
 </form></br>
 <div>
     <% if (typeof data!='undefined') { %>
-        <table contenteditable="true">
+        <table contenteditable="true" id="prodTable">
             <tr contenteditable="false">
                 <td>Model</td>
                 <td>Brand</td>
@@ -82,7 +82,7 @@
                 <td><%= data[i].dimensions %></td>
                 <td><%= data[i].weight %></td>
                 <td><%= data[i].price %></td>
-                <td contenteditable="false"><button onclick="updateProdSpec('Desktop', rowData, '/catalog/desktopView')">Edit</button></td>
+                <td contenteditable="false"><button onclick="updateProdSpec('Desktop', '<%= i %>', '/catalog/desktopView')">Edit</button></td>
                 <td contenteditable="false"><button onclick="deleteProdSpec('Desktop', '<%= data[i].model %>', '/catalog/desktopView')">Delete</button></td>
             </tr>
         <% } %>

@@ -9,7 +9,7 @@ class MonitorTDG {
   /**
    * Finds one object from the monitor table.
    * @static
-   * @param {string} id model number of monitor to be found.
+   * @param {string} modelNumber model number of monitor to be found.
    */
     static find(modelNumber, callback) {
         db.query('SELECT * FROM monitor WHERE model=$1', [modelNumber], (err, result) => {

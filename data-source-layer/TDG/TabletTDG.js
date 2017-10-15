@@ -9,7 +9,7 @@ class TabletTDG {
   /**
    * Finds one object from the tablet table.
    * @static
-   * @param {string} id model number of tablet to be found.
+   * @param {string} modelNumber model number of tablet to be found.
    */
     static find(modelNumber, callback) {
         db.query('SELECT * FROM tablet WHERE model=$1', [modelNumber], (err, result) => {

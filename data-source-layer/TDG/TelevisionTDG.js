@@ -9,7 +9,7 @@ class TelevisionTDG {
   /**
    * Finds one object from the television table.
    * @static
-   * @param {string} id model number of television to be found.
+   * @param {string} modelNumber model number of television to be found.
    */
     static find(modelNumber, callback) {
         db.query('SELECT * FROM television WHERE model=$1', [modelNumber], (err, result) => {

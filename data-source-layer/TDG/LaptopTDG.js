@@ -9,7 +9,7 @@ class LaptopTDG {
   /**
    * Finds one object from the laptop table.
    * @static
-   * @param {string} id model number of laptop to be found.
+   * @param {string} modelNumber model number of laptop to be found.
    */
     static find(modelNumber, callback) {
         db.query('SELECT * FROM laptop WHERE model=$1', [modelNumber], (err, result) => {

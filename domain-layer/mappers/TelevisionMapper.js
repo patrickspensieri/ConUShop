@@ -10,7 +10,7 @@ class TelevisionMapper {
   /**
    * Maps the returned value to an object of type television.
    * @static
-   * @param {string} id model number of television to be found.
+   * @param {string} modelNumber model number of television to be found.
    * @return television object.
    */
     static find(modelNumber, callback) {

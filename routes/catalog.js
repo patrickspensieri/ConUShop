@@ -3,9 +3,9 @@ let router = new express.Router();
 let productCatalog = require('../domain-layer/classes/ProductCatalog');
 
 router.get('/desktopView', function(req, res) {
-    productCatalog.getProductCatalog("Desktop", function(err, data) {
+    productCatalog.getAllProductSpecification('Desktop', function(err, data) {
         res.render('catalogPages/desktopView', {
-            data: data
+            data: data,
         });
     });
 });
@@ -14,7 +14,7 @@ router.get('/itemsView', function(req, res) {
     productCatalog.getItems(function(err, data) {
         console.log(data);
         res.render('catalogPages/itemsView', {
-            data: data
+            data: data,
         });
     });
 });
@@ -47,8 +47,8 @@ router.post('/addProdSpec', function(req, res) {
         let touch = req.body.touch;
         let size = req.body.size;
 
-    switch(this.prodType) {
-        case "Desktop":
+    switch (this.prodType) {
+        case 'Desktop':
             // Validation
             req.checkBody('model', 'Can not be empty').notEmpty();
             req.checkBody('brand', 'Can not be empty').notEmpty();
@@ -60,7 +60,7 @@ router.post('/addProdSpec', function(req, res) {
             req.checkBody('weight', 'Can not be empty').notEmpty();
             req.checkBody('price', 'Can not be empty').notEmpty();
             break;
-        case "Laptop":
+        case 'Laptop':
             // Validation
             req.checkBody('model', 'Can not be empty').notEmpty();
             req.checkBody('brand', 'Can not be empty').notEmpty();
@@ -77,7 +77,7 @@ router.post('/addProdSpec', function(req, res) {
             req.checkBody('camera', 'Can not be empty').notEmpty();
             req.checkBody('touch', 'Can not be empty').notEmpty();
             break;
-        case "Monitor":
+        case 'Monitor':
             // Validation
             req.checkBody('model', 'Can not be empty').notEmpty();
             req.checkBody('brand', 'Can not be empty').notEmpty();
@@ -85,7 +85,7 @@ router.post('/addProdSpec', function(req, res) {
             req.checkBody('price', 'Can not be empty').notEmpty();
             req.checkBody('size', 'Can not be empty').notEmpty();
             break;
-        case "Tablet":
+        case 'Tablet':
             // Validation
             req.checkBody('model', 'Can not be empty').notEmpty();
             req.checkBody('brand', 'Can not be empty').notEmpty();
@@ -101,7 +101,7 @@ router.post('/addProdSpec', function(req, res) {
             req.checkBody('battery', 'Can not be empty').notEmpty();
             req.checkBody('camera', 'Can not be empty').notEmpty();
             break;
-        case "Television":
+        case 'Television':
             // Validation
             req.checkBody('model', 'Can not be empty').notEmpty();
             req.checkBody('brand', 'Can not be empty').notEmpty();
@@ -118,69 +118,74 @@ router.post('/addProdSpec', function(req, res) {
             errors: errors,
         });
     } else {
-        productCatalog.createProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size);
+        productCatalog.addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+            weight, price, display, os, battery, camera, touch, size);
         res.redirect(req.get('referer'));
     }
 });
 
 router.post('/deleteProdSpec', function(req, res) {
-
     productCatalog.deleteProductSpecification(req.body.prodType, req.body.modelNumber);
     res.send({redirect: req.body.redi});
-
 });
 
 router.post('/updateProdSpec', function(req, res) {
-console.log(req.body.data);
-    switch(req.body.prodType) {
-        case "Desktop":
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data.model, req.body.data.brand, req.body.data.processor, req.body.data.ram, req.body.data.storage, req.body.data.cores, req.body.data.dimensions, req.body.data.weight, req.body.data.price, null, null, null, null, null, null);
+/*
+    switch (req.body.prodType) {
+        case 'Desktop':
+            productCatalog.updateProductSpecification(req.body.prodType, req.body.data.model, req.body.data.brand,
+                req.body.data.processor, req.body.data.ram, req.body.data.storage, req.body.data.cores,
+                req.body.data.dimensions, req.body.data.weight, req.body.data.price, null, null, null, null, null, null);
             break;
-        case "Laptop":
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, null);
+        case 'Laptop':
+            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, processor, ram, storage,
+                cores, dimensions, weight, price, display, os, battery, camera, touch, null);
             break;
-        case "Monitor":
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, null, null, null, null, null, weight, price, null, null, null, null, null, size);
+        case 'Monitor':
+            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, null, null, null, null,
+                null, weight, price, null, null, null, null, null, size);
             break;
-        case "Tablet":
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, null);
+        case 'Tablet':
+            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, processor, ram, storage,
+                cores, dimensions, weight, price, display, os, battery, camera, null);
             break;
-        case "Television":
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, null, null, null, null, dimensions, weight, price, null, null, null, null, null, null);
+        case 'Television':
+            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, null, null, null, null,
+                dimensions, weight, price, null, null, null, null, null, null);
             break;
     }
     res.send({redirect: req.body.redi});
-
+    */
 });
 
 router.get('/laptopView', function(req, res) {
-    productCatalog.getProductCatalog("Laptop", function(err, data) {
+    productCatalog.getAllProductSpecification('Laptop', function(err, data) {
         res.render('catalogPages/laptopView', {
-            data: data
+            data: data,
         });
     });
 });
 
 router.get('/monitorView', function(req, res) {
-    productCatalog.getProductCatalog("Monitor", function(err, data) {
+    productCatalog.getAllProductSpecification('Monitor', function(err, data) {
         res.render('catalogPages/monitorView', {
-            data: data
+            data: data,
         });
     });
 });
 
 router.get('/tabletView', function(req, res) {
-    productCatalog.getProductCatalog("Tablet", function(err, data) {
+    productCatalog.getAllProductSpecification('Tablet', function(err, data) {
         res.render('catalogPages/tabletView', {
-            data: data
+            data: data,
         });
     });
 });
 
 router.get('/televisionView', function(req, res) {
-    productCatalog.getProductCatalog("Television", function(err, data) {
+    productCatalog.getAllProductSpecification('Television', function(err, data) {
         res.render('catalogPages/televisionView', {
-            data: data
+            data: data,
         });
     });
 });

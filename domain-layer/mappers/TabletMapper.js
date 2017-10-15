@@ -10,7 +10,7 @@ class TabletMapper {
   /**
    * Maps the returned value to an object of type tablet.
    * @static
-   * @param {string} id model number of tablet to be found.
+   * @param {string} modelNumber model number of tablet to be found.
    * @return tablet object.
    */
     static find(modelNumber, callback) {
