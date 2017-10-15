@@ -8,23 +8,12 @@
 
 <body>
 
-<div class="">
-    <nav>
-        <ul class="">
-            <li role="navMenu"><a href="/users/dashboard">Dashboard</a></li>
-            <li role="navMenu"><a href="/users/logout">Logout</a></li>
-            <li role="navMenu"><a href="/users/login">Login</a></li>
-            <li role="navMenu"><a href="/users/register">Register</a></li>
-        </ul>
-    </nav>
-</div>
-
 <div class="jumbotron text-center">
     <h1>CONU SHOP PLACEHOLDER</h1>
     <!--%= jsonData %-->
 </div>
 
-<form method="post" action="/inventory/laptopView">
+<form method="post" action="/catalog/addDesktopProdSpec">
     <div class="AddLaptop">
         <label>modeNumber</label>
         <input type="text" class="" name="model" placeholder="model">
@@ -121,7 +110,7 @@
                 <td><%= data[i].weight %></td>
                 <td><%= data[i].price %></td>
                 <td><button>Edit</button></td>
-                <td><button onclick="deleteLaptop('<%= data[i].model %>')">Delete</button></td>
+                <td><button onclick="deleteProdSpec('Laptop', '<%= data[i].model %>')">Delete</button></td>
             </tr>
         <% } %>
         </table>

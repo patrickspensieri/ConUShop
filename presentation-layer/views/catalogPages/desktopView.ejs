@@ -1,30 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/main.js"></script>
+
 </head>
 
 <body>
 
-<div class="">
-    <nav>
-        <ul class="">
-            <li role="navMenu"><a href="/users/dashboard">Dashboard</a></li>
-            <li role="navMenu"><a href="/users/logout">Logout</a></li>
-            <li role="navMenu"><a href="/users/login">Login</a></li>
-            <li role="navMenu"><a href="/users/register">Register</a></li>
-        </ul>
-    </nav>
-</div>
 
 <div class="jumbotron text-center">
     <h1>CONU SHOP PLACEHOLDER</h1>
     <!--%= jsonData %-->
 </div>
 
-<form method="post" action="/inventory/desktopView">
+<form method="post" action="/catalog/addProdSpec">
     <div class="AddDesktop">
         <label>modeNumber</label>
         <input type="text" class="" name="model" placeholder="model">
@@ -91,7 +79,7 @@
                 <td><%= data[i].weight %></td>
                 <td><%= data[i].price %></td>
                 <td><button>Edit</button></td>
-                <td><button onclick="deleteDesktop('<%= data[i].model %>')">Delete</button></td>
+                <td><button onclick="deleteProdSpec('Desktop', '<%= data[i].model %>')">Delete</button></td>
             </tr>
         <% } %>
         </table>
