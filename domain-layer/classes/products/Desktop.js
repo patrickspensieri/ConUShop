@@ -1,4 +1,4 @@
-let Computer = require('./Computer');
+let Computer = require('./computer');
 
 /**
  * Class describes a desktop.
