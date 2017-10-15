@@ -7,10 +7,12 @@ class Item {
     /**
      * @constructor
      * @param {string} serialNumber of product
+     * @param {string} productType of product
      * @param {string} modelNumber of Product Specification
      */
-    constructor(serialNumber, modelNumber) {
+    constructor(serialNumber, productType,  modelNumber) {
         this.serialNumber = serialNumber;
+        this.productType = productType;
         this.modelNumber = modelNumber;
     }
 
@@ -20,7 +22,7 @@ class Item {
      * @method display
      */
     display() {
-        console.log(this.serialNumber + ' ' + this.modelNumber);
+        console.log(this.serialNumber + ' ' + this.productType + ' ' + this.modelNumber);
     }
 }
 

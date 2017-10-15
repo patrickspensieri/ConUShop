@@ -19,7 +19,7 @@ class ItemMapper {
                 console.log('Error during item find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Item(value.serialNumber, value.modelNumber));
+                return callback(null, new Item(value.serialnumber, value.device, value.modelnumber));
             }
         });
     }
@@ -36,7 +36,7 @@ class ItemMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    items.push(new Item(value.serialnumber, value.modelnumber));
+                    items.push(new Item(value.serialnumber, value.device, value.modelnumber));
                 }
                 return callback(null, items);
             }
@@ -49,7 +49,7 @@ class ItemMapper {
      * @param {Object} itemObject an object of type item.
      */
     static insert(itemObject) {
-        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber);
+        ItemTDG.insert(itemObject.serialNumber, itemObject.productType, itemObject.modelNumber);
     }
 
     /**

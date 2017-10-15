@@ -24,7 +24,7 @@ router.post('/deleteItem', function(req, res) {
 });
 
 router.post('/addItem', function(req, res) {
-    productCatalog.addItem(req.body.serialNumber, req.body.modelNumber);
+    productCatalog.addItem(req.body.serialNumber, req.body.productType, req.body.modelNumber);
     res.redirect(req.get('referer'));
 });
 

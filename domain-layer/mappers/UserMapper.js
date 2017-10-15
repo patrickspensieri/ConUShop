@@ -1,5 +1,5 @@
-let User = require('../../domain-layer/classes/user');
-let UserTDG = require('../../data-source-layer/TDG/userTDG');
+let User = require('../../domain-layer/classes/User');
+let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 
 /**
  * User object mapper
@@ -19,7 +19,7 @@ class UserMapper {
                 console.log('Error during user find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new User(value.firstName,
+                return callback(null, new User(value.isAdmin, value.firstName,
                     value.lastName, value.address, value.email, value.phone, value.password, value.isAdmin));
             }
         });

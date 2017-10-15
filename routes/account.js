@@ -55,9 +55,8 @@ router.get('/TempClientPage', function(req, res) {
     res.render('pages/TempClientPage');
 });
 
-// Login
-router.get('/login', function(req, res) {
-    res.render('pages/login');
+router.get('/', function(req, res) {
+    res.render('pages/index');
 });
 
 router.post('/login',
@@ -69,7 +68,7 @@ router.post('/login',
 
 router.get('/logout', function(req, res) {
     req.logout();
-    res.redirect('/account/login');
+    res.redirect('/');
 });
 
 router.post('/logout',
@@ -82,10 +81,6 @@ router.get('/adminDashboard', ensureAuthenticated, function(req, res) {
     res.render('pages/adminDashboard');
 });
 
-// Register
-router.get('/register', function(req, res) {
-    res.render('pages/register');
-});
 
 // Register User
 router.post('/register', function(req, res) {
@@ -110,15 +105,18 @@ router.post('/register', function(req, res) {
     let errors = req.validationErrors();
 
     if (errors) {
-        res.render('pages/register', {
-            errors: errors,
-        });
+        /*res.redirect('/', {
+            errors: errors
+        })*/
+        res.redirect('/');
+
+        ;
     } else {
-        register.createNewUser(firstName, lastName, address, email, phone, password, isAdmin, function(err, user) {
+        register.createNewUser(isAdmin, firstName, lastName, address, email, phone, password, function(err, user) {
             if (err) throw err;
         });
 
-        res.redirect('/account/login');
+        res.redirect('/');
     }
 });
 
@@ -128,6 +126,7 @@ comparePassword = function(candidatePassword, hash, callback) {
         if (err) {
             throw err;
         }
+        console.log(isMatch);
         callback(null, isMatch);
     });
 };

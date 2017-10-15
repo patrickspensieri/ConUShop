@@ -15,15 +15,15 @@ class User {
    * @param {Boolean} isAdmin is the user an Admin
 
    */
-    constructor(firstName, lastName, address, email, phone, password, isAdmin) {
-        this.firstName = firstName;
+    constructor(isAdmin, firstName, lastName, address, email, phone, password) {
+      this.isAdmin = isAdmin;
+      this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.phone = phone;
         this.password = password;
         // user registration always creates clients
-        this.isAdmin = isAdmin;
     }
 
 

@@ -18,6 +18,10 @@
         <input type="text" class="" name="modelNumber" placeholder="Model Number">
     </div>
     <div class="AddItem">
+        <label>productType</label>
+        <input type="text" class="" name="productType" placeholder="Product Type">
+    </div>
+    <div class="AddItem">
         <label>serialNumber</label>
         <input type="text" class="" name="serialNumber" placeholder="Serial Number">
     </div>
@@ -42,6 +46,7 @@
         <% for(var i = 0; i < data.length; i++) { %>
             <tr>
                 <td><%= data[i].modelNumber %></td>
+                <td><%= data[i].productType %></td>
                 <td><%= data[i].serialNumber %></td>
             </tr>
         <% } %>
