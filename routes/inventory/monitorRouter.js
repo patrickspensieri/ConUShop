@@ -43,7 +43,7 @@ router.post('/', function(req, res) {
             errors: errors,
         });
     } else {
-        let newmonitor = new Monitor(model, brand, size, weight, price);
+        let newmonitor = MonitorMapper.makeNew(model, brand, size, weight, price);
 
         MonitorMapper.insert(newmonitor);
 
