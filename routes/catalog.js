@@ -12,7 +12,6 @@ router.get('/desktopView', function(req, res) {
 
 router.get('/itemsView', function(req, res) {
     productCatalog.getItems(function(err, data) {
-        console.log(data);
         res.render('catalogPages/itemsView', {
             data: data,
         });

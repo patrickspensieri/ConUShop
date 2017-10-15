@@ -38,7 +38,6 @@ class ItemMapper {
                 for (let value of result) {
                     items.push(new Item(value.serialnumber, value.modelnumber));
                 }
-                console.log(items);
                 return callback(null, items);
             }
         });
