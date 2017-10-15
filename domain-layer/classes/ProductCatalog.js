@@ -2,14 +2,12 @@ let Desktop = require('../../domain-layer/classes/products/Desktop');
 let Laptop = require('../../domain-layer/classes/products/Laptop');
 let Monitor = require('../../domain-layer/classes/products/Monitor');
 let Tablet = require('../../domain-layer/classes/products/Tablet');
-let Television = require('../../domain-layer/classes/products/Television');
 let Item = require('../../domain-layer/classes/Item');
 
 let desktopMapper = require('../../domain-layer/mappers/DesktopMapper');
 let laptopMapper = require('../../domain-layer/mappers/LaptopMapper');
 let monitorMapper = require('../../domain-layer/mappers/MonitorMapper');
 let tabletMapper = require('../../domain-layer/mappers/TabletMapper');
-let televisionMapper = require('../../domain-layer/mappers/TelevisionMapper');
 let itemMapper = require('../../domain-layer/mappers/ItemMapper');
 
 /**
@@ -58,10 +56,6 @@ class ProductCatalog {
                     dimensions, weight, price);
                 tabletMapper.insert(this.tablet);
                 break;
-            case 'Television':
-                this.television = new Television(model, brand, dimensions, weight, price);
-                televisionMapper.insert(this.television);
-                break;
         }
     }
     /**
@@ -104,10 +98,6 @@ class ProductCatalog {
                     dimensions, weight, price);
                 tabletMapper.update(this.tablet);
                 break;
-            case 'Television':
-                this.television = Television(model, brand, dimensions, weight, price);
-                televisionMapper.update(this.television);
-                break;
         }
     }
     /**
@@ -129,9 +119,6 @@ class ProductCatalog {
                     break;
                 case 'Tablet':
                     tabletMapper.delete(result);
-                    break;
-                case 'Television':
-                    televisionMapper.delete(result);
                     break;
             }
         });
@@ -183,15 +170,6 @@ class ProductCatalog {
                 }
             });
             break;
-        case 'Television':
-            televisionMapper.find(modelNumber, function(err, result) {
-                if (err) {
-                    console.log('Error during television find query', null);
-                } else {
-                    return callback(null, result);
-                }
-            });
-            break;
         }
     }
 
@@ -228,14 +206,6 @@ class ProductCatalog {
                 break;
             case 'Tablet':
                 tabletMapper.findAll(function(err, data) {
-                    if (err) {
-                        throw err;
-                    }
-                    return callback(null, data);
-                });
-                break;
-            case 'Television':
-                televisionMapper.findAll(function(err, data) {
                     if (err) {
                         throw err;
                     }

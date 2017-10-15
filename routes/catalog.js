@@ -101,14 +101,6 @@ router.post('/addProdSpec', function(req, res) {
             req.checkBody('battery', 'Can not be empty').notEmpty();
             req.checkBody('camera', 'Can not be empty').notEmpty();
             break;
-        case 'Television':
-            // Validation
-            req.checkBody('model', 'Can not be empty').notEmpty();
-            req.checkBody('brand', 'Can not be empty').notEmpty();
-            req.checkBody('dimensions', 'Can not be empty').notEmpty();
-            req.checkBody('weight', 'Can not be empty').notEmpty();
-            req.checkBody('price', 'Can not be empty').notEmpty();
-            break;
     }
 
     let errors = req.validationErrors();
@@ -130,7 +122,13 @@ router.post('/deleteProdSpec', function(req, res) {
 });
 
 router.post('/updateProdSpec', function(req, res) {
-/*
+    /*
+    let rows = document.getElementById("prodTable").rows[req.body.data].innerHTML;
+    console.log(rows[0]);
+    console.log(rows[1]);
+    console.log(rows[2]);
+    console.log(rows[3]);
+
     switch (req.body.prodType) {
         case 'Desktop':
             productCatalog.updateProductSpecification(req.body.prodType, req.body.data.model, req.body.data.brand,
@@ -148,10 +146,6 @@ router.post('/updateProdSpec', function(req, res) {
         case 'Tablet':
             productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, processor, ram, storage,
                 cores, dimensions, weight, price, display, os, battery, camera, null);
-            break;
-        case 'Television':
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, null, null, null, null,
-                dimensions, weight, price, null, null, null, null, null, null);
             break;
     }
     res.send({redirect: req.body.redi});
@@ -177,14 +171,6 @@ router.get('/monitorView', function(req, res) {
 router.get('/tabletView', function(req, res) {
     productCatalog.getAllProductSpecification('Tablet', function(err, data) {
         res.render('catalogPages/tabletView', {
-            data: data,
-        });
-    });
-});
-
-router.get('/televisionView', function(req, res) {
-    productCatalog.getAllProductSpecification('Television', function(err, data) {
-        res.render('catalogPages/televisionView', {
             data: data,
         });
     });
