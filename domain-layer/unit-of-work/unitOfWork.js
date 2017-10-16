@@ -74,15 +74,19 @@ class UnitOfWork {
      * @method _insertNew
      */
     _insertNew() {
-        for (var i=0; i < this._newObjects.length; i++){
-            if(this._newObjects[i] instanceof Desktop)
+        for (let i=0; i < this._newObjects.length; i++) {
+            if (this._newObjects[i] instanceof Desktop) {
                 DesktopMapper.insert(newObjects[i]);
-            if(this._newObjects[i] instanceof Laptop)
+            }
+            if (this._newObjects[i] instanceof Laptop) {
                 LaptopMapper.insert(newObjects[i]);
-            if(this._newObjects[i] instanceof Tablet)
+            }
+            if (this._newObjects[i] instanceof Tablet) {
                 TabletMapper.insert(newObjects[i]);
-            if(this._newObjects[i] instanceof Monitor)
+            }
+            if (this._newObjects[i] instanceof Monitor) {
                 MonitorMapper.insert(newObjects[i]);
+            }
         }
     }
 
@@ -91,15 +95,19 @@ class UnitOfWork {
      * @method _updateDirty
      */
     _updateDirty() {
-        for (var i=0; i < this._dirtyObjects.length; i++){
-            if(this._dirtyObjects[i] instanceof Desktop)
+        for (let i=0; i < this._dirtyObjects.length; i++) {
+            if (this._dirtyObjects[i] instanceof Desktop) {
                 DesktopMapper.update(_dirtyObjects[i]);
-            if(this._dirtyObjects[i] instanceof Laptop)
+            }
+            if (this._dirtyObjects[i] instanceof Laptop) {
                 LaptopMapper.update(_dirtyObjects[i]);
-            if(this._dirtyObjects[i] instanceof Tablet)
+            }
+            if (this._dirtyObjects[i] instanceof Tablet) {
                 TabletMapper.update(_dirtyObjects[i]);
-            if(this._dirtyObjects[i] instanceof Monitor)
+            }
+            if (this._dirtyObjects[i] instanceof Monitor) {
                 MonitorMapper.update(_dirtyObjects[i]);
+            }
         }
     }
 
@@ -108,15 +116,19 @@ class UnitOfWork {
      * @method _deleteRemoved
      */
     _deleteRemoved() {
-        for (var i=0; i < this._deletedObjects.length; i++){
-            if(this._deletedObjects[i] instanceof Desktop)
+        for (let i=0; i < this._deletedObjects.length; i++) {
+            if (this._deletedObjects[i] instanceof Desktop) {
                 DesktopMapper.delete(_deletedObjects[i]);
-            if(this._deletedObjects[i] instanceof Laptop)
+            }
+            if (this._deletedObjects[i] instanceof Laptop) {
                 LaptopMapper.delete(_deletedObjects[i]);
-            if(this._deletedObjects[i] instanceof Tablet)
+            }
+            if (this._deletedObjects[i] instanceof Tablet) {
                 TabletMapper.delete(_deletedObjects[i]);
-            if(this._deletedObjects[i] instanceof Monitor)
+            }
+            if (this._deletedObjects[i] instanceof Monitor) {
                 MonitorMapper.delete(_deletedObjects[i]);
+            }
         }
     }
 
