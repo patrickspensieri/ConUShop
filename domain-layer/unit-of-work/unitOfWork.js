@@ -22,6 +22,7 @@ class UnitOfWork {
         this._newObjects = [];
         this._dirtyObjects = [];
         this._deletedObjects = [];
+        this._afterCommit = {};
     }
 
     /**
@@ -63,10 +64,13 @@ class UnitOfWork {
     }
 
     /**
+     * Roll back all committed objects to in-memory uow
      * @method rollback
      */
     rollback() {
-
+        this._newObjects = this._afterCommit['new'];
+        this._dirtyObjects = this._afterCommit['dirty'];
+        this._deletedObjects = this._afterCommit['deleted'];
     }
 
     /**
@@ -76,16 +80,16 @@ class UnitOfWork {
     _insertNew() {
         for (let i=0; i < this._newObjects.length; i++) {
             if (this._newObjects[i] instanceof Desktop) {
-                DesktopMapper.insert(newObjects[i]);
+                DesktopMapper.insert(this._newObjects[i]);
             }
             if (this._newObjects[i] instanceof Laptop) {
-                LaptopMapper.insert(newObjects[i]);
+                LaptopMapper.insert(this._newObjects[i]);
             }
             if (this._newObjects[i] instanceof Tablet) {
-                TabletMapper.insert(newObjects[i]);
+                TabletMapper.insert(this._newObjects[i]);
             }
             if (this._newObjects[i] instanceof Monitor) {
-                MonitorMapper.insert(newObjects[i]);
+                MonitorMapper.insert(this._newObjects[i]);
             }
         }
     }
@@ -97,16 +101,16 @@ class UnitOfWork {
     _updateDirty() {
         for (let i=0; i < this._dirtyObjects.length; i++) {
             if (this._dirtyObjects[i] instanceof Desktop) {
-                DesktopMapper.update(_dirtyObjects[i]);
+                DesktopMapper.update(this._dirtyObjects[i]);
             }
             if (this._dirtyObjects[i] instanceof Laptop) {
-                LaptopMapper.update(_dirtyObjects[i]);
+                LaptopMapper.update(this._dirtyObjects[i]);
             }
             if (this._dirtyObjects[i] instanceof Tablet) {
-                TabletMapper.update(_dirtyObjects[i]);
+                TabletMapper.update(this._dirtyObjects[i]);
             }
             if (this._dirtyObjects[i] instanceof Monitor) {
-                MonitorMapper.update(_dirtyObjects[i]);
+                MonitorMapper.update(this._dirtyObjects[i]);
             }
         }
     }
@@ -118,16 +122,16 @@ class UnitOfWork {
     _deleteRemoved() {
         for (let i=0; i < this._deletedObjects.length; i++) {
             if (this._deletedObjects[i] instanceof Desktop) {
-                DesktopMapper.delete(_deletedObjects[i]);
+                DesktopMapper.delete(this._deletedObjects[i]);
             }
             if (this._deletedObjects[i] instanceof Laptop) {
-                LaptopMapper.delete(_deletedObjects[i]);
+                LaptopMapper.delete(this._deletedObjects[i]);
             }
             if (this._deletedObjects[i] instanceof Tablet) {
-                TabletMapper.delete(_deletedObjects[i]);
+                TabletMapper.delete(this._deletedObjects[i]);
             }
             if (this._deletedObjects[i] instanceof Monitor) {
-                MonitorMapper.delete(_deletedObjects[i]);
+                MonitorMapper.delete(this._deletedObjects[i]);
             }
         }
     }
@@ -136,8 +140,13 @@ class UnitOfWork {
      * @method _clear
      */
     _clear() {
+        // store committed objects in case of a roll back
+        this._afterCommit['new'] = this._newObjects;
+        this._afterCommit['dirty'] = this._dirtyObjects;
+        this._afterCommit['deleted'] = this._deletedObjects;
+
+        // set object lists empty
         this._newObjects = [];
-        this._cleanObjects = [];
         this._dirtyObjects = [];
         this._deletedObjects = [];
     }
