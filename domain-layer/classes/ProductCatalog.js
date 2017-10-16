@@ -35,16 +35,14 @@ class ProductCatalog {
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
      */
-    static addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight,
-                                      price, display, os, battery, camera, touch, size) {
+    static addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         switch (productType) {
             case 'Desktop':
                 this.desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
                 desktopMapper.insert(this.desktop);
                 break;
             case 'Laptop':
-                this.laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera,
-                    touch, dimensions, weight, price);
+                this.laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
                 laptopMapper.insert(this.laptop);
                 break;
             case 'Monitor':
@@ -52,8 +50,7 @@ class ProductCatalog {
                 monitorMapper.insert(this.monitor);
                 break;
             case 'Tablet':
-                this.tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera,
-                    dimensions, weight, price);
+                this.tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
                 tabletMapper.insert(this.tablet);
                 break;
         }
@@ -77,8 +74,7 @@ class ProductCatalog {
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
      */
-    static updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight,
-                                      price, display, os, battery, camera, touch, size) {
+    static updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         switch (productType) {
             case 'Desktop':
                 this.desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);

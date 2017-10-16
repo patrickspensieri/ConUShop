@@ -105,7 +105,7 @@ router.post('/register', function(req, res) {
     let errors = req.validationErrors();
 
     if (errors) {
-        /*res.redirect('/', {
+        /* res.redirect('/', {
             errors: errors
         })*/
         res.redirect('/');

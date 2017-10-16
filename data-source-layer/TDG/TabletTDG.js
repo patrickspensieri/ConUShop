@@ -10,6 +10,7 @@ class TabletTDG {
    * Finds one object from the tablet table.
    * @static
    * @param {string} modelNumber model number of tablet to be found.
+   * @param {function} callback function that holds tablet object.
    */
     static find(modelNumber, callback) {
         db.query('SELECT * FROM tablet WHERE model=$1', [modelNumber], (err, result) => {
@@ -24,6 +25,7 @@ class TabletTDG {
   /**
    * Finds all objects from the tablet table.
    * @static
+   * @param {function} callback function that holds array of tablet object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM tablet', (err, result) => {

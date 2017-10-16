@@ -11,7 +11,7 @@ class DesktopMapper {
    * Maps the returned value to an object of type desktop.
    * @static
    * @param {string} modelNumber model number of desktop to be found.
-   * @return desktop object.
+   * @param {function} callback function that holds desktop object.
    */
     static find(modelNumber, callback) {
         DesktopTDG.find(modelNumber, function(err, result) {
@@ -29,7 +29,7 @@ class DesktopMapper {
   /**
    * Maps all returned values into objects of type desktop.
    * @static
-   * @return array of desktop objects.
+   * @param {function} callback function that holds desktop object.
    */
     static findAll(callback) {
         DesktopTDG.findAll(function(err, result) {

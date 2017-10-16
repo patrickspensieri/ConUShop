@@ -10,8 +10,8 @@ class MonitorMapper {
   /**
    * Maps the returned value to an object of type monitor.
    * @static
-   * @param {string} id model number of monitor to be found.
-   * @return monitor object.
+   * @param {string} modelNumber model number of monitor to be found.
+   * @param {function} callback function that holds monitor object
    */
     static find(modelNumber, callback) {
         MonitorTDG.find(modelNumber, function(err, result) {
@@ -28,7 +28,7 @@ class MonitorMapper {
   /**
    * Maps all returned values into objects of type monitor.
    * @static
-   * @return array of monitor objects.
+   * @param {function} callback function that holds array of monitor object
    */
     static findAll(callback) {
         MonitorTDG.findAll(function(err, result) {
@@ -66,7 +66,7 @@ class MonitorMapper {
     }
 
   /**
-   * Extracts an objects id to use with TDG delete method.
+   * Extracts an objects model to use with TDG delete method.
    * @static
    * @param {Object} monitorObject an object of type monitor.
    */

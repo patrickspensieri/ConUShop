@@ -10,8 +10,8 @@ class LaptopMapper {
   /**
    * Maps the returned value to an object of type laptop.
    * @static
-   * @param {string} id model number of laptop to be found.
-   * @return laptop object.
+   * @param {string} modelNumber model number of laptop to be found.
+   * @param {function} callback function that holds laptop object
    */
     static find(modelNumber, callback) {
         LaptopTDG.find(modelNumber, function(err, result) {
@@ -30,7 +30,7 @@ class LaptopMapper {
   /**
    * Maps all returned values into objects of type laptop.
    * @static
-   * @return array of laptop objects.
+   * @param {function} callback function that holds array of laptop objects
    */
     static findAll(callback) {
         LaptopTDG.findAll(function(err, result) {

@@ -45,7 +45,6 @@ class ItemTDG {
 
      */
     static insert(serialNumber, productType, modelNumber) {
-
         let queryString = 'INSERT INTO productcatalog (serialNumber, device, model) VALUES($1, $2, $3)';
         let queryValues = [serialNumber, productType, modelNumber];
 

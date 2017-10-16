@@ -11,7 +11,7 @@ class UserMapper {
    * Maps the returned value to an object of type user.
    * @static
    * @param {string} email of user to be found.
-   * @return user object.
+   * @param {function} callback function that holds User object.
    */
     static find(email, callback) {
         UserTDG.find(email, function(err, result) {
@@ -28,7 +28,7 @@ class UserMapper {
   /**
    * Maps all returned values into objects of type user.
    * @static
-   * @return array of user objects.
+   * @param {function} callback function that holds array of User object.
    */
     static findAll(callback) {
         UserTDG.findAll(function(err, result) {

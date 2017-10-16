@@ -11,7 +11,7 @@ class TabletMapper {
    * Maps the returned value to an object of type tablet.
    * @static
    * @param {string} modelNumber model number of tablet to be found.
-   * @return tablet object.
+   * @param {function} callback function that holds Tablet object.
    */
     static find(modelNumber, callback) {
         TabletTDG.find(modelNumber, function(err, result) {
@@ -30,7 +30,7 @@ class TabletMapper {
   /**
    * Maps all returned values into objects of type tablet.
    * @static
-   * @return array of tablet objects.
+   * @param {function} callback function that holds array of Tablet object.
    */
     static findAll(callback) {
         TabletTDG.findAll(function(err, result) {
@@ -74,7 +74,7 @@ class TabletMapper {
     }
 
   /**
-   * Extracts an objects id to use with TDG delete method.
+   * Extracts an objects model to use with TDG delete method.
    * @static
    * @param {Object} tabletObject an object of type tablet.
    */

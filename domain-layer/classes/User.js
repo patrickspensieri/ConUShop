@@ -6,13 +6,13 @@
 class User {
   /**
    * @constructor
+   * @param {Boolean} isAdmin is the user an Admin
    * @param {string} firstName first name of user
    * @param {string} lastName last name of user
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
-   * @param {string} password user password, hashed
-   * @param {Boolean} isAdmin is the user an Admin
+   * @param {string} password user password
 
    */
     constructor(isAdmin, firstName, lastName, address, email, phone, password) {

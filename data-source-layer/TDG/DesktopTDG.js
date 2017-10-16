@@ -10,6 +10,7 @@ class DesktopTDG {
    * Finds one object from the desktop table.
    * @static
    * @param {string} modelNumber model number of desktop to be found.
+   * @param {function} callback function that holds desktop object.
    */
     static find(modelNumber, callback) {
         db.query('SELECT * FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
@@ -24,6 +25,7 @@ class DesktopTDG {
   /**
    * Finds all objects from the desktop table.
    * @static
+   * @param {function} callback function that holds array of desktop object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM desktop', (err, result) => {
@@ -73,8 +75,7 @@ class DesktopTDG {
    * @param {number} price price of desktop.
    */
     static update(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
-        let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, ' +
-            'weight=$8, price=$9 WHERE model=$1';
+        let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, weight=$8, price=$9 WHERE model=$1';
         let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {

@@ -10,6 +10,7 @@ class MonitorTDG {
    * Finds one object from the monitor table.
    * @static
    * @param {string} modelNumber model number of monitor to be found.
+   * @param {function} callback function that holds monitor object.
    */
     static find(modelNumber, callback) {
         db.query('SELECT * FROM monitor WHERE model=$1', [modelNumber], (err, result) => {
@@ -24,6 +25,7 @@ class MonitorTDG {
   /**
    * Finds all objects from the monitor table.
    * @static
+   * @param {function} callback function that holds array of monitor object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM monitor', (err, result) => {

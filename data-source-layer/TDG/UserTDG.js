@@ -9,7 +9,8 @@ class UserTDG {
   /**
    * Finds one object from the user table.
    * @static
-   * @param {string} modelNumber Model Number of user to be found.
+   * @param {string} email email of the user to be found.
+   * @param {function} callback function that holds user object.
    */
     static find(email, callback) {
         db.query('SELECT * FROM users WHERE email=$1', [email], (err, result) => {
@@ -24,6 +25,7 @@ class UserTDG {
   /**
    * Finds all objects from the user table.
    * @static
+   * @param {function} callback function that holds array of user object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM user', (err, result) => {
