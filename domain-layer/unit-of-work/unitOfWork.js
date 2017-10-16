@@ -1,3 +1,13 @@
+let Desktop = require('../../domain-layer/classes/desktop');
+let Laptop = require('../../domain-layer/classes/laptop');
+let Monitor = require('../../domain-layer/classes/monitor');
+let Tablet = require('../../domain-layer/classes/tablet');
+
+let DesktopMapper = require('../mappers/desktopMapper');
+let LaptopMapper = require('../mappers/laptopMapper');
+let MonitorMapper = require('../mappers/monitorMapper');
+let TabletMapper = require('../mappers/tabletMapper');
+
 /**
  * In-memory object which keeps track of which domain objects should 
  * be scheduled for insertion, update, and removal.
@@ -10,7 +20,6 @@ class UnitOfWork {
    */
     constructor() {
         this._newObjects = [];
-        this._cleanObjects = [];
         this._dirtyObjects = [];
         this._deletedObjects = [];
     }
@@ -25,15 +34,6 @@ class UnitOfWork {
     }
 
     /**
-     * Domain objects that need to be frozen
-     * @method registerClean
-     * @param {Object} domainObject
-     */
-    registerClean(domainObject) {
-        this._cleanObjects.push(domainObject);
-    }
-
-    /**
      * Domain objects that need to be updated
      * @method registerDirty
      * @param {Object} domainObject
@@ -44,11 +44,11 @@ class UnitOfWork {
 
     /**
      * Domain objects that need to be deleted
-     * @method registerRemoved
+     * @method registerDeleted
      * @param {Object} domainObject
      */
-    registerRemoved(domainObject) {
-        this._deletedObjects(domainObject);
+    registerDeleted(domainObject) {
+        this._deletedObjects.push(domainObject);
     }
 
     /**
@@ -57,7 +57,6 @@ class UnitOfWork {
      */
     commit() {
         this._insertNew();
-        this._freezeClean();
         this._updateDirty();
         this._deletedObjects();
         this._clear();
@@ -75,15 +74,16 @@ class UnitOfWork {
      * @method _insertNew
      */
     _insertNew() {
-
-    }
-
-    /**
-     * Uses mappers to insert the cleanObjects
-     * @method _freezeClean
-     */
-    _freezeClean() {
-
+        for (var i=0; i < this._newObjects.length; i++){
+            if(this._newObjects[i] instanceof Desktop)
+                DesktopMapper.insert(newObjects[i]);
+            if(this._newObjects[i] instanceof Laptop)
+                LaptopMapper.insert(newObjects[i]);
+            if(this._newObjects[i] instanceof Tablet)
+                TabletMapper.insert(newObjects[i]);
+            if(this._newObjects[i] instanceof Monitor)
+                MonitorMapper.insert(newObjects[i]);
+        }
     }
 
     /**
@@ -91,7 +91,16 @@ class UnitOfWork {
      * @method _updateDirty
      */
     _updateDirty() {
-
+        for (var i=0; i < this._dirtyObjects.length; i++){
+            if(this._dirtyObjects[i] instanceof Desktop)
+                DesktopMapper.update(_dirtyObjects[i]);
+            if(this._dirtyObjects[i] instanceof Laptop)
+                LaptopMapper.update(_dirtyObjects[i]);
+            if(this._dirtyObjects[i] instanceof Tablet)
+                TabletMapper.update(_dirtyObjects[i]);
+            if(this._dirtyObjects[i] instanceof Monitor)
+                MonitorMapper.update(_dirtyObjects[i]);
+        }
     }
 
     /**
@@ -99,7 +108,16 @@ class UnitOfWork {
      * @method _deleteRemoved
      */
     _deleteRemoved() {
-
+        for (var i=0; i < this._deletedObjects.length; i++){
+            if(this._deletedObjects[i] instanceof Desktop)
+                DesktopMapper.delete(_deletedObjects[i]);
+            if(this._deletedObjects[i] instanceof Laptop)
+                LaptopMapper.delete(_deletedObjects[i]);
+            if(this._deletedObjects[i] instanceof Tablet)
+                TabletMapper.delete(_deletedObjects[i]);
+            if(this._deletedObjects[i] instanceof Monitor)
+                MonitorMapper.delete(_deletedObjects[i]);
+        }
     }
 
     /**
