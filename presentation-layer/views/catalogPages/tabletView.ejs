@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/main.js"></script>
+    <title>ConUshop | Home </title>
+    <% include ../../assets/components/header.ejs %>
 </head>
-
 <body>
+<!-- for bootstrap working -->
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<!-- //for bootstrap working -->
+<!-- navigator -->
+<% include ../../assets/components/navigator.ejs %>
+<!-- //navigator -->
 
 <div class="">
     <nav>
@@ -124,5 +128,10 @@
         </table>
     <% } %>
 </div>
+<!--%= jsonData %-->
+<!-- footer -->
+<% include ../../assets/components/footer.ejs %>
+<!-- //footer -->
+
 </body>
 </html>
