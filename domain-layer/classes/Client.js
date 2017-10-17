@@ -3,10 +3,10 @@ let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
 
 /**
  * Class describes an Admin.
- * @class Admin
+ * @class Client
  * @export
  */
-class Admin extends User {
+class Client extends User {
     /**
      * @constructor
      * @param {string} firstName first name of user
@@ -16,19 +16,24 @@ class Admin extends User {
      * @param {number} phone phone number of user
      * @param {string} password user password, hashed
      * @param {Boolean} isAdmin is the user an Admin
-     *
 
      */
     constructor(firstName, lastName, address, email, phone, password, isAdmin) {
         super(firstName, lastName, address, email, phone, password, isAdmin);
-
-        this.productCatalog = new ProductCatalog();
-
     }
 
-    getProductCatalogInstance() {
-        return this.productCatalog;
+    /**
+     * View items in product catalog
+     * To be run on an instance of item.
+     * @method display
+     */
+    getProductCatalog() {
+        ProductCatalog.getItems(function (err, data)
+        {
+            return data;
+        })
     }
+
 }
 
-module.exports = Admin;
+module.exports = Client;
