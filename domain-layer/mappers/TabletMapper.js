@@ -23,7 +23,7 @@ class TabletMapper {
    * @param {string} dimensions dimensions of tablet.
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet
-   * @return tablet object.
+   * @return {tablet} tablet object.
    */
     static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
         let tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
@@ -42,7 +42,7 @@ class TabletMapper {
                 console.log('Error during tablet find query', null);
             } else {
                 let value = result[0];
-                if (result.length==0){
+                if (result.length==0) {
                     return callback(err, null);
                 } else {
                     return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,

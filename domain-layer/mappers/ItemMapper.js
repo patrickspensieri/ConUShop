@@ -8,6 +8,19 @@ let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
  */
 class ItemMapper {
     /**
+     * Creates a new item
+     * @static
+     * @param {string} serialNumber of product
+     * @param {string} productType of product
+     * @param {string} modelNumber of Product Specification
+     * @return {item} item object.
+     */
+    static makeNew(serialNumber, productType, modelNumber) {
+        let item = new Item(serialNumber, productType, modelNumber);
+        return item;
+    }
+
+    /**
      * Maps the returned value to an object of type Item.
      * @static
      * @param {string} serialNumber serial number of item to be found.
@@ -19,7 +32,7 @@ class ItemMapper {
                 console.log('Error during item find query', null);
             } else {
                 let value = result[0];
-                if (result.length==0){
+                if (result.length==0) {
                     return callback(err, null);
                 } else {
                     return callback(null, new Item(value.serialnumber, value.device, value.modelnumber));

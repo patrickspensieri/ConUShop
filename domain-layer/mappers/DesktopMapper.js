@@ -19,7 +19,7 @@ class DesktopMapper {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
-   * @return desktop object.
+   * @return {desktop} desktop object.
    */
     static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
@@ -37,7 +37,7 @@ class DesktopMapper {
                 console.log('Error during desktop find query', null);
             } else {
                 let value = result[0];
-                if (result.length==0){
+                if (result.length==0) {
                     return callback(err, null);
                 } else {
                     return callback(null, new Desktop(value.model, value.brand, value.processor,

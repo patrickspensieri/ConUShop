@@ -17,7 +17,7 @@ class UserMapper {
    * @param {number} phone phone number of user
    * @param {string} id the id of user
    * @param {string} password user password, hashed
-   * @return user object.
+   * @return {user} user object.
    */
     static makeNew(firstName, lastName, address, email, phone, id, password) {
         let user = new User(firstName, lastName, address, email, phone, id, password);
@@ -37,7 +37,7 @@ class UserMapper {
             } else {
                 let value = result[0];
 
-                if (result.length==0){
+                if (result.length==0) {
                     return callback(err, null);
                 } else {
                     return callback(null, new User(value.isAdmin, value.firstName,

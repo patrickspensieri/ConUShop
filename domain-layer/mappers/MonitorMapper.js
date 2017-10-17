@@ -15,7 +15,7 @@ class MonitorMapper {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
-   * @return monitor object.
+   * @return {monitor} monitor object.
    */
     static makeNew(model, brand, size, weight, price) {
         let monitor = new Monitor(model, brand, size, weight, price);
@@ -34,7 +34,7 @@ class MonitorMapper {
                 console.log('Error during monitor find query', null);
             } else {
                 let value = result[0];
-                if (result.length==0){
+                if (result.length==0) {
                     return callback(err, null);
                 } else {
                     return callback(null, new Monitor(value.model, value.brand, value.size,

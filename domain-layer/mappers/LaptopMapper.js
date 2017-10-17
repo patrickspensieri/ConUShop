@@ -24,13 +24,13 @@ class LaptopMapper {
    * @param {string} dimensions dimensions of laptop.
    * @param {number} weight weight of laptop.
    * @param {number} price price of laptop
-   * @return laptop object.
+   * @return {laptop} laptop object.
    */
     static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
         let laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
         return laptop;
     }
-    
+
   /**
    * Maps the returned value to an object of type laptop.
    * @static
@@ -43,7 +43,7 @@ class LaptopMapper {
                 console.log('Error during laptop find query', null);
             } else {
                 let value = result[0];
-                if (result.length==0){
+                if (result.length==0) {
                     return callback(err, null);
                 } else {
                     return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
