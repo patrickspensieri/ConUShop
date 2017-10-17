@@ -55,7 +55,7 @@ class TabletTDG {
    * @param {number} price price of tablet.
    */
     static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
-        let queryString = 'INSERT INTO tablet (model, brand, display, processor, ram, storage, cores, os, battery, camera, dimension, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
+        let queryString = 'INSERT INTO tablet (model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) =>{
