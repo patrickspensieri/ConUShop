@@ -20,7 +20,7 @@ class UserMapper {
             } else {
                 let value = result[0];
                 return callback(null, new User(value.isAdmin, value.firstName,
-                    value.lastName, value.address, value.email, value.phone, value.password, value.isAdmin));
+                    value.lastName, value.address, value.email, value.phone, value.password));
             }
         });
     }
