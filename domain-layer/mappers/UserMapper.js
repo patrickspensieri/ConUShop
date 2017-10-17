@@ -8,6 +8,23 @@ let UserTDG = require('../../data-source-layer/TDG/UserTDG');
  */
 class UserMapper {
   /**
+   * Creates a new user
+   * @static
+   * @param {string} firstName first name of user
+   * @param {string} lastName last name of user
+   * @param {string} address home address of user
+   * @param {string} email email of user
+   * @param {number} phone phone number of user
+   * @param {string} id the id of user
+   * @param {string} password user password, hashed
+   * @return user object.
+   */
+    static makeNew(firstName, lastName, address, email, phone, id, password) {
+        let user = new User(firstName, lastName, address, email, phone, id, password);
+        return user;
+    }
+
+  /**
    * Maps the returned value to an object of type user.
    * @static
    * @param {string} email of user to be found.
