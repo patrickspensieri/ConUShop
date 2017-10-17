@@ -19,7 +19,7 @@ class MonitorMapper {
                 console.log('Error during monitor find query', null);
             } else {
                 let value = result[0];
-                if (typeof(value == 'undefined')){
+                if (value.length ==0){
                     return callback(err, null);
                 } else {
                     return callback(null, new Monitor(value.model, value.brand, value.size,

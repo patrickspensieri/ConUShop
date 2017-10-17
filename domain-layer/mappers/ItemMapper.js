@@ -19,7 +19,7 @@ class ItemMapper {
                 console.log('Error during item find query', null);
             } else {
                 let value = result[0];
-                if (typeof(value == 'undefined')){
+                if (value.length ==0){
                     return callback(err, null);
                 } else {
                     return callback(null, new Item(value.serialnumber, value.device, value.modelnumber));

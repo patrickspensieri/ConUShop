@@ -19,11 +19,12 @@ class UserMapper {
                 console.log('Error during user find query', null);
             } else {
                 let value = result[0];
-                if (typeof(value == 'undefined')){
+
+                if (value.length ==0){
                     return callback(err, null);
                 } else {
                     return callback(null, new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phone, value.password));
+                        value.lastName, value.address, value.email, value.phoneNumber, value.password));
                 }
             }
         });
