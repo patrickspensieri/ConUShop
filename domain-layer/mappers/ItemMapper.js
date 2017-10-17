@@ -19,7 +19,11 @@ class ItemMapper {
                 console.log('Error during item find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Item(value.serialnumber, value.device, value.modelnumber));
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Item(value.serialnumber, value.device, value.modelnumber));
+                }
             }
         });
     }

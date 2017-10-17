@@ -19,10 +19,14 @@ class LaptopMapper {
                 console.log('Error during laptop find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
-                    value.ram, value.storage, value.cores, value.os,
-                    value.battery, value.camera, value.touch, value.dimensions,
-                    value.weight, value.price));
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
+                        value.ram, value.storage, value.cores, value.os,
+                        value.battery, value.camera, value.touch, value.dimensions,
+                        value.weight, value.price));
+                }
             }
         });
     }

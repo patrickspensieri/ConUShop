@@ -19,10 +19,14 @@ class TabletMapper {
                 console.log('Error during tablet find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
-                    value.ram, value.storage, value.cores, value.os,
-                    value.battery, value.camera, value.dimensions,
-                    value.weight, value.price));
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
+                        value.ram, value.storage, value.cores, value.os,
+                        value.battery, value.camera, value.dimensions,
+                        value.weight, value.price));
+                }
             }
         });
     }

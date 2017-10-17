@@ -19,9 +19,13 @@ class DesktopMapper {
                 console.log('Error during desktop find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Desktop(value.model, value.brand, value.processor,
-                    value.ram, value.storage, value.cores, value.dimensions,
-                    value.weight, value.price));
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Desktop(value.model, value.brand, value.processor,
+                        value.ram, value.storage, value.cores, value.dimensions,
+                        value.weight, value.price));
+                }
             }
         });
     }

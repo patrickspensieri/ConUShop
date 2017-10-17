@@ -19,8 +19,12 @@ class MonitorMapper {
                 console.log('Error during monitor find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Monitor(value.model, value.brand, value.size,
-                    value.weight, value.price));
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Monitor(value.model, value.brand, value.size,
+                        value.weight, value.price));
+                }
             }
         });
     }
