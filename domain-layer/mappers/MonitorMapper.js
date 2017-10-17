@@ -8,6 +8,21 @@ let Monitor = require('../../domain-layer/classes/products/Monitor');
  */
 class MonitorMapper {
   /**
+   * Creates a new monitor
+   * @static
+   * @param {string} model model number of monitor.
+   * @param {string} brand brand of monitor.
+   * @param {number} size  size of monitor screen.
+   * @param {number} weight weight of monitor.
+   * @param {number} price price of monitor.
+   * @return {monitor} monitor object.
+   */
+    static makeNew(model, brand, size, weight, price) {
+        let monitor = new Monitor(model, brand, size, weight, price);
+        return monitor;
+    }
+
+  /**
    * Maps the returned value to an object of type monitor.
    * @static
    * @param {string} modelNumber model number of monitor to be found.
@@ -19,8 +34,12 @@ class MonitorMapper {
                 console.log('Error during monitor find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Monitor(value.model, value.brand, value.size,
-                    value.weight, value.price));
+                if (result.length==0) {
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Monitor(value.model, value.brand, value.size,
+                        value.weight, value.price));
+                }
             }
         });
     }
