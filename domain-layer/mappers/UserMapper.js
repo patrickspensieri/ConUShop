@@ -8,23 +8,6 @@ let UserTDG = require('../../data-source-layer/TDG/UserTDG');
  */
 class UserMapper {
   /**
-   * Creates a new user
-   * @static
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
-   * @param {string} address home address of user
-   * @param {string} email email of user
-   * @param {number} phone phone number of user
-   * @param {string} id the id of user
-   * @param {string} password user password, hashed
-   * @return {user} user object.
-   */
-    static makeNew(firstName, lastName, address, email, phone, id, password) {
-        let user = new User(firstName, lastName, address, email, phone, id, password);
-        return user;
-    }
-
-  /**
    * Maps the returned value to an object of type user.
    * @static
    * @param {string} email of user to be found.
@@ -36,13 +19,8 @@ class UserMapper {
                 console.log('Error during user find query', null);
             } else {
                 let value = result[0];
-
-                if (result.length==0) {
-                    return callback(err, null);
-                } else {
-                    return callback(null, new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phoneNumber, value.password));
-                }
+                return callback(null, new User(value.isAdmin, value.firstName,
+                    value.lastName, value.address, value.email, value.phone, value.password, value.isAdmin));
             }
         });
     }

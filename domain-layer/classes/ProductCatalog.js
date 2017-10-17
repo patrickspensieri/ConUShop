@@ -1,3 +1,9 @@
+let Desktop = require('../../domain-layer/classes/products/Desktop');
+let Laptop = require('../../domain-layer/classes/products/Laptop');
+let Monitor = require('../../domain-layer/classes/products/Monitor');
+let Tablet = require('../../domain-layer/classes/products/Tablet');
+let Item = require('../../domain-layer/classes/Item');
+
 let desktopMapper = require('../../domain-layer/mappers/DesktopMapper');
 let laptopMapper = require('../../domain-layer/mappers/LaptopMapper');
 let monitorMapper = require('../../domain-layer/mappers/MonitorMapper');
@@ -32,19 +38,19 @@ class ProductCatalog {
     static addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         switch (productType) {
             case 'Desktop':
-                this.desktop = desktopMapper.makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+                this.desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
                 desktopMapper.insert(this.desktop);
                 break;
             case 'Laptop':
-                this.laptop = laptopMapper.makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
+                this.laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
                 laptopMapper.insert(this.laptop);
                 break;
             case 'Monitor':
-                this.monitor = monitorMapper.makeNew(model, brand, size, weight, price);
+                this.monitor = new Monitor(model, brand, size, weight, price);
                 monitorMapper.insert(this.monitor);
                 break;
             case 'Tablet':
-                this.tablet = tabletMapper.makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+                this.tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
                 tabletMapper.insert(this.tablet);
                 break;
         }
@@ -71,20 +77,20 @@ class ProductCatalog {
     static updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         switch (productType) {
             case 'Desktop':
-                this.desktop = desktopMapper.makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+                this.desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
                 desktopMapper.update(this.desktop);
                 break;
             case 'Laptop':
-                this.laptop = laptopMapper.makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera,
+                this.laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                     touch, dimensions, weight, price);
                 laptopMapper.update(this.laptop);
                 break;
             case 'Monitor':
-                this.monitor = monitorMapper.makeNew(model, brand, size, weight, price);
+                this.monitor = new Monitor(model, brand, size, weight, price);
                 monitorMapper.update(this.monitor);
                 break;
             case 'Tablet':
-                this.tablet = tabletMapper.makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera,
+                this.tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                     dimensions, weight, price);
                 tabletMapper.update(this.tablet);
                 break;
@@ -211,7 +217,7 @@ class ProductCatalog {
      * @param {string} modelNumber model number of product specification
      */
     static addItem(serialNumber, modelNumber) {
-        this.item = itemMapper.makeNew(serialNumber, modelNumber);
+        this.item = new Item(serialNumber, modelNumber);
         console.log(this.item);
         itemMapper.insert(this.item);
     }

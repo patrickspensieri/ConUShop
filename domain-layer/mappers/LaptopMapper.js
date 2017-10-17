@@ -8,30 +8,6 @@ let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
  */
 class LaptopMapper {
   /**
-   * Creates a new laptop
-   * @static
-   * @param {string} model model number of laptop.
-   * @param {string} brand brand of laptop.
-   * @param {number} display  size of laptop screen.
-   * @param {string} processor processor in laptop.
-   * @param {number} ram ram amount in laptop.
-   * @param {number} storage storage size of laptop.
-   * @param {number} cores amount of cores in processor in laptop.
-   * @param {string} os operating system of laptop.
-   * @param {string} battery battery information of laptop.
-   * @param {string} camera camera information of laptop.
-   * @param {boolean} touch is display touch or not.
-   * @param {string} dimensions dimensions of laptop.
-   * @param {number} weight weight of laptop.
-   * @param {number} price price of laptop
-   * @return {laptop} laptop object.
-   */
-    static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
-        let laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
-        return laptop;
-    }
-
-  /**
    * Maps the returned value to an object of type laptop.
    * @static
    * @param {string} modelNumber model number of laptop to be found.
@@ -43,14 +19,10 @@ class LaptopMapper {
                 console.log('Error during laptop find query', null);
             } else {
                 let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
-                } else {
-                    return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
-                        value.ram, value.storage, value.cores, value.os,
-                        value.battery, value.camera, value.touch, value.dimensions,
-                        value.weight, value.price));
-                }
+                return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
+                    value.ram, value.storage, value.cores, value.os,
+                    value.battery, value.camera, value.touch, value.dimensions,
+                    value.weight, value.price));
             }
         });
     }

@@ -126,6 +126,7 @@ comparePassword = function(candidatePassword, hash, callback) {
         if (err) {
             throw err;
         }
+        console.log(isMatch);
         callback(null, isMatch);
     });
 };

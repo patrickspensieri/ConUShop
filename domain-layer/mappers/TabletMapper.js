@@ -8,29 +8,6 @@ let Tablet = require('../../domain-layer/classes/products/Tablet');
  */
 class TabletMapper {
   /**
-   * Creates a new tablet
-   * @static
-   * @param {string} model model number of tablet.
-   * @param {string} brand brand of tablet.
-   * @param {number} display  size of tablet screen.
-   * @param {string} processor processor in tablet.
-   * @param {number} ram ram amount in tablet.
-   * @param {number} storage storage size of tablet.
-   * @param {number} cores amount of cores in processor in tablet.
-   * @param {string} os operating system of tablet.
-   * @param {string} battery battery information of tablet.
-   * @param {string} camera camera information of tablet.
-   * @param {string} dimensions dimensions of tablet.
-   * @param {number} weight weight of tablet.
-   * @param {number} price price of tablet
-   * @return {tablet} tablet object.
-   */
-    static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
-        let tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
-        return tablet;
-    }
-
-  /**
    * Maps the returned value to an object of type tablet.
    * @static
    * @param {string} modelNumber model number of tablet to be found.
@@ -42,14 +19,10 @@ class TabletMapper {
                 console.log('Error during tablet find query', null);
             } else {
                 let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
-                } else {
-                    return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
-                        value.ram, value.storage, value.cores, value.os,
-                        value.battery, value.camera, value.dimensions,
-                        value.weight, value.price));
-                }
+                return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
+                    value.ram, value.storage, value.cores, value.os,
+                    value.battery, value.camera, value.dimensions,
+                    value.weight, value.price));
             }
         });
     }
