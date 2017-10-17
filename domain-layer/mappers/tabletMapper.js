@@ -8,6 +8,29 @@ let TabletTDG = require('../../data-source-layer/TDG/tabletTDG');
  */
 class TabletMapper {
   /**
+   * Creates a new tablet
+   * @static
+   * @param {string} model model number of tablet.
+   * @param {string} brand brand of tablet.
+   * @param {number} display  size of tablet screen.
+   * @param {string} processor processor in tablet.
+   * @param {number} ram ram amount in tablet.
+   * @param {number} storage storage size of tablet.
+   * @param {number} cores amount of cores in processor in tablet.
+   * @param {string} os operating system of tablet.
+   * @param {string} battery battery information of tablet.
+   * @param {string} camera camera information of tablet.
+   * @param {string} dimensions dimensions of tablet.
+   * @param {number} weight weight of tablet.
+   * @param {number} price price of tablet
+   * @return tablet object.
+   */
+    static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
+        let tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+        return tablet;
+    }
+
+  /**
    * Maps the returned value to an object of type tablet.
    * @static
    * @param {string} id model number of tablet to be found.

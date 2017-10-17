@@ -59,7 +59,7 @@ router.post('/', function(req, res) {
             errors: errors,
         });
     } else {
-        let newtablet = new Tablet(model, brand, display, processor, ram, storage, cores, os,
+        let newtablet = TabletMapper.makeNew(model, brand, display, processor, ram, storage, cores, os,
             battery, camera, dimensions, weight, price);
 
         TabletMapper.insert(newtablet);

@@ -8,6 +8,21 @@ let MonitorTDG = require('../../data-source-layer/TDG/monitorTDG');
  */
 class MonitorMapper {
   /**
+   * Creates a new monitor
+   * @static
+   * @param {string} model model number of monitor.
+   * @param {string} brand brand of monitor.
+   * @param {number} size  size of monitor screen.
+   * @param {number} weight weight of monitor.
+   * @param {number} price price of monitor.
+   * @return monitor object.
+   */
+    static makeNew(model, brand, size, weight, price) {
+        let monitor = new Monitor(model, brand, size, weight, price);
+        return monitor;
+    }
+
+  /**
    * Maps the returned value to an object of type monitor.
    * @static
    * @param {string} id model number of monitor to be found.
