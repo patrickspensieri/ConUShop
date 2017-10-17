@@ -23,9 +23,12 @@ class Admin extends User {
         super(firstName, lastName, address, email, phone, password, isAdmin);
 
         this.productCatalog = new ProductCatalog();
-
     }
 
+    /**
+     * Method to access ProductCatalog instances
+     * @method display
+     */
     getProductCatalogInstance() {
         return this.productCatalog;
     }

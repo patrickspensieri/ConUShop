@@ -28,12 +28,10 @@ class Client extends User {
      * @method display
      */
     getProductCatalog() {
-        ProductCatalog.getItems(function (err, data)
-        {
+        ProductCatalog.getItems(function(err, data) {
             return data;
-        })
+        });
     }
-
 }
 
 module.exports = Client;
