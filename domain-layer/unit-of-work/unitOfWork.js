@@ -68,6 +68,7 @@ class UnitOfWork {
      * @method rollback
      */
     rollback() {
+        // TODO: restore database state
         this._newObjects = this._afterCommit['new'];
         this._dirtyObjects = this._afterCommit['dirty'];
         this._deletedObjects = this._afterCommit['deleted'];
@@ -137,6 +138,7 @@ class UnitOfWork {
     }
 
     /**
+     * Private method that empties object lists
      * @method _clear
      */
     _clear() {
