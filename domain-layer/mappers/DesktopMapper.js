@@ -19,7 +19,7 @@ class DesktopMapper {
                 console.log('Error during desktop find query', null);
             } else {
                 let value = result[0];
-                if (value.length ==0){
+                if (result.length==0){
                     return callback(err, null);
                 } else {
                     return callback(null, new Desktop(value.model, value.brand, value.processor,
