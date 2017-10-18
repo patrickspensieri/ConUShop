@@ -59,7 +59,7 @@ class UnitOfWork {
     commit() {
         this._insertNew();
         this._updateDirty();
-        this._deletedObjects();
+        this._deleteRemoved();
         this._clear();
     }
 
