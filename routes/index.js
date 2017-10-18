@@ -1,5 +1,5 @@
 let express = require('express');
-let router = express.Router();
+let router = new express.Router();
 
 // Registering all routes
 router.use('/account', require('./account'));

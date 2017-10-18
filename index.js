@@ -24,12 +24,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-// Express Session
+// Express Session, maintained in memory-store
 app.use(session({
-    // TODO does secret need to be in .env?
+    // TODO move the key into the .env file
     secret: 'secret',
     saveUninitialized: true,
-    resave: true,
+    resave: false,
 }));
 
 // Passport init

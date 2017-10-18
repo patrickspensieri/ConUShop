@@ -13,7 +13,7 @@ class UserTDG {
    * @param {function} callback function that holds user object.
    */
     static find(email, callback) {
-        db.query('SELECT * FROM users WHERE email=$1', [email], (err, result) => {
+        db.query('SELECT * FROM users LEFT JOIN activeusers ON users.id = activeusers.user_id WHERE users.email=$1', [email], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -22,6 +22,7 @@ class UserTDG {
         });
     }
 
+// TODO update query to select from activeusers as well
   /**
    * Finds all objects from the user table.
    * @static
@@ -37,7 +38,6 @@ class UserTDG {
         });
     }
 
-// TODO removed ID since it is not known until entered into database
   /**
    * Inserts an object into the user table.
    * @static
@@ -48,6 +48,7 @@ class UserTDG {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password password of user
+   * @param {string} sessionID sessionID for login
    */
     static insert(isAdmin, firstName, lastName, address, email, phone, password) {
         let queryString = 'INSERT INTO users ("isAdmin", "firstName", "lastName", address, email, "phoneNumber", password) VALUES($1, $2, $3, $4, $5, $6, $7)';
@@ -60,7 +61,6 @@ class UserTDG {
             if (err) {
                 console.log(err.message);
             }
-            console.log('New user '+ firstName +' has been created');
         });
     }
 
@@ -74,10 +74,27 @@ class UserTDG {
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
+   * @param {string} sessionID sessionID for login
    */
     static update(id, isAdmin, firstName, lastName, address, email, phone) {
         let queryString = 'UPDATE user SET isAdmin=$2, firstName=$3, lastName=$4, address=$5, email=$6, phone=$7 WHERE id=$1';
         let queryValues = [id, isAdmin, firstName, lastName, address, email, phone];
+
+        db.query(queryString, queryValues, (err, result) => {
+            if (err) {
+                console.log(err.message);
+            }
+        });
+    }
+
+    /**
+     * Updates user's login session in the activeusers table
+     * @param {string} id the id of user
+     * @param {string} sessionid the sessionID for login
+     */
+    static updateLoginSession(id, sessionid) {
+        let queryString = 'INSERT INTO activeusers (user_id, sessionid) VALUES ($1, $2) ON CONFLICT (user_id) DO UPDATE SET sessionid=$2;';
+        let queryValues = [id, sessionid];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {

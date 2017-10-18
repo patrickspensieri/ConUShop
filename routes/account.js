@@ -6,9 +6,17 @@ let UserMapper = require('../domain-layer/mappers/UserMapper');
 let register = require('../domain-layer/classes/Register');
 let bcrypt = require('bcryptjs');
 
-// configure local strategy
+
+// TODO move logic to controllers
+// TODO protect routes in groups
+// TODO send client flash messages
+
+
+/**
+ * Configure local strategy used by Passport.
+ * Ensures that a user can only be logged in at most once.
+ */
 passport.use(new LocalStrategy(
-    // login form contains email, not  username
     {
         usernameField: 'email',
         passwordField: 'password',
@@ -25,32 +33,43 @@ passport.use(new LocalStrategy(
             }
             comparePassword(password, user.password, function(err, isMatch) {
                 if (err) throw err;
-                if (isMatch) {
-                    return done(null, user);
-                } else {
+                if (!isMatch) {
                     return done(null, false, {message: 'Invalid password'});
                 }
             });
+            // IF user.sessionID != null THEN user logged in elsewhere, failure
+            if (user.sessionID) {
+                return done(null, false, {message: 'User already logged in on another device'});
+            } else {
+                return done(null, user);
+            }
         });
     }));
 
-// session maintained via cookie browser
-// save user object into session, uses id by default
+/**
+ * Store user into session.
+ * Session maintained in memory-store, while cookie contains sessionID.
+ */
 passport.serializeUser(function(user, done) {
     done(null, user.email);
 });
-// retrieve user object from cookie
-passport.deserializeUser(function(email, done) {
+
+/**
+ * Retrieve user object from session.
+ * Invoked every time a non-static asset is requested.
+ */
+passport.deserializeUser(function(req, email, done) {
     UserMapper.find(email, function(err, user) {
+        console.log('deserializeUser : ' + user.id + '\n\treq.sessionID : ' + req.sessionID);
+        // update the user's sessionID and store changes
+        user.sessionID = req.sessionID;
+        UserMapper.updateLoginSession(user);
         done(err, user);
     });
 });
 
-// TODO move logic to controllers
-// TODO protect routes
-
-
 router.get('/TempClientPage', function(req, res) {
+    // QUESTION why req.logout() ?
     req.logout();
     res.render('pages/TempClientPage');
 });
@@ -59,18 +78,29 @@ router.get('/', function(req, res) {
     res.render('pages/index');
 });
 
+// user.sessionID updated in deserializeUser
 router.post('/login',
-    passport.authenticate('local', {successRedirect: 'adminDashboard',
-        failureRedirect: '/'}),
+    passport.authenticate('local', {failureRedirect: '/'}),
     function(req, res) {
-        res.redirect('/');
+        console.log('from login : ' + req.sessionID);
+        res.render('pages/adminDashboard');
     });
 
 router.get('/logout', function(req, res) {
+    UserMapper.find(req.user.email, function(err, user) {
+        if (err) {
+            throw err;
+        }
+        if (user.sessionID) {
+            user.sessionID = null;
+            UserMapper.updateLoginSession(user);
+        }
+    });
     req.logout();
     res.redirect('/');
 });
 
+// QUESTION why a post endpoint for handling logout, and req.logout() also missing?
 router.post('/logout',
     function(req, res) {
         res.redirect('/');
@@ -109,18 +139,21 @@ router.post('/register', function(req, res) {
             errors: errors
         })*/
         res.redirect('/');
-
-        ;
+        // removed a ; from here
     } else {
         register.createNewUser(isAdmin, firstName, lastName, address, email, phone, password, function(err, user) {
             if (err) throw err;
         });
-
         res.redirect('/');
     }
 });
 
-// TODO move function to more appropriate place
+/**
+ * Password validation
+ * @param  {String}   candidatePassword
+ * @param  {String}   hash
+ * @param  {Function} callback
+ */
 comparePassword = function(candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
         if (err) {
@@ -138,11 +171,12 @@ comparePassword = function(candidatePassword, hash, callback) {
  */
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
+        console.log('req.user.email from ensureAuthenticated : ' + req.user.email);
+        console.log('req.sessionID from ensureAuthenticated : ' + req.session.id);
         UserMapper.find(req.user.email, function(err, user) {
             if (err) {
                 throw err;
             }
-
             if (user.isAdmin) {
                 return next();
             } else {
