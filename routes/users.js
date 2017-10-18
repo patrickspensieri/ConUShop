@@ -61,7 +61,7 @@ router.post('/register', function(req, res) {
             errors: errors,
         });
     } else {
-        let newUser = new User(firstName, lastName, address, email, phoneNumber);
+        let newUser = UserMapper.makeNew(firstName, lastName, address, email, phoneNumber);
         createUser(newUser, password, function(err, user) {
             if (err) throw err;
         });
@@ -147,7 +147,7 @@ getUserByEmail = function(email, callback) {
         if (typeof(res.rows[0]) == 'undefined') {
             callback(err, null);
         } else {
-            callback(err, new User(res.rows[0].firstName, res.rows[0].lastName, res.rows[0].address,
+            callback(err, UserMapper.makeNew(res.rows[0].firstName, res.rows[0].lastName, res.rows[0].address,
              res.rows[0].email, res.rows[0].phone, res.rows[0].id, res.rows[0].password));
          }
     });
@@ -160,7 +160,7 @@ getUserById = function(id, callback) {
             console.log(err.message);
         }
         let row = res.rows[0];
-        callback(err, new User(row.firstName, row.lastName, row.address, row.email, row.phone, row.id, row.password));
+        callback(err, UserMapper.makeNew(row.firstName, row.lastName, row.address, row.email, row.phone, row.id, row.password));
     });
 };
 

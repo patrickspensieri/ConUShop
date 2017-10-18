@@ -8,6 +8,24 @@ let DesktopTDG = require('../../data-source-layer/TDG/desktopTDG');
  */
 class DesktopMapper {
   /**
+   * Creates a new desktop
+   * @static
+   * @param {string} model model number of desktop.
+   * @param {string} brand brand of desktop.
+   * @param {string} processor processor in desktop.
+   * @param {number} ram ram amount in desktop.
+   * @param {number} storage storage size of desktop.
+   * @param {number} cores amount of cores in processor in desktop.
+   * @param {string} dimensions dimensions of desktop.
+   * @param {number} weight weight of desktop.
+   * @param {number} price price of desktop.
+   * @return desktop object.
+   */
+    static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
+        let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+        return desktop;
+    }
+  /**
    * Maps the returned value to an object of type desktop.
    * @static
    * @param {string} id model number of desktop to be found.
