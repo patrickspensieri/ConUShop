@@ -1,9 +1,18 @@
 let express = require('express');
 let router = new express.Router();
-let productCatalog = require('../domain-layer/classes/ProductCatalog');
+let Admin = require('../domain-layer/classes/Admin');
+let UserMapper = require('../domain-layer/mappers/UserMapper');
+
+// Get Dashboard
+router.get('/adminDashboard', ensureAuthenticated, function(req, res) {
+    this.admin = new Admin();
+    res.render('pages/adminDashboard');
+});
 
 router.get('/desktopView', function(req, res) {
-    productCatalog.getAllProductSpecification('Desktop', function(err, data) {
+    this.admin = new Admin();
+
+    this.admin.getProductCatalogInstance().getAllProductSpecification('Desktop', function(err, data) {
         res.render('catalogPages/desktopView', {
             data: data,
         });
@@ -11,7 +20,7 @@ router.get('/desktopView', function(req, res) {
 });
 
 router.get('/itemsView', function(req, res) {
-    productCatalog.getItems(function(err, data) {
+    this.admin.getProductCatalogInstance().getItems(function(err, data) {
         res.render('catalogPages/itemsView', {
             data: data,
         });
@@ -19,12 +28,12 @@ router.get('/itemsView', function(req, res) {
 });
 
 router.post('/deleteItem', function(req, res) {
-    productCatalog.deleteItem(req.body.serialNumberToRemove);
+    this.admin.getProductCatalogInstance().deleteItem(req.body.serialNumberToRemove);
     res.redirect(req.get('referer'));
 });
 
 router.post('/addItem', function(req, res) {
-    productCatalog.addItem(req.body.serialNumber, req.body.productType, req.body.modelNumber);
+    this.admin.getProductCatalogInstance().addItem(req.body.serialNumber, req.body.productType, req.body.modelNumber);
     res.redirect(req.get('referer'));
 });
 
@@ -109,14 +118,14 @@ router.post('/addProdSpec', function(req, res) {
             errors: errors,
         });
     } else {
-        productCatalog.addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+        this.admin.getProductCatalogInstance().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
             weight, price, display, os, battery, camera, touch, size);
         res.redirect(req.get('referer'));
     }
 });
 
 router.post('/deleteProdSpec', function(req, res) {
-    productCatalog.deleteProductSpecification(req.body.prodType, req.body.modelNumber);
+    this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.modelNumber);
     res.send({redirect: req.body.redi});
 });
 
@@ -152,7 +161,7 @@ router.post('/updateProdSpec', function(req, res) {
 });
 
 router.get('/laptopView', function(req, res) {
-    productCatalog.getAllProductSpecification('Laptop', function(err, data) {
+    this.admin.getProductCatalogInstance().getAllProductSpecification('Laptop', function(err, data) {
         res.render('catalogPages/laptopView', {
             data: data,
         });
@@ -160,7 +169,7 @@ router.get('/laptopView', function(req, res) {
 });
 
 router.get('/monitorView', function(req, res) {
-    productCatalog.getAllProductSpecification('Monitor', function(err, data) {
+    this.admin.getProductCatalogInstance().getAllProductSpecification('Monitor', function(err, data) {
         res.render('catalogPages/monitorView', {
             data: data,
         });
@@ -168,11 +177,34 @@ router.get('/monitorView', function(req, res) {
 });
 
 router.get('/tabletView', function(req, res) {
-    productCatalog.getAllProductSpecification('Tablet', function(err, data) {
+    this.admin.getProductCatalogInstance().getAllProductSpecification('Tablet', function(err, data) {
         res.render('catalogPages/tabletView', {
             data: data,
         });
     });
 });
 
+/**
+ * Ensure the user is logged in and prevent him from accessing pages
+ * @param  {path} req
+ * @param  {path} res
+ * @param  {path} next
+ */
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        UserMapper.find(req.user.email, function(err, user) {
+            if (err) {
+                throw err;
+            }
+
+            if (user.isAdmin) {
+                return next();
+            } else {
+                res.redirect('/account/TempClientPage');
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+}
 module.exports = router;

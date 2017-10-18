@@ -29,7 +29,7 @@ class ProductCatalog {
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
      */
-    static addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
+    addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         switch (productType) {
             case 'Desktop':
                 this.desktop = desktopMapper.makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price);
@@ -68,7 +68,7 @@ class ProductCatalog {
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
      */
-    static updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
+    updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         switch (productType) {
             case 'Desktop':
                 this.desktop = desktopMapper.makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price);
@@ -95,7 +95,7 @@ class ProductCatalog {
      * @param {string} productType product Type
      * @param {string} modelNumber model number of product.
      */
-    static deleteProductSpecification(productType, modelNumber) {
+    deleteProductSpecification(productType, modelNumber) {
         this.getProductSpecification(productType, modelNumber, function callback(err, result) {
             switch (productType) {
                 case 'Desktop':
@@ -120,7 +120,7 @@ class ProductCatalog {
      * @param {string} modelNumber model number of product.
      * @param {function} callback function
      */
-    static getProductSpecification(productType, modelNumber, callback) {
+    getProductSpecification(productType, modelNumber, callback) {
     switch (productType) {
         case 'Desktop':
             desktopMapper.find(modelNumber, function(err, result) {
@@ -168,7 +168,7 @@ class ProductCatalog {
      * @param {string} productType product Type
      * @param {function} callback function
      */
-    static getAllProductSpecification(productType, callback) {
+    getAllProductSpecification(productType, callback) {
         switch (productType) {
             case 'Desktop':
                 desktopMapper.findAll(function(err, data) {
@@ -210,7 +210,7 @@ class ProductCatalog {
      * @param {string} serialNumber of product
      * @param {string} modelNumber model number of product specification
      */
-    static addItem(serialNumber, modelNumber) {
+    addItem(serialNumber, modelNumber) {
         this.item = itemMapper.makeNew(serialNumber, modelNumber);
         console.log(this.item);
         itemMapper.insert(this.item);
@@ -220,7 +220,7 @@ class ProductCatalog {
      * @constructor
      * @param {string} serialNumber of product
      */
-    static deleteItem(serialNumber) {
+    deleteItem(serialNumber) {
         itemMapper.delete(serialNumber);
     }
 
@@ -228,7 +228,7 @@ class ProductCatalog {
      * @constructor
      * @param {function} callback function
      */
-    static getItems(callback) {
+    getItems(callback) {
         itemMapper.findAll(function(err, data) {
             if (err) {
                 throw err;
