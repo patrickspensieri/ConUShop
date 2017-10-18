@@ -477,8 +477,8 @@ CREATE TABLE USERS (
     Password varchar(120) NOT NULL
 );
 
-INSERT INTO USERS VALUES ('ADMN01', TRUE, 'Elvis', 'Gratton', '6969 Tabernacle Avenue', 'elvis.gratton@hotmail.com', '5143184562', 'Grattonbest!');
-INSERT INTO USERS VALUES ('ADMN02', TRUE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', 'ZeusAboveAll');
+INSERT INTO USERS VALUES ('ADMN01', TRUE, 'C', 'C', 'Concordia University', 'CC@hotmail.com', '5143184562', '1234');
+INSERT INTO USERS VALUES ('USER03', FALSE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', 'ZeusAboveAll');
 INSERT INTO USERS VALUES ('USER01', FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', 'HabsForLife');
 INSERT INTO USERS VALUES ('USER02', FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', 'GlobalWarming');
 
