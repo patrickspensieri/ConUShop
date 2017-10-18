@@ -60,7 +60,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/login',
-    passport.authenticate('local', {successRedirect: 'adminDashboard',
+    passport.authenticate('local', {successRedirect: '/catalog/adminDashboard',
         failureRedirect: '/'}),
     function(req, res) {
         res.redirect('/');
@@ -75,12 +75,6 @@ router.post('/logout',
     function(req, res) {
         res.redirect('/');
     });
-
-// Get Dashboard
-router.get('/adminDashboard', ensureAuthenticated, function(req, res) {
-    res.render('pages/adminDashboard');
-});
-
 
 // Register User
 router.post('/register', function(req, res) {
@@ -129,29 +123,5 @@ comparePassword = function(candidatePassword, hash, callback) {
         callback(null, isMatch);
     });
 };
-
-/**
- * Ensure the user is logged in and prevent him from accessing pages
- * @param  {path} req
- * @param  {path} res
- * @param  {path} next
- */
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        UserMapper.find(req.user.email, function(err, user) {
-            if (err) {
-                throw err;
-            }
-
-            if (user.isAdmin) {
-                return next();
-            } else {
-                res.redirect('/account/TempClientPage');
-            }
-        });
-    } else {
-        res.redirect('/');
-    }
-}
 
 module.exports = router;
