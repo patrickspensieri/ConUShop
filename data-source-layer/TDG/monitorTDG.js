@@ -38,6 +38,7 @@ class MonitorTDG {
   /**
    * Inserts an object into the monitor table.
    * @static
+   * @param {string} device device (monitor here).
    * @param {string} model model number of monitor.
    * @param {string} brand brand of monitor.
    * @param {number} size  size of monitor screen.
@@ -45,7 +46,7 @@ class MonitorTDG {
    * @param {number} price price of monitor.
    */
     static insert(model, brand, size, weight, price) {
-        let queryString = 'INSERT INTO monitor (model, brand, size, weight, price) VALUES($1, $2, $3, $4, $5)';
+        let queryString = 'INSERT INTO monitor (device, model, brand, size, weight, price) VALUES("Monitor", $1, $2, $3, $4, $5)';
         let queryValues = [model, brand, size, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {

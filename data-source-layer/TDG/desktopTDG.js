@@ -38,6 +38,7 @@ class DesktopTDG {
   /**
    * Inserts an object into the desktop table.
    * @static
+   * @param {string} device device (desktop here).
    * @param {string} model model number of desktop.
    * @param {string} brand brand of desktop.
    * @param {string} processor processor in desktop.
@@ -49,7 +50,7 @@ class DesktopTDG {
    * @param {number} price price of desktop.
    */
     static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
-        let queryString = 'INSERT INTO desktop (model, brand, processor, ram, storage, cores, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+        let queryString = 'INSERT INTO desktop (device, model, brand, processor, ram, storage, cores, dimensions, weight, price) VALUES("Desktop",$1, $2, $3, $4, $5, $6, $7, $8, $9)';
         let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {
@@ -62,6 +63,7 @@ class DesktopTDG {
   /**
    * Updates an object in the desktop table.
    * @static
+   * @param {string} device device (desktop here).
    * @param {string} model model number of desktop.
    * @param {string} brand brand of desktop.
    * @param {string} processor processor in desktop.
