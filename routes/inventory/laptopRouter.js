@@ -61,7 +61,7 @@ router.post('/', function(req, res) {
             errors: errors,
         });
     } else {
-        let newlaptop = new Laptop(model, brand, display, processor, ram, storage, cores, os,
+        let newlaptop = LaptopMapper.makeNew(model, brand, display, processor, ram, storage, cores, os,
             battery, camera, touch, dimensions, weight, price);
 
         LaptopMapper.insert(newlaptop);

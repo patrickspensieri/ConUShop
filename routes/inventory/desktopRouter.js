@@ -51,7 +51,7 @@ router.post('/', function(req, res) {
             errors: errors,
         });
     } else {
-        let newDesktop = new Desktop(model, brand, processor, ram,
+        let newDesktop = DesktopMapper.makeNew(model, brand, processor, ram,
             storage, cores, dimensions, weight, price);
 
         DesktopMapper.insert(newDesktop);
