@@ -473,18 +473,17 @@ INSERT INTO PRODUCTCATALOG(Device, Model) VALUES('Laptop', (SELECT MODEL FROM PR
 INSERT INTO PRODUCTCATALOG(Device, Model) VALUES('Laptop', (SELECT MODEL FROM PRODUCT WHERE MODEL=52));
 
 CREATE TABLE USERS (
-    ID SERIAL NOT NULL,
-    isAdmin BOOLEAN NOT NULL,
+    ID BIGSERIAL PRIMARY KEY NOT NULL,
+    isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
     FirstName VARCHAR(55) NOT NULL,
     LastName VARCHAR(55) NOT NULL,
     Adress VARCHAR(55) NOT NULL,
     Email VARCHAR(55) NOT NULL,
-    Phone VARCHAR(55),
-    PRIMARY KEY (ID, isAdmin)
+    Phone INTEGER NOT NULL,
+    Password varchar(120) NOT NULL
 );
 
-INSERT INTO USERS(isAdmin, FirstName, LastName, Adress, Email, Phone) VALUES (TRUE, 'Elvis', 'Gratton', '6969 Tabernacle Avenue', 'elvis.gratton@hotmail.com', '514-318-4562');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Adress, Email, Phone) VALUES (TRUE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '124-313-3082');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Adress, Email, Phone) VALUES (FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '523-304-3242');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Adress, Email, Phone) VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '302-482-7549');
-
+INSERT INTO USERS(isAdmin, FirstName, LastName, Adress, Email, Phone) VALUES (TRUE, 'Elvis', 'Gratton', '6969 Tabernacle Avenue', 'elvis.gratton@hotmail.com', 5143184562, 'Grattonbest!');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Adress, Email, Phone) VALUES (TRUE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', 1243133082, 'ZeusAboveAll');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Adress, Email, Phone) VALUES (FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', 5233043242, 'HabsForLife');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Adress, Email, Phone) VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', 3024827549, 'GlobalWarming');
