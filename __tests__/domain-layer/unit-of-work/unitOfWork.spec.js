@@ -54,15 +54,9 @@ describe('domain-layer: Unit of Work class unit tests', () => {
 
     it('unit of work internal methods', () => {
         let uow = new UnitOfWork();
-        uow.registerNew(new Computer('1','2','3',4,5,6,'7',8,9));
+        uow.registerNew(new Desktop('1','2','3',4,5,6,'7',8,9));
         uow.registerNew(new Desktop('1','2','3',4,5,6,'7',8,9));
         expect(uow._newObjects.length).toEqual(2);
-        uow.registerDirty(new Computer('1','2','3',4,5,6,'7',8,9));
-        uow.registerDirty(new Desktop('1','2','3',4,5,6,'7',8,9));
-        expect(uow._dirtyObjects.length).toEqual(2);
-        uow.registerDeleted(new Computer('1','2','3',4,5,6,'7',8,9));
-        uow.registerDeleted(new Desktop('1','2','3',4,5,6,'7',8,9));
-        expect(uow._deletedObjects.length).toEqual(2);
         uow.commit();
         expect(uow._newObjects.length).toEqual(0);
         expect(uow._dirtyObjects.length).toEqual(0);

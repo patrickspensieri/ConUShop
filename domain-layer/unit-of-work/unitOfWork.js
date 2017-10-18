@@ -80,16 +80,16 @@ class UnitOfWork {
      */
     _insertNew() {
         for (let i=0; i < this._newObjects.length; i++) {
-            if (this._newObjects[i] instanceof Desktop) {
+            if (this._newObjects[i].constructor.name == 'Desktop') {
                 DesktopMapper.insert(this._newObjects[i]);
             }
-            if (this._newObjects[i] instanceof Laptop) {
+            if (this._newObjects[i].constructor.name == 'Laptop') {
                 LaptopMapper.insert(this._newObjects[i]);
             }
-            if (this._newObjects[i] instanceof Tablet) {
+            if (this._newObjects[i].constructor.name == 'Tablet') {
                 TabletMapper.insert(this._newObjects[i]);
             }
-            if (this._newObjects[i] instanceof Monitor) {
+            if (this._newObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.insert(this._newObjects[i]);
             }
         }
@@ -101,16 +101,16 @@ class UnitOfWork {
      */
     _updateDirty() {
         for (let i=0; i < this._dirtyObjects.length; i++) {
-            if (this._dirtyObjects[i] instanceof Desktop) {
+            if (this._dirtyObjects[i].constructor.name == 'Desktop') {
                 DesktopMapper.update(this._dirtyObjects[i]);
             }
-            if (this._dirtyObjects[i] instanceof Laptop) {
+            if (this._dirtyObjects[i].constructor.name == 'Laptop') {
                 LaptopMapper.update(this._dirtyObjects[i]);
             }
-            if (this._dirtyObjects[i] instanceof Tablet) {
+            if (this._dirtyObjects[i].constructor.name == 'Tablet') {
                 TabletMapper.update(this._dirtyObjects[i]);
             }
-            if (this._dirtyObjects[i] instanceof Monitor) {
+            if (this._dirtyObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.update(this._dirtyObjects[i]);
             }
         }
@@ -122,16 +122,16 @@ class UnitOfWork {
      */
     _deleteRemoved() {
         for (let i=0; i < this._deletedObjects.length; i++) {
-            if (this._deletedObjects[i] instanceof Desktop) {
+            if (this._deletedObjects[i].constructor.name == 'Desktop') {
                 DesktopMapper.delete(this._deletedObjects[i]);
             }
-            if (this._deletedObjects[i] instanceof Laptop) {
+            if (this._deletedObjects[i].constructor.name == 'Laptop') {
                 LaptopMapper.delete(this._deletedObjects[i]);
             }
-            if (this._deletedObjects[i] instanceof Tablet) {
+            if (this._deletedObjects[i].constructor.name == 'Tablet') {
                 TabletMapper.delete(this._deletedObjects[i]);
             }
-            if (this._deletedObjects[i] instanceof Monitor) {
+            if (this._deletedObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.delete(this._deletedObjects[i]);
             }
         }
