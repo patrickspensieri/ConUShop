@@ -1,13 +1,4 @@
-﻿CREATE TABLE Device(
-Device VARCHAR(10) PRIMARY KEY NOT NULL
-);
-
-INSERT INTO Device VALUES('Desktop');
-INSERT INTO Device VALUES('Laptop');
-INSERT INTO Device VALUES('Monitor');
-INSERT INTO Device VALUES('Tablet');
-
-CREATE TABLE Product(
+﻿CREATE TABLE Product(
 Model VARCHAR(10) PRIMARY KEY NOT NULL
 );
 
