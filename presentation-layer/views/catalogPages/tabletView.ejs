@@ -14,20 +14,8 @@
 <% include ../../assets/components/navigator.ejs %>
 <!-- //navigator -->
 
-<div class="">
-    <nav>
-        <ul class="">
-            <li role="navMenu"><a href="/users/dashboard">Dashboard</a></li>
-            <li role="navMenu"><a href="/users/logout">Logout</a></li>
-            <li role="navMenu"><a href="/users/login">Login</a></li>
-            <li role="navMenu"><a href="/users/register">Register</a></li>
-        </ul>
-    </nav>
-</div>
+<% include ../../assets/components/dashboardNav.ejs %>
 
-<div class="jumbotron text-center">
-    <!--%= jsonData %-->
-</div>
 
 <form method="post" action="/catalog/addProdSpec">
     <div class="AddTablet">

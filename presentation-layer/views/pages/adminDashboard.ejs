@@ -13,19 +13,20 @@
 <!-- //navigator -->
 
 
-<h1>Welcome To Admin Dashboard</h1>
-<ul class="">
-    <li role="inventoryList"><a href="/catalog/desktopView">Desktop</a></li>
-    <li role="inventoryList"><a href="/catalog/laptopView">Laptop</a></li>
-    <li role="inventoryList"><a href="/catalog/monitorView">Monitor</a></li>
-    <li role="inventoryList"><a href="/catalog/tabletView">tablet</a></li>
-    <li role="inventoryList"><a href="/catalog/itemsView">Item Catalog</a></li>
-
-</ul>
+<% include ../../assets/components/dashboardNav.ejs %>
 <!--%= jsonData %-->
-<!-- footer -->
-<% include ../../assets/components/footer.ejs %>
-<!-- //footer -->
 
+<div class="footer">
+    <div class="footer-copy">
+        <div class="footer-copy1">
+            <div class="footer-copy-pos">
+                <a href="/dashboard" class="scroll"><img src="images/arrow.png" alt=" " class="img-responsive" /></a>
+            </div>
+        </div>
+    <div class="container">
+        <p>&copy; 2017 ConUshop. All rights reserved.</p>
+    </div>
+</div>
+</div>
 </body>
 </html>

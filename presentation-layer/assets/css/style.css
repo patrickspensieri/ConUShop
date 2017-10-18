@@ -5002,3 +5002,41 @@ td.invert-image a img {
 table, th, td {
 	border: 1px solid black;
 }
+.admin_dashboard{
+
+
+
+}
+div.inside_dashboard_nav{
+    background-color: #f1f1f1;
+    width: 100%;
+}
+ul.admin_dashboard {
+    margin: auto;
+    overflow: hidden;
+    list-style-type: none;
+    margin: auto;
+    padding: 0;
+    width: 42%;
+    background-color: #f1f1f1;
+
+}
+li.nav_dashboard {
+    float: left;
+}
+li.nav_dashboard a{
+    border: 1px;
+    display: block;
+    padding: 10px 16px;
+    color: black;
+
+
+
+
+}
+li.nav_dashboard a:hover:not(.active){
+    border: 1px;
+    color: #932439;
+    background-color: #a3a3a3;
+    padding: 10px 16px;
+}
