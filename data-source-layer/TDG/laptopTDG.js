@@ -38,7 +38,6 @@ class LaptopTDG {
   /**
    * Inserts an object into the laptop table.
    * @static
-   * @param {string} device device (laptop here).
    * @param {string} model model number of laptop.
    * @param {string} brand brand of laptop.
    * @param {number} display  size of laptop screen.
@@ -55,7 +54,7 @@ class LaptopTDG {
    * @param {number} price price of laptop.
    */
     static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
-        let queryString = 'INSERT INTO laptop (device, model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) VALUES("Laptop", $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
+        let queryString = 'INSERT INTO laptop (model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) =>{
@@ -68,7 +67,6 @@ class LaptopTDG {
   /**
    * Updates an object in the laptop table.
    * @static
-   * @param {string} device device (laptop here).
    * @param {string} model model number of laptop.
    * @param {string} brand brand of laptop.
    * @param {number} display  size of laptop screen.
