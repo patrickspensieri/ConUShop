@@ -458,18 +458,18 @@ INSERT INTO Item(SerialNumber, Model) VALUES('ITEM259', (SELECT MODEL FROM PRODU
 INSERT INTO Item(SerialNumber, Model) VALUES('ITEM260', (SELECT MODEL FROM PRODUCT WHERE MODEL='LAP11'));
 
 CREATE TABLE USERS (
-    ID VARCHAR(100) PRIMARY KEY NOT NULL,
-    isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
-    FirstName VARCHAR(55) NOT NULL,
-    LastName VARCHAR(55) NOT NULL,
-    Adress VARCHAR(55) NOT NULL,
-    Email VARCHAR(55) NOT NULL,
-    Phone VARCHAR(25) NOT NULL,
-    Password varchar(120) NOT NULL
+    "id" VARCHAR(100) PRIMARY KEY NOT NULL,
+    "isAdmin" BOOLEAN NOT NULL DEFAULT FALSE,
+    "firstName" VARCHAR(55) NOT NULL,
+    "lastName" VARCHAR(55) NOT NULL,
+    "address" VARCHAR(55) NOT NULL,
+    "phone" VARCHAR(25) NOT NULL,
+    "password" varchar(120) NOT NULL
 );
 
-INSERT INTO USERS VALUES ('ADMN01', TRUE, 'C', 'C', 'Concordia University', 'CC@hotmail.com', '5143184562', '1234');
-INSERT INTO USERS VALUES ('USER03', FALSE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', 'ZeusAboveAll');
-INSERT INTO USERS VALUES ('USER01', FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', 'HabsForLife');
-INSERT INTO USERS VALUES ('USER02', FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', 'GlobalWarming');
+INSERT INTO USERS VALUES ('CC@hotmail.com', TRUE, 'C', 'C', 'Concordia University', '5143184562', '$2a$10$NFP2dekmJbUX.V2AeqVUs.TY/4Qn9bFlofZGuXsPZQtS0Aws..QKW');
+INSERT INTO USERS VALUES ('zeusontop@hotmail.com', FALSE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', '1243133082', 'ZeusAboveAll');
+INSERT INTO USERS VALUES ('larak@hotmail.com', FALSE, 'George', 'Larak', '230 Bully Street', '5233043242', 'HabsForLife');
+INSERT INTO USERS VALUES ('donalduck@hotmail.com', FALSE, 'Donald', 'Mandela', '2019 Hope Avenue',  '3024827549', 'GlobalWarming');
+
 

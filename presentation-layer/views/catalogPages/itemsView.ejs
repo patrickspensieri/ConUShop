@@ -17,16 +17,12 @@
 
 <form method="post" action="/catalog/addItem">
     <div class="AddItem">
-        <label>modelNumber</label>
-        <input type="text" class="" name="modelNumber" placeholder="Model Number">
-    </div>
-    <div class="AddItem">
-        <label>productType</label>
-        <input type="text" class="" name="productType" placeholder="Product Type">
-    </div>
-    <div class="AddItem">
         <label>serialNumber</label>
         <input type="text" class="" name="serialNumber" placeholder="Serial Number">
+    </div>
+    <div class="AddItem">
+        <label>modelNumber</label>
+        <input type="text" class="" name="modelNumber" placeholder="Model Number">
     </div>
     <button type="submit" class="">Add item</button>
 </form></br>
@@ -42,14 +38,13 @@
     <% if (typeof data!='undefined') { %>
         <table>
             <tr>
-                <td>Model Number</td>
                 <td>Serial Number</td>
+                <td>Model Number</td>
 
             </tr>
         <% for(var i = 0; i < data.length; i++) { %>
             <tr>
                 <td><%= data[i].serialNumber %></td>
-                <td><%= data[i].productType %></td>
                 <td><%= data[i].modelNumber %></td>
             </tr>
         <% } %>

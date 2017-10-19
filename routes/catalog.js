@@ -33,7 +33,7 @@ router.post('/deleteItem', function(req, res) {
 });
 
 router.post('/addItem', function(req, res) {
-    this.admin.getProductCatalogInstance().addItem(req.body.serialNumber, req.body.productType, req.body.modelNumber);
+    this.admin.getProductCatalogInstance().addItem(req.body.serialNumber, req.body.modelNumber);
     res.redirect(req.get('referer'));
 });
 

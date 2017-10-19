@@ -6,21 +6,21 @@
 class User {
   /**
    * @constructor
+   * @param {string} email email of user
    * @param {Boolean} isAdmin is the user an Admin
    * @param {string} firstName first name of user
    * @param {string} lastName last name of user
    * @param {string} address home address of user
-   * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password user password
 
    */
-    constructor(isAdmin, firstName, lastName, address, email, phone, password) {
+    constructor(email, isAdmin, firstName, lastName, address, phone, password) {
+      this.email = email;
       this.isAdmin = isAdmin;
       this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-        this.email = email;
         this.phone = phone;
         this.password = password;
         // user registration always creates clients
@@ -33,8 +33,8 @@ class User {
      * @method display
      */
     display() {
-        console.log(this.isAdmin + ' ' + this.firstName + ' ' +
-         this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone);
+        console.log(this.email + ' ' + this.isAdmin + ' ' + this.firstName + ' ' +
+         this.lastName + ' ' + this.address + ' ' + this.phone);
     }
 }
 

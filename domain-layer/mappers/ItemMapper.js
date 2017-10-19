@@ -11,12 +11,11 @@ class ItemMapper {
      * Creates a new item
      * @static
      * @param {string} serialNumber of product
-     * @param {string} productType of product
      * @param {string} modelNumber of Product Specification
      * @return {item} item object.
      */
-    static makeNew(serialNumber, productType, modelNumber) {
-        let item = new Item(serialNumber, productType, modelNumber);
+    static makeNew(serialNumber, modelNumber) {
+        let item = new Item(serialNumber, modelNumber);
         return item;
     }
 
@@ -35,7 +34,7 @@ class ItemMapper {
                 if (result.length==0) {
                     return callback(err, null);
                 } else {
-                    return callback(null, new Item(value.serialnumber, value.device, value.modelnumber));
+                    return callback(null, new Item(value.serialnumber, value.model));
                 }
             }
         });
@@ -53,7 +52,7 @@ class ItemMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    items.push(new Item(value.serialnumber, value.device, value.model));
+                    items.push(new Item(value.serialnumber, value.model));
                 }
                 return callback(null, items);
             }
@@ -66,7 +65,7 @@ class ItemMapper {
      * @param {Object} itemObject an object of type item.
      */
     static insert(itemObject) {
-        ItemTDG.insert(itemObject.serialNumber, itemObject.productType, itemObject.modelNumber);
+        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber);
     }
 
     /**

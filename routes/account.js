@@ -20,6 +20,7 @@ passport.use(new LocalStrategy(
     function(email, password, done) {
         UserMapper.find(email, function(err, user) {
             if (err) throw err;
+
             if (!user) {
                 return done(null, false, {message: 'Unknown User, cannot find via email'});
             }
@@ -106,7 +107,7 @@ router.post('/register', function(req, res) {
 
         ;
     } else {
-        register.createNewUser(isAdmin, firstName, lastName, address, email, phone, password, function(err, user) {
+        register.createNewUser(email, isAdmin, firstName, lastName, address, phone, password, function(err, user) {
             if (err) throw err;
         });
 

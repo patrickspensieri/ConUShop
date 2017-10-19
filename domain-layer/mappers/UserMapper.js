@@ -10,17 +10,16 @@ class UserMapper {
   /**
    * Creates a new user
    * @static
+   * @param {string} email email of user
    * @param {string} firstName first name of user
    * @param {string} lastName last name of user
    * @param {string} address home address of user
-   * @param {string} email email of user
    * @param {number} phone phone number of user
-   * @param {string} id the id of user
    * @param {string} password user password, hashed
    * @return {user} user object.
    */
-    static makeNew(firstName, lastName, address, email, phone, id, password) {
-        let user = new User(firstName, lastName, address, email, phone, id, password);
+    static makeNew(email, firstName, lastName, address, phone, password) {
+        let user = new User(email, firstName, lastName, address, phone, password);
         return user;
     }
 
@@ -40,8 +39,8 @@ class UserMapper {
                 if (result.length==0) {
                     return callback(err, null);
                 } else {
-                    return callback(null, new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phoneNumber, value.password));
+                    return callback(null, new User(value.id, value.isAdmin, value.firstName,
+                        value.lastName, value.address, value.phone, value.password));
                 }
             }
         });
@@ -59,8 +58,8 @@ class UserMapper {
                 console.log('Error during user findALL query', null);
             } else {
                 for (let value of result) {
-                    users.push(new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phoneNumber));
+                    users.push(new User(value.email, value.isAdmin, value.firstName,
+                        value.lastName, value.address, value.phone));
                 }
                 return callback(null, users);
             }
@@ -76,8 +75,8 @@ class UserMapper {
    * @param {Object} userObject an object of type user.
    */
     static insert(userObject) {
-        UserTDG.insert(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password);
+        UserTDG.insert(userObject.email, userObject.isAdmin, userObject.firstName,
+            userObject.lastName, userObject.address, userObject.phone, userObject.password);
     }
 
   /**
@@ -86,8 +85,8 @@ class UserMapper {
    * @param {Object} userObject an object of type user.
    */
     static update(userObject) {
-        UserTDG.update(userObject.id, userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone);
+        UserTDG.update(userObject.email, userObject.isAdmin, userObject.firstName,
+            userObject.lastName, userObject.address, userObject.phone);
     }
 
   /**
@@ -96,7 +95,7 @@ class UserMapper {
    * @param {Object} userObject an object of type user.
    */
     static delete(userObject) {
-        UserTDG.delete(userObject.id);
+        UserTDG.delete(userObject.email);
     }
 }
 

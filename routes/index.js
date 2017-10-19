@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
     res.render('pages/index');
 });
 
-//router.get('/dashboard', function(req, res) {
+// router.get('/dashboard', function(req, res) {
 //    res.render('pages/adminDashboard');
-//});
+// });
 module.exports = router;

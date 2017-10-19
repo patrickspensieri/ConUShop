@@ -12,7 +12,7 @@ class ItemTDG {
      * @param {string} serialNumber serial number of item to be found.
      */
     static find(serialNumber) {
-        db.query('SELECT * FROM productcatalog WHERE serialnumber=$1', [serialNumber], (err, result) => {
+        db.query('SELECT * FROM item WHERE serialnumber=$1', [serialNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -27,7 +27,7 @@ class ItemTDG {
      * @param {function} callback function
      */
     static findAll(callback) {
-        db.query('SELECT * FROM productcatalog', (err, result) => {
+        db.query('SELECT * FROM item', (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -40,13 +40,12 @@ class ItemTDG {
      * Inserts an object into the item table.
      * @static
      * @param {string} serialNumber number of product.
-     * @param {string} productType number of product.
      * @param {string} modelNumber of product description.
 
      */
-    static insert(serialNumber, productType, modelNumber) {
-        let queryString = 'INSERT INTO productcatalog (serialNumber, device, model) VALUES($1, $2, $3)';
-        let queryValues = [serialNumber, productType, modelNumber];
+    static insert(serialNumber, modelNumber) {
+        let queryString = 'INSERT INTO item (serialnumber, model) VALUES($1, $2)';
+        let queryValues = [serialNumber, modelNumber];
 
         db.query(queryString, queryValues, (err, result) =>{
             if (err) {
@@ -61,7 +60,7 @@ class ItemTDG {
      * @param {string} serialNumber serial number of item to be deleted.
      */
     static delete(serialNumber) {
-        db.query('DELETE FROM productcatalog WHERE serialnumber=$1', [serialNumber], (err, result) =>{
+        db.query('DELETE FROM item WHERE serialnumber=$1', [serialNumber], (err, result) =>{
             if (err) {
                 console.log(err.message);
             }

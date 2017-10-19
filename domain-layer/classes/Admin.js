@@ -28,6 +28,7 @@ class Admin extends User {
     /**
      * Method to access ProductCatalog instances
      * @method display
+     * @return {ProductCatalog} ProductCatalog instance
      */
     getProductCatalogInstance() {
         return this.productCatalog;
