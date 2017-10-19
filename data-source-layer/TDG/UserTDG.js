@@ -13,7 +13,7 @@ class UserTDG {
    * @param {function} callback function that holds user object.
    */
     static find(email, callback) {
-        db.query('SELECT * FROM users WHERE id=$1', [email], (err, result) => {
+        db.query('SELECT * FROM users WHERE email=$1', [email], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -41,17 +41,17 @@ class UserTDG {
   /**
    * Inserts an object into the user table.
    * @static
-   * @param {string} email email of user
    * @param {boolean} isAdmin is user client or admin
    * @param {string} firstName first name of user
    * @param {string} lastName last name of user
    * @param {string} address home address of user
+   * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password password of user
    */
-    static insert(email, isAdmin, firstName, lastName, address, phone, password) {
-        let queryString = 'INSERT INTO users ("id", "isAdmin", "firstName", "lastName", "address", "phone", "password") VALUES($1, $2, $3, $4, $5, $6, $7)';
-        let queryValues = [email, isAdmin, firstName, lastName, address, phone, password];
+    static insert(isAdmin, firstName, lastName, address, email, phone, password) {
+        let queryString = 'INSERT INTO users (isadmin, firstname, lastname, address, email, phone, password) VALUES($1, $2, $3, $4, $5, $6, $7)';
+        let queryValues = [isAdmin, firstName, lastName, address, email, phone, password];
 
         // TODO update userObject ID once query completed
         // OR
@@ -67,16 +67,16 @@ class UserTDG {
   /**
    * Updates an object in the user table.
    * @static
-   * @param {string} email email of user
    * @param {boolean} isAdmin is user client or admin
    * @param {string} firstName first name of user
    * @param {string} lastName last name of user
    * @param {string} address home address of user
+   * @param {string} email email of user
    * @param {number} phone phone number of user
    */
-    static update(email, isAdmin, firstName, lastName, address, phone) {
-        let queryString = 'UPDATE users SET isAdmin=$2, firstName=$3, lastName=$4, address=$5, phone=$6 WHERE id=$1';
-        let queryValues = [email, isAdmin, firstName, lastName, address, phone];
+    static update(isAdmin, firstName, lastName, address, email, phone) {
+        let queryString = 'UPDATE users SET isadmin=$1, firstname=$2, lastname=$3, address=$4, phone=$6 WHERE email=$5';
+        let queryValues = [isAdmin, firstName, lastName, address, email, phone];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
@@ -88,10 +88,10 @@ class UserTDG {
   /**
    * Deletes an objects in the user table.
    * @static
-   * @param {string} id id of user to be deleted.
+   * @param {string} email email of user to be deleted.
    */
-    static delete(id) {
-      db.query('DELETE FROM users WHERE id=$1', [id], (err, result) =>{
+    static delete(email) {
+      db.query('DELETE FROM users WHERE email=$1', [email], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
