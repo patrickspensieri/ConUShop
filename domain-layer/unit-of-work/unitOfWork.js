@@ -1,8 +1,3 @@
-let Desktop = require('../../domain-layer/classes/desktop');
-let Laptop = require('../../domain-layer/classes/laptop');
-let Monitor = require('../../domain-layer/classes/monitor');
-let Tablet = require('../../domain-layer/classes/tablet');
-
 let DesktopMapper = require('../mappers/desktopMapper');
 let LaptopMapper = require('../mappers/laptopMapper');
 let MonitorMapper = require('../mappers/monitorMapper');

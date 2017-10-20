@@ -19,7 +19,35 @@ class MonitorMapper {
    */
     static makeNew(model, brand, size, weight, price) {
         let monitor = new Monitor(model, brand, size, weight, price);
+        UOW.registerNew(monitor);
         return monitor;
+    }
+
+
+  /**
+   * Registers an object dirty in the UOW
+   * @static
+   * @param {Object} monitor an object of type monitor.
+   */
+    static makeUpdate(monitor) {
+        UOW.registerDirty(monitor);
+    }
+
+  /**
+    * Registers an object deleted in the UOW
+    * @static
+    * @param {Object} monitor an object of type monitor.
+    */
+    static makeDeletion(monitor) {
+        UOW.registerDeleted(monitor);
+    }
+
+  /**
+    * Commits the UOW
+    * @static
+    */
+    static commit() {
+        UOW.commit();
     }
 
   /**

@@ -21,7 +21,34 @@ class UserMapper {
    */
     static makeNew(firstName, lastName, address, email, phone, id, password) {
         let user = new User(firstName, lastName, address, email, phone, id, password);
+        UOW.registerNew(user);
         return user;
+    }
+
+  /**
+   * Registers an object dirty in the UOW
+   * @static
+   * @param {Object} user an object of type user.
+   */
+    static makeUpdate(user) {
+        UOW.registerDirty(user);
+    }
+
+   /**
+    * Registers an object deleted in the UOW
+    * @static
+    * @param {Object} user an object of type user.
+    */
+    static makeDeletion(user) {
+        UOW.registerDeleted(user);
+    }
+
+   /**
+    * Commits the UOW
+    * @static
+    */
+    static commit() {
+        UOW.commit();
     }
 
   /**
