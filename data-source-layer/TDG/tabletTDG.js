@@ -81,7 +81,7 @@ class TabletTDG {
    * @param {number} price price of tablet
    */
     static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
-        let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13, WHERE model=$1';
+        let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13 WHERE model=$1';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {

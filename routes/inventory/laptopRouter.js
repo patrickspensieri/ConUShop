@@ -14,11 +14,11 @@ router.get('/', function(req, res) {
 });
 
 router.post('/delete', function(req, res) {
-    //When ID map is created this will find the desktop in the ID map and delete
-    //from the ID map and the UoW will handle the database
+    // When ID map is created this will find the desktop in the ID map and delete
+    // from the ID map and the UoW will handle the database
     LaptopMapper.delete(new Laptop(req.body.id));
 
-    res.send({redirect: "/inventory/laptopView"});
+    res.send({redirect: '/inventory/laptopView'});
 });
 
 router.post('/', function(req, res) {

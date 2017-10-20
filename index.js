@@ -4,6 +4,8 @@ let expressValidator = require('express-validator');
 let session = require('express-session');
 let passport = require('passport');
 
+let UnitOfWork = require('./domain-layer/unit-of-work/unitOfWork');
+
 let express = require('express');
 let app = express();
 // read environment values from .env
@@ -53,5 +55,7 @@ app.use(expressValidator({
         };
     },
 }));
+
+UOW = new UnitOfWork();
 
 app.use(require('./routes'));

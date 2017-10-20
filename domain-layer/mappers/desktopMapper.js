@@ -23,8 +23,36 @@ class DesktopMapper {
    */
     static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+        UOW.registerNew(desktop);
         return desktop;
     }
+
+  /**
+   * Registers an object dirty in the UOW
+   * @static
+   * @param {Object} desktop an object of type desktop.
+   */
+    static makeUpdate(desktop) {
+        UOW.registerDirty(desktop);
+    }
+
+  /**
+   * Registers an object deleted in the UOW
+   * @static
+   * @param {Object} desktop an object of type desktop.
+   */
+    static makeDeletion(desktop) {
+        UOW.registerDeleted(desktop);
+    }
+
+  /**
+   * Commits the UOW
+   * @static
+   */
+    static commit() {
+        UOW.commit();
+    }
+
   /**
    * Maps the returned value to an object of type desktop.
    * @static

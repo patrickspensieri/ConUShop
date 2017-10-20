@@ -27,7 +27,34 @@ class TabletMapper {
    */
     static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
         let tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+        UOW.registerNew(tablet);
         return tablet;
+    }
+
+  /**
+   * Registers an object dirty in the UOW
+   * @static
+   * @param {Object} tablet an object of type tablet.
+   */
+    static makeUpdate(tablet) {
+        UOW.registerDirty(tablet);
+    }
+
+   /**
+    * Registers an object deleted in the UOW
+    * @static
+    * @param {Object} tablet an object of type tablet.
+    */
+    static makeDeletion(tablet) {
+        UOW.registerDeleted(tablet);
+    }
+
+   /**
+    * Commits the UOW
+    * @static
+    */
+    static commit() {
+        UOW.commit();
     }
 
   /**
