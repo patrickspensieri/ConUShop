@@ -2,6 +2,7 @@
 let identityMap = {}; //null object; will list objects as properties can add properties with []
 
 //ASSUMING WE ARE MAPPING PER MODEL
+
 addToIdMap(className,object)
 {   
     if (object){
@@ -25,12 +26,26 @@ addToIdMap(className,object)
     }
 }
 
-findFromIdMap()
-{}
+findFromIdMap(className,object)
+{
+    let mappedObject; //null object
+    if (object){
+        if (identityMap[className]){
+            if (identityMap[className][object.model])
+            mappedObject = identityMap[className][object.model];
+            else{
+                console.log('Error model number not found for that product');
+            }
+        }
+        else
+        {
+            console.log('This device class does not exist in the identity map')
+        }
+    }
+    return mappedObject;
+}
 
-removeFromIdMap()
-{}
-
+/* In progress
 clearIdMap()
 {}
-
+*/
