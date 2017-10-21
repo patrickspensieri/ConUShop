@@ -98,6 +98,17 @@ class DesktopTDG {
           console.log('This Desktop has been deleted from the database');
       });
     }
+    static getDesktop(callback) {
+        db.query('SELECT DISTINCT d.model, d.brand, d.processor, d.ram, d.storage, d.cores, d.dimensions, d.weight, d.price FROM desktop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
+            if (err) {
+                console.log(err.message);
+            }else{
+                console.log('Desktop sucess');
+                return callback(null, result.rows);
+            }
+
+        });
+    }
 }
 
 module.exports = DesktopTDG;

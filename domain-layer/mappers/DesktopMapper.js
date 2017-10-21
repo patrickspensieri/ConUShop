@@ -99,6 +99,19 @@ class DesktopMapper {
     static delete(desktopObject) {
         DesktopTDG.delete(desktopObject.model);
     }
+    static getDesktop(callback) {
+        DesktopTDG.getDesktop(function(err, result) {
+            let desktop = [];
+            if (err) {
+                console.log('Error during item findAll query', null);
+            } else {
+                for (let value of result) {
+                    desktop.push(new Desktop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
+                }
+                return callback(null, desktop);
+            }
+        });
+    }
 }
 
 module.exports = DesktopMapper;

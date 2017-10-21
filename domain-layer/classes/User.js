@@ -36,6 +36,7 @@ class User {
         console.log(this.email + ' ' + this.isAdmin + ' ' + this.firstName + ' ' +
          this.lastName + ' ' + this.address + ' ' + this.phone);
     }
+
 }
 
 module.exports = User;

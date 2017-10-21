@@ -1,5 +1,6 @@
 let User = require('./User');
 let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
+let DesktopMapper = require('../../domain-layer/mappers/DesktopMapper');
 
 /**
  * Class describes an Admin.
@@ -20,6 +21,8 @@ class Client extends User {
      */
     constructor(firstName, lastName, address, email, phone, password, isAdmin) {
         super(firstName, lastName, address, email, phone, password, isAdmin);
+
+        this.productCatalog = new ProductCatalog();
     }
 
     /**
@@ -27,9 +30,9 @@ class Client extends User {
      * To be run on an instance of item.
      * @method display
      */
-    getProductCatalog() {
-        ProductCatalog.getItems(function(err, data) {
-            return data;
+    getDesktop(callback) {
+        DesktopMapper.getDesktop(function(err, data) {
+            return callback(null, data);
         });
     }
 }

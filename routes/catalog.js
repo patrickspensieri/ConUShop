@@ -1,6 +1,8 @@
 let express = require('express');
 let router = new express.Router();
 let Admin = require('../domain-layer/classes/Admin');
+let User = require('../domain-layer/classes/User');
+let Client = require('../domain-layer/classes/Client');
 let UserMapper = require('../domain-layer/mappers/UserMapper');
 
 // Get Dashboard
@@ -26,6 +28,7 @@ router.get('/itemsView', function(req, res) {
         });
     });
 });
+
 
 router.post('/deleteItem', function(req, res) {
     this.admin.getProductCatalogInstance().deleteItem(req.body.serialNumberToRemove);
@@ -207,4 +210,17 @@ function ensureAuthenticated(req, res, next) {
         res.redirect('/');
     }
 }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~testing~~~~~~~~~~~~~~~~~~~~~~~~~
+router.get('/TempClientPage', function(req, res) {
+    this.client = new Client();
+    console.log("test");
+    this.client.getDesktop(function (err, data) {
+        res.render('pages/TempClientPage', {
+            data: data,
+        });
+    });
+});
+// router.get('/TempClientPage', function(req, res) {
+//     res.render('pages/TempClientPage');
+// });
 module.exports = router;
