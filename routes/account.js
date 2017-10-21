@@ -107,7 +107,7 @@ router.post('/register', function(req, res) {
 
         ;
     } else {
-        register.createNewUser(email, isAdmin, firstName, lastName, address, phone, password, function(err, user) {
+        register.createNewUser(isAdmin, firstName, lastName, address, email, phone, password, function(err, user) {
             if (err) throw err;
         });
 
