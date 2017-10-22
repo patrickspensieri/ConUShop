@@ -19,9 +19,36 @@ class UserMapper {
    * @param {string} password user password, hashed
    * @return {user} user object.
    */
-    static makeNew(isAdmin, firstName, lastName, address, email, phone, password) {
-        let user = new User(isAdmin, firstName, lastName, address, email, phone, password);
+    static makeNew(firstName, lastName, address, email, phone, id, password) {
+        let user = new User(firstName, lastName, address, email, phone, id, password);
+        UOW.registerNew(user);
         return user;
+    }
+
+  /**
+   * Registers an object dirty in the UOW
+   * @static
+   * @param {Object} user an object of type user.
+   */
+    static makeUpdate(user) {
+        UOW.registerDirty(user);
+    }
+
+   /**
+    * Registers an object deleted in the UOW
+    * @static
+    * @param {Object} user an object of type user.
+    */
+    static makeDeletion(user) {
+        UOW.registerDeleted(user);
+    }
+
+   /**
+    * Commits the UOW
+    * @static
+    */
+    static commit() {
+        UOW.commit();
     }
 
   /**
