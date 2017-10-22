@@ -29,6 +29,7 @@ class LaptopMapper {
     static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
         let laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
         UOW.registerNew(laptop);
+        UOW.commit();
         return laptop;
     }
 
@@ -39,6 +40,7 @@ class LaptopMapper {
    */
     static makeUpdate(laptop) {
         UOW.registerDirty(laptop);
+        UOW.commit();
     }
 
    /**
@@ -48,6 +50,7 @@ class LaptopMapper {
     */
     static makeDeletion(laptop) {
         UOW.registerDeleted(laptop);
+        UOW.commit();
     }
 
    /**

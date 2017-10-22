@@ -24,6 +24,7 @@ class DesktopMapper {
     static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
         UOW.registerNew(desktop);
+        UOW.commit();
         return desktop;
     }
 
@@ -34,6 +35,7 @@ class DesktopMapper {
    */
     static makeUpdate(desktop) {
         UOW.registerDirty(desktop);
+        UOW.commit();
     }
 
   /**
@@ -43,6 +45,7 @@ class DesktopMapper {
    */
     static makeDeletion(desktop) {
         UOW.registerDeleted(desktop);
+        UOW.commit();
     }
 
   /**
@@ -65,7 +68,7 @@ class DesktopMapper {
                 console.log('Error during desktop find query', null);
             } else {
                 let value = result[0];
-                if (typeof(value == 'undefined')){
+                if (typeof(value == 'undefined')) {
                     return callback(err, null);
                 } else {
                     return callback(null, new Desktop(value.model, value.brand, value.processor,

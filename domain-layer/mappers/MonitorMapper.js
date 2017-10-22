@@ -20,6 +20,7 @@ class MonitorMapper {
     static makeNew(model, brand, size, weight, price) {
         let monitor = new Monitor(model, brand, size, weight, price);
         UOW.registerNew(monitor);
+        UOW.commit();
         return monitor;
     }
 
@@ -31,6 +32,7 @@ class MonitorMapper {
    */
     static makeUpdate(monitor) {
         UOW.registerDirty(monitor);
+        UOW.commit();
     }
 
   /**
@@ -40,6 +42,7 @@ class MonitorMapper {
     */
     static makeDeletion(monitor) {
         UOW.registerDeleted(monitor);
+        UOW.commit();
     }
 
   /**
