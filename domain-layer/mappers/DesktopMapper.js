@@ -130,6 +130,12 @@ class DesktopMapper {
     static delete(desktopObject) {
         DesktopTDG.delete(desktopObject.model);
     }
+
+    /**
+     * Get all desktop objects
+     * @static
+     * @param {function} callback
+     */
     static getDesktop(callback) {
         DesktopTDG.getDesktop(function(err, result) {
             let desktop = [];

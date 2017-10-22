@@ -29,6 +29,7 @@ class Client extends User {
      * View items in product catalog
      * To be run on an instance of item.
      * @method display
+     * @param {function} callback function
      */
     getDesktop(callback) {
         DesktopMapper.getDesktop(function(err, data) {

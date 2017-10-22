@@ -80,8 +80,8 @@
 </form></br>
 <div>
     <% if (typeof data!='undefined') { %>
-        <table>
-            <tr contenteditable='true'>
+        <table contenteditable='true'>
+            <tr contenteditable='false'>
                 <td contenteditable='false'>Model</td>
                 <td>Brand</td>
                 <td>Display</td>
@@ -101,22 +101,22 @@
             </tr>
         <% for(var i = 0; i < data.length; i++) { %> 
             <tr>
-                <td><%= data[i].model %></td>
-                <td><%= data[i].brand %></td>
-                <td><%= data[i].display %></td>
-                <td><%= data[i].processor %></td>
-                <td><%= data[i].ram %></td>
-                <td><%= data[i].storage %></td>
-                <td><%= data[i].cores %></td>
-                <td><%= data[i].os %></td>
-                <td><%= data[i].battery %></td>
-                <td><%= data[i].camera %></td>
-                <td><%= data[i].touch %></td>
-                <td><%= data[i].dimensions %></td>
-                <td><%= data[i].weight %></td>
-                <td><%= data[i].price %></td>
-                <td><button onclick="updateProdSpec('Laptop', '<%= data[i] %>', '/catalog/laptopView')">Edit</button></td>
-                <td><button onclick="deleteProdSpec('Laptop', '<%= data[i].model %>', '/catalog/laptopView')">Delete</button></td>
+                <td class="model" contenteditable="false"><%= data[i].model %></td>
+                <td class="brand"><%= data[i].brand %></td>
+                <td class="display"><%= data[i].display %></td>
+                <td class="processor"><%= data[i].processor %></td>
+                <td class="ram"><%= data[i].ram %></td>
+                <td class="storage"><%= data[i].storage %></td>
+                <td class="cores"><%= data[i].cores %></td>
+                <td class="os"><%= data[i].os %></td>
+                <td class="battery"><%= data[i].battery %></td>
+                <td class="camera"><%= data[i].camera %></td>
+                <td class="touch"><%= data[i].touch %></td>
+                <td class="dimensions"><%= data[i].dimensions %></td>
+                <td class="weight"><%= data[i].weight %></td>
+                <td class="price"><%= data[i].price %></td>
+                <td contenteditable="false"><button onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/catalog/laptopView')">Edit</button></td>
+                <td contenteditable="false"><button onclick="deleteProdSpec('Laptop', '<%= data[i].model%>', '/catalog/laptopView')">Delete</button></td>
             </tr>
         <% } %>
         </table>
