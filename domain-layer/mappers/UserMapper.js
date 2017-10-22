@@ -22,6 +22,7 @@ class UserMapper {
     static makeNew(firstName, lastName, address, email, phone, id, password) {
         let user = new User(firstName, lastName, address, email, phone, id, password);
         UOW.registerNew(user);
+        UOW.commit();
         return user;
     }
 
@@ -32,6 +33,7 @@ class UserMapper {
    */
     static makeUpdate(user) {
         UOW.registerDirty(user);
+        UOW.commit();
     }
 
    /**
@@ -41,6 +43,7 @@ class UserMapper {
     */
     static makeDeletion(user) {
         UOW.registerDeleted(user);
+        UOW.commit();
     }
 
    /**

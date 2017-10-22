@@ -7,6 +7,47 @@ let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
  * @export
  */
 class ItemMapper {
+      /**
+   * Creates a new Item
+   * @static
+   * @param {string} serial serial number of item.
+   * @param {string} model model number of item.
+   * @return item object.
+   */
+    static makeNew(serial, model) {
+        let item = new Item(serial, model);
+        UOW.registerNew(item);
+        UOW.commit();
+        return item;
+    }
+
+    /**
+    * Registers an object dirty in the UOW
+    * @static
+    * @param {Object} item an object of type item.
+    */
+    static makeUpdate(item) {
+        UOW.registerDirty(item);
+        UOW.commit();
+    }
+
+    /**
+    * Registers an object deleted in the UOW
+    * @static
+    * @param {Object} item an object of type item.
+    */
+    static makeDeletion(item) {
+        UOW.registerDeleted(item);
+        UOW.commit();
+    }
+
+    /**
+    * Commits the UOW
+    * @static
+    */
+    static commit() {
+        UOW.commit();
+    }
     /**
      * Creates a new item
      * @static
