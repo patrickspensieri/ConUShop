@@ -45,8 +45,8 @@
 <div>
     <% if (typeof data!='undefined') { %>
         <table>
-            <tr contenteditable='true'>
-                <td contenteditable='false'>Model</td>
+            <tr contenteditable="false">
+                <td>Model</td>
                 <td>Brand</td>
                 <td>Size</td>
                 <td>Weight</td>
@@ -55,14 +55,14 @@
                 <td>Delete</td>
             </tr>
         <% for(var i = 0; i < data.length; i++) { %> 
-            <tr>
-                <td><%= data[i].model %></td>
-                <td><%= data[i].brand %></td>
-                <td><%= data[i].size %></td>
-                <td><%= data[i].weight %></td>
-                <td><%= data[i].price %></td>
-                <td><button onclick="updateProdSpec('Monitor', '<%= data[i] %>', '/catalog/monitorView')">Edit</button></td>
-                <td><button onclick="deleteProdSpec('Monitor', '<%= data[i].model %>', '/catalog/monitorView')">Delete</button></td>
+            <tr contenteditable='true'>
+                <td class="model" contenteditable="false"><%= data[i].model %></td>
+                <td class="brand"><%= data[i].brand %></td>
+                <td class="size"><%= data[i].size %></td>
+                <td class="weight"><%= data[i].weight %></td>
+                <td class="price"><%= data[i].price %></td>
+                <td contenteditable="false"><button onclick="updateProdSpec('Monitor', $(this).closest('tr'), '/catalog/monitorView')">Edit</button></td>
+                <td contenteditable="false"><button onclick="deleteProdSpec('Monitor', '<%= data[i].model%>', '/catalog/monitorView')">Delete</button></td>
             </tr>
         <% } %>
         </table>

@@ -87,7 +87,7 @@ class LaptopTDG {
    */
     static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions,
                   weight, price) {
-        let queryString = 'UPDATE laptop SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, touch=$11, dimensions=$12, weight=$13, price=$14, WHERE model=$1';
+        let queryString = 'UPDATE laptop SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, touch=$11, dimensions=$12, weight=$13, price=$14 WHERE model=$1';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {

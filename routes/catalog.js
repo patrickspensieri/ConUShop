@@ -1,7 +1,6 @@
 let express = require('express');
 let router = new express.Router();
 let Admin = require('../domain-layer/classes/Admin');
-let User = require('../domain-layer/classes/User');
 let Client = require('../domain-layer/classes/Client');
 let UserMapper = require('../domain-layer/mappers/UserMapper');
 
@@ -128,39 +127,32 @@ router.post('/addProdSpec', function(req, res) {
 });
 
 router.post('/deleteProdSpec', function(req, res) {
-    this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.modelNumber);
+    console.log(req.body.model);
+    this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.model);
     res.send({redirect: req.body.redi});
 });
 
 router.post('/updateProdSpec', function(req, res) {
-    /*
-    let rows = document.getElementById("prodTable").rows[req.body.data].innerHTML;
-    console.log(rows[0]);
-    console.log(rows[1]);
-    console.log(rows[2]);
-    console.log(rows[3]);
-
     switch (req.body.prodType) {
         case 'Desktop':
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data.model, req.body.data.brand,
-                req.body.data.processor, req.body.data.ram, req.body.data.storage, req.body.data.cores,
-                req.body.data.dimensions, req.body.data.weight, req.body.data.price, null, null, null, null, null, null);
+            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+                req.body.processor, req.body.ram, req.body.storage, req.body.cores,
+                req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
             break;
         case 'Laptop':
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, processor, ram, storage,
-                cores, dimensions, weight, price, display, os, battery, camera, touch, null);
+            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
             break;
         case 'Monitor':
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, null, null, null, null,
-                null, weight, price, null, null, null, null, null, size);
+            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+                null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
             break;
         case 'Tablet':
-            productCatalog.updateProductSpecification(req.body.prodType, req.body.data, brand, processor, ram, storage,
-                cores, dimensions, weight, price, display, os, battery, camera, null);
+            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null);
             break;
     }
     res.send({redirect: req.body.redi});
-    */
 });
 
 router.get('/laptopView', function(req, res) {
@@ -210,11 +202,11 @@ function ensureAuthenticated(req, res, next) {
         res.redirect('/');
     }
 }
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~testing~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~testing~~~~~~~~~~~~~~~~~~~~~~~~~
 router.get('/TempClientPage', function(req, res) {
     this.client = new Client();
-    console.log("test");
-    this.client.getDesktop(function (err, data) {
+    console.log('test');
+    this.client.getDesktop(function(err, data) {
         res.render('pages/TempClientPage', {
             data: data,
         });
