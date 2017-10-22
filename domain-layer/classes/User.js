@@ -6,25 +6,26 @@
 class User {
   /**
    * @constructor
+   * @param {Boolean} isAdmin is the user an Admin
    * @param {string} firstName first name of user
    * @param {string} lastName last name of user
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
-   * @param {string} id the id of user
-   * @param {string} password user password, hashed
+   * @param {string} password user password
+
    */
-    constructor(firstName, lastName, address, email, phone, id, password) {
-        this.id = id;
-        this.firstName = firstName;
+    constructor(isAdmin, firstName, lastName, address, email, phone, password) {
+      this.isAdmin = isAdmin;
+      this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.phone = phone;
         this.password = password;
         // user registration always creates clients
-        this.isAdmin = false;
     }
+
 
     /**
      * Displays information about user object.
@@ -32,7 +33,7 @@ class User {
      * @method display
      */
     display() {
-        console.log(this.id + ' ' + this.isAdmin + ' ' + this.firstName + ' ' +
+        console.log(this.isAdmin + ' ' + this.firstName + ' ' +
          this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone);
     }
 }

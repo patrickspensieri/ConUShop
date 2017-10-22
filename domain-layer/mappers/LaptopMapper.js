@@ -1,5 +1,5 @@
-let Laptop = require('../../domain-layer/classes/laptop');
-let LaptopTDG = require('../../data-source-layer/TDG/laptopTDG');
+let Laptop = require('../../domain-layer/classes/products/Laptop');
+let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
 
 /**
  * Laptop object mapper
@@ -61,19 +61,23 @@ class LaptopMapper {
   /**
    * Maps the returned value to an object of type laptop.
    * @static
-   * @param {string} id model number of laptop to be found.
-   * @return laptop object.
+   * @param {string} modelNumber model number of laptop to be found.
+   * @param {function} callback function that holds laptop object
    */
-    static find(id, callback) {
-        LaptopTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        LaptopTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during laptop find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
-                    value.ram, value.storage, value.cores, value.os,
-                    value.battery, value.camera, value.touch, value.dimensions,
-                    value.weight, value.price));
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
+                        value.ram, value.storage, value.cores, value.os,
+                        value.battery, value.camera, value.touch, value.dimensions,
+                        value.weight, value.price));
+                }
             }
         });
     }
@@ -81,7 +85,7 @@ class LaptopMapper {
   /**
    * Maps all returned values into objects of type laptop.
    * @static
-   * @return array of laptop objects.
+   * @param {function} callback function that holds array of laptop objects
    */
     static findAll(callback) {
         LaptopTDG.findAll(function(err, result) {

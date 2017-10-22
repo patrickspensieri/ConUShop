@@ -1,4 +1,4 @@
-let db = require('../db/index');
+let db = require('../../data-source-layer/db/index');
 
 /**
  * Monitor table data gateway
@@ -9,10 +9,11 @@ class MonitorTDG {
   /**
    * Finds one object from the monitor table.
    * @static
-   * @param {string} id model number of monitor to be found.
+   * @param {string} modelNumber model number of monitor to be found.
+   * @param {function} callback function that holds monitor object.
    */
-    static find(id, callback) {
-        db.query('SELECT * FROM monitor WHERE model=$1', [id], (err, result) => {
+    static find(modelNumber, callback) {
+        db.query('SELECT * FROM monitor WHERE model=$1', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -24,6 +25,7 @@ class MonitorTDG {
   /**
    * Finds all objects from the monitor table.
    * @static
+   * @param {function} callback function that holds array of monitor object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM monitor', (err, result) => {

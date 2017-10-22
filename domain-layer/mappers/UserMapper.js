@@ -1,5 +1,5 @@
-let User = require('../../domain-layer/classes/user');
-let UserTDG = require('../../data-source-layer/TDG/userTDG');
+let User = require('../../domain-layer/classes/User');
+let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 
 /**
  * User object mapper
@@ -54,17 +54,21 @@ class UserMapper {
   /**
    * Maps the returned value to an object of type user.
    * @static
-   * @param {string} id id of user to be found.
-   * @return user object.
+   * @param {string} email of user to be found.
+   * @param {function} callback function that holds User object.
    */
-    static find(id, callback) {
-        UserTDG.find(id, function(err, result) {
+    static find(email, callback) {
+        UserTDG.find(email, function(err, result) {
             if (err) {
                 console.log('Error during user find query', null);
             } else {
-                value = result.rows[0];
-                return callback(null, new User(value.id, value.isAdmin, value.firstName,
-                    value.lastName, value.address, value.email, value.phoneNumber));
+                let value = result[0];
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new User(value.isAdmin, value.firstName,
+                        value.lastName, value.address, value.email, value.phone, value.password));
+                }
             }
         });
     }
@@ -72,7 +76,7 @@ class UserMapper {
   /**
    * Maps all returned values into objects of type user.
    * @static
-   * @return array of user objects.
+   * @param {function} callback function that holds array of User object.
    */
     static findAll(callback) {
         UserTDG.findAll(function(err, result) {
@@ -81,7 +85,7 @@ class UserMapper {
                 console.log('Error during user findALL query', null);
             } else {
                 for (let value of result) {
-                    users.push(new User(value.id, value.isAdmin, value.firstName,
+                    users.push(new User(value.isAdmin, value.firstName,
                         value.lastName, value.address, value.email, value.phoneNumber));
                 }
                 return callback(null, users);

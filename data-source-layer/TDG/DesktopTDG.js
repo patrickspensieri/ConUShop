@@ -1,4 +1,4 @@
-let db = require('../db/index');
+let db = require('../../data-source-layer/db/index');
 
 /**
  * Desktop table data gateway
@@ -9,10 +9,11 @@ class DesktopTDG {
   /**
    * Finds one object from the desktop table.
    * @static
-   * @param {string} id model number of desktop to be found.
+   * @param {string} modelNumber model number of desktop to be found.
+   * @param {function} callback function that holds desktop object.
    */
-    static find(id, callback) {
-        db.query('SELECT * FROM desktop WHERE model=$1', [id], (err, result) => {
+    static find(modelNumber, callback) {
+        db.query('SELECT * FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -24,6 +25,7 @@ class DesktopTDG {
   /**
    * Finds all objects from the desktop table.
    * @static
+   * @param {function} callback function that holds array of desktop object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM desktop', (err, result) => {

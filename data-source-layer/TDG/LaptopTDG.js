@@ -1,4 +1,4 @@
-let db = require('../db/index');
+let db = require('../../data-source-layer/db/index');
 
 /**
  * Laptop table data gateway
@@ -9,10 +9,11 @@ class LaptopTDG {
   /**
    * Finds one object from the laptop table.
    * @static
-   * @param {string} id model number of laptop to be found.
+   * @param {string} modelNumber model number of laptop to be found.
+   * @param {function} callback function that holds laptop object.
    */
-    static find(id, callback) {
-        db.query('SELECT * FROM laptop WHERE model=$1', [id], (err, result) => {
+    static find(modelNumber, callback) {
+        db.query('SELECT * FROM laptop WHERE model=$1', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -24,6 +25,7 @@ class LaptopTDG {
   /**
    * Finds all objects from the laptop table.
    * @static
+   * @param {function} callback function that holds array of laptop object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM laptop', (err, result) => {
@@ -53,7 +55,8 @@ class LaptopTDG {
    * @param {number} weight weight of laptop.
    * @param {number} price price of laptop.
    */
-    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
+    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight,
+                  price) {
         let queryString = 'INSERT INTO laptop (model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price];
 

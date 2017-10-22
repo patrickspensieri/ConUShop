@@ -1,5 +1,5 @@
-let Desktop = require('../../domain-layer/classes/desktop');
-let DesktopTDG = require('../../data-source-layer/TDG/desktopTDG');
+let Desktop = require('../../domain-layer/classes/products/Desktop');
+let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
 
 /**
  * Desktop object mapper
@@ -56,18 +56,22 @@ class DesktopMapper {
   /**
    * Maps the returned value to an object of type desktop.
    * @static
-   * @param {string} id model number of desktop to be found.
-   * @return desktop object.
+   * @param {string} modelNumber model number of desktop to be found.
+   * @param {function} callback function that holds desktop object.
    */
-    static find(id, callback) {
-        DesktopTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        DesktopTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during desktop find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Desktop(value.model, value.brand, value.processor,
-                    value.ram, value.storage, value.cores, value.dimensions,
-                    value.weight, value.price));
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Desktop(value.model, value.brand, value.processor,
+                        value.ram, value.storage, value.cores, value.dimensions,
+                        value.weight, value.price));
+                }
             }
         });
     }
@@ -75,7 +79,7 @@ class DesktopMapper {
   /**
    * Maps all returned values into objects of type desktop.
    * @static
-   * @return array of desktop objects.
+   * @param {function} callback function that holds desktop object.
    */
     static findAll(callback) {
         DesktopTDG.findAll(function(err, result) {

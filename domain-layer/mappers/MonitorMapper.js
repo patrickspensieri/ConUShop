@@ -1,5 +1,5 @@
-let Monitor = require('../../domain-layer/classes/monitor');
-let MonitorTDG = require('../../data-source-layer/TDG/monitorTDG');
+let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
+let Monitor = require('../../domain-layer/classes/products/Monitor');
 
 /**
  * Monitor object mapper
@@ -53,17 +53,21 @@ class MonitorMapper {
   /**
    * Maps the returned value to an object of type monitor.
    * @static
-   * @param {string} id model number of monitor to be found.
-   * @return monitor object.
+   * @param {string} modelNumber model number of monitor to be found.
+   * @param {function} callback function that holds monitor object
    */
-    static find(id, callback) {
-        MonitorTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        MonitorTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during monitor find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Monitor(value.model, value.brand, value.size,
-                    value.weight, value.price));
+                if (typeof(value == 'undefined')){
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Monitor(value.model, value.brand, value.size,
+                        value.weight, value.price));
+                }
             }
         });
     }
@@ -71,7 +75,7 @@ class MonitorMapper {
   /**
    * Maps all returned values into objects of type monitor.
    * @static
-   * @return array of monitor objects.
+   * @param {function} callback function that holds array of monitor object
    */
     static findAll(callback) {
         MonitorTDG.findAll(function(err, result) {
@@ -109,7 +113,7 @@ class MonitorMapper {
     }
 
   /**
-   * Extracts an objects id to use with TDG delete method.
+   * Extracts an objects model to use with TDG delete method.
    * @static
    * @param {Object} monitorObject an object of type monitor.
    */

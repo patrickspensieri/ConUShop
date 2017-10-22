@@ -1,4 +1,4 @@
-let db = require('../db/index');
+let db = require('../../data-source-layer/db/index');
 
 /**
  * User table data gateway
@@ -9,10 +9,11 @@ class UserTDG {
   /**
    * Finds one object from the user table.
    * @static
-   * @param {string} id id of user to be found.
+   * @param {string} email email of the user to be found.
+   * @param {function} callback function that holds user object.
    */
-    static find(id, callback) {
-        db.query('SELECT * FROM user WHERE id=$1', [id], (err, result) => {
+    static find(email, callback) {
+        db.query('SELECT * FROM users WHERE email=$1', [email], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -24,6 +25,7 @@ class UserTDG {
   /**
    * Finds all objects from the user table.
    * @static
+   * @param {function} callback function that holds array of user object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM user', (err, result) => {

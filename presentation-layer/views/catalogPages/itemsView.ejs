@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ConUshop | Home </title>
+    <% include ../../assets/components/header.ejs %>
+</head>
+<body>
+<!-- for bootstrap working -->
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<!-- //for bootstrap working -->
+<!-- navigator -->
+<% include ../../assets/components/navigator.ejs %>
+<!-- //navigator -->
+
+<div class="jumbotron text-center">
+    <!--%= jsonData %-->
+</div>
+
+<form method="post" action="/catalog/addItem">
+    <div class="AddItem">
+        <label>modelNumber</label>
+        <input type="text" class="" name="modelNumber" placeholder="Model Number">
+    </div>
+    <div class="AddItem">
+        <label>productType</label>
+        <input type="text" class="" name="productType" placeholder="Product Type">
+    </div>
+    <div class="AddItem">
+        <label>serialNumber</label>
+        <input type="text" class="" name="serialNumber" placeholder="Serial Number">
+    </div>
+    <button type="submit" class="">Add item</button>
+</form></br>
+
+<form method="post" action="/catalog/deleteItem">
+    <div class="DeleteItem">
+        <label>serialNumber</label>
+        <input type="text" class="" name="serialNumberToRemove" placeholder="Serial Number">
+    </div>
+    <button type="submit" class="">Delete item</button>
+</form></br>
+<div>
+    <% if (typeof data!='undefined') { %>
+        <table>
+            <tr>
+                <td>Model Number</td>
+                <td>Serial Number</td>
+
+            </tr>
+        <% for(var i = 0; i < data.length; i++) { %>
+            <tr>
+                <td><%= data[i].serialNumber %></td>
+                <td><%= data[i].productType %></td>
+                <td><%= data[i].modelNumber %></td>
+            </tr>
+        <% } %>
+        </table>
+    <% } %>
+</div>
+<!--%= jsonData %-->
+<!-- footer -->
+<% include ../../assets/components/footer.ejs %>
+<!-- //footer -->
+
+</body>
+</html>

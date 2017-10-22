@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ConUshop | Home </title>
+    <% include ../../assets/components/header.ejs %>
+</head>
+<body>
+<!-- for bootstrap working -->
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<!-- //for bootstrap working -->
+<!-- navigator -->
+<% include ../../assets/components/navigator.ejs %>
+<!-- //navigator -->
+
+
+<h1>Welcome To Admin Dashboard</h1>
+<ul class="">
+    <li role="inventoryList"><a href="/catalog/desktopView">Desktop</a></li>
+    <li role="inventoryList"><a href="/catalog/laptopView">Laptop</a></li>
+    <li role="inventoryList"><a href="/catalog/monitorView">Monitor</a></li>
+    <li role="inventoryList"><a href="/catalog/tabletView">tablet</a></li>
+    <li role="inventoryList"><a href="/catalog/itemsView">Item Catalog</a></li>
+
+</ul>
+<!--%= jsonData %-->
+<!-- footer -->
+<% include ../../assets/components/footer.ejs %>
+<!-- //footer -->
+
+</body>
+</html>

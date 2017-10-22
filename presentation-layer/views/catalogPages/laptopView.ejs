@@ -1,30 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/main.js"></script>
+    <title>ConUshop | Home </title>
+    <% include ../../assets/components/header.ejs %>
 </head>
-
 <body>
-
-<div class="">
-    <nav>
-        <ul class="">
-            <li role="navMenu"><a href="/users/dashboard">Dashboard</a></li>
-            <li role="navMenu"><a href="/users/logout">Logout</a></li>
-            <li role="navMenu"><a href="/users/login">Login</a></li>
-            <li role="navMenu"><a href="/users/register">Register</a></li>
-        </ul>
-    </nav>
-</div>
+<!-- for bootstrap working -->
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<!-- //for bootstrap working -->
+<!-- navigator -->
+<% include ../../assets/components/navigator.ejs %>
+<!-- //navigator -->
 
 <div class="jumbotron text-center">
-    <h1>CONU SHOP PLACEHOLDER</h1>
     <!--%= jsonData %-->
 </div>
 
-<form method="post" action="/inventory/laptopView">
+<form method="post" action="/catalog/addProdSpec">
+    <div class="AddLaptop">
+        <label>Product Table: </label>
+        <input type="text" class="" name="formProductType" value="Laptop" readonly>
+    </div>
     <div class="AddLaptop">
         <label>modeNumber</label>
         <input type="text" class="" name="model" placeholder="model">
@@ -86,8 +82,8 @@
 <div>
     <% if (typeof data!='undefined') { %>
         <table>
-            <tr>
-                <td>Model</td>
+            <tr contenteditable='true'>
+                <td contenteditable='false'>Model</td>
                 <td>Brand</td>
                 <td>Display</td>
                 <td>Processor</td>
@@ -120,12 +116,17 @@
                 <td><%= data[i].dimensions %></td>
                 <td><%= data[i].weight %></td>
                 <td><%= data[i].price %></td>
-                <td><button>Edit</button></td>
-                <td><button onclick="deleteLaptop('<%= data[i].model %>')">Delete</button></td>
+                <td><button onclick="updateProdSpec('Laptop', '<%= data[i] %>', '/catalog/laptopView')">Edit</button></td>
+                <td><button onclick="deleteProdSpec('Laptop', '<%= data[i].model %>', '/catalog/laptopView')">Delete</button></td>
             </tr>
         <% } %>
         </table>
     <% } %>
 </div>
+<!--%= jsonData %-->
+<!-- footer -->
+<% include ../../assets/components/footer.ejs %>
+<!-- //footer -->
+
 </body>
 </html>

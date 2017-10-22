@@ -1,39 +1,20 @@
-function deleteDesktop(id) {
+function deleteProdSpec(prodType, modelNumber, redi) {
     $.post({
-        url: '/inventory/desktopView/delete',
-        data: {id: id},
-        success: function(response){
+        url: '/catalog/deleteProdSpec',
+        data: {prodType: prodType, modelNumber: modelNumber, redi: redi},
+        success: function (response) {
             window.location.href = response.redirect;
         }
     });
 }
 
-function deleteMonitor(id) {
+function updateProdSpec(prodType, data, redi) {
     $.post({
-        url: '/inventory/monitorView/delete',
-        data: {id: id},
-        success: function(response){
+        url: '/catalog/updateProdSpec',
+        data: {prodType: prodType, data: data, redi: redi},
+        success: function (response) {
             window.location.href = response.redirect;
         }
     });
 }
 
-function deleteTablet(id) {
-    $.post({
-        url: '/inventory/tabletView/delete',
-        data: {id: id},
-        success: function(response){
-            window.location.href = response.redirect;
-        }
-    });
-}
-
-function deleteLaptop(id) {
-    $.post({
-        url: '/inventory/laptopView/delete',
-        data: {id: id},
-        success: function(response){
-            window.location.href = response.redirect;
-        }
-    });
-}
