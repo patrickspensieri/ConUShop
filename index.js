@@ -3,6 +3,7 @@ let bodyParser = require('body-parser');
 let expressValidator = require('express-validator');
 let session = require('express-session');
 let passport = require('passport');
+let flash = require('connect-flash');
 
 let express = require('express');
 let app = express();
@@ -31,6 +32,7 @@ app.use(session({
     saveUninitialized: true,
     resave: false,
 }));
+app.use(flash());
 
 // Passport init
 app.use(passport.initialize());

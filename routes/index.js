@@ -5,8 +5,11 @@ let router = new express.Router();
 router.use('/account', require('./account'));
 router.use('/catalog', require('./catalog'));
 
-router.get('/', function(req, res) {
-    res.render('pages/index');
+router.get('/',
+    function(req, res) {
+        res.render('pages/index',
+            {error_message: req.flash('error_msg'),
+            success_message: req.flash('success_msg')});
 });
 
 module.exports = router;
