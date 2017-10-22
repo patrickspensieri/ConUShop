@@ -1,12 +1,13 @@
 let Desktop = require('../../domain-layer/classes/products/Desktop');
 let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * Desktop object mapper
  * @class DesktopMapper
  * @export
  */
-class DesktopMapper {
+class DesktopMapper extends AbstractMapper {
   /**
    * Creates a new desktop
    * @static
@@ -21,39 +22,9 @@ class DesktopMapper {
    * @param {number} price price of desktop.
    * @return {desktop} desktop object.
    */
-    static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
+    static create(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
-        UOW.registerNew(desktop);
-        UOW.commit();
         return desktop;
-    }
-
-  /**
-   * Registers an object dirty in the UOW
-   * @static
-   * @param {Object} desktop an object of type desktop.
-   */
-    static makeUpdate(desktop) {
-        UOW.registerDirty(desktop);
-        UOW.commit();
-    }
-
-  /**
-   * Registers an object deleted in the UOW
-   * @static
-   * @param {Object} desktop an object of type desktop.
-   */
-    static makeDeletion(desktop) {
-        UOW.registerDeleted(desktop);
-        UOW.commit();
-    }
-
-  /**
-   * Commits the UOW
-   * @static
-   */
-    static commit() {
-        UOW.commit();
     }
 
   /**

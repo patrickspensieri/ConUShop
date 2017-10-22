@@ -1,12 +1,13 @@
 let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
 let Tablet = require('../../domain-layer/classes/products/Tablet');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * Tablet object mapper
  * @class TabletMapper
  * @export
  */
-class TabletMapper {
+class TabletMapper extends AbstractMapper {
   /**
    * Creates a new tablet
    * @static
@@ -25,39 +26,9 @@ class TabletMapper {
    * @param {number} price price of tablet
    * @return {tablet} tablet object.
    */
-    static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
+    static create(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
         let tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
-        UOW.registerNew(tablet);
-        UOW.commit();
         return tablet;
-    }
-
-  /**
-   * Registers an object dirty in the UOW
-   * @static
-   * @param {Object} tablet an object of type tablet.
-   */
-    static makeUpdate(tablet) {
-        UOW.registerDirty(tablet);
-        UOW.commit();
-    }
-
-   /**
-    * Registers an object deleted in the UOW
-    * @static
-    * @param {Object} tablet an object of type tablet.
-    */
-    static makeDeletion(tablet) {
-        UOW.registerDeleted(tablet);
-        UOW.commit();
-    }
-
-   /**
-    * Commits the UOW
-    * @static
-    */
-    static commit() {
-        UOW.commit();
     }
 
   /**

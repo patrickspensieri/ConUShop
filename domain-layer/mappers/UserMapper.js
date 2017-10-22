@@ -1,12 +1,13 @@
 let User = require('../../domain-layer/classes/User');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * User object mapper
  * @class UserMapper
  * @export
  */
-class UserMapper {
+class UserMapper extends AbstractMapper {
   /**
    * Creates a new user
    * @static
@@ -19,39 +20,9 @@ class UserMapper {
    * @param {string} password user password, hashed
    * @return {user} user object.
    */
-    static makeNew(firstName, lastName, address, email, phone, id, password) {
+    static create(firstName, lastName, address, email, phone, id, password) {
         let user = new User(firstName, lastName, address, email, phone, id, password);
-        UOW.registerNew(user);
-        UOW.commit();
         return user;
-    }
-
-  /**
-   * Registers an object dirty in the UOW
-   * @static
-   * @param {Object} user an object of type user.
-   */
-    static makeUpdate(user) {
-        UOW.registerDirty(user);
-        UOW.commit();
-    }
-
-   /**
-    * Registers an object deleted in the UOW
-    * @static
-    * @param {Object} user an object of type user.
-    */
-    static makeDeletion(user) {
-        UOW.registerDeleted(user);
-        UOW.commit();
-    }
-
-   /**
-    * Commits the UOW
-    * @static
-    */
-    static commit() {
-        UOW.commit();
     }
 
   /**

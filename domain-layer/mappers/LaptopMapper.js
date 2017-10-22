@@ -1,12 +1,13 @@
 let Laptop = require('../../domain-layer/classes/products/Laptop');
 let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * Laptop object mapper
  * @class LaptopMapper
  * @export
  */
-class LaptopMapper {
+class LaptopMapper extends AbstractMapper {
   /**
    * Creates a new laptop
    * @static
@@ -26,39 +27,9 @@ class LaptopMapper {
    * @param {number} price price of laptop
    * @return {laptop} laptop object.
    */
-    static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
+    static create(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
         let laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
-        UOW.registerNew(laptop);
-        UOW.commit();
         return laptop;
-    }
-
-  /**
-   * Registers an object dirty in the UOW
-   * @static
-   * @param {Object} laptop an object of type laptop.
-   */
-    static makeUpdate(laptop) {
-        UOW.registerDirty(laptop);
-        UOW.commit();
-    }
-
-   /**
-    * Registers an object deleted in the UOW
-    * @static
-    * @param {Object} laptop an object of type laptop.
-    */
-    static makeDeletion(laptop) {
-        UOW.registerDeleted(laptop);
-        UOW.commit();
-    }
-
-   /**
-    * Commits the UOW
-    * @static
-    */
-    static commit() {
-        UOW.commit();
     }
 
   /**

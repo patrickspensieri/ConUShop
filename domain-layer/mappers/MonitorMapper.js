@@ -1,12 +1,13 @@
 let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
 let Monitor = require('../../domain-layer/classes/products/Monitor');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * Monitor object mapper
  * @class MonitorMapper
  * @export
  */
-class MonitorMapper {
+class MonitorMapper extends AbstractMapper {
   /**
    * Creates a new monitor
    * @static
@@ -17,40 +18,9 @@ class MonitorMapper {
    * @param {number} price price of monitor.
    * @return {monitor} monitor object.
    */
-    static makeNew(model, brand, size, weight, price) {
+    static create(model, brand, size, weight, price) {
         let monitor = new Monitor(model, brand, size, weight, price);
-        UOW.registerNew(monitor);
-        UOW.commit();
         return monitor;
-    }
-
-
-  /**
-   * Registers an object dirty in the UOW
-   * @static
-   * @param {Object} monitor an object of type monitor.
-   */
-    static makeUpdate(monitor) {
-        UOW.registerDirty(monitor);
-        UOW.commit();
-    }
-
-  /**
-    * Registers an object deleted in the UOW
-    * @static
-    * @param {Object} monitor an object of type monitor.
-    */
-    static makeDeletion(monitor) {
-        UOW.registerDeleted(monitor);
-        UOW.commit();
-    }
-
-  /**
-    * Commits the UOW
-    * @static
-    */
-    static commit() {
-        UOW.commit();
     }
 
   /**
