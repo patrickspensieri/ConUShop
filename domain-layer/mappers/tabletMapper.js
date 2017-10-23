@@ -1,5 +1,6 @@
 let Tablet = require('../../domain-layer/classes/tablet');
 let TabletTDG = require('../../data-source-layer/TDG/tabletTDG');
+let IdentityMap = require('../identity-map/idMap');
 
 /**
  * Tablet object mapper
