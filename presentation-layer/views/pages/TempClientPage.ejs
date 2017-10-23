@@ -3,6 +3,7 @@
 <head>
     <title>ConUshop | Home </title>
     <% include ../../assets/components/header.ejs %>
+
 </head>
 <body>
 <!-- for bootstrap working -->
@@ -12,43 +13,45 @@
 <!-- //for bootstrap working -->
 <!-- navigator -->
 <% include ../../assets/components/navigator.ejs %>
+<% include ../../assets/components/clientNav.ejs %>
 <!-- //navigator -->
+<div class="client_content">
+    <br>
+    <h1>Client has succesfully signed in</h1>
+    <br>
 
-<br>
-<h1>Client has succesfully signed in</h1>
-<br>
+    <div>
 
-<div>
+            <% if (typeof data!='undefined') { %>
+            <table contenteditable="true" id="prodTable">
+                <tr contenteditable="false">
+                    <td>Model</td>
+                    <td>Brand</td>
+                    <td>Processor</td>
+                    <td>Ram</td>
+                    <td>Storage</td>
+                    <td>Cores</td>
+                    <td>Dimensions</td>
+                    <td>Weight</td>
+                    <td>Price</td>
 
-        <% if (typeof data!='undefined') { %>
-        <table contenteditable="true" id="prodTable">
-            <tr contenteditable="false">
-                <td>Model</td>
-                <td>Brand</td>
-                <td>Processor</td>
-                <td>Ram</td>
-                <td>Storage</td>
-                <td>Cores</td>
-                <td>Dimensions</td>
-                <td>Weight</td>
-                <td>Price</td>
-
-            </tr>
-            <% for(var i = 0; i < data.length; i++) { %>
-            <tr>
-                <td><%= data[i].model %></td>
-                <td><%= data[i].brand %></td>
-                <td><%= data[i].processor %></td>
-                <td><%= data[i].ram %></td>
-                <td><%= data[i].storage %></td>
-                <td><%= data[i].cores %></td>
-                <td><%= data[i].dimensions %></td>
-                <td><%= data[i].weight %></td>
-                <td><%= data[i].price %></td>
-            </tr>
+                </tr>
+                <% for(var i = 0; i < data.length; i++) { %>
+                <tr>
+                    <td><%= data[i].model %></td>
+                    <td><%= data[i].brand %></td>
+                    <td><%= data[i].processor %></td>
+                    <td><%= data[i].ram %></td>
+                    <td><%= data[i].storage %></td>
+                    <td><%= data[i].cores %></td>
+                    <td><%= data[i].dimensions %></td>
+                    <td><%= data[i].weight %></td>
+                    <td><%= data[i].price %></td>
+                </tr>
+                <% } %>
+            </table>
             <% } %>
-        </table>
-        <% } %>
+    </div>
 </div>
 <!--%= jsonData %-->
 <!-- footer -->
