@@ -103,6 +103,20 @@ class UserTDG {
         });
     }
 
+    /**
+     * Deletes all the login sessions from the active users table.
+     * Intended for use on startup, express memory-store will always be clear on server startup.
+     */
+    static clearAllLoginSessions() {
+        let queryString = 'DELETE FROM activeusers *';
+
+        db.query(queryString, null, (err, result) => {
+            if (err) {
+                console.log(err.message);
+            }
+        });
+    }
+
   /**
    * Deletes an objects in the user table.
    * @static

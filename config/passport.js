@@ -2,6 +2,7 @@ let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 let UserMapper = require('../domain-layer/mappers/UserMapper');
 let bcrypt = require('bcryptjs');
+let MemoryStore = require('./memoryStore');
 
 /**
  * Configure local strategy used by Passport.
@@ -17,7 +18,7 @@ passport.use(new LocalStrategy(
     // THEN invokes the verify callback to find user whos credentials are given
     // IF credentials are valid, 'done' is invoked and user is passed to passport
     // ELSE false credentials lead to failure, invoke 'done' with false
-    function(req, email, password, done) {
+    function(req, email, password, done, clearExistingSession) {
         UserMapper.find(email, function(err, user) {
             if (err) throw err;
             if (!user) {
@@ -28,9 +29,14 @@ passport.use(new LocalStrategy(
                 if (!isMatch) {
                     return done(null, false, req.flash('error_msg', 'Invalid password. try again'));
                 } else {
+                    // IF user requested to clear all existing sessions, if any
+                    if (req.body.clearExistingSession && user.sessionID) {
+                        // destroy session from memory-store
+                        destroyExistingSession(user);
+                    }
                     // IF user.sessionID != null THEN user logged in elsewhere, failure
                     if (user.sessionID) {
-                        return done(null, false, req.flash('error_msg', 'User already has an active session'));
+                        return done(null, false, req.flash('error_msg', 'User already has an active session.'));
                     } else {
                         // TODO temporary flash message to identify user, not shown for admin because may appear on logout
                         if (user.isAdmin) {
@@ -57,7 +63,6 @@ passport.serializeUser(function(user, done) {
  */
 passport.deserializeUser(function(req, email, done) {
     UserMapper.find(email, function(err, user) {
-        console.log('deserializeUser : ' + user.id + '\n\treq.sessionID : ' + req.sessionID);
         // update the user's sessionID and store changes
         user.sessionID = req.sessionID;
         UserMapper.updateLoginSession(user);
@@ -76,4 +81,18 @@ comparePassword = function(candidatePassword, hash, done) {
         if (err) throw err;
         return done(null, isMatch);
     });
+};
+
+/**
+ * Clear existing user session from memory-store and from database
+ * @param  {User} user
+ */
+destroyExistingSession = function(user) {
+    // destroy session from memory-store
+    MemoryStore.store.destroy(user.sessionID, function(err) {
+        if (err) throw err;
+    });
+    // clear user's sessionID
+    user.sessionID = null;
+    UserMapper.updateLoginSession(user.id, user.sessionID);
 };

@@ -11,7 +11,7 @@ router.get('/TempClientPage',
 
 router.post('/login',
     accountController.ensureLoggedOut,
-    passport.authenticate('local'),
+    passport.authenticate('local', {failureRedirect: '/'}),
     function(req, res) {
         // NOTE will auto redirect to '/' if user not admin
         res.redirect('/account/adminDashboard');

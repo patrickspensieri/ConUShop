@@ -96,6 +96,14 @@ class UserMapper {
         UserTDG.updateLoginSession(userObject.id, userObject.sessionID);
     }
 
+    /**
+     * Deletes all the login sessions from the active users table.
+     * Intended for use on startup, express memory-store will always be clear on server startup.
+     */
+    static clearAllLoginSessions() {
+        UserTDG.clearAllLoginSessions();
+    }
+
   /**
    * Extracts an objects id to use with TDG delete method.
    * @static
