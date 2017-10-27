@@ -115,7 +115,7 @@ class TabletMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    tablet.push(new Tablet(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
+                    tablet.push(new Tablet(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.dimensions, value.weight, value.price));
                 }
                 return callback(null, tablet);
             }

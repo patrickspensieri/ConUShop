@@ -99,7 +99,7 @@ class MonitorMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    monitor.push(new Monitor(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
+                    monitor.push(new Monitor(value.model, value.brand, value.size, value.weight, value.price));
                 }
                 return callback(null, monitor);
             }
