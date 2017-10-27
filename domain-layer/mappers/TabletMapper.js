@@ -108,6 +108,19 @@ class TabletMapper {
     static delete(tabletObject) {
         TabletTDG.delete(tabletObject.model);
     }
+    static getTablet(callback) {
+        TabletTDG.getTablet(function(err, result) {
+            let tablet = [];
+            if (err) {
+                console.log('Error during item findAll query', null);
+            } else {
+                for (let value of result) {
+                    tablet.push(new Tablet(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
+                }
+                return callback(null, tablet);
+            }
+        });
+    }
 }
 
 module.exports = TabletMapper;

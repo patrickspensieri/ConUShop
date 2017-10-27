@@ -109,6 +109,19 @@ class LaptopMapper {
     static delete(laptopObject) {
             LaptopTDG.delete(laptopObject.model);
     }
+    static getLaptop(callback) {
+        LaptopTDG.getLaptop(function(err, result) {
+            let laptop = [];
+            if (err) {
+                console.log('Error during item findAll query', null);
+            } else {
+                for (let value of result) {
+                    laptop.push(new Laptop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
+                }
+                return callback(null, laptop);
+            }
+        });
+    }
 }
 
 module.exports = LaptopMapper;

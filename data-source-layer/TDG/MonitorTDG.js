@@ -90,6 +90,16 @@ class MonitorTDG {
           console.log('This monitor has been deleted from the database');
       });
     }
+    static getMonitor(callback) {
+        db.query('SELECT DISTINCT d.model, d.brand, d.weight, d.price FROM monitor d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
+            if (err) {
+                console.log(err.message);
+            } else {
+                console.log('Monitor success');
+                return callback(null, result.rows);
+            }
+        });
+    }
 }
 
 module.exports = MonitorTDG;
