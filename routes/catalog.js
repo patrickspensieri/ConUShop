@@ -204,15 +204,47 @@ function ensureAuthenticated(req, res, next) {
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~testing~~~~~~~~~~~~~~~~~~~~~~~~~
 router.get('/TempClientPage', function(req, res) {
+    res.render('pages/TempClientPage');
+});
+router.get('/TempClientPage/Desktop', function(req, res) {
     this.client = new Client();
-    console.log('test');
-    this.client.getDesktop(function(err, data) {
+    console.log('client desktop');
+    this.client.getProductCatalogInstance().getDesktop(function(err, data) {
+        data.table = 'desktop';
         res.render('pages/TempClientPage', {
             data: data,
         });
     });
 });
-// router.get('/TempClientPage', function(req, res) {
-//     res.render('pages/TempClientPage');
-// });
+router.get('/TempClientPage/Laptop', function(req, res) {
+    this.client = new Client();
+    console.log('client laptop');
+    this.client.getProductCatalogInstance().getLaptop(function(err, data) {
+        data.table = 'laptop';
+        res.render('pages/TempClientPage', {
+            data: data,
+        });
+    });
+});
+router.get('/TempClientPage/Monitor', function(req, res) {
+    this.client = new Client();
+    console.log('client monitor');
+    this.client.getProductCatalogInstance().getMonitor(function(err, data) {
+        data.table = 'monitor';
+        res.render('pages/TempClientPage', {
+            data: data,
+        });
+    });
+});
+router.get('/TempClientPage/Tablet', function(req, res) {
+    this.client = new Client();
+    console.log('client tablet');
+    this.client.getProductCatalogInstance().getTablet(function(err, data) {
+        data.table = 'tablet';
+        res.render('pages/TempClientPage', {
+            data: data,
+        });
+    });
+});
+
 module.exports = router;
