@@ -497,10 +497,10 @@ CREATE TABLE USERS (
     Password varchar(120) NOT NULL
 );
 
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'C', 'C', 'Concordia University', 'CC@hotmail.com', '5143184562', '1234');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', 'ZeusAboveAll');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', 'HabsForLife');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', 'GlobalWarming');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'C', 'C', 'Concordia University', 'CC@hotmail.com', '5143184562', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', '$2a$10$qGiZLXEyCmAkhSMLHNKH7eYakVCPJwKnyHRiEjvkEWzXB3V4xk.Na');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$Gegcqydf1DhwKeXWREhF1eWxIXXzDnVirlcTrqF5LODZ0lZDRyUl.');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$Ha2c1wrG.E3HFvY2FzUEPu.9K8J0uEC1WCAcrO59GHpiHSQnFQ59K');
 
 CREATE TABLE ACTIVEUSERS(
     user_id SERIAL PRIMARY KEY NOT NULL,
