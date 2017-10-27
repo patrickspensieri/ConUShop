@@ -1,4 +1,4 @@
-let UserMapper = require('../domain-layer/mappers/userMapper');
+let UserMapper = require('../domain-layer/mappers/UserMapper');
 
 module.exports = {
     /**

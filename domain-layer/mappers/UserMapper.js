@@ -20,8 +20,8 @@ class UserMapper {
    * @param {string} sessionid sessionID for login
    * @return {user} user object.
    */
-    static makeNew(firstName, lastName, address, email, phone, id, password, sessionid) {
-        let user = new User(firstName, lastName, address, email, phone, id, password, sessionid);
+    static makeNew(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id) {
+        let user = new User(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id);
         return user;
     }
 
@@ -41,8 +41,8 @@ class UserMapper {
                 if (result.length==0) {
                     return callback(err, null);
                 } else {
-                    return callback(null, new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phoneNumber, value.password, value.sessionid, value.id));
+                    return callback(null, new User(value.isadmin, value.firstname,
+                        value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id));
                 }
             }
         });
@@ -61,7 +61,7 @@ class UserMapper {
             } else {
                 for (let value of result) {
                     users.push(new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phoneNumber, value.sessionid));
+                        value.lastName, value.address, value.email, value.phone, value.sessionid));
                 }
                 return callback(null, users);
             }

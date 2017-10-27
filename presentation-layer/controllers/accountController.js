@@ -66,6 +66,7 @@ module.exports = {
     ensureAdministrator: function(req, res, next) {
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
+                console.log(user.isAdmin);
                 if (err) throw err;
                 if (user.isAdmin) {
                     return next();
