@@ -2,7 +2,6 @@ let DesktopMapper = require('../mappers/desktopMapper');
 let LaptopMapper = require('../mappers/laptopMapper');
 let MonitorMapper = require('../mappers/monitorMapper');
 let TabletMapper = require('../mappers/tabletMapper');
-let UnitOfWork = require('../unit-of-work/unitOfWork');
 
 /**
  * Identitymap
@@ -16,7 +15,7 @@ let UnitOfWork = require('../unit-of-work/unitOfWork');
      * */
     constructor () {
          this._identityMap = {};
-    }
+        }
 
     /**
      * Holds object into the identity map.
@@ -25,25 +24,22 @@ let UnitOfWork = require('../unit-of-work/unitOfWork');
      * @static
      * @param {Object} object an object of type electronicDevice
      */
-    static add(newObject) {
+     add(newObject,id) {
         let className = newObject.constructor.name;
-        let mappedObject;
-        if (_identityMap[className]) {
-            mappedObject = _identityMap[className][newObject.model];
+        if (this._identityMap[className]) {
+            mappedObject = this._identityMap[className][id];
             if (mappedObject) {
                 console.log("This object is already mapped");
-                return mappedObject;
             }
             else {
-                _identityMap[className][newObject.model]= newObject;
+                this._identityMap[className][id]= newObject;
+                console.log("This object has been added");
             }
         }
         else {
-            _identityMap[className] = {};
-            _identityMap[className][newObject.model] = newObject;
-            mappedObject = newObject;
+            this._identityMap[className] = {};
+            this._identityMap[className][id] = newObject;
         }
-        return mappedObject;
     }
 
     /**
@@ -52,11 +48,11 @@ let UnitOfWork = require('../unit-of-work/unitOfWork');
      * @static
      * @param {Object} updatedObject an object of type electronicDevice
      */
-    static update(updatedObject) {
+     update(updatedObject,id) {
         let className = object.constructor.name;
         let mappedObject;
-        if (_identityMap[className][updatedObject.model]){
-            _identityMap[className][updatedObject.model] = updatedObject;
+        if (this._identityMap[className][id]){
+            this._identityMap[className][id] = updatedObject;
         }
     }
 
@@ -66,14 +62,9 @@ let UnitOfWork = require('../unit-of-work/unitOfWork');
      * @static
      * @param {Object} deletedObject an object of type electronicDevice
      */
-    static delete(deletedObject) { 
+     delete(deletedObject,id) { 
         var className = deletedObject.constructor.name;
-        if(deletedObject) {
-        delete _identityMap[className][deletedObject.model];
-        }
-        else {
-            console.log('Invalid item');
-        }
+        delete this._identityMap[className][id];
     }
 
     /**
@@ -81,55 +72,46 @@ let UnitOfWork = require('../unit-of-work/unitOfWork');
      * adds it to the idMap if now found
      * @method get
      * @static
-     * @param {Object} object an object of type electronicDevice
+     * @param {Object} getObject an object of type electronicDevice
      */
-    static get(className,id) {
-        //let className = object.constructor.name;
+     get(className,id) {
         let mappedObject;
-        if (_identityMap[className][id]) {
-            mappedObject = _identityMap[className][id];
+        if (this._identityMap[className][id]) {
+            mappedObject = this._identityMap[className][id];
             return mappedObject;
-        }
-        if (_identityMap[className][id] == null) {
-            mappedObject = this.add(object);
         }
     }
 
     /**
-     * Returns all objects in the _identityMap
+     * Returns all objects in the this._identityMap
      * @method getAll
      * @static
      */
-    static getAll() {
-        if(req.user) {
-            Object.keys(_identityMap).forEach(key => {
+     getAll() {
+            Object.keys(this._identityMap).forEach(key => {
                 var deviceType = key;
-                Object.keys(_identityMap[deviceType]).forEach(key2 => {
+                Object.keys(this._identityMap[deviceType]).forEach(key2 => {
                     var deviceID = key2;
-                    console.log(_identityMap[deviceType][deviceID]);
+                    console.log(this._identityMap[deviceType][deviceID]);
                 });
             });
         }
-        else {
-            return "User is not logged in";
-        }
-    }
 
     /**
      * Deletes all objects in the Identity Map upon logging out
      * @method delete
      * @static
      */
-    static clear() {
+     clear() {
         if (!req.user) {
-            Object.keys(_identityMap).forEach(key => {
+            Object.keys(this._identityMap).forEach(key => {
                 var deviceType = key;
-                Object.keys(_identityMap[deviceType]).forEach(key2 => {
+                Object.keys(this._identityMap[deviceType]).forEach(key2 => {
                     var deviceID = key2;
-                    delete _identityMap[deviceType][deviceID];
+                    delete this._identityMap[deviceType][deviceID];
                     console.log("This item " + deviceID + ". Has been deleted from the Identity Map")
                 });
-            delete _identityMap[deviceType];
+            delete this._identityMap[deviceType];
             console.log("All items in " + deviceType + " has been deleted.")
             });       
         } 

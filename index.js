@@ -5,6 +5,7 @@ let session = require('express-session');
 let passport = require('passport');
 
 let UnitOfWork = require('./domain-layer/unit-of-work/unitOfWork');
+let IdentityMap = require('./domain-layer/identity-map/idMap');
 
 let express = require('express');
 let app = express();
@@ -57,5 +58,6 @@ app.use(expressValidator({
 }));
 
 UOW = new UnitOfWork();
+idMap = new IdentityMap();
 
 app.use(require('./routes'));

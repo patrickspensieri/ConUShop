@@ -1,6 +1,6 @@
 let Desktop = require('../../domain-layer/classes/desktop');
 let DesktopTDG = require('../../data-source-layer/TDG/desktopTDG');
-let IdentityMap = require('../identity-map/idMap');
+
 /**
  * Desktop object mapper
  * @class DesktopMapper
@@ -24,7 +24,8 @@ class DesktopMapper {
     static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
         UOW.registerNew(desktop);
-        idMap.add(desktop);
+        idMap.add(desktop, desktop.model);
+        idMap.getAll();
         return desktop;
     }
 
@@ -57,18 +58,10 @@ class DesktopMapper {
   /**
    * Adds into the IdentityMap
    * @static
-   */
-    static add(newObject) {
-        IdentityMap.add(newObject);
-    }
-    
-  /**
-   * Adds into the IdentityMap
-   * @static
    * @param {Object} deletedObject an object of type Dekstop
    */
     static addInIdMap(newObject) {
-        IdentityMap.add(newObject);
+        idMap.add(newObject);
     }    
 
   /**
@@ -77,8 +70,17 @@ class DesktopMapper {
    * @param {Object} deletedObject an object of type Dekstop
    */
     static deleteInIdMap(deleteObject) {
-        IdentityMap.delete(deleteObject);
+        idMap.delete(deleteObject);
     }
+
+  /**
+   * Get object in map IdentityMap
+   * @static
+   * @param {Object} getObject an object of type Dekstop
+   */
+    static getInIdMap(id) {
+        idMap.get("Desktop",id);
+    }   
         
   /**
    * Maps the returned value to an object of type desktop.
@@ -87,8 +89,8 @@ class DesktopMapper {
    * @return desktop object.
    */
     static find(id, callback) {
-        if (IdentityMap.get("Desktop",id)) {
-            return IdentityMap.get("Desktop",id);
+        if (idMap.get("Desktop",id)) {
+            return idMap.get("Desktop",id);
         }
         else {
             DesktopTDG.find(id, function(err, result) {
@@ -99,7 +101,7 @@ class DesktopMapper {
                     let desktop = new Desktop(value.model, value.brand, value.processor,
                         value.ram, value.storage, value.cores, value.dimensions,
                         value.weight, value.price);
-                    IdentityMap.add(desktop);
+                    IdentityMap.add(desktop,desktop.model);
                     return callback(null, desktop);
                 }
             });
@@ -144,6 +146,7 @@ class DesktopMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static update(desktopObject) {
+        idMap.update(desktopObject);
         DesktopTDG.update(desktopObject.model, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
             desktopObject.weight, desktopObject.price);
@@ -155,6 +158,7 @@ class DesktopMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static delete(desktopObject) {
+        idMap.delete(desktopObject,desktopObject.model);
         DesktopTDG.delete(desktopObject.model);
     }
 }
