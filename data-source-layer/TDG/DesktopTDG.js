@@ -1,4 +1,4 @@
-let db = require('../db/index');
+let db = require('../../data-source-layer/db/index');
 
 /**
  * Desktop table data gateway
@@ -9,10 +9,11 @@ class DesktopTDG {
   /**
    * Finds one object from the desktop table.
    * @static
-   * @param {string} id model number of desktop to be found.
+   * @param {string} modelNumber model number of desktop to be found.
+   * @param {function} callback function that holds desktop object.
    */
-    static find(id, callback) {
-        db.query('SELECT * FROM desktop WHERE model=$1', [id], (err, result) => {
+    static find(modelNumber, callback) {
+        db.query('SELECT * FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -24,6 +25,7 @@ class DesktopTDG {
   /**
    * Finds all objects from the desktop table.
    * @static
+   * @param {function} callback function that holds array of desktop object.
    */
     static findAll(callback) {
         db.query('SELECT * FROM desktop', (err, result) => {
@@ -95,6 +97,22 @@ class DesktopTDG {
           }
           console.log('This Desktop has been deleted from the database');
       });
+    }
+
+    /**
+     * Get all desktop objects
+     * @static
+     * @param {function} callback function
+     */
+    static getDesktop(callback) {
+        db.query('SELECT DISTINCT d.model, d.brand, d.processor, d.ram, d.storage, d.cores, d.dimensions, d.weight, d.price FROM desktop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
+            if (err) {
+                console.log(err.message);
+            } else {
+                console.log('Desktop sucess');
+                return callback(null, result.rows);
+            }
+        });
     }
 }
 

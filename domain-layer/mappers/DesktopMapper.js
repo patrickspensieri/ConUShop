@@ -1,5 +1,5 @@
-let Desktop = require('../../domain-layer/classes/desktop');
-let DesktopTDG = require('../../data-source-layer/TDG/desktopTDG');
+let Desktop = require('../../domain-layer/classes/products/Desktop');
+let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
 
 /**
  * Desktop object mapper
@@ -19,7 +19,7 @@ class DesktopMapper {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
-   * @return desktop object.
+   * @return {desktop} desktop object.
    */
     static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
@@ -28,18 +28,22 @@ class DesktopMapper {
   /**
    * Maps the returned value to an object of type desktop.
    * @static
-   * @param {string} id model number of desktop to be found.
-   * @return desktop object.
+   * @param {string} modelNumber model number of desktop to be found.
+   * @param {function} callback function that holds desktop object.
    */
-    static find(id, callback) {
-        DesktopTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        DesktopTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during desktop find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Desktop(value.model, value.brand, value.processor,
-                    value.ram, value.storage, value.cores, value.dimensions,
-                    value.weight, value.price));
+                if (result.length==0) {
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Desktop(value.model, value.brand, value.processor,
+                        value.ram, value.storage, value.cores, value.dimensions,
+                        value.weight, value.price));
+                }
             }
         });
     }
@@ -47,7 +51,7 @@ class DesktopMapper {
   /**
    * Maps all returned values into objects of type desktop.
    * @static
-   * @return array of desktop objects.
+   * @param {function} callback function that holds desktop object.
    */
     static findAll(callback) {
         DesktopTDG.findAll(function(err, result) {
@@ -94,6 +98,25 @@ class DesktopMapper {
    */
     static delete(desktopObject) {
         DesktopTDG.delete(desktopObject.model);
+    }
+
+    /**
+     * Get all desktop objects
+     * @static
+     * @param {function} callback
+     */
+    static getDesktop(callback) {
+        DesktopTDG.getDesktop(function(err, result) {
+            let desktop = [];
+            if (err) {
+                console.log('Error during item findAll query', null);
+            } else {
+                for (let value of result) {
+                    desktop.push(new Desktop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
+                }
+                return callback(null, desktop);
+            }
+        });
     }
 }
 

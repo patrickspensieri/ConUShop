@@ -1,5 +1,5 @@
-let Tablet = require('../../domain-layer/classes/tablet');
-let TabletTDG = require('../../data-source-layer/TDG/tabletTDG');
+let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
+let Tablet = require('../../domain-layer/classes/products/Tablet');
 
 /**
  * Tablet object mapper
@@ -23,7 +23,7 @@ class TabletMapper {
    * @param {string} dimensions dimensions of tablet.
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet
-   * @return tablet object.
+   * @return {tablet} tablet object.
    */
     static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
         let tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
@@ -33,19 +33,23 @@ class TabletMapper {
   /**
    * Maps the returned value to an object of type tablet.
    * @static
-   * @param {string} id model number of tablet to be found.
-   * @return tablet object.
+   * @param {string} modelNumber model number of tablet to be found.
+   * @param {function} callback function that holds Tablet object.
    */
-    static find(id, callback) {
-        TabletTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        TabletTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during tablet find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
-                    value.ram, value.storage, value.cores, value.os,
-                    value.battery, value.camera, value.dimensions,
-                    value.weight, value.price));
+                if (result.length==0) {
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
+                        value.ram, value.storage, value.cores, value.os,
+                        value.battery, value.camera, value.dimensions,
+                        value.weight, value.price));
+                }
             }
         });
     }
@@ -53,7 +57,7 @@ class TabletMapper {
   /**
    * Maps all returned values into objects of type tablet.
    * @static
-   * @return array of tablet objects.
+   * @param {function} callback function that holds array of Tablet object.
    */
     static findAll(callback) {
         TabletTDG.findAll(function(err, result) {
@@ -97,12 +101,25 @@ class TabletMapper {
     }
 
   /**
-   * Extracts an objects id to use with TDG delete method.
+   * Extracts an objects model to use with TDG delete method.
    * @static
    * @param {Object} tabletObject an object of type tablet.
    */
     static delete(tabletObject) {
         TabletTDG.delete(tabletObject.model);
+    }
+    static getTablet(callback) {
+        TabletTDG.getTablet(function(err, result) {
+            let tablet = [];
+            if (err) {
+                console.log('Error during item findAll query', null);
+            } else {
+                for (let value of result) {
+                    tablet.push(new Tablet(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.dimensions, value.weight, value.price));
+                }
+                return callback(null, tablet);
+            }
+        });
     }
 }
 

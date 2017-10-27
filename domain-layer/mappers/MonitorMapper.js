@@ -1,5 +1,5 @@
-let Monitor = require('../../domain-layer/classes/monitor');
-let MonitorTDG = require('../../data-source-layer/TDG/monitorTDG');
+let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
+let Monitor = require('../../domain-layer/classes/products/Monitor');
 
 /**
  * Monitor object mapper
@@ -15,7 +15,7 @@ class MonitorMapper {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
-   * @return monitor object.
+   * @return {monitor} monitor object.
    */
     static makeNew(model, brand, size, weight, price) {
         let monitor = new Monitor(model, brand, size, weight, price);
@@ -25,17 +25,21 @@ class MonitorMapper {
   /**
    * Maps the returned value to an object of type monitor.
    * @static
-   * @param {string} id model number of monitor to be found.
-   * @return monitor object.
+   * @param {string} modelNumber model number of monitor to be found.
+   * @param {function} callback function that holds monitor object
    */
-    static find(id, callback) {
-        MonitorTDG.find(id, function(err, result) {
+    static find(modelNumber, callback) {
+        MonitorTDG.find(modelNumber, function(err, result) {
             if (err) {
                 console.log('Error during monitor find query', null);
             } else {
                 let value = result[0];
-                return callback(null, new Monitor(value.model, value.brand, value.size,
-                    value.weight, value.price));
+                if (result.length==0) {
+                    return callback(err, null);
+                } else {
+                    return callback(null, new Monitor(value.model, value.brand, value.size,
+                        value.weight, value.price));
+                }
             }
         });
     }
@@ -43,7 +47,7 @@ class MonitorMapper {
   /**
    * Maps all returned values into objects of type monitor.
    * @static
-   * @return array of monitor objects.
+   * @param {function} callback function that holds array of monitor object
    */
     static findAll(callback) {
         MonitorTDG.findAll(function(err, result) {
@@ -81,12 +85,25 @@ class MonitorMapper {
     }
 
   /**
-   * Extracts an objects id to use with TDG delete method.
+   * Extracts an objects model to use with TDG delete method.
    * @static
    * @param {Object} monitorObject an object of type monitor.
    */
     static delete(monitorObject) {
         MonitorTDG.delete(monitorObject.model);
+    }
+    static getMonitor(callback) {
+        MonitorTDG.getMonitor(function(err, result) {
+            let monitor = [];
+            if (err) {
+                console.log('Error during item findAll query', null);
+            } else {
+                for (let value of result) {
+                    monitor.push(new Monitor(value.model, value.brand, value.size, value.weight, value.price));
+                }
+                return callback(null, monitor);
+            }
+        });
     }
 }
 
