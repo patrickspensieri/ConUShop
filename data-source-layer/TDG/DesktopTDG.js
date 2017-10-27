@@ -91,6 +91,7 @@ class DesktopTDG {
    * @param {string} id model number of desktop to be deleted.
    */
     static delete(id) {
+
       db.query('DELETE FROM desktop WHERE model=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
@@ -104,7 +105,8 @@ class DesktopTDG {
      * @static
      * @param {function} callback function
      */
-    static getDesktop(callback) {
+    static getDesktop(callback){
+    console.log("start query");
         db.query('SELECT DISTINCT d.model, d.brand, d.processor, d.ram, d.storage, d.cores, d.dimensions, d.weight, d.price FROM desktop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {
                 console.log(err.message);
