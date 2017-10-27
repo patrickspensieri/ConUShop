@@ -7,6 +7,7 @@
 </head>
 <body>
 <!-- for bootstrap working -->
+
 <script type="text/javascript" src="/js/bootstrap-3.1.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="/js/main.js"></script>
@@ -31,6 +32,8 @@
 
             <% if (typeof data!='undefined' && data.table=='desktop') { %>
 
+            <h1>Desktop</h1>
+            <br>
             <table contenteditable="true" id="prodTable">
                 <tr contenteditable="false">
                     <td>Model</td>
@@ -60,7 +63,8 @@
             </table>
             <% } %>
         <% if (typeof data!='undefined' && data.table=='laptop') { %>
-
+        <h1>Laptop</h1>
+        <br>
         <table contenteditable="true" id="prodTable">
             <tr contenteditable="false">
                 <td>Model</td>
@@ -98,19 +102,13 @@
         </table>
         <% } %>
         <% if (typeof data!='undefined' && data.table=='monitor') { %>
+        <h1>Monitor</h1>
+        <br>
         <table contenteditable="true" id="prodTable">
             <tr contenteditable="false">
                 <td>Model</td>
                 <td>Brand</td>
-                <td>Processor</td>
-                <td>Ram</td>
-                <td>Storage</td>
-                <td>Cores</td>
-                <td>Os</td>
-                <td>Battery</td>
-                <td>Camera</td>
-                <td>Touch</td>
-                <td>Dimensions</td>
+                <td>Size</td>
                 <td>Weight</td>
                 <td>Price</td>
 
@@ -119,15 +117,7 @@
             <tr>
                 <td><%= data[i].model %></td>
                 <td><%= data[i].brand %></td>
-                <td><%= data[i].processor %></td>
-                <td><%= data[i].ram %></td>
-                <td><%= data[i].storage %></td>
-                <td><%= data[i].cores %></td>
-                <td><%= data[i].os %></td>
-                <td><%= data[i].battery %></td>
-                <td><%= data[i].camera %></td>
-                <td><%= data[i].touch %></td>
-                <td><%= data[i].dimensions %></td>
+                <td><%= data[i].size %></td>
                 <td><%= data[i].weight %></td>
                 <td><%= data[i].price %></td>
             </tr>
@@ -135,10 +125,13 @@
         </table>
         <% } %>
         <% if (typeof data!='undefined' && data.table=='tablet') { %>
+        <h1>Tablet</h1>
+        <br>
         <table contenteditable="true" id="prodTable">
             <tr contenteditable="false">
                 <td>Model</td>
                 <td>Brand</td>
+                <td>Display</td>
                 <td>Processor</td>
                 <td>Ram</td>
                 <td>Storage</td>
@@ -146,16 +139,18 @@
                 <td>Os</td>
                 <td>Battery</td>
                 <td>Camera</td>
-                <td>Touch</td>
                 <td>Dimensions</td>
                 <td>Weight</td>
                 <td>Price</td>
 
             </tr>
             <% for(var i = 0; i < data.length; i++) { %>
+
+
             <tr>
                 <td><%= data[i].model %></td>
                 <td><%= data[i].brand %></td>
+                <td><%= data[i].display %></td>
                 <td><%= data[i].processor %></td>
                 <td><%= data[i].ram %></td>
                 <td><%= data[i].storage %></td>
@@ -163,7 +158,6 @@
                 <td><%= data[i].os %></td>
                 <td><%= data[i].battery %></td>
                 <td><%= data[i].camera %></td>
-                <td><%= data[i].touch %></td>
                 <td><%= data[i].dimensions %></td>
                 <td><%= data[i].weight %></td>
                 <td><%= data[i].price %></td>

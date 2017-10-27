@@ -116,7 +116,7 @@ class LaptopMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    laptop.push(new Laptop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
+                    laptop.push(new Laptop(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.touch, value.dimensions, value.weight, value.price));
                 }
                 return callback(null, laptop);
             }
