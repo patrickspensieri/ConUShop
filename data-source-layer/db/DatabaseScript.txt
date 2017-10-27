@@ -504,6 +504,16 @@ INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)
 
 
 /* ------------------------------------------ TRIGGER FUNCTIONS --------------------------------------------- */
+
+CREATE OR REPLACE FUNCTION adminCheck() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+   IF(NEW.isAdmin IS TRUE AND (SELECT COUNT(*) FROM USERS WHERE isAdmin IS TRUE) = 3) THEN
+       RAISE EXCEPTION 'The system only allows 3 admins to exists at a time.';
+   END IF;
+RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql';
+
 /* ------------ modelCheck() FUNCTIONS, CHECKS IF MODEL FORMAT IS GOOD & IF PRODUCT EXISTS */
 CREATE OR REPLACE FUNCTION desktopModelCheck() RETURNS TRIGGER AS
 $BODY$
@@ -644,6 +654,11 @@ RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
 /* ------------------------------------------ TRIGGERS --------------------------------------------- */
+
+CREATE TRIGGER adminCheck
+BEFORE INSERT ON USERS
+FOR EACH ROW
+EXECUTE PROCEDURE adminCheck();
 
 /* ------------ modelCheck() TRIGGERS ----------------- */
 CREATE TRIGGER desktopModelCheck
