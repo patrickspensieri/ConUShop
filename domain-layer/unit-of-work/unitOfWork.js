@@ -3,6 +3,7 @@ let LaptopMapper = require('../mappers/laptopMapper');
 let MonitorMapper = require('../mappers/monitorMapper');
 let TabletMapper = require('../mappers/tabletMapper');
 let UserMapper = require('../mappers/userMapper');
+let ItemMapper = require('../mappers/itemMapper');
 
 /**
  * In-memory object which keeps track of which domain objects should 
@@ -91,6 +92,9 @@ class UnitOfWork {
             if (this._newObjects[i].constructor.name == 'User') {
                 UserMapper.insert(this._newObjects[i]);
             }
+            if (this._newObjects[i].constructor.name == 'Item') {
+                ItemMapper.insert(this._newObjects[i]);
+            }
         }
     }
 
@@ -115,6 +119,9 @@ class UnitOfWork {
             if (this._newObjects[i].constructor.name == 'User') {
                 UserMapper.insert(this._dirtyObjects[i]);
             }
+            if (this._newObjects[i].constructor.name == 'Item') {
+                ItemMapper.insert(this._dirtyObjects[i]);
+            }
         }
     }
 
@@ -138,6 +145,9 @@ class UnitOfWork {
             }
             if (this._newObjects[i].constructor.name == 'User') {
                 UserMapper.insert(this._deletedObjects[i]);
+            }
+            if (this._newObjects[i].constructor.name == 'Item') {
+                ItemMapper.insert(this._deletedObjects[i]);
             }
         }
     }
