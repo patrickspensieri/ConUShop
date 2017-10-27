@@ -1,6 +1,6 @@
 let Desktop = require('../../domain-layer/classes/desktop');
 let DesktopTDG = require('../../data-source-layer/TDG/desktopTDG');
-
+let IdentityMap = require('../identity-map/idMap');
 /**
  * Desktop object mapper
  * @class DesktopMapper
@@ -24,6 +24,7 @@ class DesktopMapper {
     static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
         UOW.registerNew(desktop);
+        idMap.add(desktop);
         return desktop;
     }
 
@@ -54,22 +55,55 @@ class DesktopMapper {
     }
 
   /**
+   * Adds into the IdentityMap
+   * @static
+   */
+    static add(newObject) {
+        IdentityMap.add(newObject);
+    }
+    
+  /**
+   * Adds into the IdentityMap
+   * @static
+   * @param {Object} deletedObject an object of type Dekstop
+   */
+    static addInIdMap(newObject) {
+        IdentityMap.add(newObject);
+    }    
+
+  /**
+   * Delete into the IdentityMap
+   * @static
+   * @param {Object} deletedObject an object of type Dekstop
+   */
+    static deleteInIdMap(deleteObject) {
+        IdentityMap.delete(deleteObject);
+    }
+        
+  /**
    * Maps the returned value to an object of type desktop.
    * @static
    * @param {string} id model number of desktop to be found.
    * @return desktop object.
    */
     static find(id, callback) {
-        DesktopTDG.find(id, function(err, result) {
-            if (err) {
-                console.log('Error during desktop find query', null);
-            } else {
-                let value = result[0];
-                return callback(null, new Desktop(value.model, value.brand, value.processor,
-                    value.ram, value.storage, value.cores, value.dimensions,
-                    value.weight, value.price));
-            }
-        });
+        if (IdentityMap.get("Desktop",id)) {
+            return IdentityMap.get("Desktop",id);
+        }
+        else {
+            DesktopTDG.find(id, function(err, result) {
+                if (err) {
+                    console.log('Error during desktop find query', null);
+                } else {
+                    let value = result[0];
+                    let desktop = new Desktop(value.model, value.brand, value.processor,
+                        value.ram, value.storage, value.cores, value.dimensions,
+                        value.weight, value.price);
+                    IdentityMap.add(desktop);
+                    return callback(null, desktop);
+                }
+            });
+        }
     }
 
   /**

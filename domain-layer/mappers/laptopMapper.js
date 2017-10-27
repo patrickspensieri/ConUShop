@@ -1,5 +1,6 @@
 let Laptop = require('../../domain-layer/classes/laptop');
 let LaptopTDG = require('../../data-source-layer/TDG/laptopTDG');
+let IdentityMap = require('../identity-map/idMap');
 
 /**
  * Laptop object mapper

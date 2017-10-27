@@ -1,5 +1,6 @@
 let User = require('../../domain-layer/classes/user');
 let UserTDG = require('../../data-source-layer/TDG/userTDG');
+let IdentityMap = require('../identity-map/idMap');
 
 /**
  * User object mapper

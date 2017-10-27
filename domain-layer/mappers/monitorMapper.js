@@ -1,5 +1,6 @@
 let Monitor = require('../../domain-layer/classes/monitor');
 let MonitorTDG = require('../../data-source-layer/TDG/monitorTDG');
+let IdentityMap = require('../identity-map/idMap');
 
 /**
  * Monitor object mapper

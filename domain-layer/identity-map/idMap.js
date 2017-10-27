@@ -2,6 +2,7 @@ let DesktopMapper = require('../mappers/desktopMapper');
 let LaptopMapper = require('../mappers/laptopMapper');
 let MonitorMapper = require('../mappers/monitorMapper');
 let TabletMapper = require('../mappers/tabletMapper');
+let UnitOfWork = require('../unit-of-work/unitOfWork');
 
 /**
  * Identitymap
@@ -21,66 +22,54 @@ let TabletMapper = require('../mappers/tabletMapper');
      * Holds object into the identity map.
      * To be run when an instance of that object is called from the DB.
      * @method add
+     * @static
      * @param {Object} object an object of type electronicDevice
      */
-    add(object) {   
-        if (object) {
-            var className = object.constructor.name;
-            let mappedObject;
-            if (identityMap[className]) {
-                mappedObject = identityMap[className][object.model];
-                if (mappedObject) {
-                    console.log("This object is already mapped");
-                    return mappedObject;
-                }
-                else {
-                    identityMap[className][object.model]= object;
-                }
+    static add(newObject) {
+        let className = newObject.constructor.name;
+        let mappedObject;
+        if (_identityMap[className]) {
+            mappedObject = _identityMap[className][newObject.model];
+            if (mappedObject) {
+                console.log("This object is already mapped");
+                return mappedObject;
             }
             else {
-                identityMap[className] = {};
-                identityMap[className][object.model] = object;
-                mappedObject = object;
+                _identityMap[className][newObject.model]= newObject;
             }
-            return mappedObject;
         }
         else {
-            console.log('This object is invalid');
-        }
-    }
-
-    /**
-     * Returns an object in the Identity Map upon request
-     * @method get
-     * @param {Object} object an object of type electronicDevice
-     */
-    get(object) {
-        let className = object.constructor.name;
-        let mappedObject;
-        if (object) {
-            if (identityMap[className]) {
-                if (identityMap[className][object.model])
-                mappedObject = identityMap[className][object.model];
-                else {
-                    console.log('Error model number not found for that product');
-                }
-            }
-            else {
-                console.log('This device class does not exist in the identity map');
-            }
+            _identityMap[className] = {};
+            _identityMap[className][newObject.model] = newObject;
+            mappedObject = newObject;
         }
         return mappedObject;
     }
 
     /**
+     * Updates an object in the Identity Map upon request
+     * @method update
+     * @static
+     * @param {Object} updatedObject an object of type electronicDevice
+     */
+    static update(updatedObject) {
+        let className = object.constructor.name;
+        let mappedObject;
+        if (_identityMap[className][updatedObject.model]){
+            _identityMap[className][updatedObject.model] = updatedObject;
+        }
+    }
+
+    /**
      * Deletes an object in the Identity Map upon request
      * @method delete
-     * @param {Object} object an object of type electronicDevice
+     * @static
+     * @param {Object} deletedObject an object of type electronicDevice
      */
-    delete(object) { 
-        var className = object.constructor.name;
-        if(object) {
-        delete identityMap[className][object.model];
+    static delete(deletedObject) { 
+        var className = deletedObject.constructor.name;
+        if(deletedObject) {
+        delete _identityMap[className][deletedObject.model];
         }
         else {
             console.log('Invalid item');
@@ -88,25 +77,66 @@ let TabletMapper = require('../mappers/tabletMapper');
     }
 
     /**
-     * Deletes all objects in the Identity Map upon logging out
-     * @method delete
+     * Returns an object in the Identity Map upon request
+     * adds it to the idMap if now found
+     * @method get
+     * @static
+     * @param {Object} object an object of type electronicDevice
      */
-    clear() {
-        if (req.user) {
-            console.log("Identity Map cannot be cleared, user is still logged in!");
-        } 
-        else {
-            Object.keys(identityMap).forEach(key => {
-                var deviceType = key;
-                Object.keys(identityMap[deviceType]).forEach(key2 => {
-                    var deviceID = key2;
-                    delete identityMap[deviceType][deviceID];
-                    console.log("This item " + deviceID + ". Has been deleted from the Identity Map")
-                });
-            delete identityMap[deviceType];
-            console.log("All items in " + deviceType + " has been deleted.")
-            });       
+    static get(className,id) {
+        //let className = object.constructor.name;
+        let mappedObject;
+        if (_identityMap[className][id]) {
+            mappedObject = _identityMap[className][id];
+            return mappedObject;
+        }
+        if (_identityMap[className][id] == null) {
+            mappedObject = this.add(object);
         }
     }
 
+    /**
+     * Returns all objects in the _identityMap
+     * @method getAll
+     * @static
+     */
+    static getAll() {
+        if(req.user) {
+            Object.keys(_identityMap).forEach(key => {
+                var deviceType = key;
+                Object.keys(_identityMap[deviceType]).forEach(key2 => {
+                    var deviceID = key2;
+                    console.log(_identityMap[deviceType][deviceID]);
+                });
+            });
+        }
+        else {
+            return "User is not logged in";
+        }
+    }
+
+    /**
+     * Deletes all objects in the Identity Map upon logging out
+     * @method delete
+     * @static
+     */
+    static clear() {
+        if (!req.user) {
+            Object.keys(_identityMap).forEach(key => {
+                var deviceType = key;
+                Object.keys(_identityMap[deviceType]).forEach(key2 => {
+                    var deviceID = key2;
+                    delete _identityMap[deviceType][deviceID];
+                    console.log("This item " + deviceID + ". Has been deleted from the Identity Map")
+                });
+            delete _identityMap[deviceType];
+            console.log("All items in " + deviceType + " has been deleted.")
+            });       
+        } 
+        else {
+            console.log("Identity Map cannot be cleared, user is still logged in!");
+        }
+    }
 }
+
+module.exports = IdentityMap;

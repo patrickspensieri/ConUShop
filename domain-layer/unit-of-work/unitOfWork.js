@@ -2,6 +2,7 @@ let DesktopMapper = require('../mappers/desktopMapper');
 let LaptopMapper = require('../mappers/laptopMapper');
 let MonitorMapper = require('../mappers/monitorMapper');
 let TabletMapper = require('../mappers/tabletMapper');
+let IdentityMap = require('../identity-map/idMap');
 
 /**
  * In-memory object which keeps track of which domain objects should 
@@ -75,6 +76,9 @@ class UnitOfWork {
      */
     _insertNew() {
         for (let i=0; i < this._newObjects.length; i++) {
+            if (IdentityMap.get(this._newObjects[i])) {
+                IdentityMap.add(this._newObjects[i]);
+            }
             if (this._newObjects[i].constructor.name == 'Desktop') {
                 DesktopMapper.insert(this._newObjects[i]);
             }
@@ -96,6 +100,9 @@ class UnitOfWork {
      */
     _updateDirty() {
         for (let i=0; i < this._dirtyObjects.length; i++) {
+            if (IdentityMap.get(this._dirtyObjects[i])) {
+                IdentityMap.update(this._dirtyObjects[i]);
+            }
             if (this._dirtyObjects[i].constructor.name == 'Desktop') {
                 DesktopMapper.update(this._dirtyObjects[i]);
             }
@@ -117,6 +124,9 @@ class UnitOfWork {
      */
     _deleteRemoved() {
         for (let i=0; i < this._deletedObjects.length; i++) {
+            if(IdentityMap.get(this._deletedObjects[i])) {
+                IdentityMap.delete(this.deletedObjects[i]);
+            }
             if (this._deletedObjects[i].constructor.name == 'Desktop') {
                 DesktopMapper.delete(this._deletedObjects[i]);
             }
