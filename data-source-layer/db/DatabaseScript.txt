@@ -1,7 +1,7 @@
 ﻿/* 
 SOEN 343 DATABASE SCRIPT FOR THE CONU.SHOP APPLICATION
 DATABASE WRITTEN BY: ALEXANDRE MASMOUDI
-LAST UPDATE: 2017-10-23
+LAST UPDATE: 2017-10-27
 */
 
 /* ------------------------------------------ PRODUCT TABLE QUERIES --------------------------------------------- */
@@ -501,6 +501,11 @@ INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', 'ZeusAboveAll');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', 'HabsForLife');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', 'GlobalWarming');
+
+CREATE TABLE ACTIVEUSERS(
+    user_id SERIAL PRIMARY KEY NOT NULL,
+    sessionid VARCHAR(60)
+);
 
 
 /* ------------------------------------------ TRIGGER FUNCTIONS --------------------------------------------- */
