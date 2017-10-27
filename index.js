@@ -3,6 +3,9 @@ let bodyParser = require('body-parser');
 let expressValidator = require('express-validator');
 let session = require('express-session');
 let passport = require('passport');
+let flash = require('connect-flash');
+// let MemoryStore = require('memorystore')(session);
+let MemoryStore = require('./config/memoryStore');
 
 let express = require('express');
 let app = express();
@@ -24,13 +27,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-// Express Session
+// Express Session, maintained in MemoryStore
+let sessionStore = MemoryStore.store;
 app.use(session({
-    // TODO does secret need to be in .env?
+    // TODO move the key into the .env file
     secret: 'secret',
-    saveUninitialized: true,
-    resave: true,
+    saveUninitialized: false,
+    resave: false,
+    // MemoryStore package replaces default express memory-store
+    // MemoryStoreallows control of sessions (delete, get, prune), unlike default
+  store: sessionStore,
 }));
+app.use(flash());
 
 // Passport init
 app.use(passport.initialize());
@@ -55,3 +63,6 @@ app.use(expressValidator({
 }));
 
 app.use(require('./routes'));
+// run the startup tasks
+let startup = require('./config/startup');
+startup.run();
