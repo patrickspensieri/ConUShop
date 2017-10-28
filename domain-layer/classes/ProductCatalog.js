@@ -236,26 +236,50 @@ class ProductCatalog {
             return callback(null, data);
         });
     }
-    getDesktop(callback) {
-        desktopMapper.getDesktop(function(err, data) {
-            return callback(null, data);
-        });
+    getAllProductInventory(productType, callback) {
+        switch (productType) {
+            case 'Desktop':
+                desktopMapper.getDesktop(function(err, data) {
+                return callback(null, data);
+            })
+                break;
+            case 'Laptop':
+                laptopMapper.getLaptop(function(err, data) {
+                    return callback(null, data);
+                })
+                break;
+            case 'Monitor':
+                monitorMapper.getMonitor(function(err, data) {
+                    return callback(null, data);
+                })
+                break;
+            case 'Tablet':
+                tabletMapper.getTablet(function(err, data) {
+                    return callback(null, data);
+                })
+                break;
+        }
     }
-    getLaptop(callback) {
-        laptopMapper.getLaptop(function(err, data) {
-            return callback(null, data);
-        });
-    }
-    getMonitor(callback) {
-        monitorMapper.getMonitor(function(err, data) {
-            return callback(null, data);
-        });
-    }
-    getTablet(callback) {
-        tabletMapper.getTablet(function(err, data) {
-            return callback(null, data);
-        });
-    }
+//     getDesktop(callback) {
+//         desktopMapper.getDesktop(function(err, data) {
+//             return callback(null, data);
+//         });
+//     }
+//     getLaptop(callback) {
+//         laptopMapper.getLaptop(function(err, data) {
+//             return callback(null, data);
+//         });
+//     }
+//     getMonitor(callback) {
+//         monitorMapper.getMonitor(function(err, data) {
+//             return callback(null, data);
+//         });
+//     }
+//     getTablet(callback) {
+//         tabletMapper.getTablet(function(err, data) {
+//             return callback(null, data);
+//         });
+//     }
 }
 
 module.exports = ProductCatalog;

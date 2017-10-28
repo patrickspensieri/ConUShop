@@ -1,9 +1,9 @@
 let User = require('./User');
 let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
-let DesktopMapper = require('../../domain-layer/mappers/DesktopMapper');
-let LaptopMapper = require('../../domain-layer/mappers/LaptopMapper');
-let MonitorMapper = require('../../domain-layer/mappers/MonitorMapper');
-let TabletMapper = require('../../domain-layer/mappers/TabletMapper');
+// let DesktopMapper = require('../../domain-layer/mappers/DesktopMapper');
+// let LaptopMapper = require('../../domain-layer/mappers/LaptopMapper');
+// let MonitorMapper = require('../../domain-layer/mappers/MonitorMapper');
+// let TabletMapper = require('../../domain-layer/mappers/TabletMapper');
 
 /**
  * Class describes an Admin.
@@ -35,29 +35,36 @@ class Client extends User {
      * @param {function} callback function
      *
      */
-    getDesktop(callback) {
-        DesktopMapper.getDesktop(function(err, data) {
-            return callback(null, data);
-        });
+    getProductInventory(productType, callback) {
+        let productCatalog = new ProductCatalog();
+        productCatalog.getAllProductInventory(productType, callback);
     }
-    getLaptop(callback) {
-        LaptopMapper.getLaptop(function(err, data) {
-            return callback(null, data);
-        });
-    }
-    getMonitor(callback) {
-        MonitorMapper.getMonitor(function(err, data) {
-            return callback(null, data);
-        });
-    }
-    getTablet(callback) {
-        TabletMapper.getTablet(function(err, data) {
-            return callback(null, data);
-        });
-    }
-    getProductCatalogInstance() {
-        return this.productCatalog;
-    }
+
+    // getDesktop(callback) {
+    //     let productCatalog = new ProductCatalog();
+    //     productCatalog.getDesktop(function(err, data) {
+    //         return callback(null, data);
+    //     });
+    // }
+    // getLaptop(callback) {
+    //     let productCatalog = new ProductCatalog();
+    //     productCatalog.getLaptop(function(err, data) {
+    //         return callback(null, data);
+    //     });
+    // }
+    // getMonitor(callback) {
+    //     let productCatalog = new ProductCatalog();
+    //     productCatalog.getMonitor(function(err, data) {
+    //         return callback(null, data);
+    //     });
+    // }
+    // getTablet(callback) {
+    //     let productCatalog = new ProductCatalog();
+    //     productCatalog.getTablet(function(err, data) {
+    //         return callback(null, data);
+    //     });
+    // }
+
 }
 
 module.exports = Client;
