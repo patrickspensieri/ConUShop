@@ -3,9 +3,13 @@ let router = new express.Router();
 let Admin = require('../domain-layer/classes/Admin');
 let Client = require('../domain-layer/classes/Client');
 let UserMapper = require('../domain-layer/mappers/UserMapper');
+let accountController = require('../presentation-layer/controllers/accountController');
+
+
 
 // Get Dashboard
-router.get('/adminDashboard', ensureAuthenticated, function(req, res) {
+router.get('/adminDashboard',
+    accountController.ensureAdministrator, function(req, res) {
     this.admin = new Admin();
     res.render('pages/adminDashboard');
 });
@@ -179,40 +183,50 @@ router.get('/tabletView', function(req, res) {
     });
 });
 
-/**
- * Ensure the user is logged in and prevent him from accessing pages
- * @param  {path} req
- * @param  {path} res
- * @param  {path} next
- */
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        UserMapper.find(req.user.email, function(err, user) {
-            if (err) {
-                throw err;
-            }
 
-            if (user.isAdmin) {
-                return next();
-            } else {
-                res.redirect('/account/TempClientPage');
-            }
-        });
-    } else {
-        res.redirect('/');
-    }
-}
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~testing~~~~~~~~~~~~~~~~~~~~~~~~~
-router.get('/TempClientPage', function(req, res) {
+router.get('/ClientPage', function(req, res) {
+    res.render('pages/ClientPage');
+});
+router.get('/ClientPage/Desktop', function(req, res) {
     this.client = new Client();
-    console.log('test');
-    this.client.getDesktop(function(err, data) {
-        res.render('pages/TempClientPage', {
+    console.log('client desktop');
+    this.client.getProductCatalogInstance().getDesktop(function(err, data) {
+        data.table = 'desktop';
+        res.render('pages/ClientPage', {
             data: data,
         });
     });
 });
-// router.get('/TempClientPage', function(req, res) {
-//     res.render('pages/TempClientPage');
-// });
+router.get('/ClientPage/Laptop', function(req, res) {
+    this.client = new Client();
+    console.log('client laptop');
+    this.client.getProductCatalogInstance().getLaptop(function(err, data) {
+        data.table = 'laptop';
+        res.render('pages/ClientPage', {
+            data: data,
+        });
+    });
+});
+router.get('/ClientPage/Monitor', function(req, res) {
+    this.client = new Client();
+    console.log('client monitor');
+    this.client.getProductCatalogInstance().getMonitor(function(err, data) {
+        data.table = 'monitor';
+        res.render('pages/ClientPage', {
+            data: data,
+        });
+    });
+});
+router.get('/ClientPage/Tablet', function(req, res) {
+    this.client = new Client();
+    console.log('client tablet');
+    this.client.getProductCatalogInstance().getTablet(function(err, data) {
+        data.table = 'tablet';
+        res.render('pages/ClientPage', {
+            data: data,
+        });
+    });
+});
+
 module.exports = router;

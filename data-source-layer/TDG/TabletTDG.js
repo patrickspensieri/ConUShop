@@ -106,6 +106,16 @@ class TabletTDG {
             console.log('This Tablet has been deleted from the database');
         });
     }
+    static getTablet(callback) {
+        db.query('SELECT DISTINCT d.model, d.brand, d.display, d.processor, d.ram, d.storage, d.cores, d.os, d.battery, d.camera, d.dimensions, d.weight, d.price FROM tablet d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
+            if (err) {
+                console.log(err.message);
+            } else {
+                console.log('Tablet success');
+                return callback(null, result.rows);
+            }
+        });
+    }
 }
 
 module.exports = TabletTDG;

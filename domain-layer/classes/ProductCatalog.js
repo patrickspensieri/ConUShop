@@ -236,6 +236,26 @@ class ProductCatalog {
             return callback(null, data);
         });
     }
+    getDesktop(callback) {
+        desktopMapper.getDesktop(function(err, data) {
+            return callback(null, data);
+        });
+    }
+    getLaptop(callback) {
+        laptopMapper.getLaptop(function(err, data) {
+            return callback(null, data);
+        });
+    }
+    getMonitor(callback) {
+        monitorMapper.getMonitor(function(err, data) {
+            return callback(null, data);
+        });
+    }
+    getTablet(callback) {
+        tabletMapper.getTablet(function(err, data) {
+            return callback(null, data);
+        });
+    }
 }
 
 module.exports = ProductCatalog;

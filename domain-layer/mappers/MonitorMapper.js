@@ -93,6 +93,19 @@ class MonitorMapper extends AbstractMapper {
     static delete(monitorObject) {
         MonitorTDG.delete(monitorObject.model);
     }
+    static getMonitor(callback) {
+        MonitorTDG.getMonitor(function(err, result) {
+            let monitor = [];
+            if (err) {
+                console.log('Error during item findAll query', null);
+            } else {
+                for (let value of result) {
+                    monitor.push(new Monitor(value.model, value.brand, value.size, value.weight, value.price));
+                }
+                return callback(null, monitor);
+            }
+        });
+    }
 }
 
 module.exports = MonitorMapper;

@@ -11,8 +11,23 @@
 <!-- navigator -->
 <% include ../../assets/components/navigator.ejs %>
 <!-- //navigator -->
+
 <!-- //carousel -->
 <div class="container">
+    <!-- flash messages -->
+    <% if (error_message.length > 0) { %>
+        <div class="alert alert-danger alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%= error_message %>
+        </div>
+    <% } %>
+    <% if (success_message.length > 0) { %>
+        <div class="alert alert-success alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%= success_message %>
+        </div>
+    <% } %>
+
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
@@ -112,7 +127,25 @@
 <!-- //top-brands -->
 
 <!-- footer -->
+<div class="footer">
+    <div class="container">
+        <div class="w3_footer_grids">
+            <div class="col-md-3 w3_footer_grid">
+                <h3>Contact</h3>
+                <p>Concordia University Online Shopping</p>
+                <ul class="address">
+                    <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>7141 Sherbrooke St W <span>Montreal QC. H4B 1R6</span></li>
+                    <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">shop@concordia.com</a></li>
+                    <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1 (514) 848-2424</li>
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+
 <% include ../../assets/components/footer.ejs %>
+
 <!-- //footer -->
 <!-- cart-js -->
 <script src="js/minicart.js"></script>

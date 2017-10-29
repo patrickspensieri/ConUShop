@@ -1,4 +1,4 @@
-let PortableComputer = require('./portableComputer');
+let PortableComputer = require('./PortableComputer');
 
 /**
  * Class describes a laptop.
