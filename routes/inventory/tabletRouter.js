@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 router.post('/delete', function(req, res) {
     // When ID map is created this will find the desktop in the ID map and delete
     // from the ID map and the UoW will handle the database
-    TabletMapper.delete(new Tablet(req.body.id));
+    TabletMapper.makeDeletion(new Tablet(req.body.id));
 
     res.send({redirect: '/inventory/tabletView'});
 });
@@ -59,10 +59,10 @@ router.post('/', function(req, res) {
             errors: errors,
         });
     } else {
-        let newtablet = TabletMapper.makeNew(model, brand, display, processor, ram, storage, cores, os,
+        let newtablet = TabletMapper.create(model, brand, display, processor, ram, storage, cores, os,
             battery, camera, dimensions, weight, price);
 
-        TabletMapper.insert(newtablet);
+        TabletMapper.makeInsertion(newtablet);
 
         res.redirect('/inventory/tabletView');
     }

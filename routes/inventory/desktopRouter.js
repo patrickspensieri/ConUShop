@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 router.post('/delete', function(req, res) {
     // When ID map is created this will find the desktop in the ID map and delete
     // from the ID map and the UoW will handle the database
-    DesktopMapper.delete(new Desktop(req.body.id));
+    DesktopMapper.makeDeletion(new Desktop(req.body.id));
 
     res.send({redirect: '/inventory/desktopView'});
 });
@@ -51,10 +51,10 @@ router.post('/', function(req, res) {
             errors: errors,
         });
     } else {
-        let newDesktop = DesktopMapper.makeNew(model, brand, processor, ram,
+        let newDesktop = DesktopMapper.create(model, brand, processor, ram,
             storage, cores, dimensions, weight, price);
 
-        DesktopMapper.insert(newDesktop);
+        DesktopMapper.makeInsertion(newDesktop);
 
         res.redirect('/inventory/desktopView');
     }

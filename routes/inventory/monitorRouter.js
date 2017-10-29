@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 router.post('/delete', function(req, res) {
     // When ID map is created this will find the desktop in the ID map and delete
     // from the ID map and the UoW will handle the database
-    MonitorMapper.delete(new Monitor(req.body.id));
+    MonitorMapper.makeDeletion(new Monitor(req.body.id));
 
     res.send({redirect: '/inventory/monitorView'});
 });
@@ -43,9 +43,9 @@ router.post('/', function(req, res) {
             errors: errors,
         });
     } else {
-        let newmonitor = MonitorMapper.makeNew(model, brand, size, weight, price);
+        let newmonitor = MonitorMapper.create(model, brand, size, weight, price);
 
-        MonitorMapper.insert(newmonitor);
+        MonitorMapper.makeInsertion(newmonitor);
 
         res.redirect('/inventory/monitorView');
     }
