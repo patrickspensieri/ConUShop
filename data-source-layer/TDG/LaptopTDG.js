@@ -56,7 +56,7 @@ class LaptopTDG {
    * @param {number} price price of laptop.
    */
     static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight,
-                  price) {
+                  price, callback) {
         let queryString = 'INSERT INTO laptop (model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price];
 
@@ -64,6 +64,7 @@ class LaptopTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -85,7 +86,7 @@ class LaptopTDG {
    * @param {number} weight weight of laptop.
    * @param {number} price price of laptop
    */
-    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
+    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, callback) {
         let queryString = 'UPDATE laptop SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, touch=$11, dimensions=$12, weight=$13, price=$14 WHERE model=$1';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price];
 
@@ -93,6 +94,7 @@ class LaptopTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -101,12 +103,13 @@ class LaptopTDG {
    * @static
    * @param {string} id model number of laptop to be deleted.
    */
-    static delete(id) {
+    static delete(id, callback) {
         db.query('DELETE FROM laptop WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
             console.log('This Laptop has been deleted from the database');
+            return callback(err, result);
         });
     }
     static getLaptop(callback) {

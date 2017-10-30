@@ -33,7 +33,7 @@ class UserMapper extends AbstractMapper {
    * @param {function} callback function that holds User object.
    */
     static find(email, callback) {
-        let user = idMap.get('User', modelNumber);
+        let user = idMap.get('User', email);
         if (user != null) {
             return callback(null, user);
         } else {
@@ -83,7 +83,11 @@ class UserMapper extends AbstractMapper {
    */
     static insert(userObject) {
         UserTDG.insert(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password);
+            userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password, function(err, result) {
+                if (!err) {
+                    idMap.add(userObject, userObject.email);
+                }
+            });
     }
 
   /**
@@ -93,7 +97,11 @@ class UserMapper extends AbstractMapper {
    */
     static update(userObject) {
         UserTDG.update(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone);
+            userObject.lastName, userObject.address, userObject.email, userObject.phone, function(err, result) {
+                if (!err) {
+                    idMap.update(userObject, userObject.email);
+                }
+            });
     }
 
     /**
@@ -118,7 +126,11 @@ class UserMapper extends AbstractMapper {
    * @param {Object} userObject an object of type user.
    */
     static delete(userObject) {
-        UserTDG.delete(userObject.email);
+        UserTDG.delete(userObject.email, function(err, result) {
+            if (!err) {
+                idMap.delete(userObject, userObject.email);
+            }
+        });
     }
 }
 

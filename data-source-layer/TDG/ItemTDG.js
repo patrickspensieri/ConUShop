@@ -11,7 +11,7 @@ class ItemTDG {
      * @static
      * @param {string} serialNumber serial number of item to be found.
      */
-    static find(serialNumber) {
+    static find(serialNumber, callback) {
         db.query('SELECT * FROM item WHERE serialnumber=$1', [serialNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
@@ -43,7 +43,7 @@ class ItemTDG {
      * @param {string} modelNumber of product description.
 
      */
-    static insert(serialNumber, modelNumber) {
+    static insert(serialNumber, modelNumber, callback) {
         let queryString = 'INSERT INTO item (serialnumber, model) VALUES($1, $2)';
         let queryValues = [serialNumber, modelNumber];
 
@@ -51,6 +51,7 @@ class ItemTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -59,12 +60,13 @@ class ItemTDG {
      * @static
      * @param {string} serialNumber serial number of item to be deleted.
      */
-    static delete(serialNumber) {
+    static delete(serialNumber, callback) {
         db.query('DELETE FROM item WHERE serialnumber=$1', [serialNumber], (err, result) =>{
             if (err) {
                 console.log(err.message);
             }
             console.log('This item has been deleted from the database');
+            return callback(err, result);
         });
     }
 }

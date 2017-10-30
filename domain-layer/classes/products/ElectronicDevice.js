@@ -26,14 +26,6 @@ class ElectronicDevice {
     display() {
         console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price);
     }
-
-    /**
-     * Returns the model of the device.
-     * @method getId
-     */
-    getId() {
-        return this.model;
-    }
 }
 
 module.exports = ElectronicDevice;

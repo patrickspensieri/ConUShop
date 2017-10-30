@@ -73,7 +73,11 @@ class ItemMapper extends AbstractMapper {
      * @param {Object} itemObject an object of type item.
      */
     static insert(itemObject) {
-        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber);
+        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber, function(err, result) {
+            if (!err) {
+                idMap.add(itemObject, itemObject.serialNumber);
+            }
+        });
     }
 
     /**
@@ -82,7 +86,11 @@ class ItemMapper extends AbstractMapper {
      * @param {Object} serialNumber serial number of object to delete.
      */
     static delete(serialNumber) {
-        ItemTDG.delete(serialNumber);
+        ItemTDG.delete(serialNumber, function(err, result) {
+            if (!err) {
+                idMap.delete(itemObject, itemObject.serialNumber);
+            }
+        });
     }
 }
 

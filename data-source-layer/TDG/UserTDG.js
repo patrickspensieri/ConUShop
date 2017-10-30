@@ -50,7 +50,7 @@ class UserTDG {
    * @param {string} password password of user
    * @param {string} sessionID sessionID for login
    */
-    static insert(isAdmin, firstName, lastName, address, email, phone, password) {
+    static insert(isAdmin, firstName, lastName, address, email, phone, password, callback) {
         let queryString = 'INSERT INTO users (isadmin, firstname, lastname, address, email, phone, password) VALUES($1, $2, $3, $4, $5, $6, $7)';
         let queryValues = [isAdmin, firstName, lastName, address, email, phone, password];
 
@@ -61,6 +61,7 @@ class UserTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -75,7 +76,7 @@ class UserTDG {
    * @param {number} phone phone number of user
    * @param {string} sessionID sessionID for login
    */
-    static update(isAdmin, firstName, lastName, address, email, phone) {
+    static update(isAdmin, firstName, lastName, address, email, phone, callback) {
         let queryString = 'UPDATE users SET isadmin=$1, firstname=$2, lastname=$3, address=$4, phone=$6 WHERE email=$5';
         let queryValues = [isAdmin, firstName, lastName, address, email, phone];
 
@@ -83,6 +84,7 @@ class UserTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -121,12 +123,13 @@ class UserTDG {
    * @static
    * @param {string} email email of user to be deleted.
    */
-    static delete(email) {
+    static delete(email, callback) {
       db.query('DELETE FROM users WHERE email=$1', [email], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
           console.log('This user has been deleted from the database');
+          return callback(err, result);
       });
     }
 }

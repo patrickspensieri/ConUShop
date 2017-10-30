@@ -20,6 +20,7 @@
      */
      add(newObject, id) {
         let className = newObject.constructor.name;
+        let mappedObject;
         if (this._identityMap[className]) {
             mappedObject = this._identityMap[className][id];
             if (mappedObject) {
@@ -67,9 +68,13 @@
      */
      get(className, id) {
         let mappedObject;
-        if (this._identityMap[className][id]) {
-            mappedObject = this._identityMap[className][id];
-            return mappedObject;
+        if (this._identityMap[className]) {
+            mappedObject = mappedObject = this._identityMap[className][id];
+            if (mappedObject) {
+                return mappedObject;
+            } else {
+                return null;
+            }
         } else {
             return null;
         }

@@ -86,7 +86,11 @@ class DesktopMapper extends AbstractMapper {
     static insert(desktopObject) {
         DesktopTDG.insert(desktopObject.model, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
-            desktopObject.weight, desktopObject.price);
+            desktopObject.weight, desktopObject.price, function(err, result) {
+                if (!err) {
+                    idMap.add(desktopObject, desktopObject.model);
+                }
+            });
     }
 
   /**
@@ -95,10 +99,13 @@ class DesktopMapper extends AbstractMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static update(desktopObject) {
-        idMap.update(desktopObject);
         DesktopTDG.update(desktopObject.model, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
-            desktopObject.weight, desktopObject.price);
+            desktopObject.weight, desktopObject.price, function(err, result) {
+                if (!err) {
+                    idMap.update(desktopObject, desktopObject.model);
+                }
+            });
     }
 
   /**
@@ -107,8 +114,11 @@ class DesktopMapper extends AbstractMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static delete(desktopObject) {
-        idMap.delete(desktopObject,desktopObject.model);
-        DesktopTDG.delete(desktopObject.model);
+        DesktopTDG.delete(desktopObject.model, function(err, result) {
+            if (!err) {
+                idMap.delete(desktopObject, desktopObject.model);
+            }
+        });
     }
 
     /**

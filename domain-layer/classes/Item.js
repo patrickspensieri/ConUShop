@@ -22,14 +22,6 @@ class Item {
     display() {
         console.log(this.serialNumber + ' ' + this.modelNumber);
     }
-
-    /**
-     * Returns serialNumber of item.
-     * @method getId
-     */
-    getId() {
-        return this.serialNumber;
-    }
 }
 
 module.exports = Item;

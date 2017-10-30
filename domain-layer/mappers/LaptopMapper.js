@@ -94,7 +94,11 @@ class LaptopMapper extends AbstractMapper {
         LaptopTDG.insert(laptopObject.model, laptopObject.brand, laptopObject.display, laptopObject.processor,
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
-            laptopObject.weight, laptopObject.price);
+            laptopObject.weight, laptopObject.price, function(err, result) {
+                if (!err) {
+                    idMap.add(laptopObject, laptopObject.model);
+                }
+            });
     }
 
   /**
@@ -106,7 +110,11 @@ class LaptopMapper extends AbstractMapper {
         LaptopTDG.update(laptopObject.model, laptopObject.brand, laptopObject.display, laptopObject.processor,
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
-            laptopObject.weight, laptopObject.price);
+            laptopObject.weight, laptopObject.price, function(err, result) {
+                if (!err) {
+                    idMap.update(laptopObject, laptopObject.model);
+                }
+            });
     }
 
   /**
@@ -115,7 +123,11 @@ class LaptopMapper extends AbstractMapper {
    * @param {Object} laptopObject an object of type laptop.
    */
     static delete(laptopObject) {
-            LaptopTDG.delete(laptopObject.model);
+        LaptopTDG.delete(laptopObject.model, function(err, result) {
+            if (!err) {
+                idMap.delete(laptopObject, laptopObject.model);
+            }
+        });
     }
     static getLaptop(callback) {
         LaptopTDG.getLaptop(function(err, result) {

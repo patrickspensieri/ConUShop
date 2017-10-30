@@ -10,8 +10,6 @@ class AbstractMapper {
    * @param {Object} object an object.
    */
     static makeInsertion(object) {
-        id = object.getId();
-        idMap.add(object, id);
         UOW.registerNew(object);
         UOW.commit();
     }
@@ -22,8 +20,6 @@ class AbstractMapper {
    * @param {Object} object an object.
    */
     static makeUpdate(object) {
-        id = object.getId();
-        idMap.update(object, id);
         UOW.registerDirty(object);
         UOW.commit();
     }
@@ -34,8 +30,6 @@ class AbstractMapper {
     * @param {Object} object an object.
     */
     static makeDeletion(object) {
-        id = object.getId();
-        idMap.delete(object, id);
         UOW.registerDeleted(object);
         UOW.commit();
     }

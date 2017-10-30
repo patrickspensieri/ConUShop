@@ -79,7 +79,11 @@ class MonitorMapper extends AbstractMapper {
    */
     static insert(monitorObject) {
         MonitorTDG.insert(monitorObject.model, monitorObject.brand, monitorObject.size,
-            monitorObject.weight, monitorObject.price);
+            monitorObject.weight, monitorObject.price, function(err, result) {
+                if (!err) {
+                    idMap.add(monitorObject, monitorObject.model);
+                }
+            });
     }
 
   /**
@@ -89,7 +93,11 @@ class MonitorMapper extends AbstractMapper {
    */
     static update(monitorObject) {
         MonitorTDG.update(monitorObject.model, monitorObject.brand, monitorObject.size,
-            monitorObject.weight, monitorObject.price);
+            monitorObject.weight, monitorObject.price, function(err, result) {
+                if (!err) {
+                    idMap.update(monitorObject, monitorObject.model);
+                }
+            });
     }
 
   /**
@@ -98,7 +106,11 @@ class MonitorMapper extends AbstractMapper {
    * @param {Object} monitorObject an object of type monitor.
    */
     static delete(monitorObject) {
-        MonitorTDG.delete(monitorObject.model);
+        MonitorTDG.delete(monitorObject.model, function(err, result) {
+            if (!err) {
+                idMap.delete(monitorObject, monitorObject.model);
+            }
+        });
     }
     static getMonitor(callback) {
         MonitorTDG.getMonitor(function(err, result) {

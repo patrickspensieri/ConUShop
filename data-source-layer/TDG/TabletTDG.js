@@ -54,7 +54,7 @@ class TabletTDG {
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet.
    */
-    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
+    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, callback) {
         let queryString = 'INSERT INTO tablet (model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
 
@@ -62,6 +62,7 @@ class TabletTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -82,7 +83,7 @@ class TabletTDG {
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet
    */
-    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
+    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, callback) {
         let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13 WHERE model=$1';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
 
@@ -90,6 +91,7 @@ class TabletTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -98,12 +100,13 @@ class TabletTDG {
    * @static
    * @param {string} id model number of tablet to be deleted.
    */
-    static delete(id) {
+    static delete(id, callback) {
         db.query('DELETE FROM tablet WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
             console.log('This Tablet has been deleted from the database');
+            return callback(err, result);
         });
     }
     static getTablet(callback) {

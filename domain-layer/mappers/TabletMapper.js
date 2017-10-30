@@ -93,7 +93,11 @@ class TabletMapper extends AbstractMapper {
         TabletTDG.insert(tabletObject.model, tabletObject.brand, tabletObject.display, tabletObject.processor,
             tabletObject.ram, tabletObject.storage, tabletObject.cores, tabletObject.os,
             tabletObject.battery, tabletObject.camera, tabletObject.dimensions,
-            tabletObject.weight, tabletObject.price);
+            tabletObject.weight, tabletObject.price, function(err, result) {
+                if (!err) {
+                    idMap.add(tabletObject, tabletObject.model);
+                }
+            });
     }
 
   /**
@@ -105,7 +109,11 @@ class TabletMapper extends AbstractMapper {
         TabletTDG.update(tabletObject.model, tabletObject.brand, tabletObject.display, tabletObject.processor,
             tabletObject.ram, tabletObject.storage, tabletObject.cores, tabletObject.os,
             tabletObject.battery, tabletObject.camera, tabletObject.dimensions,
-            tabletObject.weight, tabletObject.price);
+            tabletObject.weight, tabletObject.price, function(err, result) {
+                if (!err) {
+                    idMap.update(tabletObject, tabletObject.model);
+                }
+            });
     }
 
   /**
@@ -113,8 +121,12 @@ class TabletMapper extends AbstractMapper {
    * @static
    * @param {Object} tabletObject an object of type tablet.
    */
-    static delete(tabletObject) {
-        TabletTDG.delete(tabletObject.model);
+    static delete(tabletObject, callback) {
+        TabletTDG.delete(tabletObject.model, function(err, result) {
+            if (!err) {
+                idMap.delete(tabletObject, tabletObject.model);
+            }
+        });
     }
     static getTablet(callback) {
         TabletTDG.getTablet(function(err, result) {
