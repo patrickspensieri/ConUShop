@@ -48,7 +48,7 @@ class UserMapper extends AbstractMapper {
                     } else {
                         let user = new User(value.isadmin, value.firstname,
                             value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id);
-                        idMap.add(user, user.model);
+                        idMap.add(user, user.email);
                         return callback(null, user);
                     }
                 }

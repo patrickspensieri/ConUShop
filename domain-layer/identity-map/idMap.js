@@ -21,6 +21,7 @@
      add(newObject, id) {
         let className = newObject.constructor.name;
         let mappedObject;
+
         if (this._identityMap[className]) {
             mappedObject = this._identityMap[className][id];
             if (mappedObject) {
