@@ -30,19 +30,26 @@ class MonitorMapper extends AbstractMapper {
    * @param {function} callback function that holds monitor object
    */
     static find(modelNumber, callback) {
-        MonitorTDG.find(modelNumber, function(err, result) {
-            if (err) {
-                console.log('Error during monitor find query', null);
-            } else {
-                let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
+        let monitor = idMap.get('Monitor', modelNumber);
+        if (monitor != null) {
+            return callback(null, monitor);
+        } else {
+            MonitorTDG.find(modelNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during monitor find query', null);
                 } else {
-                    return callback(null, new Monitor(value.model, value.brand, value.size,
-                        value.weight, value.price));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let monitor = new Monitor(value.model, value.brand, value.size,
+                            value.weight, value.price);
+                        idMap.add(monitor, monitor.model);
+                        return callback(null, monitor);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
   /**

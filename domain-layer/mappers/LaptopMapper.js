@@ -39,21 +39,28 @@ class LaptopMapper extends AbstractMapper {
    * @param {function} callback function that holds laptop object
    */
     static find(modelNumber, callback) {
-        LaptopTDG.find(modelNumber, function(err, result) {
-            if (err) {
-                console.log('Error during laptop find query', null);
-            } else {
-                let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
+        let laptop = idMap.get('Laptop', modelNumber);
+        if (laptop != null) {
+            return callback(null, laptop);
+        } else {
+            LaptopTDG.find(modelNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during laptop find query', null);
                 } else {
-                    return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
-                        value.ram, value.storage, value.cores, value.os,
-                        value.battery, value.camera, value.touch, value.dimensions,
-                        value.weight, value.price));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let laptop = new Laptop(value.model, value.brand, value.display, value.processor,
+                            value.ram, value.storage, value.cores, value.os,
+                            value.battery, value.camera, value.touch, value.dimensions,
+                            value.weight, value.price);
+                        idMap.add(laptop, laptop.model);
+                        return callback(null, laptop);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
   /**

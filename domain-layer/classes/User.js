@@ -39,6 +39,14 @@ class User {
         console.log(this.isAdmin + ' ' + this.firstName + ' ' +
          this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.sessionID);
     }
+
+    /**
+     * Returns id of user.
+     * @method getId
+     */
+    getId() {
+        return this.id;
+    }
 }
 
 module.exports = User;

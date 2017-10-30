@@ -33,20 +33,27 @@ class UserMapper extends AbstractMapper {
    * @param {function} callback function that holds User object.
    */
     static find(email, callback) {
-        UserTDG.find(email, function(err, result) {
-            if (err) {
-                console.log('Error during user find query', null);
-            } else {
-                let value = result[0];
-
-                if (result.length==0) {
-                    return callback(err, null);
+        let user = idMap.get('User', modelNumber);
+        if (user != null) {
+            return callback(null, user);
+        } else {
+            UserTDG.find(email, function(err, result) {
+                if (err) {
+                    console.log('Error during user find query', null);
                 } else {
-                    return callback(null, new User(value.isadmin, value.firstname,
-                        value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id));
+                    let value = result[0];
+
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let user = new User(value.isadmin, value.firstname,
+                            value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id);
+                        idMap.add(user, user.model);
+                        return callback(null, user);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
   /**

@@ -27,18 +27,25 @@ class ItemMapper extends AbstractMapper {
      * @param {function} callback function that returns item object.
      */
     static find(serialNumber, callback) {
-        ItemTDG.find(serialNumber, function(err, result) {
-            if (err) {
-                console.log('Error during item find query', null);
-            } else {
-                let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
+        let item = idMap.get('Item', modelNumber);
+        if (item != null) {
+            return callback(null, item);
+        } else {
+            ItemTDG.find(serialNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during item find query', null);
                 } else {
-                    return callback(null, new Item(value.serialnumber, value.model));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let item = new Item(value.serialnumber, value.model);
+                        idMap.add(item, item.model);
+                        return callback(null, item);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**

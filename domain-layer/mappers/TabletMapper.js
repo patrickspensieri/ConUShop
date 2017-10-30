@@ -38,21 +38,28 @@ class TabletMapper extends AbstractMapper {
    * @param {function} callback function that holds Tablet object.
    */
     static find(modelNumber, callback) {
-        TabletTDG.find(modelNumber, function(err, result) {
-            if (err) {
-                console.log('Error during tablet find query', null);
-            } else {
-                let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
+        let tablet = idMap.get('Tablet', modelNumber);
+        if (tablet != null) {
+            return callback(null, tablet);
+        } else {
+            TabletTDG.find(modelNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during tablet find query', null);
                 } else {
-                    return callback(null, new Tablet(value.model, value.brand, value.display, value.processor,
-                        value.ram, value.storage, value.cores, value.os,
-                        value.battery, value.camera, value.dimensions,
-                        value.weight, value.price));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let tablet = new Tablet(value.model, value.brand, value.display, value.processor,
+                            value.ram, value.storage, value.cores, value.os,
+                            value.battery, value.camera, value.dimensions,
+                            value.weight, value.price);
+                        idMap.add(tablet, tablet.model);
+                        return callback(null, tablet);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
   /**
