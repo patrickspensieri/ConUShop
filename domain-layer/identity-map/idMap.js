@@ -69,7 +69,7 @@
      get(className, id) {
         let mappedObject;
         if (this._identityMap[className]) {
-            mappedObject = mappedObject = this._identityMap[className][id];
+            mappedObject = this._identityMap[className][id];
             if (mappedObject) {
                 return mappedObject;
             } else {
