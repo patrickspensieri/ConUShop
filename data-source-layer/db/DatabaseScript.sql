@@ -502,6 +502,7 @@ INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$Gegcqydf1DhwKeXWREhF1eWxIXXzDnVirlcTrqF5LODZ0lZDRyUl.');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$Ha2c1wrG.E3HFvY2FzUEPu.9K8J0uEC1WCAcrO59GHpiHSQnFQ59K');
 
+<<<<<<< HEAD:data-source-layer/db/DatabaseScript.sql
 CREATE TABLE ACTIVEUSERS(
     user_id SERIAL PRIMARY KEY NOT NULL,
     sessionid VARCHAR(60)
@@ -868,6 +869,8 @@ CREATE TRIGGER adminCheckInsert
 BEFORE INSERT ON USERS
 FOR EACH ROW
 EXECUTE PROCEDURE adminCheckInsert();
+=======
+>>>>>>> master:data-source-layer/db/DatabaseScript.txt
 
 CREATE TRIGGER adminCheckUpdate
 BEFORE UPDATE ON USERS
