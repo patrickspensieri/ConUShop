@@ -12,7 +12,7 @@ router.get('/adminDashboard',
     res.render('pages/adminDashboard');
 });
 
-router.get('/desktopView', function(req, res) {
+router.get('/desktopView', accountController.ensureAdministrator, function(req, res) {
     this.admin = new Admin();
 
     this.admin.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
@@ -22,7 +22,7 @@ router.get('/desktopView', function(req, res) {
     });
 });
 
-router.get('/itemsView', function(req, res) {
+router.get('/itemsView', accountController.ensureAdministrator, function(req, res) {
     this.admin.getProductCatalog().getItems(function(err, data) {
         res.render('catalogPages/itemsView', {
             data: data,
@@ -31,17 +31,17 @@ router.get('/itemsView', function(req, res) {
 });
 
 
-router.post('/deleteItem', function(req, res) {
+router.post('/deleteItem', accountController.ensureAdministrator, function(req, res) {
     this.admin.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
     res.redirect(req.get('referer'));
 });
 
-router.post('/addItem', function(req, res) {
+router.post('/addItem', accountController.ensureAdministrator, function(req, res) {
     this.admin.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
     res.redirect(req.get('referer'));
 });
 
-router.post('/addProdSpec', function(req, res) {
+router.post('/addProdSpec', accountController.ensureAdministrator, function(req, res) {
         let prodType = req.body.formProductType;
         let model = req.body.model;
         let brand = req.body.brand;
@@ -128,13 +128,13 @@ router.post('/addProdSpec', function(req, res) {
     }
 });
 
-router.post('/deleteProdSpec', function(req, res) {
+router.post('/deleteProdSpec', accountController.ensureAdministrator, function(req, res) {
     console.log(req.body.model);
     this.admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
     res.send({redirect: req.body.redi});
 });
 
-router.post('/updateProdSpec', function(req, res) {
+router.post('/updateProdSpec', accountController.ensureAdministrator, function(req, res) {
     switch (req.body.prodType) {
         case 'Desktop':
             this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
@@ -157,7 +157,7 @@ router.post('/updateProdSpec', function(req, res) {
     res.send({redirect: req.body.redi});
 });
 
-router.get('/laptopView', function(req, res) {
+router.get('/laptopView', accountController.ensureAdministrator, function(req, res) {
     this.admin.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
         res.render('catalogPages/laptopView', {
             data: data,
@@ -165,7 +165,7 @@ router.get('/laptopView', function(req, res) {
     });
 });
 
-router.get('/monitorView', function(req, res) {
+router.get('/monitorView', accountController.ensureAdministrator, function(req, res) {
     this.admin.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
         res.render('catalogPages/monitorView', {
             data: data,
@@ -173,7 +173,7 @@ router.get('/monitorView', function(req, res) {
     });
 });
 
-router.get('/tabletView', function(req, res) {
+router.get('/tabletView', accountController.ensureAdministrator, function(req, res) {
     this.admin.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
         res.render('catalogPages/tabletView', {
             data: data,
