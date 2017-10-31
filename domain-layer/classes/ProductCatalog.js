@@ -10,8 +10,26 @@ let itemMapper = require('../../domain-layer/mappers/ItemMapper');
  * @export
  */
 class ProductCatalog {
+
     /**
      * @constructor
+     */
+    constructor() {
+        this.catalogInstance = null;
+    }
+
+    /**
+     * @static
+     * @return {ProductCatalog} ProductCatalog instance
+     */
+    static getProductCatalogInstance() {
+        if(this.catalogInstance == null) {
+           this.catalogInstance = new ProductCatalog(); 
+        }
+        return this.productCatalog;
+    }
+
+    /**
      * @param {string} productType product Type
      * @param {string} model model number of product.
      * @param {string} brand brand of product.
@@ -49,8 +67,8 @@ class ProductCatalog {
                 break;
         }
     }
+
     /**
-     * @constructor
      * @param {string} productType product Type
      * @param {string} model model number of product.
      * @param {string} brand brand of product.
@@ -90,8 +108,8 @@ class ProductCatalog {
                 break;
         }
     }
+
     /**
-     * @constructor
      * @param {string} productType product Type
      * @param {string} modelNumber model number of product.
      */
@@ -115,7 +133,6 @@ class ProductCatalog {
     }
 
     /**
-     * @constructor
      * @param {string} productType product Type
      * @param {string} modelNumber model number of product.
      * @param {function} callback function
@@ -164,7 +181,6 @@ class ProductCatalog {
     }
 
     /**
-     * @constructor
      * @param {string} productType product Type
      * @param {function} callback function
      */
@@ -206,7 +222,6 @@ class ProductCatalog {
     }
 
     /**
-     * @constructor
      * @param {string} serialNumber of product
      * @param {string} modelNumber model number of product specification
      */
@@ -217,7 +232,6 @@ class ProductCatalog {
     }
 
     /**
-     * @constructor
      * @param {string} serialNumber of product
      */
     deleteItem(serialNumber) {
@@ -225,7 +239,6 @@ class ProductCatalog {
     }
 
     /**
-     * @constructor
      * @param {function} callback function
      */
     getItems(callback) {
@@ -236,21 +249,37 @@ class ProductCatalog {
             return callback(null, data);
         });
     }
+
+    /**
+     * @param {function} callback function
+     */
     getDesktop(callback) {
         desktopMapper.getDesktop(function(err, data) {
             return callback(null, data);
         });
     }
+
+    /**
+     * @param {function} callback function
+     */
     getLaptop(callback) {
         laptopMapper.getLaptop(function(err, data) {
             return callback(null, data);
         });
     }
+
+    /**
+     * @param {function} callback function
+     */
     getMonitor(callback) {
         monitorMapper.getMonitor(function(err, data) {
             return callback(null, data);
         });
     }
+
+    /**
+     * @param {function} callback function
+     */
     getTablet(callback) {
         tabletMapper.getTablet(function(err, data) {
             return callback(null, data);

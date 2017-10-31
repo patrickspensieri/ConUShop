@@ -6,7 +6,6 @@ let UserMapper = require('../domain-layer/mappers/UserMapper');
 let accountController = require('../presentation-layer/controllers/accountController');
 
 
-
 // Get Dashboard
 router.get('/adminDashboard',
     accountController.ensureAdministrator, function(req, res) {
