@@ -778,11 +778,21 @@ END $BODY$ LANGUAGE 'plpgsql';
 
 
 /* ------------ adminCheck() FUNCTION, CHECKS IF THERE'S MORE THAN 3 ADMIN IN THE DB */  
-CREATE OR REPLACE FUNCTION adminCheck() RETURNS TRIGGER AS
+CREATE OR REPLACE FUNCTION adminCheckInsert() RETURNS TRIGGER AS
 $BODY$
 BEGIN
    IF(NEW.isAdmin IS TRUE AND (SELECT COUNT(*) FROM USERS WHERE isAdmin IS TRUE) = 3) THEN
-       RAISE EXCEPTION 'The system only allows 3 admins to exists at a time.';
+       RAISE EXCEPTION 'Cannot create new Admin user. The system only allows 3 Admins to exists at a time.';
+   END IF;
+RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql';
+
+
+CREATE OR REPLACE FUNCTION adminCheckUpdate() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+   IF(NEW.isAdmin IS TRUE AND (SELECT COUNT(*) FROM USERS WHERE isAdmin IS TRUE) = 3) THEN
+       RAISE EXCEPTION 'Cannot update this user to be an Admin. The system only allows 3 admins to exists at a time.';
    END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -854,7 +864,12 @@ FOR EACH ROW
 EXECUTE PROCEDURE monitorSpecsModif();
 
 /* ------------ adminCheck() TRIGGER ----------------- */
-CREATE TRIGGER adminCheck
+CREATE TRIGGER adminCheckInsert
 BEFORE INSERT ON USERS
 FOR EACH ROW
-EXECUTE PROCEDURE adminCheck();
+EXECUTE PROCEDURE adminCheckInsert();
+
+CREATE TRIGGER adminCheckUpdate
+BEFORE UPDATE ON USERS
+FOR EACH ROW
+EXECUTE PROCEDURE adminCheckUpdate();
