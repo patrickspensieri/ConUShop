@@ -10,12 +10,11 @@ let itemMapper = require('../../domain-layer/mappers/ItemMapper');
  * @export
  */
 class ProductCatalog {
-
     /**
      * @constructor
      */
     constructor() {
-        this.catalogInstance = null;
+        this.productCatalogInstance = null;
     }
 
     /**
@@ -23,10 +22,10 @@ class ProductCatalog {
      * @return {ProductCatalog} ProductCatalog instance
      */
     static getProductCatalogInstance() {
-        if(this.catalogInstance == null) {
-           this.catalogInstance = new ProductCatalog(); 
+        if (this.productCatalogInstance == null) {
+           this.productCatalogInstance = new ProductCatalog();
         }
-        return this.productCatalog;
+        return this.productCatalogInstance;
     }
 
     /**
