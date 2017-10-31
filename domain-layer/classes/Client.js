@@ -20,42 +20,55 @@ class Client extends User {
      * @param {number} phone phone number of user
      * @param {string} password user password, hashed
      * @param {Boolean} isAdmin is the user an Admin
-
      */
     constructor(firstName, lastName, address, email, phone, password, isAdmin) {
         super(firstName, lastName, address, email, phone, password, isAdmin);
 
-        this.productCatalog = new ProductCatalog();
+        this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }
 
     /**
-     * View items in product catalog
-     * To be run on an instance of item.
-     * @method display
      * @param {function} callback function
-     *
      */
     getDesktop(callback) {
         DesktopMapper.getDesktop(function(err, data) {
             return callback(null, data);
         });
     }
+
+    /**
+     * @param {function} callback function
+     */
     getLaptop(callback) {
         LaptopMapper.getLaptop(function(err, data) {
             return callback(null, data);
         });
     }
+
+    /**
+     * @param {function} callback function
+     */
     getMonitor(callback) {
         MonitorMapper.getMonitor(function(err, data) {
             return callback(null, data);
         });
     }
+
+    /**
+     * @param {function} callback function
+     */
     getTablet(callback) {
         TabletMapper.getTablet(function(err, data) {
             return callback(null, data);
         });
     }
-    getProductCatalogInstance() {
+
+    /**
+     * Product catalog accessor method
+     * @method display
+     * @return {ProductCatalog} ProductCatalog instance
+     */
+    getProductCatalog() {
         return this.productCatalog;
     }
 }

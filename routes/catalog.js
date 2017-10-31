@@ -16,7 +16,7 @@ router.get('/adminDashboard',
 router.get('/desktopView', function(req, res) {
     this.admin = new Admin();
 
-    this.admin.getProductCatalogInstance().getAllProductSpecification('Desktop', function(err, data) {
+    this.admin.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
         res.render('catalogPages/desktopView', {
             data: data,
         });
@@ -24,7 +24,7 @@ router.get('/desktopView', function(req, res) {
 });
 
 router.get('/itemsView', function(req, res) {
-    this.admin.getProductCatalogInstance().getItems(function(err, data) {
+    this.admin.getProductCatalog().getItems(function(err, data) {
         res.render('catalogPages/itemsView', {
             data: data,
         });
@@ -33,12 +33,12 @@ router.get('/itemsView', function(req, res) {
 
 
 router.post('/deleteItem', function(req, res) {
-    this.admin.getProductCatalogInstance().deleteItem(req.body.serialNumberToRemove);
+    this.admin.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
     res.redirect(req.get('referer'));
 });
 
 router.post('/addItem', function(req, res) {
-    this.admin.getProductCatalogInstance().addItem(req.body.serialNumber, req.body.modelNumber);
+    this.admin.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
     res.redirect(req.get('referer'));
 });
 
@@ -123,7 +123,7 @@ router.post('/addProdSpec', function(req, res) {
             errors: errors,
         });
     } else {
-        this.admin.getProductCatalogInstance().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+        this.admin.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
             weight, price, display, os, battery, camera, touch, size);
         res.redirect(req.get('referer'));
     }
@@ -131,27 +131,27 @@ router.post('/addProdSpec', function(req, res) {
 
 router.post('/deleteProdSpec', function(req, res) {
     console.log(req.body.model);
-    this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.model);
+    this.admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
     res.send({redirect: req.body.redi});
 });
 
 router.post('/updateProdSpec', function(req, res) {
     switch (req.body.prodType) {
         case 'Desktop':
-            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+            this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
                 req.body.processor, req.body.ram, req.body.storage, req.body.cores,
                 req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
             break;
         case 'Laptop':
-            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+            this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                 req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
             break;
         case 'Monitor':
-            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+            this.admin.getProductCataloge().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
                 null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
             break;
         case 'Tablet':
-            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+            this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                 req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null);
             break;
     }
@@ -159,7 +159,7 @@ router.post('/updateProdSpec', function(req, res) {
 });
 
 router.get('/laptopView', function(req, res) {
-    this.admin.getProductCatalogInstance().getAllProductSpecification('Laptop', function(err, data) {
+    this.admin.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
         res.render('catalogPages/laptopView', {
             data: data,
         });
@@ -167,7 +167,7 @@ router.get('/laptopView', function(req, res) {
 });
 
 router.get('/monitorView', function(req, res) {
-    this.admin.getProductCatalogInstance().getAllProductSpecification('Monitor', function(err, data) {
+    this.admin.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
         res.render('catalogPages/monitorView', {
             data: data,
         });
@@ -175,7 +175,7 @@ router.get('/monitorView', function(req, res) {
 });
 
 router.get('/tabletView', function(req, res) {
-    this.admin.getProductCatalogInstance().getAllProductSpecification('Tablet', function(err, data) {
+    this.admin.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
         res.render('catalogPages/tabletView', {
             data: data,
         });
@@ -187,40 +187,44 @@ router.get('/tabletView', function(req, res) {
 router.get('/ClientPage', function(req, res) {
     res.render('pages/ClientPage');
 });
+
 router.get('/ClientPage/Desktop', function(req, res) {
     this.client = new Client();
     console.log('client desktop');
-    this.client.getProductCatalogInstance().getDesktop(function(err, data) {
+    this.client.getProductCatalog().getDesktop(function(err, data) {
         data.table = 'desktop';
         res.render('pages/ClientPage', {
             data: data,
         });
     });
 });
+
 router.get('/ClientPage/Laptop', function(req, res) {
     this.client = new Client();
     console.log('client laptop');
-    this.client.getProductCatalogInstance().getLaptop(function(err, data) {
+    this.client.getProductCatalog().getLaptop(function(err, data) {
         data.table = 'laptop';
         res.render('pages/ClientPage', {
             data: data,
         });
     });
 });
+
 router.get('/ClientPage/Monitor', function(req, res) {
     this.client = new Client();
     console.log('client monitor');
-    this.client.getProductCatalogInstance().getMonitor(function(err, data) {
+    this.client.getProductCatalog().getMonitor(function(err, data) {
         data.table = 'monitor';
         res.render('pages/ClientPage', {
             data: data,
         });
     });
 });
+
 router.get('/ClientPage/Tablet', function(req, res) {
     this.client = new Client();
     console.log('client tablet');
-    this.client.getProductCatalogInstance().getTablet(function(err, data) {
+    this.client.getProductCatalog().getTablet(function(err, data) {
         data.table = 'tablet';
         res.render('pages/ClientPage', {
             data: data,
