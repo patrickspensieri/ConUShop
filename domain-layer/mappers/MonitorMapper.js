@@ -28,6 +28,7 @@ class MonitorMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of monitor to be found.
    * @param {function} callback function that holds monitor object
+   * @return {function} callback object
    */
     static find(modelNumber, callback) {
         let monitor = idMap.get('Monitor', modelNumber);
@@ -112,6 +113,11 @@ class MonitorMapper extends AbstractMapper {
             }
         });
     }
+
+    /**
+     * Returns a monitor object
+     * @param {function} callback 
+     */
     static getMonitor(callback) {
         MonitorTDG.getMonitor(function(err, result) {
             let monitor = [];

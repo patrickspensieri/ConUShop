@@ -2,7 +2,6 @@ let express = require('express');
 let router = new express.Router();
 let Admin = require('../domain-layer/classes/Admin');
 let Client = require('../domain-layer/classes/Client');
-let UserMapper = require('../domain-layer/mappers/UserMapper');
 let accountController = require('../presentation-layer/controllers/accountController');
 
 

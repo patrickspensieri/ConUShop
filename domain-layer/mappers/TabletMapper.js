@@ -36,6 +36,7 @@ class TabletMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of tablet to be found.
    * @param {function} callback function that holds Tablet object.
+   * @return {function} callback object
    */
     static find(modelNumber, callback) {
         let tablet = idMap.get('Tablet', modelNumber);
@@ -121,13 +122,18 @@ class TabletMapper extends AbstractMapper {
    * @static
    * @param {Object} tabletObject an object of type tablet.
    */
-    static delete(tabletObject, callback) {
+    static delete(tabletObject) {
         TabletTDG.delete(tabletObject.model, function(err, result) {
             if (!err) {
                 idMap.delete(tabletObject, tabletObject.model);
             }
         });
     }
+
+    /**
+     * Retuns a tablet object
+     * @param {function} callback 
+     */
     static getTablet(callback) {
         TabletTDG.getTablet(function(err, result) {
             let tablet = [];

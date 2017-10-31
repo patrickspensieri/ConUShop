@@ -6,17 +6,17 @@
  class IdentityMap {
     /**
      * @constructor
-     * */
+     */
     constructor() {
          this._identityMap = {};
-        }
+    }
 
     /**
      * Holds object into the identity map.
      * To be run when an instance of that object is called from the DB.
      * @method add
-     * @static
-     * @param {Object} object an object of type electronicDevice
+     * @param {newObject} newObject an object of type electronicDevice
+     * @param {id} id an of object
      */
      add(newObject, id) {
         let className = newObject.constructor.name;
@@ -39,8 +39,8 @@
     /**
      * Updates an object in the Identity Map upon request
      * @method update
-     * @static
      * @param {Object} updatedObject an object of type electronicDevice
+     * @param {id} id an of object
      */
      update(updatedObject, id) {
         let className = object.constructor.name;
@@ -52,8 +52,8 @@
     /**
      * Deletes an object in the Identity Map upon request
      * @method delete
-     * @static
      * @param {Object} deletedObject an object of type electronicDevice
+     * @param {id} id an of object
      */
      delete(deletedObject, id) {
         let className = deletedObject.constructor.name;
@@ -64,8 +64,9 @@
      * Returns an object in the Identity Map upon request
      * adds it to the idMap if now found
      * @method get
-     * @static
-     * @param {Object} getObject an object of type electronicDevice
+     * @param {className} className an object of type electronicDevice
+     * @param {id} id an of object
+     * @return {Object} mappedObject
      */
      get(className, id) {
         let mappedObject;
@@ -84,7 +85,6 @@
     /**
      * Returns all objects in the this._identityMap
      * @method getAll
-     * @static
      */
      getAll() {
         Object.keys(this._identityMap).forEach((key) => {
@@ -99,7 +99,6 @@
     /**
      * Deletes all objects in the Identity Map upon logging out
      * @method delete
-     * @static
      */
      clear() {
         if (!req.user) {

@@ -32,6 +32,7 @@ class DesktopMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of desktop to be found.
    * @param {function} callback function that holds desktop object.
+   * @return {function} callback result
    */
     static find(modelNumber, callback) {
         let desktop = idMap.get('Desktop', modelNumber);

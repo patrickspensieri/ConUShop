@@ -54,6 +54,7 @@ class LaptopTDG {
    * @param {string} dimensions dimensions of laptop.
    * @param {number} weight weight of laptop.
    * @param {number} price price of laptop.
+   * @param {function} callback function
    */
     static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight,
                   price, callback) {
@@ -85,6 +86,7 @@ class LaptopTDG {
    * @param {string} dimensions dimensions of laptop.
    * @param {number} weight weight of laptop.
    * @param {number} price price of laptop
+   * @param {function} callback function
    */
     static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, callback) {
         let queryString = 'UPDATE laptop SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, touch=$11, dimensions=$12, weight=$13, price=$14 WHERE model=$1';
@@ -102,6 +104,7 @@ class LaptopTDG {
    * Deletes an objects in the laptop table.
    * @static
    * @param {string} id model number of laptop to be deleted.
+   * @param {function} callback function
    */
     static delete(id, callback) {
         db.query('DELETE FROM laptop WHERE model=$1', [id], (err, result) => {
@@ -112,6 +115,11 @@ class LaptopTDG {
             return callback(err, result);
         });
     }
+
+   /**
+    * Return a laptop object
+    * @param {function} callback 
+    */
     static getLaptop(callback) {
         db.query('SELECT DISTINCT d.model, d.brand, d.display, d.processor, d.ram, d.storage, d.cores, d.os, d.battery, d.camera, d.touch, d.dimensions, d.weight, d.price FROM laptop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {

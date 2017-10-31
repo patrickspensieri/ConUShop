@@ -37,6 +37,7 @@ class LaptopMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of laptop to be found.
    * @param {function} callback function that holds laptop object
+   * @return {function} callback result
    */
     static find(modelNumber, callback) {
         let laptop = idMap.get('Laptop', modelNumber);
@@ -129,6 +130,11 @@ class LaptopMapper extends AbstractMapper {
             }
         });
     }
+
+    /**
+     * Returns a laptop object
+     * @param {function} callback 
+     */
     static getLaptop(callback) {
         LaptopTDG.getLaptop(function(err, result) {
             let laptop = [];

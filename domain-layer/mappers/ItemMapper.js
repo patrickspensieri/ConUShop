@@ -25,6 +25,7 @@ class ItemMapper extends AbstractMapper {
      * @static
      * @param {string} serialNumber serial number of item to be found.
      * @param {function} callback function that returns item object.
+     * @return {function} callback result
      */
     static find(serialNumber, callback) {
         let item = idMap.get('Item', modelNumber);

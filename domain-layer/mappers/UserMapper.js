@@ -18,8 +18,9 @@ class UserMapper extends AbstractMapper {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password user password, hashed
-   * @param {string} sessionid sessionID for login
-   * @return {user} user object.
+   * @param {string} sessionID sessionID for login
+   * @param {string} id userID
+   * @return {User} user object.
    */
     static create(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id) {
         let user = new User(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id);
@@ -31,6 +32,7 @@ class UserMapper extends AbstractMapper {
    * @static
    * @param {string} email of user to be found.
    * @param {function} callback function that holds User object.
+   * @return {function} callback object
    */
     static find(email, callback) {
         let user = idMap.get('User', email);
