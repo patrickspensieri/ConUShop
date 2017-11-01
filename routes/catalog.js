@@ -3,9 +3,13 @@ let router = new express.Router();
 let Admin = require('../domain-layer/classes/Admin');
 let Client = require('../domain-layer/classes/Client');
 let UserMapper = require('../domain-layer/mappers/UserMapper');
+let accountController = require('../presentation-layer/controllers/accountController');
+
+
 
 // Get Dashboard
-router.get('/adminDashboard', ensureAuthenticated, function(req, res) {
+router.get('/adminDashboard',
+    accountController.ensureAdministrator, function(req, res) {
     this.admin = new Admin();
     res.render('pages/adminDashboard');
 });
@@ -179,29 +183,6 @@ router.get('/tabletView', function(req, res) {
     });
 });
 
-/**
- * Ensure the user is logged in and prevent him from accessing pages
- * @param  {path} req
- * @param  {path} res
- * @param  {path} next
- */
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        UserMapper.find(req.user.email, function(err, user) {
-            if (err) {
-                throw err;
-            }
-
-            if (user.isAdmin) {
-                return next();
-            } else {
-                res.redirect('/account/ClientPage');
-            }
-        });
-    } else {
-        res.redirect('/');
-    }
-}
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~testing~~~~~~~~~~~~~~~~~~~~~~~~~
 router.get('/ClientPage', function(req, res) {
     res.render('pages/ClientPage');

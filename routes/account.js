@@ -14,23 +14,24 @@ router.post('/login',
     passport.authenticate('local', {failureRedirect: '/'}),
     function(req, res) {
         // NOTE will auto redirect to '/' if user not admin
-        res.redirect('/account/adminDashboard');
+        res.redirect('/catalog/adminDashboard');
     });
 
 router.get('/logout',
     function(req, res) {
         if (req.user) {
             accountController.logoutSession(req.user);
+
             req.logout();
         }
         res.redirect('/');
 });
-
+/*
 router.get('/adminDashboard',
     accountController.ensureAdministrator, function(req, res) {
         res.render('pages/adminDashboard');
 });
-
+*/
 
 router.post('/register',
     function(req, res) {
