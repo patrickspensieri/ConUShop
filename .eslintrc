@@ -6,6 +6,5 @@
         "max-len": [ WARN, 132 ],
         "linebreak-style": 0
     },
-    "extends": "google",
-    "linebreak-style": ["error", "windows"]
+    "extends": "google"
 }
