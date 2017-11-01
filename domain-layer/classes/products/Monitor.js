@@ -26,7 +26,7 @@ class Monitor extends ElectronicDevice {
      * @method display
      */
     display() {
-        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.display);
+        console.log(this.model + ' ' + this.brand + ' ' + this.size + ' ' + this.weight + ' ' + this.price);
     }
 }
 

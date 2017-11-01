@@ -4,7 +4,6 @@ let expressValidator = require('express-validator');
 let session = require('express-session');
 let passport = require('passport');
 let flash = require('connect-flash');
-// let MemoryStore = require('memorystore')(session);
 let MemoryStore = require('./config/memoryStore');
 
 let UnitOfWork = require('./domain-layer/unit-of-work/unitOfWork');

@@ -4,6 +4,7 @@ let Admin = require('../domain-layer/classes/Admin');
 let Client = require('../domain-layer/classes/Client');
 let accountController = require('../presentation-layer/controllers/accountController');
 
+// TODO Use Mappers to create objects
 
 // Get Dashboard
 router.get('/adminDashboard',
@@ -128,9 +129,8 @@ router.post('/addProdSpec', accountController.ensureAdministrator, function(req,
     }
 });
 
-router.post('/deleteProdSpec', accountController.ensureAdministrator, function(req, res) {
-    console.log(req.body.model);
-    this.admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+router.post('/deleteProdSpec', function(req, res) {
+    this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.model);
     res.send({redirect: req.body.redi});
 });
 
@@ -181,7 +181,6 @@ router.get('/tabletView', accountController.ensureAdministrator, function(req, r
     });
 });
 
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~testing~~~~~~~~~~~~~~~~~~~~~~~~~
 router.get('/ClientPage', function(req, res) {
     res.render('pages/ClientPage');
@@ -189,8 +188,7 @@ router.get('/ClientPage', function(req, res) {
 
 router.get('/ClientPage/Desktop', function(req, res) {
     this.client = new Client();
-    console.log('client desktop');
-    this.client.getProductCatalog().getDesktop(function(err, data) {
+    this.client.getProductInventory('Desktop', function(err, data) {
         data.table = 'desktop';
         res.render('pages/ClientPage', {
             data: data,
@@ -200,8 +198,7 @@ router.get('/ClientPage/Desktop', function(req, res) {
 
 router.get('/ClientPage/Laptop', function(req, res) {
     this.client = new Client();
-    console.log('client laptop');
-    this.client.getProductCatalog().getLaptop(function(err, data) {
+    this.client.getProductInventory('Laptop', function(err, data) {
         data.table = 'laptop';
         res.render('pages/ClientPage', {
             data: data,
@@ -211,8 +208,7 @@ router.get('/ClientPage/Laptop', function(req, res) {
 
 router.get('/ClientPage/Monitor', function(req, res) {
     this.client = new Client();
-    console.log('client monitor');
-    this.client.getProductCatalog().getMonitor(function(err, data) {
+    this.client.getProductInventory('Monitor', function(err, data) {
         data.table = 'monitor';
         res.render('pages/ClientPage', {
             data: data,
@@ -222,8 +218,7 @@ router.get('/ClientPage/Monitor', function(req, res) {
 
 router.get('/ClientPage/Tablet', function(req, res) {
     this.client = new Client();
-    console.log('client tablet');
-    this.client.getProductCatalog().getTablet(function(err, data) {
+    this.client.getProductInventory('Tablet', function(err, data) {
         data.table = 'tablet';
         res.render('pages/ClientPage', {
             data: data,
