@@ -146,7 +146,7 @@ router.post('/updateProdSpec', accountController.ensureAdministrator, function(r
                 req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
             break;
         case 'Monitor':
-            this.admin.getProductCataloge().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+            this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
                 null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
             break;
         case 'Tablet':
