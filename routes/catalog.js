@@ -2,7 +2,6 @@ let express = require('express');
 let router = new express.Router();
 let Admin = require('../domain-layer/classes/Admin');
 let Client = require('../domain-layer/classes/Client');
-let UserMapper = require('../domain-layer/mappers/UserMapper');
 let accountController = require('../presentation-layer/controllers/accountController');
 
 // TODO Use Mappers to create objects
@@ -14,18 +13,18 @@ router.get('/adminDashboard',
     res.render('pages/adminDashboard');
 });
 
-router.get('/desktopView', function(req, res) {
+router.get('/desktopView', accountController.ensureAdministrator, function(req, res) {
     this.admin = new Admin();
 
-    this.admin.getProductCatalogInstance().getAllProductSpecification('Desktop', function(err, data) {
+    this.admin.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
         res.render('catalogPages/desktopView', {
             data: data,
         });
     });
 });
 
-router.get('/itemsView', function(req, res) {
-    this.admin.getProductCatalogInstance().getItems(function(err, data) {
+router.get('/itemsView', accountController.ensureAdministrator, function(req, res) {
+    this.admin.getProductCatalog().getItems(function(err, data) {
         res.render('catalogPages/itemsView', {
             data: data,
         });
@@ -33,17 +32,17 @@ router.get('/itemsView', function(req, res) {
 });
 
 
-router.post('/deleteItem', function(req, res) {
-    this.admin.getProductCatalogInstance().deleteItem(req.body.serialNumberToRemove);
+router.post('/deleteItem', accountController.ensureAdministrator, function(req, res) {
+    this.admin.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
     res.redirect(req.get('referer'));
 });
 
-router.post('/addItem', function(req, res) {
-    this.admin.getProductCatalogInstance().addItem(req.body.serialNumber, req.body.modelNumber);
+router.post('/addItem', accountController.ensureAdministrator, function(req, res) {
+    this.admin.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
     res.redirect(req.get('referer'));
 });
 
-router.post('/addProdSpec', function(req, res) {
+router.post('/addProdSpec', accountController.ensureAdministrator, function(req, res) {
         let prodType = req.body.formProductType;
         let model = req.body.model;
         let brand = req.body.brand;
@@ -124,58 +123,58 @@ router.post('/addProdSpec', function(req, res) {
             errors: errors,
         });
     } else {
-        this.admin.getProductCatalogInstance().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+        this.admin.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
             weight, price, display, os, battery, camera, touch, size);
         res.redirect(req.get('referer'));
     }
 });
 
 router.post('/deleteProdSpec', function(req, res) {
-    this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.model);
+    this.admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
     res.send({redirect: req.body.redi});
 });
 
-router.post('/updateProdSpec', function(req, res) {
+router.post('/updateProdSpec', accountController.ensureAdministrator, function(req, res) {
     switch (req.body.prodType) {
         case 'Desktop':
-            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+            this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
                 req.body.processor, req.body.ram, req.body.storage, req.body.cores,
                 req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
             break;
         case 'Laptop':
-            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+            this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                 req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
             break;
         case 'Monitor':
-            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+            this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
                 null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
             break;
         case 'Tablet':
-            this.admin.getProductCatalogInstance().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+            this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                 req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null);
             break;
     }
     res.send({redirect: req.body.redi});
 });
 
-router.get('/laptopView', function(req, res) {
-    this.admin.getProductCatalogInstance().getAllProductSpecification('Laptop', function(err, data) {
+router.get('/laptopView', accountController.ensureAdministrator, function(req, res) {
+    this.admin.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
         res.render('catalogPages/laptopView', {
             data: data,
         });
     });
 });
 
-router.get('/monitorView', function(req, res) {
-    this.admin.getProductCatalogInstance().getAllProductSpecification('Monitor', function(err, data) {
+router.get('/monitorView', accountController.ensureAdministrator, function(req, res) {
+    this.admin.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
         res.render('catalogPages/monitorView', {
             data: data,
         });
     });
 });
 
-router.get('/tabletView', function(req, res) {
-    this.admin.getProductCatalogInstance().getAllProductSpecification('Tablet', function(err, data) {
+router.get('/tabletView', accountController.ensureAdministrator, function(req, res) {
+    this.admin.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
         res.render('catalogPages/tabletView', {
             data: data,
         });
@@ -186,6 +185,7 @@ router.get('/tabletView', function(req, res) {
 router.get('/ClientPage', function(req, res) {
     res.render('pages/ClientPage');
 });
+
 router.get('/ClientPage/Desktop', function(req, res) {
     this.client = new Client();
     this.client.getProductInventory('Desktop', function(err, data) {
@@ -195,6 +195,7 @@ router.get('/ClientPage/Desktop', function(req, res) {
         });
     });
 });
+
 router.get('/ClientPage/Laptop', function(req, res) {
     this.client = new Client();
     this.client.getProductInventory('Laptop', function(err, data) {
@@ -204,6 +205,7 @@ router.get('/ClientPage/Laptop', function(req, res) {
         });
     });
 });
+
 router.get('/ClientPage/Monitor', function(req, res) {
     this.client = new Client();
     this.client.getProductInventory('Monitor', function(err, data) {
@@ -213,6 +215,7 @@ router.get('/ClientPage/Monitor', function(req, res) {
         });
     });
 });
+
 router.get('/ClientPage/Tablet', function(req, res) {
     this.client = new Client();
     this.client.getProductInventory('Tablet', function(err, data) {

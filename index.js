@@ -5,6 +5,10 @@ let session = require('express-session');
 let passport = require('passport');
 let flash = require('connect-flash');
 let MemoryStore = require('./config/memoryStore');
+
+let UnitOfWork = require('./domain-layer/unit-of-work/unitOfWork');
+let IdentityMap = require('./domain-layer/identity-map/idMap');
+
 let express = require('express');
 let app = express();
 // read environment values from .env
@@ -59,6 +63,9 @@ app.use(expressValidator({
         };
     },
 }));
+
+UOW = new UnitOfWork();
+idMap = new IdentityMap();
 
 app.use(require('./routes'));
 // run the startup tasks

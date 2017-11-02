@@ -25,7 +25,7 @@ class Register {
         bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(password, salt, function(err, hash) {
                 user.password = hash;
-                userMapper.insert(user);
+                userMapper.makeInsertion(user);
                 return callback(err, user);
             });
         });

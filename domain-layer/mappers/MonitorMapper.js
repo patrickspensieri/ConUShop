@@ -1,12 +1,13 @@
 let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
 let Monitor = require('../../domain-layer/classes/products/Monitor');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * Monitor object mapper
  * @class MonitorMapper
  * @export
  */
-class MonitorMapper {
+class MonitorMapper extends AbstractMapper {
   /**
    * Creates a new monitor
    * @static
@@ -17,7 +18,7 @@ class MonitorMapper {
    * @param {number} price price of monitor.
    * @return {monitor} monitor object.
    */
-    static makeNew(model, brand, size, weight, price) {
+    static create(model, brand, size, weight, price) {
         let monitor = new Monitor(model, brand, size, weight, price);
         return monitor;
     }
@@ -27,21 +28,29 @@ class MonitorMapper {
    * @static
    * @param {string} modelNumber model number of monitor to be found.
    * @param {function} callback function that holds monitor object
+   * @return {function} callback object
    */
     static find(modelNumber, callback) {
-        MonitorTDG.find(modelNumber, function(err, result) {
-            if (err) {
-                console.log('Error during monitor find query', null);
-            } else {
-                let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
+        let monitor = idMap.get('Monitor', modelNumber);
+        if (monitor != null) {
+            return callback(null, monitor);
+        } else {
+            MonitorTDG.find(modelNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during monitor find query', null);
                 } else {
-                    return callback(null, new Monitor(value.model, value.brand, value.size,
-                        value.weight, value.price));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let monitor = new Monitor(value.model, value.brand, value.size,
+                            value.weight, value.price);
+                        idMap.add(monitor, monitor.model);
+                        return callback(null, monitor);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
   /**
@@ -56,8 +65,12 @@ class MonitorMapper {
                 console.log('Error during monitors findALL query', null);
             } else {
                 for (let value of result) {
-                    monitors.push(new Monitor(value.model, value.brand, value.size,
-                        value.weight, value.price));
+                    let monitor = new Monitor(value.model, value.brand, value.size,
+                        value.weight, value.price);
+                    monitors.push(monitor);
+                    if (idMap.get('Monitor', monitor.model) == null) {
+                        idMap.add(monitor, monitor.model);
+                    }
                 }
                 return callback(null, monitors);
             }
@@ -71,7 +84,11 @@ class MonitorMapper {
    */
     static insert(monitorObject) {
         MonitorTDG.insert(monitorObject.model, monitorObject.brand, monitorObject.size,
-            monitorObject.weight, monitorObject.price);
+            monitorObject.weight, monitorObject.price, function(err, result) {
+                if (!err) {
+                    idMap.add(monitorObject, monitorObject.model);
+                }
+            });
     }
 
   /**
@@ -81,7 +98,11 @@ class MonitorMapper {
    */
     static update(monitorObject) {
         MonitorTDG.update(monitorObject.model, monitorObject.brand, monitorObject.size,
-            monitorObject.weight, monitorObject.price);
+            monitorObject.weight, monitorObject.price, function(err, result) {
+                if (!err) {
+                    idMap.update(monitorObject, monitorObject.model);
+                }
+            });
     }
 
   /**
@@ -90,8 +111,17 @@ class MonitorMapper {
    * @param {Object} monitorObject an object of type monitor.
    */
     static delete(monitorObject) {
-        MonitorTDG.delete(monitorObject.model);
+        MonitorTDG.delete(monitorObject.model, function(err, result) {
+            if (!err) {
+                idMap.delete(monitorObject, monitorObject.model);
+            }
+        });
     }
+
+    /**
+     * Returns a monitor object
+     * @param {function} callback 
+     */
     static getMonitor(callback) {
         MonitorTDG.getMonitor(function(err, result) {
             let monitor = [];

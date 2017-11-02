@@ -1,12 +1,13 @@
 let Laptop = require('../../domain-layer/classes/products/Laptop');
 let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * Laptop object mapper
  * @class LaptopMapper
  * @export
  */
-class LaptopMapper {
+class LaptopMapper extends AbstractMapper {
   /**
    * Creates a new laptop
    * @static
@@ -26,7 +27,7 @@ class LaptopMapper {
    * @param {number} price price of laptop
    * @return {laptop} laptop object.
    */
-    static makeNew(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
+    static create(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
         let laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
         return laptop;
     }
@@ -36,23 +37,31 @@ class LaptopMapper {
    * @static
    * @param {string} modelNumber model number of laptop to be found.
    * @param {function} callback function that holds laptop object
+   * @return {function} callback result
    */
     static find(modelNumber, callback) {
-        LaptopTDG.find(modelNumber, function(err, result) {
-            if (err) {
-                console.log('Error during laptop find query', null);
-            } else {
-                let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
+        let laptop = idMap.get('Laptop', modelNumber);
+        if (laptop != null) {
+            return callback(null, laptop);
+        } else {
+            LaptopTDG.find(modelNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during laptop find query', null);
                 } else {
-                    return callback(null, new Laptop(value.model, value.brand, value.display, value.processor,
-                        value.ram, value.storage, value.cores, value.os,
-                        value.battery, value.camera, value.touch, value.dimensions,
-                        value.weight, value.price));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let laptop = new Laptop(value.model, value.brand, value.display, value.processor,
+                            value.ram, value.storage, value.cores, value.os,
+                            value.battery, value.camera, value.touch, value.dimensions,
+                            value.weight, value.price);
+                        idMap.add(laptop, laptop.model);
+                        return callback(null, laptop);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
   /**
@@ -67,10 +76,14 @@ class LaptopMapper {
                 console.log('Error during laptop findAll query', null);
             } else {
                 for (let value of result) {
-                    laptops.push(new Laptop(value.model, value.brand, value.display, value.processor,
+                    let laptop = new Laptop(value.model, value.brand, value.display, value.processor,
                         value.ram, value.storage, value.cores, value.os,
                         value.battery, value.camera, value.touch, value.dimensions,
-                        value.weight, value.price));
+                        value.weight, value.price);
+                    laptops.push(laptop);
+                    if (idMap.get('Laptop', laptop.model) == null) {
+                        idMap.add(laptop, laptop.model);
+                    }
                 }
                 return callback(null, laptops);
             }
@@ -86,7 +99,11 @@ class LaptopMapper {
         LaptopTDG.insert(laptopObject.model, laptopObject.brand, laptopObject.display, laptopObject.processor,
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
-            laptopObject.weight, laptopObject.price);
+            laptopObject.weight, laptopObject.price, function(err, result) {
+                if (!err) {
+                    idMap.add(laptopObject, laptopObject.model);
+                }
+            });
     }
 
   /**
@@ -98,7 +115,11 @@ class LaptopMapper {
         LaptopTDG.update(laptopObject.model, laptopObject.brand, laptopObject.display, laptopObject.processor,
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
-            laptopObject.weight, laptopObject.price);
+            laptopObject.weight, laptopObject.price, function(err, result) {
+                if (!err) {
+                    idMap.update(laptopObject, laptopObject.model);
+                }
+            });
     }
 
   /**
@@ -107,8 +128,17 @@ class LaptopMapper {
    * @param {Object} laptopObject an object of type laptop.
    */
     static delete(laptopObject) {
-            LaptopTDG.delete(laptopObject.model);
+        LaptopTDG.delete(laptopObject.model, function(err, result) {
+            if (!err) {
+                idMap.delete(laptopObject, laptopObject.model);
+            }
+        });
     }
+
+    /**
+     * Returns a laptop object
+     * @param {function} callback 
+     */
     static getLaptop(callback) {
         LaptopTDG.getLaptop(function(err, result) {
             let laptop = [];

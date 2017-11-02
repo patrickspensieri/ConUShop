@@ -45,8 +45,9 @@ class MonitorTDG {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
+   * @param {function} callback
    */
-    static insert(model, brand, size, weight, price) {
+    static insert(model, brand, size, weight, price, callback) {
         let queryString = 'INSERT INTO monitor (model, brand, size, weight, price) VALUES($1, $2, $3, $4, $5)';
         let queryValues = [model, brand, size, weight, price];
 
@@ -54,6 +55,7 @@ class MonitorTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -65,8 +67,9 @@ class MonitorTDG {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
+   * @param {function} callback
    */
-    static update(model, brand, size, weight, price) {
+    static update(model, brand, size, weight, price, callback) {
         let queryString = 'UPDATE monitor SET brand=$2, size=$3, weight=$4, price=$5 WHERE model=$1';
         let queryValues = [model, brand, size, weight, price];
 
@@ -74,6 +77,7 @@ class MonitorTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -81,15 +85,22 @@ class MonitorTDG {
    * Deletes an objects in the monitor table.
    * @static
    * @param {string} id model number of monitor to be deleted.
+   * @param {function} callback
    */
-    static delete(id) {
+    static delete(id, callback) {
       db.query('DELETE FROM monitor WHERE model=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
           console.log('This monitor has been deleted from the database');
+          return callback(err, result);
       });
     }
+
+    /**
+     * Returns a monitor object
+     * @param {function} callback 
+     */
     static getMonitor(callback) {
         db.query('SELECT DISTINCT d.model, d.brand, d.size, d.weight, d.price FROM monitor d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {

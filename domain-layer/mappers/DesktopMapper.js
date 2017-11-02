@@ -1,12 +1,13 @@
 let Desktop = require('../../domain-layer/classes/products/Desktop');
 let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * Desktop object mapper
  * @class DesktopMapper
  * @export
  */
-class DesktopMapper {
+class DesktopMapper extends AbstractMapper {
   /**
    * Creates a new desktop
    * @static
@@ -21,31 +22,40 @@ class DesktopMapper {
    * @param {number} price price of desktop.
    * @return {desktop} desktop object.
    */
-    static makeNew(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
+    static create(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
         return desktop;
     }
+
   /**
    * Maps the returned value to an object of type desktop.
    * @static
    * @param {string} modelNumber model number of desktop to be found.
    * @param {function} callback function that holds desktop object.
+   * @return {function} callback result
    */
     static find(modelNumber, callback) {
-        DesktopTDG.find(modelNumber, function(err, result) {
-            if (err) {
-                console.log('Error during desktop find query', null);
-            } else {
-                let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
+        let desktop = idMap.get('Desktop', modelNumber);
+        if (desktop != null) {
+            return callback(null, desktop);
+        } else {
+            DesktopTDG.find(modelNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during desktop find query', null);
                 } else {
-                    return callback(null, new Desktop(value.model, value.brand, value.processor,
-                        value.ram, value.storage, value.cores, value.dimensions,
-                        value.weight, value.price));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let desktop = new Desktop(value.model, value.brand, value.processor,
+                            value.ram, value.storage, value.cores, value.dimensions,
+                            value.weight, value.price);
+                        idMap.add(desktop, desktop.model);
+                        return callback(null, desktop);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
   /**
@@ -60,9 +70,13 @@ class DesktopMapper {
                 console.log('Error during desktop findALL query', null);
             } else {
                 for (let value of result) {
-                    desktops.push(new Desktop(value.model, value.brand, value.processor,
+                    let desktop = new Desktop(value.model, value.brand, value.processor,
                         value.ram, value.storage, value.cores, value.dimensions,
-                        value.weight, value.price));
+                        value.weight, value.price);
+                    desktops.push(desktop);
+                    if (idMap.get('Desktop', desktop.model) == null) {
+                        idMap.add(desktop, desktop.model);
+                    }
                 }
                 return callback(null, desktops);
             }
@@ -77,7 +91,11 @@ class DesktopMapper {
     static insert(desktopObject) {
         DesktopTDG.insert(desktopObject.model, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
-            desktopObject.weight, desktopObject.price);
+            desktopObject.weight, desktopObject.price, function(err, result) {
+                if (!err) {
+                    idMap.add(desktopObject, desktopObject.model);
+                }
+            });
     }
 
   /**
@@ -88,7 +106,11 @@ class DesktopMapper {
     static update(desktopObject) {
         DesktopTDG.update(desktopObject.model, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
-            desktopObject.weight, desktopObject.price);
+            desktopObject.weight, desktopObject.price, function(err, result) {
+                if (!err) {
+                    idMap.update(desktopObject, desktopObject.model);
+                }
+            });
     }
 
   /**
@@ -97,7 +119,11 @@ class DesktopMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static delete(desktopObject) {
-        DesktopTDG.delete(desktopObject.model);
+        DesktopTDG.delete(desktopObject.model, function(err, result) {
+            if (!err) {
+                idMap.delete(desktopObject, desktopObject.model);
+            }
+        });
     }
 
     /**

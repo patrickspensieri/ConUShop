@@ -16,20 +16,15 @@ class Client extends User {
      * @param {number} phone phone number of user
      * @param {string} password user password, hashed
      * @param {Boolean} isAdmin is the user an Admin
-
      */
     constructor(firstName, lastName, address, email, phone, password, isAdmin) {
         super(firstName, lastName, address, email, phone, password, isAdmin);
 
-        this.productCatalog = new ProductCatalog();
+        this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }
 
     /**
-     * View items in product catalog
-     * To be run on an instance of item.
-     * @method display
      * @param {function} callback function
-     *
      */
     getProductInventory(productType, callback) {
         let productCatalog = new ProductCatalog();
