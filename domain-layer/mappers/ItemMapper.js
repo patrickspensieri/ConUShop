@@ -88,10 +88,11 @@ class ItemMapper extends AbstractMapper {
     /**
      * Uses an objects serialNumber to use with TDG delete method.
      * @static
-     * @param {Object} serialNumber serial number of object to delete.
+     * @param {Object} itemObject item object to delete.
      */
-    static delete(serialNumber) {
-        ItemTDG.delete(serialNumber, function(err, result) {
+    static delete(itemObject) {
+        console.log(itemObject);
+        ItemTDG.delete(itemObject.serialNumber, function(err, result) {
             if (!err) {
                 idMap.delete(itemObject, itemObject.serialNumber);
             }

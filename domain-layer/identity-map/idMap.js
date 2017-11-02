@@ -25,10 +25,10 @@
         if (this._identityMap[className]) {
             mappedObject = this._identityMap[className][id];
             if (mappedObject) {
-                console.log('This object is already mapped');
+                console.log('This object ' + id +' is already mapped');
             } else {
                 this._identityMap[className][id]= newObject;
-                console.log('This object has been added');
+                console.log('The object: ' + id  + ' is now mapped');
             }
         } else {
             this._identityMap[className] = {};

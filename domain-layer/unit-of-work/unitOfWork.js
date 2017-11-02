@@ -117,10 +117,10 @@ class UnitOfWork {
                 MonitorMapper.update(this._dirtyObjects[i]);
             }
             if (this._dirtyObjects[i].constructor.name == 'User') {
-                UserMapper.insert(this._dirtyObjects[i]);
+                UserMapper.update(this._dirtyObjects[i]);
             }
             if (this._dirtyObjects[i].constructor.name == 'Item') {
-                ItemMapper.insert(this._dirtyObjects[i]);
+                ItemMapper.update(this._dirtyObjects[i]);
             }
         }
     }
@@ -131,7 +131,6 @@ class UnitOfWork {
      */
     _deleteRemoved() {
         for (let i=0; i < this._deletedObjects.length; i++) {
-            console.log(this._deletedObjects[i]);
             if (this._deletedObjects[i].constructor.name == 'Desktop') {
                 DesktopMapper.delete(this._deletedObjects[i]);
             }
@@ -145,10 +144,10 @@ class UnitOfWork {
                 MonitorMapper.delete(this._deletedObjects[i]);
             }
             if (this._deletedObjects[i].constructor.name == 'User') {
-                UserMapper.insert(this._deletedObjects[i]);
+                UserMapper.delete(this._deletedObjects[i]);
             }
             if (this._deletedObjects[i].constructor.name == 'Item') {
-                ItemMapper.insert(this._deletedObjects[i]);
+                ItemMapper.delete(this._deletedObjects[i]);
             }
         }
     }

@@ -64,7 +64,6 @@ module.exports = {
      * @param  {path} next callback function
      */
     ensureAdministrator: function(req, res, next) {
-        console.log(req.user);
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;

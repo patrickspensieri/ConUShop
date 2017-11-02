@@ -226,7 +226,6 @@ class ProductCatalog {
      */
     addItem(serialNumber, modelNumber) {
         this.item = itemMapper.create(serialNumber, modelNumber);
-        console.log(this.item);
         itemMapper.makeInsertion(this.item);
     }
 
@@ -234,7 +233,8 @@ class ProductCatalog {
      * @param {string} serialNumber of product
      */
     deleteItem(serialNumber) {
-        itemMapper.makeDeletion(serialNumber);
+        let itemObject = itemMapper.create(serialNumber);
+        itemMapper.makeDeletion(itemObject);
     }
 
     /**
