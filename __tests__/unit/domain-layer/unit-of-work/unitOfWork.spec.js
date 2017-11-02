@@ -1,6 +1,6 @@
-let UnitOfWork = require('../../../domain-layer/unit-of-work/unitOfWork');
-let Computer = require('../../../domain-layer/classes/computer');
-let Desktop = require('../../../domain-layer/classes/desktop');
+let UnitOfWork = require('../../../../domain-layer/unit-of-work/unitOfWork');
+let Computer = require('../../../../domain-layer/classes/products/Computer');
+let Desktop = require('../../../../domain-layer/classes/products/Desktop');
 
 describe('domain-layer: Unit of Work class unit tests', () => {
     it('construstructor returns an object', () => {

@@ -1,4 +1,4 @@
-const ElectronicDevice = require('../../../domain-layer/classes/products/ElectronicDevice');
+const ElectronicDevice = require('../../../../../domain-layer/classes/products/ElectronicDevice');
 
 describe('domain-layer: ElectronicDevice class unit tests', () => {
     it('construstructor returns an object', () => {
