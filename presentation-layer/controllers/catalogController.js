@@ -147,7 +147,7 @@ module.exports = {
     },
 
     deleteProdSpec: function(req, res) {
-        this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.model);
+        this.admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
         res.send({redirect: req.body.redi});
     },
 

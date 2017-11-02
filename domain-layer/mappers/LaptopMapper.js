@@ -76,10 +76,14 @@ class LaptopMapper extends AbstractMapper {
                 console.log('Error during laptop findAll query', null);
             } else {
                 for (let value of result) {
-                    laptops.push(new Laptop(value.model, value.brand, value.display, value.processor,
+                    let laptop = new Laptop(value.model, value.brand, value.display, value.processor,
                         value.ram, value.storage, value.cores, value.os,
                         value.battery, value.camera, value.touch, value.dimensions,
-                        value.weight, value.price));
+                        value.weight, value.price);
+                    laptops.push(laptop);
+                    if (idMap.get('Laptop', laptop.model) == null) {
+                        idMap.add(laptop, laptop.model);
+                    }
                 }
                 return callback(null, laptops);
             }

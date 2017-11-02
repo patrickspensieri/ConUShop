@@ -41,7 +41,7 @@ class ItemMapper extends AbstractMapper {
                         return callback(err, null);
                     } else {
                         let item = new Item(value.serialnumber, value.model);
-                        idMap.add(item, item.model);
+                        idMap.add(item, item.serialNumber);
                         return callback(null, item);
                     }
                 }
@@ -61,7 +61,11 @@ class ItemMapper extends AbstractMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    items.push(new Item(value.serialnumber, value.model));
+                    let item = new Item(value.serialnumber, value.model);
+                    items.push(item);
+                    if (idMap.get('Item', item.serialNumber) == null) {
+                        idMap.add(item, item.serialNumber);
+                    }
                 }
                 return callback(null, items);
             }

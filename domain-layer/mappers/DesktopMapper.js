@@ -70,9 +70,13 @@ class DesktopMapper extends AbstractMapper {
                 console.log('Error during desktop findALL query', null);
             } else {
                 for (let value of result) {
-                    desktops.push(new Desktop(value.model, value.brand, value.processor,
+                    let desktop = new Desktop(value.model, value.brand, value.processor,
                         value.ram, value.storage, value.cores, value.dimensions,
-                        value.weight, value.price));
+                        value.weight, value.price);
+                    desktops.push(desktop);
+                    if (idMap.get('Desktop', desktop.model) == null) {
+                        idMap.add(desktop, desktop.model);
+                    }
                 }
                 return callback(null, desktops);
             }
