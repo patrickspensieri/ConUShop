@@ -4,11 +4,6 @@ let passport = require('passport');
 let accountController = require('../presentation-layer/controllers/accountController');
 require('../config/passport');
 
-router.get('/TempClientPage',
-    function(req, res) {
-        res.render('pages/TempClientPage');
-});
-
 router.post('/login',
     accountController.ensureLoggedOut,
     passport.authenticate('local', {failureRedirect: '/'}),
@@ -26,16 +21,7 @@ router.get('/logout',
         }
         res.redirect('/');
 });
-/*
-router.get('/adminDashboard',
-    accountController.ensureAdministrator, function(req, res) {
-        res.render('pages/adminDashboard');
-});
-*/
 
-router.post('/register',
-    function(req, res) {
-        accountController.register(req, res);
-});
+router.post('/register', accountController.register);
 
 module.exports = router;
