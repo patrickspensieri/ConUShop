@@ -24,11 +24,11 @@ class Client extends User {
     }
 
     /**
+     * @param {string} productType string of the Object
      * @param {function} callback function
      */
     getProductInventory(productType, callback) {
-        let productCatalog = new ProductCatalog();
-        productCatalog.getAllProductInventory(productType, callback);
+        this.productCatalog.getAllProductInventory(productType, callback);
     }
 }
 module.exports = Client;
