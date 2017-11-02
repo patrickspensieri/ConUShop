@@ -502,7 +502,7 @@ INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$YfHMABFbSnL5HaEjlhWCXOlqGDuV4vOpl8TOEvl3cU6G08/vW/h2W');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$0xjuhHOiXj32lyS9Zml9melW4mHyHIxzgYWNBvQELk8zA9SlAoo8O');
 
-<<<<<<< HEAD:data-source-layer/db/DatabaseScript.sql
+
 CREATE TABLE ACTIVEUSERS(
     user_id SERIAL PRIMARY KEY NOT NULL,
     sessionid VARCHAR(60)
@@ -575,7 +575,7 @@ INSERT INTO PRODUCT VALUES(NEW.model);
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
-/* ------------ specsCheck() FUNCTIONS, CHECKS IF SPECIFICATIONS ARE OF RIGHT TYPE AND FORMAT */        
+/* ------------ specsCheck() FUNCTIONS, CHECKS IF SPECIFICATIONS ARE OF RIGHT TYPE AND FORMAT */
 CREATE OR REPLACE FUNCTION desktopSpecsCheck() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -646,7 +646,7 @@ BEGIN
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
-/* ------------ specksModif() FUNCTIONs, CHECKS IF ALL THE ATTRIBUTES ARE OF PROPER TYPE AND SETS ISEDITED TO TRUE */  
+/* ------------ specksModif() FUNCTIONs, CHECKS IF ALL THE ATTRIBUTES ARE OF PROPER TYPE AND SETS ISEDITED TO TRUE */
 CREATE OR REPLACE FUNCTION desktopSpecsModif() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -778,7 +778,7 @@ RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
 
-/* ------------ adminCheck() FUNCTION, CHECKS IF THERE'S MORE THAN 3 ADMIN IN THE DB */  
+/* ------------ adminCheck() FUNCTION, CHECKS IF THERE'S MORE THAN 3 ADMIN IN THE DB */
 CREATE OR REPLACE FUNCTION adminCheckInsert() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -869,8 +869,7 @@ CREATE TRIGGER adminCheckInsert
 BEFORE INSERT ON USERS
 FOR EACH ROW
 EXECUTE PROCEDURE adminCheckInsert();
-=======
->>>>>>> master:data-source-layer/db/DatabaseScript.txt
+
 
 CREATE TRIGGER adminCheckUpdate
 BEFORE UPDATE ON USERS
