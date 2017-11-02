@@ -130,7 +130,7 @@ router.post('/addProdSpec', accountController.ensureAdministrator, function(req,
 });
 
 router.post('/deleteProdSpec', function(req, res) {
-    this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.model);
+    this.admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
     res.send({redirect: req.body.redi});
 });
 

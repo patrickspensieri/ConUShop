@@ -116,10 +116,10 @@ class UnitOfWork {
             if (this._dirtyObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.update(this._dirtyObjects[i]);
             }
-            if (this._newObjects[i].constructor.name == 'User') {
+            if (this._dirtyObjects[i].constructor.name == 'User') {
                 UserMapper.insert(this._dirtyObjects[i]);
             }
-            if (this._newObjects[i].constructor.name == 'Item') {
+            if (this._dirtyObjects[i].constructor.name == 'Item') {
                 ItemMapper.insert(this._dirtyObjects[i]);
             }
         }
@@ -131,6 +131,7 @@ class UnitOfWork {
      */
     _deleteRemoved() {
         for (let i=0; i < this._deletedObjects.length; i++) {
+            console.log(this._deletedObjects[i]);
             if (this._deletedObjects[i].constructor.name == 'Desktop') {
                 DesktopMapper.delete(this._deletedObjects[i]);
             }
@@ -143,10 +144,10 @@ class UnitOfWork {
             if (this._deletedObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.delete(this._deletedObjects[i]);
             }
-            if (this._newObjects[i].constructor.name == 'User') {
+            if (this._deletedObjects[i].constructor.name == 'User') {
                 UserMapper.insert(this._deletedObjects[i]);
             }
-            if (this._newObjects[i].constructor.name == 'Item') {
+            if (this._deletedObjects[i].constructor.name == 'Item') {
                 ItemMapper.insert(this._deletedObjects[i]);
             }
         }
