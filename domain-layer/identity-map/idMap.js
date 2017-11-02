@@ -43,7 +43,7 @@
      * @param {id} id an of object
      */
      update(updatedObject, id) {
-        let className = object.constructor.name;
+        let className = updatedObject.constructor.name;
         if (this._identityMap[className][id]) {
             this._identityMap[className][id] = updatedObject;
         }
