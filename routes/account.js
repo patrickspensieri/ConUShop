@@ -9,7 +9,7 @@ router.post('/login',
     passport.authenticate('local', {failureRedirect: '/'}),
     function(req, res) {
         // NOTE will auto redirect to '/' if user not admin
-        res.redirect('/catalog/adminDashboard');
+        res.redirect('/admin/dashboard');
     });
 
 router.get('/logout',
