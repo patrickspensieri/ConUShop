@@ -75,10 +75,14 @@ class TabletMapper extends AbstractMapper {
                 console.log('Error during tablet findALL query', null);
             } else {
                 for (let value of result) {
-                    tablets.push(new Tablet(value.model, value.brand, value.display, value.processor,
+                    let tablet = new Tablet(value.model, value.brand, value.display, value.processor,
                         value.ram, value.storage, value.cores, value.os,
                         value.battery, value.camera, value.dimensions,
-                        value.weight, value.price));
+                        value.weight, value.price);
+                    tablets.push(tablet);
+                    if (idMap.get('Tablet', tablet.model) == null) {
+                        idMap.add(tablet, tablet.model);
+                    }
                 }
                 return callback(null, tablets);
             }

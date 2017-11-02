@@ -65,8 +65,12 @@ class MonitorMapper extends AbstractMapper {
                 console.log('Error during monitors findALL query', null);
             } else {
                 for (let value of result) {
-                    monitors.push(new Monitor(value.model, value.brand, value.size,
-                        value.weight, value.price));
+                    let monitor = new Monitor(value.model, value.brand, value.size,
+                        value.weight, value.price);
+                    monitors.push(monitor);
+                    if (idMap.get('Monitor', monitor.model) == null) {
+                        idMap.add(monitor, monitor.model);
+                    }
                 }
                 return callback(null, monitors);
             }
