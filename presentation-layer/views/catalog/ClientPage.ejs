@@ -1,24 +1,16 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>ConUshop | Home </title>
     <% include ../../assets/components/header.ejs %>
-
 </head>
 <body>
-<!-- for bootstrap working -->
-
 <script type="text/javascript" src="/js/bootstrap-3.1.1.min.js"></script>
 <script type="text/javascript" src="/js/main.js"></script>
-<!-- //for bootstrap working -->
-<!-- navigator -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <% include ../../assets/components/navigator.ejs %>
 <% include ../../assets/components/clientNav.ejs %>
-<!-- //navigator -->
-<div class="client_content">
 
-
-
+<div class="client_content table-responsive">
     <div>
             <% if (typeof data=='undefined') { %>
                 <div>
@@ -32,144 +24,161 @@
 
             <h1>Desktop</h1>
             <br>
-            <table contenteditable="true" id="prodTable">
-                <tr contenteditable="false">
-                    <td>Model</td>
-                    <td>Brand</td>
-                    <td>Processor</td>
-                    <td>Ram</td>
-                    <td>Storage</td>
-                    <td>Cores</td>
-                    <td>Dimensions</td>
-                    <td>Weight</td>
-                    <td>Price</td>
-
+            <div id="desktops">
+                <!-- <button class="sort" data-sort="model">Sort by model</button> -->
+            <table class="table table-hover" id="prodTable">
+                <thead>
+                <tr>
+                    <th><a class="sort" data-sort="model">Model</a></th>
+                    <th><a class="sort" data-sort="brand">Brand</a></th>
+                    <th>Processor</th>
+                    <th><a class="sort" data-sort="ram">RAM</a></th>
+                    <th><a class="sort" data-sort="storage">Storage</a></th>
+                    <th><a class="sort" data-sort="cores">Cores</a></th>
+                    <th>Dimensions</th>
+                    <th><a class="sort" data-sort="weight">Weight</a></th>
+                    <th><a class="sort" data-sort="price">Price</a></th>
                 </tr>
+                </thead>
+                <tbody class="list">
                 <% for(var i = 0; i < data.length; i++) { %>
                 <tr>
-                    <td><%= data[i].model %></td>
-                    <td><%= data[i].brand %></td>
+                    <td class="model"><%= data[i].model %></td>
+                    <td class="brand"><%= data[i].brand %></td>
                     <td><%= data[i].processor %></td>
-                    <td><%= data[i].ram %></td>
-                    <td><%= data[i].storage %></td>
-                    <td><%= data[i].cores %></td>
+                    <td class="ram"><%= data[i].ram %></td>
+                    <td class="storage"><%= data[i].storage %></td>
+                    <td class="cores"><%= data[i].cores %></td>
                     <td><%= data[i].dimensions %></td>
-                    <td><%= data[i].weight %></td>
-                    <td><%= data[i].price %></td>
+                    <td class="weight"><%= data[i].weight %></td>
+                    <td class="price"><%= data[i].price %></td>
                 </tr>
                 <% } %>
+                </tbody>
             </table>
+        </div>
+
             <% } %>
         <% if (typeof data!='undefined' && data.table=='laptop') { %>
         <h1>Laptop</h1>
         <br>
-        <table contenteditable="true" id="prodTable">
-            <tr contenteditable="false">
-                <td>Model</td>
-                <td>Brand</td>
-                <td>Processor</td>
-                <td>Ram</td>
-                <td>Storage</td>
-                <td>Cores</td>
-                <td>Os</td>
-                <td>Battery</td>
-                <td>Camera</td>
-                <td>Touch</td>
-                <td>Dimensions</td>
-                <td>Weight</td>
-                <td>Price</td>
-
+        <div id="laptops">
+        <table class="table table-hover" id="prodTable">
+            <thead>
+            <tr>
+                <th><a class="sort" data-sort="model">Model</a></th>
+                <th><a class="sort" data-sort="brand">Brand</a></th>
+                <th>Processor</td>
+                <th><a class="sort" data-sort="ram">RAM</a></th>
+                <th><a class="sort" data-sort="storage">Storage</a></th>
+                <th><a class="sort" data-sort="cores">Cores</a></th>
+                <th>Os</td>
+                <th><a class="sort" data-sort="battery">Battery</a></th>
+                <th><a class="sort" data-sort="camera">Camera</a></th>
+                <th><a class="sort" data-sort="touch">Touch</a></th>
+                <th>Dimensions</td>
+                <th><a class="sort" data-sort="weight">Weight</a></th>
+                <th><a class="sort" data-sort="price">Price</a></th>
             </tr>
+        </thead>
+        <tbody class="list">
             <% for(var i = 0; i < data.length; i++) { %>
             <tr>
-                <td><%= data[i].model %></td>
-                <td><%= data[i].brand %></td>
+                <td class="model"><%= data[i].model %></td>
+                <td class="brand"><%= data[i].brand %></td>
                 <td><%= data[i].processor %></td>
-                <td><%= data[i].ram %></td>
-                <td><%= data[i].storage %></td>
-                <td><%= data[i].cores %></td>
+                <td class="ram"><%= data[i].ram %></td>
+                <td class="storage"><%= data[i].storage %></td>
+                <td class="cores"><%= data[i].cores %></td>
                 <td><%= data[i].os %></td>
-                <td><%= data[i].battery %></td>
-                <td><%= data[i].camera %></td>
-                <td><%= data[i].touch %></td>
+                <td class="battery"><%= data[i].battery %></td>
+                <td class="camera"><%= data[i].camera %></td>
+                <td class="touch"><%= data[i].touch %></td>
                 <td><%= data[i].dimensions %></td>
-                <td><%= data[i].weight %></td>
-                <td><%= data[i].price %></td>
+                <td class="weight"><%= data[i].weight %></td>
+                <td class="price"><%= data[i].price %></td>
             </tr>
             <% } %>
+        </tbody>
         </table>
+    </div>
         <% } %>
         <% if (typeof data!='undefined' && data.table=='monitor') { %>
         <h1>Monitor</h1>
         <br>
-        <table contenteditable="true" id="prodTable">
-            <tr contenteditable="false">
-                <td>Model</td>
-                <td>Brand</td>
-                <td>Size</td>
-                <td>Weight</td>
-                <td>Price</td>
-
+        <div id=monitors>
+        <table class="table table-hover" id="prodTable">
+            <thead>
+            <tr>
+                <th><a class="sort" data-sort="model">Model</a></th>
+                <th><a class="sort" data-sort="brand">Brand</a></th>
+                <th><a class="sort" data-sort="size">Size</a></th>
+                <th><a class="sort" data-sort="weight">Weight</a></th>
+                <th><a class="sort" data-sort="price">Price</a></th>
             </tr>
+        </thead>
+        <tbody class="list">
             <% for(var i = 0; i < data.length; i++) { %>
             <tr>
-                <td><%= data[i].model %></td>
-                <td><%= data[i].brand %></td>
-                <td><%= data[i].size %></td>
-                <td><%= data[i].weight %></td>
-                <td><%= data[i].price %></td>
+                <td class="model"><%= data[i].model %></td>
+                <td class="brand"><%= data[i].brand %></td>
+                <td class="size"><%= data[i].size %></td>
+                <td class="weight"><%= data[i].weight %></td>
+                <td class="price"><%= data[i].price %></td>
             </tr>
             <% } %>
+        </tbody>
         </table>
+    </div>
         <% } %>
         <% if (typeof data!='undefined' && data.table=='tablet') { %>
         <h1>Tablet</h1>
         <br>
-        <table contenteditable="true" id="prodTable">
-            <tr contenteditable="false">
-                <td>Model</td>
-                <td>Brand</td>
-                <td>Display</td>
-                <td>Processor</td>
-                <td>Ram</td>
-                <td>Storage</td>
-                <td>Cores</td>
-                <td>Os</td>
-                <td>Battery</td>
-                <td>Camera</td>
-                <td>Dimensions</td>
-                <td>Weight</td>
-                <td>Price</td>
-
-            </tr>
-            <% for(var i = 0; i < data.length; i++) { %>
-
-
+        <div id="tablets">
+        <table class="table table-hover" id="prodTable">
+            <thead>
             <tr>
-                <td><%= data[i].model %></td>
-                <td><%= data[i].brand %></td>
-                <td><%= data[i].display %></td>
+                <th><a class="sort" data-sort="model">Model</a></th>
+                <th><a class="sort" data-sort="brand">Brand</a></th>
+                <th><a class="sort" data-sort="display">Display</a></th>
+                <th>Processor</th>
+                <th><a class="sort" data-sort="ram">RAM</a></th>
+                <th><a class="sort" data-sort="storage">Storage</a></th>
+                <th><a class="sort" data-sort="cores">Cores</a></th>
+                <th>Os</th>
+                <th><a class="sort" data-sort="battery">Battery</a></th>
+                <th><a class="sort" data-sort="camera">Camera</a></th>
+                <th>Dimensions</th>
+                <th><a class="sort" data-sort="weight">Weight</a></th>
+                <th><a class="sort" data-sort="price">Price</a></th>
+            </tr>
+            <thead>
+            <tbody class="list">
+            <% for(var i = 0; i < data.length; i++) { %>
+            <tr>
+                <td class="model"><%= data[i].model %></td>
+                <td class="brand"><%= data[i].brand %></td>
+                <td class="display"><%= data[i].display %></td>
                 <td><%= data[i].processor %></td>
-                <td><%= data[i].ram %></td>
-                <td><%= data[i].storage %></td>
-                <td><%= data[i].cores %></td>
+                <td class="ram"><%= data[i].ram %></td>
+                <td class="storage"><%= data[i].storage %></td>
+                <td class="cores"><%= data[i].cores %></td>
                 <td><%= data[i].os %></td>
-                <td><%= data[i].battery %></td>
-                <td><%= data[i].camera %></td>
+                <td class="battery"><%= data[i].battery %></td>
+                <td class="camera"><%= data[i].camera %></td>
                 <td><%= data[i].dimensions %></td>
-                <td><%= data[i].weight %></td>
-                <td><%= data[i].price %></td>
+                <td class="weight"><%= data[i].weight %></td>
+                <td class="price"><%= data[i].price %></td>
             </tr>
             <% } %>
+        </tbody>
         </table>
+    </div>
         <% } %>
 
     </div>
 </div>
-<!--%= jsonData %-->
-<!-- footer -->
+<script type="text/javascript" src="/js/catalog/catalog.js"></script>
 <% include ../../assets/components/footer.ejs %>
-<!-- //footer -->
-
 </body>
 </html>
