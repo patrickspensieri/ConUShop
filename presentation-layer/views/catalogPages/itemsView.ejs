@@ -15,7 +15,7 @@
 <!-- //navigator -->
 <% include ../../assets/components/dashboardNav.ejs %>
 
-<form method="post" action="/catalog/addItem">
+<form method="post" action="/admin/addItem">
     <div class="AddItem">
         <label>serialNumber</label>
         <input type="text" class="" name="serialNumber" placeholder="Serial Number">
@@ -27,7 +27,7 @@
     <button type="submit" class="">Add item</button>
 </form></br>
 
-<form method="post" action="/catalog/deleteItem">
+<form method="post" action="/admin/deleteItem">
     <div class="DeleteItem">
         <label>serialNumber</label>
         <input type="text" class="" name="serialNumberToRemove" placeholder="Serial Number">

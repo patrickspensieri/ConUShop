@@ -15,7 +15,7 @@
 <!-- //navigator -->
 <% include ../../assets/components/dashboardNav.ejs %>
 
-<form method="post" action="/catalog/addProdSpec">
+<form method="post" action="/admin/addProdSpec">
     <div class="AddLaptop">
         <label>Product Table: </label>
         <input type="text" class="" name="formProductType" value="Laptop" readonly>
@@ -115,8 +115,8 @@
                 <td class="dimensions"><%= data[i].dimensions %></td>
                 <td class="weight"><%= data[i].weight %></td>
                 <td class="price"><%= data[i].price %></td>
-                <td contenteditable="false"><button onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/catalog/laptopView')">Edit</button></td>
-                <td contenteditable="false"><button onclick="deleteProdSpec('Laptop', '<%= data[i].model%>', '/catalog/laptopView')">Delete</button></td>
+                <td contenteditable="false"><button onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/admin/laptops')">Edit</button></td>
+                <td contenteditable="false"><button onclick="deleteProdSpec('Laptop', '<%= data[i].model%>', '/admin/laptops')">Delete</button></td>
             </tr>
         <% } %>
         </table>
