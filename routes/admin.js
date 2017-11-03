@@ -1,24 +1,24 @@
 let express = require('express');
 let router = new express.Router();
-let catalogController = require('../presentation-layer/controllers/catalogController');
+let adminController = require('../presentation-layer/controllers/adminController');
 
 // Get Dashboard
-router.get('/dashboard', catalogController.adminDashboard);
+router.get('/dashboard', adminController.adminDashboard);
 
 // Get product views
-router.get('/desktops', catalogController.desktopView);
-router.get('/laptops', catalogController.laptopView);
-router.get('/monitors', catalogController.monitorView);
-router.get('/tablets', catalogController.tabletView);
-router.get('/items', catalogController.itemView);
+router.get('/desktops', adminController.desktopView);
+router.get('/laptops', adminController.laptopView);
+router.get('/monitors', adminController.monitorView);
+router.get('/tablets', adminController.tabletView);
+router.get('/items', adminController.itemView);
 
 // Item routes
-router.post('/deleteItem', catalogController.deleteItem);
-router.post('/addItem', catalogController.addItem);
+router.post('/deleteItem', adminController.deleteItem);
+router.post('/addItem', adminController.addItem);
 
 // Product Spec routes
-router.post('/addProdSpec', catalogController.addProdSpec);
-router.post('/deleteProdSpec', catalogController.deleteProdSpec);
-router.post('/updateProdSpec', catalogController.updateProdSpec);
+router.post('/addProdSpec', adminController.addProdSpec);
+router.post('/deleteProdSpec', adminController.deleteProdSpec);
+router.post('/updateProdSpec', adminController.updateProdSpec);
 
 module.exports = router;
