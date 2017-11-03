@@ -13,7 +13,7 @@
 <!-- navigator -->
 <% include ../../assets/components/navigator.ejs %>
 <!-- //navigator -->
-<% include ../../assets/components/dashboardNav.ejs %>
+<% include ../../assets/components/adminNav.ejs %>
 
 <form method="post" action="/admin/addProdSpec">
     <div class="AddLaptop">
@@ -115,8 +115,8 @@
                 <td class="dimensions"><%= data[i].dimensions %></td>
                 <td class="weight"><%= data[i].weight %></td>
                 <td class="price"><%= data[i].price %></td>
-                <td contenteditable="false"><button onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/admin/laptop')">Edit</button></td>
-                <td contenteditable="false"><button onclick="deleteProdSpec('Laptop', '<%= data[i].model%>', '/admin/laptop')">Delete</button></td>
+                <td contenteditable="false"><button onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/admin/laptops')">Edit</button></td>
+                <td contenteditable="false"><button onclick="deleteProdSpec('Laptop', '<%= data[i].model%>', '/admin/laptops')">Delete</button></td>
             </tr>
         <% } %>
         </table>

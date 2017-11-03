@@ -1,10 +1,11 @@
 let express = require('express');
 let router = new express.Router();
+let accountController = require('../presentation-layer/controllers/accountController');
 
 // Registering all routes
 router.use('/account', require('./account'));
 router.use('/catalog', require('./catalog'));
-router.use('/admin', require('./admin'));
+router.use('/admin', accountController.ensureAdministrator, require('./admin'));
 
 router.get('/',
     function(req, res) {

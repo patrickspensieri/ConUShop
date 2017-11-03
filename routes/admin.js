@@ -1,21 +1,20 @@
 let express = require('express');
 let router = new express.Router();
 let adminController = require('../presentation-layer/controllers/adminController');
-let accountController = require('../presentation-layer/controllers/accountController');
 
+router.get('/dashboard', adminController.dashboard);
 
-router.get('/dashboard', accountController.ensureAdministrator, adminController.dashboard);
-router.get('/desktop', accountController.ensureAdministrator, adminController.desktop);
-router.get('/laptop', accountController.ensureAdministrator, adminController.laptop);
-router.get('/monitor', accountController.ensureAdministrator, adminController.monitor);
-router.get('/tablet', accountController.ensureAdministrator, adminController.tablet);
-router.get('/inventory', accountController.ensureAdministrator, adminController.inventory);
+router.get('/desktops', adminController.desktop);
+router.get('/laptops', adminController.laptop);
+router.get('/monitors', adminController.monitor);
+router.get('/tablets', adminController.tablet);
+router.get('/items', adminController.inventory);
 
-router.post('/deleteItem', accountController.ensureAdministrator, adminController.deleteItem);
-router.post('/addItem', accountController.ensureAdministrator, adminController.addItem);
+router.post('/deleteItem', adminController.deleteItem);
+router.post('/addItem', adminController.addItem);
 
-router.post('/addProdSpec', accountController.ensureAdministrator, adminController.addProdSpec);
-router.post('/deleteProdSpec', accountController.ensureAdministrator, adminController.deleteProdSpec);
-router.post('/updateProdSpec', accountController.ensureAdministrator, adminController.updateProdSpec);
+router.post('/addProdSpec', adminController.addProdSpec);
+router.post('/deleteProdSpec', adminController.deleteProdSpec);
+router.post('/updateProdSpec', adminController.updateProdSpec);
 
 module.exports = router;
