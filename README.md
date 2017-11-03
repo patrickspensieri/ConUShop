@@ -2,6 +2,13 @@
 
 TODO: Write a project description
 
+## Admin Accounts
+
+1. Email: CC@hotmail.com Password: 1234
+2. Email: zeusontop@hotmail.com Password: ZeusAboveAll
+3. Email: larak@hotmail.com Password: HabsForLife
+
+
 ## Installation
 
 1. Install Nodejs: https://nodejs.org/en/download/
