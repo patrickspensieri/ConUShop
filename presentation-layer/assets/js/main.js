@@ -1,6 +1,6 @@
 function deleteProdSpec(prodType, modelNumber, redi) {
             $.post({
-                url: '/catalog/deleteProdSpec',
+                url: '/admin/deleteProdSpec',
                 data: {
                     prodType: prodType,
                     model: modelNumber,
@@ -33,7 +33,7 @@ function updateProdSpec(prodType, data, redi) {
     switch (prodType) {
         case 'Desktop':
             $.post({
-                url: '/catalog/updateProdSpec',
+                url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
                     model: model,
@@ -54,7 +54,7 @@ function updateProdSpec(prodType, data, redi) {
             break;
         case 'Laptop':
             $.post({
-                url: '/catalog/updateProdSpec',
+                url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
                     model: model,
@@ -80,7 +80,7 @@ function updateProdSpec(prodType, data, redi) {
             break;
         case 'Monitor':
             $.post({
-                url: '/catalog/updateProdSpec',
+                url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
                     model: model,
@@ -97,7 +97,7 @@ function updateProdSpec(prodType, data, redi) {
             break;
         case 'Tablet':
             $.post({
-                url: '/catalog/updateProdSpec',
+                url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
                     model: model,
@@ -122,4 +122,3 @@ function updateProdSpec(prodType, data, redi) {
             break;
     }
 }
-
