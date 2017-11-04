@@ -92,4 +92,9 @@ module.exports = {
             res.redirect('/');
         }
     },
+
+    ensureLoggedIn: function(req, res, next) {
+        res.locals.isAuthenticated = req.isAuthenticated();
+        return next();
+    }
 };
