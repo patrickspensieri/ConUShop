@@ -89,7 +89,7 @@ class DesktopTDG {
    * Deletes an objects in the desktop table.
    * @static
    * @param {string} id model number of desktop to be deleted.
-   */
+   
     static delete(id) {
       db.query('DELETE FROM desktop WHERE model=$1', [id], (err, result) =>{
           if (err) {
@@ -97,7 +97,7 @@ class DesktopTDG {
           }
           console.log('This Desktop has been deleted from the database');
       });
-    }
+    } */
 
     /**
      * Get all desktop objects
