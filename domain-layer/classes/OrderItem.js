@@ -11,13 +11,9 @@ class OrderItem {
      * @param {int} Quantity of Item
      */
     
-    constructor(itemObj, quantity) {
+    constructor(itemObj, itemTimeout) {
        this.itemObj = itemObj;
-       this.quantity = quantity;
-    }
-    
-    getQuantity() {
-       return quantity;
+       this.itemTimeout = itemTimeout; //timer for each items
     }
     
     getItemObject(){
