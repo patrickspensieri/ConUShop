@@ -543,11 +543,12 @@ CREATE TABLE ORDERS (
 /* ------------------------------------------ ORDERITEM TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE ORDERITEM (
-    order_item_id SERIAL PRIMARY KEY NOT NULL,
+    order_item_id SERIAL NOT NULL,
     order_id SERIAL REFERENCES ORDERS(order_id) NOT NULL,
     serialNumber VARCHAR(10) NOT NULL,
     price DECIMAL NOT NULL,
-    isReturned BOOLEAN DEFAULT FALSE
+    isReturned BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (order_item_id, order_id)
 );
 
 /* ------------------------------------------ RETURN TABLE QUERIES --------------------------------------------- */
@@ -947,6 +948,81 @@ BEGIN
     RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
+
+/* ------------ cartAdminCheck() FUNCTION, CHECKS IF CLIENT ADDING TO CART IS A CUSTOMER AND NOT AN ADMIN */  
+CREATE OR REPLACE FUNCTION cartAdminCheck() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN NEW;
+    END IF;
+    IF((SELECT isAdmin FROM USERS WHERE ID = (SELECT USER_ID FROM ACTIVEUSERS WHERE SESSION_ID = NEW.session_id))) THEN
+       RAISE EXCEPTION 'An admin cannot put items on the cart!';
+       RETURN NULL;
+    END IF;
+    RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql';
+       
+
+/* ------------ maxNumberCart() FUNCTION, CHECKS IF THERE'S 7 ITEMS IN THE CART  */  
+CREATE OR REPLACE FUNCTION maxNumberCart() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN NEW;
+    END IF;
+    IF((SELECT COUNT(*) FROM CART) = 7) THEN
+        RAISE EXCEPTION 'Shopping Cart is full. You cannot add other items. Delete an item first.';
+        RETURN NULL;
+    END IF;
+    RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql';
+
+
+/* ------------ resetCartSerial() FUNCTIONs --------------  */  
+
+
+
+CREATE OR REPLACE FUNCTION resetCartSerial() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN NEW;
+    END IF;
+    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 1))) THEN
+        NEW.cart_item_id = 1;
+        RETURN NEW;
+    END IF;
+    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 2))) THEN
+         NEW.cart_item_id = 2;
+        RETURN NEW;
+    END IF;
+    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 3))) THEN
+        NEW.cart_item_id = 3;
+        RETURN NEW;
+    END IF;
+    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 4))) THEN
+        NEW.cart_item_id = 4;
+        RETURN NEW;
+    END IF;
+    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 5))) THEN
+        NEW.cart_item_id = 5;
+        RETURN NEW;
+    END IF;
+    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 6))) THEN
+        NEW.cart_item_id = 6;
+        RETURN NEW;
+    END IF;
+    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 7))) THEN
+        NEW.cart_item_id = 7;
+        RETURN NEW;
+    END IF;
+    RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql'; 
+
+
+
+
 /* ------------ productDelete() FUNCTION, DELETES ALL PRODUCT SPECS AND ITEMS WITH THE PASSED PRODUCT MODEL */ 
 /* HIGHLY DANGEROUS FUNCTION, DELETES EVERYTHING RELATED TO THE MODEL */
 /*
@@ -1062,7 +1138,6 @@ BEFORE UPDATE ON USERS
 FOR EACH ROW
 EXECUTE PROCEDURE adminCheckUpdate();
 
-
 /* ------------ setItemPrice() TRIGGERS ----------------- */
 CREATE TRIGGER setCartItemPrice
 BEFORE INSERT ON CART
@@ -1098,6 +1173,27 @@ BEFORE INSERT ON ACTIVEUSERS
 FOR EACH ROW
 EXECUTE PROCEDURE updateSession();
 
+/* ------------ cartAdminCheck() TRIGGER ----------------- */
+CREATE TRIGGER cartAdminCheck
+BEFORE INSERT ON CART
+FOR EACH ROW
+EXECUTE PROCEDURE cartAdminCheck();
+
+/* ------------ maxNumberCart() TRIGGER ----------------- */
+CREATE TRIGGER maxNumberCart
+BEFORE INSERT ON CART
+FOR EACH ROW
+EXECUTE PROCEDURE maxNumberCart();
+
+/* ------------ resetCartSerial() TRIGGERS ----------------- */  
+
+CREATE TRIGGER resetCartSerial
+AFTER INSERT ON CART
+FOR EACH ROW
+EXECUTE PROCEDURE resetCartSerial();
+
+
+
 /* ------------ productDelete() TRIGGER ----------------- */
 /*
 CREATE TRIGGER productDelete
@@ -1105,3 +1201,13 @@ BEFORE DELETE ON PRODUCT
 FOR EACH ROW
 EXECUTE PROCEDURE productDelete(); 
 */
+/*
+INSERT INTO ACTIVEUSERS VALUES (2, '100');
+
+SELECT COUNT(*) FROM CART;
+INSERT INTO CART (SESSION_ID, SERIALNUMBER) VALUES ('100', 'ITEM39');
+SELECT COUNT(*) FROM CART;
+INSERT INTO CART (SESSION_ID, SERIALNUMBER) VALUES ('100', 'ITEM65');
+SELECT COUNT(*) FROM CART;
+INSERT INTO CART (SESSION_ID, SERIALNUMBER) VALUES ('100', 'ITEM04');
+SELECT COUNT(*) FROM CART;*/
