@@ -1053,8 +1053,6 @@ END $BODY$ LANGUAGE 'plpgsql';
 
 */
 
-
-
 /* ------------------------------------------ TRIGGERS --------------------------------------------- */
 
 /* ------------ modelCheck() TRIGGERS ----------------- */
@@ -1182,11 +1180,9 @@ EXECUTE PROCEDURE maxNumberCart();
 /* ------------ resetCartSerial() TRIGGERS ----------------- */  
 
 CREATE TRIGGER resetCartSerial
-AFTER INSERT ON CART
+BEFORE INSERT ON CART
 FOR EACH ROW
 EXECUTE PROCEDURE resetCartSerial();
-
-
 
 /* ------------ productDelete() TRIGGER ----------------- */
 /*
@@ -1195,13 +1191,3 @@ BEFORE DELETE ON PRODUCT
 FOR EACH ROW
 EXECUTE PROCEDURE productDelete(); 
 */
-/*
-INSERT INTO ACTIVEUSERS VALUES (2, '100');
-
-SELECT COUNT(*) FROM CART;
-INSERT INTO CART (SESSION_ID, SERIALNUMBER) VALUES ('100', 'ITEM39');
-SELECT COUNT(*) FROM CART;
-INSERT INTO CART (SESSION_ID, SERIALNUMBER) VALUES ('100', 'ITEM65');
-SELECT COUNT(*) FROM CART;
-INSERT INTO CART (SESSION_ID, SERIALNUMBER) VALUES ('100', 'ITEM04');
-SELECT COUNT(*) FROM CART;*/
