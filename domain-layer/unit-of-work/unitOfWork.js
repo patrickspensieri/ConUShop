@@ -1,3 +1,4 @@
+let contract = require('obligations');
 let DesktopMapper = require('../mappers/desktopMapper');
 let LaptopMapper = require('../mappers/laptopMapper');
 let MonitorMapper = require('../mappers/monitorMapper');
@@ -28,7 +29,12 @@ class UnitOfWork {
      * @param {Object} domainObject
      */
     registerNew(domainObject) {
+        contract.precondition(domainObject != null);
+        contract.precondition(this._dirtyObjects.includes(domainObject) == false, 'cant register a dirty obj as new');
+        contract.precondition(this._deletedObjects.includes(domainObject) == false, 'cant register a removed obj as new');
+        contract.precondition(this._newObjects.includes(domainObject) == false, 'cant register a obj new twice');
         this._newObjects.push(domainObject);
+        contract.postcondition(this._newObjects.includes(domainObject) == true, 'new obj added to new list');
     }
 
     /**
@@ -37,7 +43,11 @@ class UnitOfWork {
      * @param {Object} domainObject
      */
     registerDirty(domainObject) {
-        this._dirtyObjects.push(domainObject);
+        contract.precondition(domainObject != null);
+        contract.precondition(this._deletedObjects.includes(domainObject) == false, 'cant register a removed obj as dirty');
+        if (!this._dirtyObjects.includes(domainObject) && !this._newObjects.includes(domainObject)) {
+            this._dirtyObjects.push(domainObject);
+        } 
     }
 
     /**
@@ -46,6 +56,8 @@ class UnitOfWork {
      * @param {Object} domainObject
      */
     registerDeleted(domainObject) {
+        contract.precondition(domainObject != null);
+        contract.precondition(this._deletedObjects.includes(domainObject) == false, 'cant register a removed obj as dirty');
         this._deletedObjects.push(domainObject);
     }
 
