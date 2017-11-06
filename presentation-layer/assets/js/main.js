@@ -129,9 +129,25 @@ $( document ).ready(function() {
         show: false,
     }).on('show.bs.modal', function() {
         let prodType = $(event.target).closest('tr').data('value');
-
         let row = $(event.target).closest('tr');
+        detailsView(row, prodType);
 
+        $(this).find('.prod-next').click(function() {
+            if (row.next().length>0) {
+                row = row.next('tr');
+                detailsView(row, prodType);
+            }
+        });
+
+        $(this).find('.prod-prev').click(function() {
+            if (row.prev().length>0) {
+                row = row.prev('tr');
+                detailsView(row, prodType);
+            }
+        });
+    });
+
+    function detailsView(row, prodType) {
         let model = row.find('td.model').text();
         let brand = row.find('td.brand').text();
         let processor = row.find('td.processor').text();
@@ -150,7 +166,7 @@ $( document ).ready(function() {
 
         switch (prodType) {
             case 'Desktop':
-                $(this).find('#productDetails').html($(
+                $('#productCatalog').find('#productDetails').html($(
                     '<b> Model: </b>'+ model +'</br>'+
                     '<b> Brand: </b>'+ brand +'</br>' +
                     '<b> Processor: </b>'+ processor +'<br>' +
@@ -162,7 +178,7 @@ $( document ).ready(function() {
                     '<b> Price: </b>'+ price +'</br>'));
                 break;
             case 'Laptop':
-                $(this).find('#productDetails').html($(
+                $('#productCatalog').find('#productDetails').html($(
                     '<b> Model: </b>' + model +'</br>' +
                     '<b> Brand: </b>' + brand +'</br>' +
                     '<b> Display: </b>' + display +'</br>' +
@@ -179,7 +195,7 @@ $( document ).ready(function() {
                     '<b> Price: </b>' + price +'</br>'));
                 break;
             case 'Monitor':
-                $(this).find('#productDetails').html($(
+                $('#productCatalog').find('#productDetails').html($(
                     '<b> Model: </b>' + model +'</br>' +
                     '<b> Brand: </b>' + brand +'</br>' +
                     '<b> Size: </b>' + size +'</br>' +
@@ -187,7 +203,7 @@ $( document ).ready(function() {
                     '<b> Price:  </b>'+ price +'</br>'));
                 break;
             case 'Tablet':
-                $(this).find('#productDetails').html($(
+                $('#productCatalog').find('#productDetails').html($(
                     '<b> Model: </b>'+ model +'</br>' +
                     '<b> Brand: </b>'+ brand +'</br>' +
                     '<b> Display: </b>'+ display +'</br>' +
@@ -200,166 +216,10 @@ $( document ).ready(function() {
                     '<b> Camera: </b>'+ camera +'</br>' +
                     '<b> Dimensions: </b>'+ dimensions +'</br>' +
                     '<b> Weight: </b>'+ weight +'</br>' +
-                    '<b> Price: </b>'+ price +'</br>'));
+                    '<b> Price: </b>'+ price));
                 break;
         }
+    }
 
-
-        $(this).find('.prod-next').click(function() {
-            if (row.next().length>0) {
-                row = row.next('tr');
-
-                let model = row.find('td.model').text();
-                let brand = row.find('td.brand').text();
-                let processor = row.find('td.processor').text();
-                let ram = row.find('td.ram').text();
-                let storage = row.find('td.storage').text();
-                let cores = row.find('td.cores').text();
-                let dimensions = row.find('td.dimensions').text();
-                let weight = row.find('td.weight').text();
-                let price = row.find('td.price').text();
-                let display = row.find('td.display').text();
-                let os = row.find('td.os').text();
-                let battery = row.find('td.battery').text();
-                let camera = row.find('td.camera').text();
-                let touch = row.find('td.touch').text();
-                let size = row.find('td.size').text();
-
-                switch (prodType) {
-                    case 'Desktop':
-                        $('#productCatalog').find('#productDetails').html($(
-                            '<b> Model: </b>'+ model +'</br>'+
-                            '<b> Brand: </b>'+ brand +'</br>' +
-                            '<b> Processor: </b>'+ processor +'<br>' +
-                            '<b> Ram: </b>'+ ram +'</br>' +
-                            '<b> Storage: </b>'+ storage +'<br>' +
-                            '<b> Cores: </b>' + cores + '<br/>' +
-                            '<b> Dimensions: </b>'+ dimensions +'</br>' +
-                            '<b> Weight: </b>' + weight + '</br>' +
-                            '<b> Price: </b>'+ price +'</br>'));
-                        break;
-                    case 'Laptop':
-                        $('#productCatalog').find('#productDetails').html($(
-                            '<b> Model: </b>' + model +'</br>' +
-                            '<b> Brand: </b>' + brand +'</br>' +
-                            '<b> Display: </b>' + display +'</br>' +
-                            '<b> Processor: </b>' + processor +'</br>' +
-                            '<b> Ram: </b>' + ram +'</br>' +
-                            '<b> Storage: </b>' + storage +'</br>' +
-                            '<b> Cores: </b>' + cores +'</br>' +
-                            '<b> OS: </b>' + os +'</br>' +
-                            '<b> Battery: </b>' + battery +'</br>' +
-                            '<b> Camera: </b>' + camera +'</br>' +
-                            '<b> Touch: </b>' + touch +'</br>' +
-                            '<b> Dimensions: </b>' + dimensions +'</br>' +
-                            '<b> Weight: </b>' + weight +'</br>' +
-                            '<b> Price: </b>' + price +'</br>'));
-                        break;
-                    case 'Monitor':
-                        $('#productCatalog').find('#productDetails').html($(
-                            '<b> Model: </b>' + model +'</br>' +
-                            '<b> Brand: </b>' + brand +'</br>' +
-                            '<b> Size: </b>' + size +'</br>' +
-                            '<b> Weight:  </b>' + weight +'</br>' +
-                            '<b> Price:  </b>'+ price +'</br>'));
-                        break;
-                    case 'Tablet':
-                        $('#productCatalog').find('#productDetails').html($(
-                            '<b> Model: </b>'+ model +'</br>' +
-                            '<b> Brand: </b>'+ brand +'</br>' +
-                            '<b> Display: </b>'+ display +'</br>' +
-                            '<b> Processor: </b>'+ processor +'</br>' +
-                            '<b> Ram: </b>'+ ram +'</br>' +
-                            '<b> Storage:  </b>'+ storage +'</br>' +
-                            '<b> Cores:  </b>'+ cores +'</br>' +
-                            '<b> OS: </b>'+ os +'</br>' +
-                            '<b> Battery: </b>'+ battery +'</br>' +
-                            '<b> Camera: </b>'+ camera +'</br>' +
-                            '<b> Dimensions: </b>'+ dimensions +'</br>' +
-                            '<b> Weight: </b>'+ weight +'</br>' +
-                            '<b> Price: </b>'+ price));
-                        break;
-                }
-            }
-        });
-
-        $(this).find('.prod-prev').click(function() {
-            if (row.prev().length>0) {
-                row = row.prev('tr');
-
-                let model = row.find('td.model').text();
-                let brand = row.find('td.brand').text();
-                let processor = row.find('td.processor').text();
-                let ram = row.find('td.ram').text();
-                let storage = row.find('td.storage').text();
-                let cores = row.find('td.cores').text();
-                let dimensions = row.find('td.dimensions').text();
-                let weight = row.find('td.weight').text();
-                let price = row.find('td.price').text();
-                let display = row.find('td.display').text();
-                let os = row.find('td.os').text();
-                let battery = row.find('td.battery').text();
-                let camera = row.find('td.camera').text();
-                let touch = row.find('td.touch').text();
-                let size = row.find('td.size').text();
-
-                switch (prodType) {
-                    case 'Desktop':
-                        $('#productCatalog').find('#productDetails').html($(
-                            '<b> Model: </b>'+ model +'</br>'+
-                            '<b> Brand: </b>'+ brand +'</br>' +
-                            '<b> Processor: </b>'+ processor +'<br>' +
-                            '<b> Ram: </b>'+ ram +'</br>' +
-                            '<b> Storage: </b>'+ storage +'<br>' +
-                            '<b> Cores: </b>' + cores + '<br/>' +
-                            '<b> Dimensions: </b>'+ dimensions +'</br>' +
-                            '<b> Weight: </b>' + weight + '</br>' +
-                            '<b> Price: </b>'+ price +'</br>'));
-                        break;
-                    case 'Laptop':
-                        $('#productCatalog').find('#productDetails').html($(
-                            '<b> Model: </b>' + model +'</br>' +
-                            '<b> Brand: </b>' + brand +'</br>' +
-                            '<b> Display: </b>' + display +'</br>' +
-                            '<b> Processor: </b>' + processor +'</br>' +
-                            '<b> Ram: </b>' + ram +'</br>' +
-                            '<b> Storage: </b>' + storage +'</br>' +
-                            '<b> Cores: </b>' + cores +'</br>' +
-                            '<b> OS: </b>' + os +'</br>' +
-                            '<b> Battery: </b>' + battery +'</br>' +
-                            '<b> Camera: </b>' + camera +'</br>' +
-                            '<b> Touch: </b>' + touch +'</br>' +
-                            '<b> Dimensions: </b>' + dimensions +'</br>' +
-                            '<b> Weight: </b>' + weight +'</br>' +
-                            '<b> Price: </b>' + price +'</br>'));
-                        break;
-                    case 'Monitor':
-                        $('#productCatalog').find('#productDetails').html($(
-                            '<b> Model: </b>' + model +'</br>' +
-                            '<b> Brand: </b>' + brand +'</br>' +
-                            '<b> Size: </b>' + size +'</br>' +
-                            '<b> Weight:  </b>' + weight +'</br>' +
-                            '<b> Price:  </b>'+ price +'</br>'));
-                        break;
-                    case 'Tablet':
-                        $('#productCatalog').find('#productDetails').html($(
-                            '<b> Model: </b>'+ model +'</br>' +
-                            '<b> Brand: </b>'+ brand +'</br>' +
-                            '<b> Display: </b>'+ display +'</br>' +
-                            '<b> Processor: </b>'+ processor +'</br>' +
-                            '<b> Ram: </b>'+ ram +'</br>' +
-                            '<b> Storage:  </b>'+ storage +'</br>' +
-                            '<b> Cores:  </b>'+ cores +'</br>' +
-                            '<b> OS: </b>'+ os +'</br>' +
-                            '<b> Battery: </b>'+ battery +'</br>' +
-                            '<b> Camera: </b>'+ camera +'</br>' +
-                            '<b> Dimensions: </b>'+ dimensions +'</br>' +
-                            '<b> Weight: </b>'+ weight +'</br>' +
-                            '<b> Price: </b>'+ price));
-                        break;
-                }
-            }
-        });
-    });
 });
 
