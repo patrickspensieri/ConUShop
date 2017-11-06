@@ -23,7 +23,7 @@ class ProductCatalog {
      */
     static getProductCatalogInstance() {
         if (this.productCatalogInstance == null) {
-           this.productCatalogInstance = new ProductCatalog();
+            this.productCatalogInstance = new ProductCatalog();
         }
         return this.productCatalogInstance;
     }
@@ -137,45 +137,45 @@ class ProductCatalog {
      * @param {function} callback function
      */
     getProductSpecification(productType, modelNumber, callback) {
-    switch (productType) {
-        case 'Desktop':
-            desktopMapper.find(modelNumber, function(err, result) {
-                if (err) {
-                    console.log('Error during desktop find query', null);
-                } else {
-                    return callback(null, result);
-                }
-            });
-            break;
+        switch (productType) {
+            case 'Desktop':
+                desktopMapper.find(modelNumber, function(err, result) {
+                    if (err) {
+                        console.log('Error during desktop find query', null);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+                break;
 
-        case 'Laptop':
-            laptopMapper.find(modelNumber, function(err, result) {
-                if (err) {
-                    console.log('Error during laptop find query', null);
-                } else {
-                    return callback(null, result);
-                }
-            });
-            break;
+            case 'Laptop':
+                laptopMapper.find(modelNumber, function(err, result) {
+                    if (err) {
+                        console.log('Error during laptop find query', null);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+                break;
 
-        case 'Monitor':
-            monitorMapper.find(modelNumber, function(err, result) {
-                if (err) {
-                    console.log('Error during monitor find query', null);
-                } else {
-                    return callback(null, result);
-                }
-            });
-            break;
-        case 'Tablet':
-            tabletMapper.find(modelNumber, function(err, result) {
-                if (err) {
-                    console.log('Error during tablet find query', null);
-                } else {
-                    return callback(null, result);
-                }
-            });
-            break;
+            case 'Monitor':
+                monitorMapper.find(modelNumber, function(err, result) {
+                    if (err) {
+                        console.log('Error during monitor find query', null);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+                break;
+            case 'Tablet':
+                tabletMapper.find(modelNumber, function(err, result) {
+                    if (err) {
+                        console.log('Error during tablet find query', null);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+                break;
         }
     }
 
@@ -251,23 +251,24 @@ class ProductCatalog {
     getAllProductInventory(productType, callback) {
         switch (productType) {
             case 'Desktop':
-                desktopMapper.getDesktop(function(err, data) {
-                return callback(null, data);
-            });
+                desktopMapper.findAll(function(err, data) {
+                    return callback(null, data);
+                });
                 break;
             case 'Laptop':
-                laptopMapper.getLaptop(function(err, data) {
+                laptopMapper.findAll(function(err, data) {
                     return callback(null, data);
                 });
                 break;
             case 'Monitor':
-                monitorMapper.getMonitor(function(err, data) {
+                monitorMapper.findAll(function(err, data) {
                     return callback(null, data);
                 });
                 break;
             case 'Tablet':
-                tabletMapper.getTablet(function(err, data) {
-                    return callback(null, data);
+                tabletMapper.findAll(function(err, data) {
+                    return callback(null, data)
+
                 });
                 break;
         }
