@@ -35,7 +35,10 @@ let updateList = function() {
     let displayUpper = $('.displayUpper').val();
     let priceUpper = $('.priceUpper').val();
     let priceLower = $('.priceLower').val();
-    // let other = $('.otherSelect').val();
+    let touch = $('.touchSelect').val();
+    let camera = $('.cameraSelect').val();
+
+    console.log(!processor);
     // filter the appropriate list
     getList().filter(function(item) {
         return (_(brand).contains(item.values().brand) || !brand)
@@ -46,9 +49,9 @@ let updateList = function() {
         && ((Number(priceLower) < Number(item.values().price)) || !priceLower)
         && ((Number(priceUpper) > Number(item.values().price)) || !priceUpper)
         && ((Number(displayLower) < Number(item.values().display || item.values().size)) || !displayLower)
-        && ((Number(displayUpper) > Number(item.values().display || item.values().size)) || !displayUpper);
-        // && (_(other).contains('Touch') && (item.values().touch == 'true') || !other)
-        // && (_(other).contains('Camera') && (item.values().camera == 'true') || !other);
+        && ((Number(displayUpper) > Number(item.values().display || item.values().size)) || !displayUpper)
+        && ((_(touch).contains(item.values().touch)) || !touch)
+        && ((_(camera).contains(item.values().camera)) || !camera);
     });
 };
 
@@ -67,7 +70,8 @@ $(function() {
     let allProcessors = [];
     let allRam = [];
     let allStorage = [];
-    // let allOther = ['Touch', 'Camera'];
+    let allTouch = [];
+    let allCamera = [];
 
     // uses the underscore library
     _(getList().items).each(function(item) {
@@ -76,6 +80,9 @@ $(function() {
         allProcessors.push(item.values().processor);
         allRam.push(item.values().ram);
         allStorage.push(item.values().storage);
+        allTouch.push(item.values().touch);
+        allCamera.push(item.values().camera);
+
     });
     // remove any duplicates from all select properties
     allOS = _(allOS).uniq();
@@ -83,6 +90,8 @@ $(function() {
     allProcessors = _(allProcessors).uniq();
     allRam = _(allRam).uniq();
     allStorage = _(allStorage).uniq();
+    allTouch = _(allTouch).uniq();
+    allCamera = _(allCamera).uniq();
     // populate each select with properties
     _(allBrands).each(function(item) {
         $('.brandSelect').append('<option value="'+item+'">'+ item +'</option>');
@@ -99,9 +108,12 @@ $(function() {
     _(allStorage).each(function(item) {
         $('.storageSelect').append('<option value="'+item+'">'+ item +'</option>');
     });
-    // _(allOther).each(function(item) {
-    //     $('.otherSelect').append('<option value="'+item+'">'+ item +'</option>');
-    // });
+    _(allTouch).each(function(item) {
+        $('.touchSelect').append('<option value="'+item+'">'+ item +'</option>');
+    });
+    _(allCamera).each(function(item) {
+        $('.cameraSelect').append('<option value="'+item+'">'+ item +'</option>');
+    });
 
     $('select').each(function() {
         $(this).multipleSelect({
