@@ -71,3 +71,5 @@ app.use(require('./routes'));
 // run the startup tasks
 let startup = require('./config/startup');
 startup.run();
+
+module.exports = {app};

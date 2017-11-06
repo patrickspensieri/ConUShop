@@ -172,5 +172,4 @@ module.exports = {
         }
         res.send({redirect: req.body.redi});
     },
-
 };

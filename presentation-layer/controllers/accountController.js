@@ -92,4 +92,17 @@ module.exports = {
             res.redirect('/');
         }
     },
+
+    ensureLoggedIn: function(req, res, next) {
+        res.locals.isAuthenticated = req.isAuthenticated();
+        if (req.isAuthenticated()){
+            UserMapper.find(req.user.email, function(err, user) {
+                if (err) throw err;
+                if (user.isAdmin)
+                    res.locals.isAdmin = true;
+                res.locals.name = user.firstName + " " + user.lastName;
+            });
+        }
+        return next();
+    }
 };

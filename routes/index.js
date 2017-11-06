@@ -3,6 +3,7 @@ let router = new express.Router();
 let accountController = require('../presentation-layer/controllers/accountController');
 
 // Registering all routes
+router.use('/', accountController.ensureLoggedIn);
 router.use('/account', require('./account'));
 router.use('/catalog', require('./catalog'));
 router.use('/admin', accountController.ensureAdministrator, require('./admin'));

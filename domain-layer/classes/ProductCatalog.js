@@ -248,6 +248,11 @@ class ProductCatalog {
             return callback(null, data);
         });
     }
+
+    /**
+     * @param {string} productType string of the Object
+     * @param {function} callback function
+     */
     getAllProductInventory(productType, callback) {
         switch (productType) {
             case 'Desktop':
