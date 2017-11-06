@@ -28,7 +28,7 @@
                 console.log('This object ' + id +' is already mapped');
             } else {
                 this._identityMap[className][id]= newObject;
-                console.log('The object: ' + id  + ' is now mapped');
+                console.log('The object: ' + id + ' is now mapped');
             }
         } else {
             this._identityMap[className] = {};
