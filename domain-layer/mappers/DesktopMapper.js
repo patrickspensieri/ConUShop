@@ -119,11 +119,8 @@ class DesktopMapper extends AbstractMapper {
    * @param {Object} desktopObject an object of type desktop.
    */
     static delete(desktopObject) {
-        DesktopTDG.delete(desktopObject.model, function(err, result) {
-            if (!err) {
-                idMap.delete(desktopObject, desktopObject.model);
-            }
-        });
+        DesktopTDG.delete(desktopObject.model, function(err, result) {});
+        return desktopObject;
     }
 
     /**

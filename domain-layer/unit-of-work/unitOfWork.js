@@ -1,9 +1,9 @@
-let DesktopMapper = require('../mappers/desktopMapper');
-let LaptopMapper = require('../mappers/laptopMapper');
-let MonitorMapper = require('../mappers/monitorMapper');
-let TabletMapper = require('../mappers/tabletMapper');
-let UserMapper = require('../mappers/userMapper');
-let ItemMapper = require('../mappers/itemMapper');
+let DesktopMapper = require('../mappers/DesktopMapper');
+let LaptopMapper = require('../mappers/LaptopMapper');
+let MonitorMapper = require('../mappers/MonitorMapper');
+let TabletMapper = require('../mappers/TabletMapper');
+let UserMapper = require('../mappers/UserMapper');
+let ItemMapper = require('../mappers/ItemMapper');
 
 /**
  * In-memory object which keeps track of which domain objects should 
@@ -21,7 +21,7 @@ class UnitOfWork {
         this._deletedObjects = [];
         this._afterCommit = {};
     }
-
+    
     /**
      * Domain objects that need to be added to the storage
      * @method registerNew
