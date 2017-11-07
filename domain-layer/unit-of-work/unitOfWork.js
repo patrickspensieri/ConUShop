@@ -34,7 +34,6 @@ class UnitOfWork {
         contract.precondition(this._deletedObjects.includes(domainObject) == false, 'cant register a removed obj as new');
         contract.precondition(this._newObjects.includes(domainObject) == false, 'cant register a obj new twice');
         this._newObjects.push(domainObject);
-        contract.postcondition(this._newObjects.includes(domainObject) == true, 'new obj added to new list');
     }
 
     /**

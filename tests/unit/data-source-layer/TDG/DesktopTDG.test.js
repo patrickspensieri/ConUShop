@@ -1,26 +1,21 @@
 let chai = require('chai');
-let chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
 let expect = chai.expect;
-const app = require('../../../../index');
-let server;
 
 let DesktopTDG = require('../../../../data-source-layer/TDG/DesktopTDG');
 
 describe('Unit Tests: DesktopTDG class', function() {
-
-    before((done) => {
-        // starts the server
-        server = app.app;
-        done();
+    it('should be able to create objects using the class constructor', () => {
+        let tdg = new DesktopTDG();
+        expect(tdg).to.be.instanceOf(DesktopTDG);
+        expect(tdg).to.be.an('object');
     });
 
-    after((done) => {
-        // closes the server
-        done();
+    it('should have access to the static methods without instantiating an object', () => {
+        expect(DesktopTDG.find).to.be.a('Function');
+        expect(DesktopTDG.findAll).to.be.a('Function');
+        expect(DesktopTDG.insert).to.be.a('Function');
+        expect(DesktopTDG.update).to.be.a('Function');
+        expect(DesktopTDG.delete).to.be.a('Function');
+        expect(DesktopTDG.getDesktop).to.be.a('Function');
     });
-
-    // it('should be able instert a new desktop object to the desktop table', function* () {
-    //     return yield expect(DesktopTDG.insert('DES15','Dell','Intel i7',12,1000,4,'15.22 x 36.72 x 29.87','11.54',1301.09)).to.eventually.be.not.null();
-    // });
 });

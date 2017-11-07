@@ -1,9 +1,5 @@
 let chai = require('chai');
-let chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
 let expect = chai.expect;
-const app = require('../../../../index');
-let server;
 
 let Client = require('../../../../domain-layer/classes/Client');
 let ProductCatalog = require('../../../../domain-layer/classes/ProductCatalog');
