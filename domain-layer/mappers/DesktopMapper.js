@@ -106,15 +106,11 @@ class DesktopMapper extends AbstractMapper {
    * Extracts an objects id to use with TDG delete method.
    * @static
    * @param {Object} desktopObject an object of type desktop.
+   * @return {Object} desktop object
    */
     static delete(desktopObject) {
-        DesktopTDG.delete(desktopObject.model, function(err, result) {
-            if (!err) {
-                idMap.delete(desktopObject, desktopObject.model);
-            }
-            return err;
-        });
-        return false;
+        DesktopTDG.delete(desktopObject.model, function(err, result) {});
+        return desktopObject;
     }
 
     /**

@@ -1,18 +1,20 @@
 let meld = require('meld');
+let DesktopMapper = require('../mappers/DesktopMapper');
+let LaptopMapper = require('../mappers/LaptopMapper');
+let MonitorMapper = require('../mappers/MonitorMapper');
+let TabletMapper = require('../mappers/TabletMapper');
+let ItemMapper = require('../mappers/ItemMapper');
+let UserMapper = require('../mappers/UserMapper');
 let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
 let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
 let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
 let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
 let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
-let DesktopMapper = require('../mappers/DesktopMapper');
-let TabletMapper = require('../mappers/TabletMapper');
-let LaptopMapper = require('../mappers/LaptopMapper');
-let MonitorMapper = require('../mappers/MonitorMapper');
 
 // map all Mappers and TDGs to advices
 let arrTDG = [DesktopTDG, TabletTDG, LaptopTDG, MonitorTDG, UserTDG, ItemTDG];
-let arrMapper = [DesktopMapper, TabletMapper, MonitorMapper, LaptopMapper];
+let arrMapper = [DesktopMapper, TabletMapper, MonitorMapper, LaptopMapper, ItemMapper, UserMapper];
 // only testing with DesktopMapper and DesktopTDG first
 arrMapper[0].map((object) => meld.around(object, ['find'], findMapperAdvice));
 arrTDG[0].map((object) => meld.around(object, ['find'], findTDGAdvice));
@@ -120,3 +122,17 @@ let createHelper = function(value, className) {
             break;
     }
 };
+
+//example
+meld.before(DesktopMapper, 'findAll', function() {
+    console.log('meld running before');
+
+});
+
+meld.afterReturning(DesktopMapper, 'delete', function(returnTest) {
+    deleteObject = returnTest;
+    deleteObjectModel = returnTest.model;
+    idMap.delete(deleteObject, deleteObjectModel);
+});
+
+//module.exports = meld;

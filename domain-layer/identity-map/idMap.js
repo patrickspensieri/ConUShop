@@ -21,7 +21,6 @@
      add(newObject, id) {
         let className = newObject.constructor.name;
         let mappedObject;
-
         if (this._identityMap[className]) {
             mappedObject = this._identityMap[className][id];
             if (mappedObject) {
@@ -58,6 +57,7 @@
      delete(deletedObject, id) {
         let className = deletedObject.constructor.name;
         delete this._identityMap[className][id];
+        console.log('This object ' + id +' is no longer mapped');
     }
 
     /**
