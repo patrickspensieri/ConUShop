@@ -14,8 +14,8 @@ class OrderItemMapper extends AbstractMapper {
      * @param {object} Instance of Item
      * @param {int} Quantity of Item
      */
-    static create(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout) {
-        let orderItem = new OrderItem(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout);
+    static create(orderItemId, orderId, serialNumber, price, isReturned) {
+        let orderItem = new OrderItem(orderItemId, orderId, serialNumber, price, isReturned);
         return orderItem;
     }
 
@@ -40,7 +40,7 @@ class OrderItemMapper extends AbstractMapper {
                         return callback(err, null);
                     } else {
                         let orderItem = new OrderItem(value.orderItemId, value.orderId, value.serialNumber, value.price,
-                            value.isReturned, value.itemObj, value.itemTimeout);
+                            value.isReturned);
                         idMap.add(orderItem, orderItem.orderItemId);
                         return callback(null, orderItem);
                     }
@@ -62,7 +62,7 @@ class OrderItemMapper extends AbstractMapper {
             } else {
                 for (let value of result) {
                     let orderItem = new OrderItem(value.orderItemId, value.orderId, value.serialNumber, value.price,
-                        value.isReturned, value.itemObj, value.itemTimeout);
+                        value.isReturned);
                     orderItems.push(orderItem);
                     if (idMap.get('OrderItem', orderItem.orderItemId) == null) {
                         idMap.add(orderItem, orderItem.orderItemId);
@@ -80,7 +80,7 @@ class OrderItemMapper extends AbstractMapper {
    */
     static insert(OrderItemObject) {
         OrderItemTDG.insert(OrderItemObject.orderItemId, OrderItemObject.orderId, OrderItemObject.serialNumber,
-            OrderItemObject.price, OrderItemObject.isReturned, OrderItemObject.itemObj, OrderItemObject.itemTimeout,
+            OrderItemObject.price, OrderItemObject.isReturned,
             function(err, result) {
                 if (!err) {
                     idMap.add(OrderItemObject, OrderItemObject.orderItemId);
@@ -95,7 +95,7 @@ class OrderItemMapper extends AbstractMapper {
    */
     static update(OrderItemObject) {
         OrderItemTDG.update(OrderItemObject.orderItemId, OrderItemObject.orderId, OrderItemObject.serialNumber,
-            OrderItemObject.price, OrderItemObject.isReturned, OrderItemObject.itemObj, OrderItemObject.itemTimeout,
+            OrderItemObject.price, OrderItemObject.isReturned,
             function(err, result) {
                 if (!err) {
                     idMap.update(OrderItemObject, OrderItemObject.orderItemId);
