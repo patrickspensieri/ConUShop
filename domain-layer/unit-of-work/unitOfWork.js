@@ -47,7 +47,7 @@ class UnitOfWork {
         contract.precondition(this._deletedObjects.includes(domainObject) == false, 'cant register a removed obj as dirty');
         if (!this._dirtyObjects.includes(domainObject) && !this._newObjects.includes(domainObject)) {
             this._dirtyObjects.push(domainObject);
-        } 
+        }
     }
 
     /**

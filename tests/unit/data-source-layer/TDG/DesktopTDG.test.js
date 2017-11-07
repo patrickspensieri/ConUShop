@@ -21,7 +21,6 @@ describe('Unit Tests: DesktopTDG class', function() {
     });
 
     // it('should be able instert a new desktop object to the desktop table', function* () {
-    //     let result = yield DesktopTDG.insert('DES15','Dell','Intel i7',12,1000,4,'15.22 x 36.72 x 29.87','11.54',1301.09);
-    //     expect(result).to.eventually.be.not.null();
+    //     return yield expect(DesktopTDG.insert('DES15','Dell','Intel i7',12,1000,4,'15.22 x 36.72 x 29.87','11.54',1301.09)).to.eventually.be.not.null();
     // });
 });

@@ -9,18 +9,6 @@ let Client = require('../../../../domain-layer/classes/Client');
 let ProductCatalog = require('../../../../domain-layer/classes/ProductCatalog');
 
 describe('Unit Tests: Client class', function() {
-
-    before((done) => {
-        // starts the server
-        server = app.app;
-        done();
-    });
-
-    after((done) => {
-        // closes the server
-        done();
-    });
-
     it('should be able to create objects using the class constructor', () => {
         let client = new Client('fn', 'ln', 'ad', 'em', 123, 'pw', false);
         expect(client).to.be.instanceOf(Client);
