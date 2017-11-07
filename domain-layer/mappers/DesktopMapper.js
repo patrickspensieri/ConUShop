@@ -35,27 +35,16 @@ class DesktopMapper extends AbstractMapper {
    * @return {function} callback result
    */
     static find(modelNumber, callback) {
-        let desktop = idMap.get('Desktop', modelNumber);
-        if (desktop != null) {
-            return callback(null, desktop);
-        } else {
-            DesktopTDG.find(modelNumber, function(err, result) {
+        console.log('proceeding from DesktopMapper...');
+            DesktopTDG.find(modelNumber, function(err, desktop) {
                 if (err) {
                     console.log('Error during desktop find query', null);
-                } else {
-                    let value = result[0];
-                    if (result.length==0) {
+                } else if (desktop == null) {
                         return callback(err, null);
-                    } else {
-                        let desktop = new Desktop(value.model, value.brand, value.processor,
-                            value.ram, value.storage, value.cores, value.dimensions,
-                            value.weight, value.price);
-                        idMap.add(desktop, desktop.model);
+                } else {
                         return callback(null, desktop);
-                    }
                 }
             });
-        }
     }
 
   /**
@@ -123,7 +112,9 @@ class DesktopMapper extends AbstractMapper {
             if (!err) {
                 idMap.delete(desktopObject, desktopObject.model);
             }
+            return err;
         });
+        return false;
     }
 
     /**
