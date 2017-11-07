@@ -17,8 +17,8 @@ class OrderMapper extends AbstractMapper {
    * @param {number} total weight of Order.
    * @return {Order} Order object.
    */
-    static create(orderId, userId, orderDate, total) {
-        let order = new Order(orderId, userId, orderDate, total);
+    static create(orderId, userId, orderDate, total, shoppingCart) {
+        let order = new Order(orderId, userId, orderDate, total, shoppingCart);
         return order;
     }
 
@@ -43,7 +43,7 @@ class OrderMapper extends AbstractMapper {
                         return callback(err, null);
                     } else {
                         let order = new Order(value.orderId, value.userId, value.orderDate,
-                            value.total);
+                            value.total, value.shoppingCart);
                         idMap.add(order, order.id);
                         return callback(null, order);
                     }
@@ -65,8 +65,8 @@ class OrderMapper extends AbstractMapper {
             } else {
                 for (let value of result) {
                     let order = new Order(value.orderId, value.userId, value.orderDate,
-                        value.total);
-                    orders.push(Order);
+                        value.total, value.shoppingCart);
+                    orders.push(order);
                     if (idMap.get('Order', order.orderId) == null) {
                         idMap.add(order, order.orderId);
                     }
@@ -83,7 +83,7 @@ class OrderMapper extends AbstractMapper {
    */
     static insert(OrderObject) {
         OrderTDG.insert(OrderObject.orderId, OrderObject.userId, OrderObject.orderDate,
-            OrderObject.total, function(err, result) {
+            OrderObject.total, OrderObject.shoppingCart, function(err, result) {
                 if (!err) {
                     idMap.add(OrderObject, OrderObject.orderId);
                 }
@@ -97,7 +97,7 @@ class OrderMapper extends AbstractMapper {
    */
     static update(OrderObject) {
         OrderTDG.update(OrderObject.orderId, OrderObject.userId, OrderObject.orderDate,
-            OrderObject.total, function(err, result) {
+            OrderObject.total, OrderObject.shoppingCart, function(err, result) {
                 if (!err) {
                     idMap.update(OrderObject, OrderObject.orderId);
                 }
