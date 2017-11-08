@@ -85,9 +85,14 @@ class MonitorTDG {
    * Deletes an objects in the monitor table.
    * @static
    * @param {string} id model number of monitor to be deleted.
+<<<<<<< HEAD
    * @param {function} callback
    */
     static delete(id, callback) {
+=======
+   *
+    static delete(id) {
+>>>>>>> Added ordering and returning capabilities
       db.query('DELETE FROM monitor WHERE model=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
@@ -95,12 +100,18 @@ class MonitorTDG {
           console.log('This monitor has been deleted from the database');
           return callback(err, result);
       });
+<<<<<<< HEAD
     }
 
     /**
      * Returns a monitor object
      * @param {function} callback 
      */
+=======
+    }*/
+    
+    
+>>>>>>> Added ordering and returning capabilities
     static getMonitor(callback) {
         db.query('SELECT DISTINCT d.model, d.brand, d.size, d.weight, d.price FROM monitor d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {

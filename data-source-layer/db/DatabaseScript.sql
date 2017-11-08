@@ -1,7 +1,7 @@
 /* 
 SOEN 343 DATABASE SCRIPT FOR THE CONU.SHOP APPLICATION
 DATABASE WRITTEN BY: ALEXANDRE MASMOUDI
-LAST UPDATE: 2017-10-27
+LAST UPDATE: 2017-11-04
 */
 
 /* ------------------------------------------ PRODUCT TABLE QUERIES --------------------------------------------- */
@@ -498,14 +498,74 @@ CREATE TABLE USERS (
 );
 
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'C', 'C', 'Concordia University', 'CC@hotmail.com', '5143184562', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+<<<<<<< HEAD
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', '$2a$10$UpoxaHPzla6e80MeSKHeYumgh4xe7tiLOk3vjhLK5Wb6TxZNsfuBe');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$YfHMABFbSnL5HaEjlhWCXOlqGDuV4vOpl8TOEvl3cU6G08/vW/h2W');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$0xjuhHOiXj32lyS9Zml9melW4mHyHIxzgYWNBvQELk8zA9SlAoo8O');
+=======
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', '$2a$10$qGiZLXEyCmAkhSMLHNKH7eYakVCPJwKnyHRiEjvkEWzXB3V4xk.Na');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$Gegcqydf1DhwKeXWREhF1eWxIXXzDnVirlcTrqF5LODZ0lZDRyUl.');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$Ha2c1wrG.E3HFvY2FzUEPu.9K8J0uEC1WCAcrO59GHpiHSQnFQ59K');
+
+/* ------------------------------------------ ACTIVEUSERS TABLE QUERIES --------------------------------------------- */
+>>>>>>> Added ordering and returning capabilities
 
 CREATE TABLE ACTIVEUSERS(
-    user_id SERIAL PRIMARY KEY NOT NULL,
-    sessionid VARCHAR(60)
+    user_id SERIAL REFERENCES USERS(ID) NOT NULL UNIQUE,
+    session_id VARCHAR(60) NOT NULL,
+    lastActive TIMESTAMP NOT NULL DEFAULT now(),
+    PRIMARY KEY (session_id)
 );
+
+
+/* ------------------------------------------ CART TABLE QUERIES --------------------------------------------- */
+
+CREATE TABLE CART (
+    session_id VARCHAR(60) REFERENCES ACTIVEUSERS(session_id) NOT NULL,
+    cart_item_id SERIAL NOT NULL,
+    serialNumber VARCHAR(10) REFERENCES ITEM(serialNumber) NOT NULL UNIQUE,
+    price DECIMAL NOT NULL,
+    entryTime TIMESTAMP NOT NULL DEFAULT now(),
+    PRIMARY KEY(cart_item_id)
+);
+
+
+/* ------------------------------------------ ORDER TABLE QUERIES --------------------------------------------- */
+CREATE TABLE ORDERS (
+    order_id SERIAL NOT NULL UNIQUE,
+    user_id SERIAL REFERENCES ACTIVEUSERS(user_id) NOT NULL,
+    orderDate DATE NOT NULL default CURRENT_DATE,
+    total DECIMAL NOT NULL DEFAULT 0,
+    PRIMARY KEY (order_id, user_id)
+);
+
+
+/* ------------------------------------------ ORDERITEM TABLE QUERIES --------------------------------------------- */
+
+CREATE TABLE ORDERITEM (
+    order_item_id SERIAL PRIMARY KEY NOT NULL,
+    order_id SERIAL REFERENCES ORDERS(order_id) NOT NULL,
+    serialNumber VARCHAR(10) NOT NULL,
+    price DECIMAL NOT NULL,
+    isReturned BOOLEAN DEFAULT FALSE
+);
+
+/* ------------------------------------------ RETURN TABLE QUERIES --------------------------------------------- */
+
+CREATE TABLE RETURNS (
+    return_id SERIAL PRIMARY KEY NOT NULL,
+    order_id SERIAL REFERENCES ORDERS(order_id) NOT NULL,
+    user_id SERIAL REFERENCES ACTIVEUSERS(user_id) NOT NULL,
+    order_item_id SERIAL REFERENCES ORDERITEM(order_item_id) NOT NULL
+);
+
+
+
+
+
+
+
+
 
 
 /* ------------------------------------------ TRIGGER FUNCTIONS --------------------------------------------- */
@@ -798,6 +858,133 @@ RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
 
+/* ------------ setItemPrice() FUNCTION, SETS THE PRICE OF THE ITEMS ACCORDING TO THEIR SPECIFICATIONS */  
+CREATE OR REPLACE FUNCTION setItemPrice() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN NEW;
+    END IF;
+    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^MON\d{1,7}$') THEN
+        NEW.price = (SELECT PRICE FROM MONITOR WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
+        RETURN NEW;
+    END IF;
+    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^LAP\d{1,7}$') THEN
+        NEW.price = (SELECT PRICE FROM LAPTOP WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
+        RETURN NEW;
+    END IF;
+    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^TAB\d{1,7}$') THEN
+        NEW.price = (SELECT PRICE FROM TABLET WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
+        RETURN NEW;
+    END IF;
+    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^DES\d{1,7}$') THEN
+        NEW.price = (SELECT PRICE FROM DESKTOP WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
+        RETURN NEW;
+     END IF;
+END $BODY$ LANGUAGE 'plpgsql';
+
+/* ------------ orderItemsCreate() FUNCTION, PUSHES THE ITEMS IN THE CART TO THE ORDERITEM TABLE, CALCULATES THE TOTAL PRICE OF AN ORDER AND EMPTIES THE CART  */  
+CREATE OR REPLACE FUNCTION orderItemsCreate() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN NEW;
+    END IF;
+    ALTER SEQUENCE orderitem_order_item_id_seq RESTART WITH 1;
+    IF(EXISTS(SELECT * FROM CART)) THEN
+        LOOP
+            INSERT INTO ORDERITEM (order_id, serialNumber, price) VALUES (NEW.order_id , (SELECT SERIALNUMBER FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART)), (SELECT PRICE FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART)));
+            UPDATE ITEM SET isSold = TRUE WHERE serialNumber = (SELECT SERIALNUMBER FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART));
+            DELETE FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART);
+            EXIT WHEN (NOT EXISTS(SELECT * FROM CART));
+        END LOOP;
+    END IF;
+    ALTER SEQUENCE cart_cart_item_id_seq RESTART WITH 1;
+    UPDATE ORDERS SET TOTAL = (SELECT SUM(price) FROM ORDERITEM);
+    RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql';
+
+/* ------------ checkIsSold() FUNCTION -------------------- */  
+CREATE OR REPLACE FUNCTION checkIsSold() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN NEW;
+    END IF;
+    IF((SELECT ISSOLD FROM ITEM WHERE SERIALNUMBER = NEW.serialNumber) = true) THEN
+        RAISE EXCEPTION 'You cannot buy this item since it has already been sold';
+    END IF;
+    RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql';
+
+/* ------------ returnHandle() FUNCTION, CHANGES THE ISSOLD AND ISRETURNED VALUES ACCORDINGLY */  
+CREATE OR REPLACE FUNCTION returnHandle() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN NEW;
+    END IF;
+    IF((SELECT ISRETURNED FROM ORDERITEM WHERE (ORDER_ITEM_ID = NEW.order_item_id) = TRUE)) THEN
+        RAISE EXCEPTION 'Cannot return this item since it has already been returned';
+    END IF;
+    UPDATE ORDERITEM SET ISRETURNED = TRUE WHERE (ORDER_ITEM_ID = NEW.order_item_id);
+    UPDATE ITEM SET ISSOLD= FALSE WHERE (SERIALNUMBER = (SELECT SERIALNUMBER FROM ORDERITEM WHERE ORDER_ITEM_ID = NEW.order_item_id)) ;
+    RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql';
+
+
+/* ------------ updateSession() FUNCTION, UPDATES SESSION_ID WHEN USER SIGNS IN FROM DIFFERENT DEVICE */  
+CREATE OR REPLACE FUNCTION updateSession() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN NEW;
+    END IF;
+    IF(EXISTS(SELECT * FROM ACTIVEUSERS WHERE USER_ID = NEW.user_id)) THEN
+        UPDATE ACTIVEUSERS SET SESSION_ID = NEW.session_id WHERE USER_ID = NEW.user_id;
+        RETURN NULL;
+    END IF;
+    RETURN NEW;
+END $BODY$ LANGUAGE 'plpgsql';
+
+/* ------------ productDelete() FUNCTION, DELETES ALL PRODUCT SPECS AND ITEMS WITH THE PASSED PRODUCT MODEL */ 
+/* HIGHLY DANGEROUS FUNCTION, DELETES EVERYTHING RELATED TO THE MODEL */
+/*
+
+CREATE OR REPLACE FUNCTION productDelete() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF(pg_trigger_depth() <> 1 )THEN
+        RETURN OLD;
+    END IF;
+    IF(OLD.model !~ ('^(LAP|DES|MON|TAB)\d{1,7}$')) THEN
+        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##, TAB##, LAP## OR MON##';
+    END IF;
+    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=OLD.model)) THEN
+        RAISE EXCEPTION 'Provided model number does not exist';
+    END IF;
+    IF(OLD.model ~ '^LAP\d{1,7}$' AND EXISTS(SELECT * FROM LAPTOP WHERE MODEL = OLD.model)) THEN
+        DELETE FROM LAPTOP WHERE MODEL = OLD.model;
+    END IF;
+    IF(OLD.model ~ '^MON\d{1,7}$' AND EXISTS(SELECT * FROM MONITOR WHERE MODEL = OLD.model)) THEN
+        DELETE FROM MONITOR WHERE MODEL = OLD.model;
+    END IF;
+    IF(OLD.model ~ '^TAB\d{1,7}$' AND EXISTS(SELECT * FROM TABLET WHERE MODEL = OLD.model)) THEN
+        DELETE FROM TABLET WHERE MODEL = OLD.model;
+    END IF;
+    IF(OLD.model ~ '^DES\d{1,7}$' AND EXISTS(SELECT * FROM DESKTOP WHERE MODEL = OLD.model)) THEN
+        DELETE FROM DESKTOP WHERE MODEL = OLD.model;
+    END IF;
+    IF(OLD.model ~ '^(LAP|DES|MON|TAB)\d{1,7}$' AND EXISTS(SELECT * FROM ITEM WHERE MODEL = OLD.model)) THEN
+        DELETE FROM ITEM WHERE MODEL = OLD.model;
+    END IF;
+RETURN OLD;
+END $BODY$ LANGUAGE 'plpgsql';
+
+*/
+
+
+
 /* ------------------------------------------ TRIGGERS --------------------------------------------- */
 
 /* ------------ modelCheck() TRIGGERS ----------------- */
@@ -863,7 +1050,7 @@ BEFORE UPDATE ON MONITOR
 FOR EACH ROW
 EXECUTE PROCEDURE monitorSpecsModif();
 
-/* ------------ adminCheck() TRIGGER ----------------- */
+/* ------------ adminCheck() TRIGGERS ----------------- */
 CREATE TRIGGER adminCheckInsert
 BEFORE INSERT ON USERS
 FOR EACH ROW
@@ -874,3 +1061,47 @@ CREATE TRIGGER adminCheckUpdate
 BEFORE UPDATE ON USERS
 FOR EACH ROW
 EXECUTE PROCEDURE adminCheckUpdate();
+
+
+/* ------------ setItemPrice() TRIGGERS ----------------- */
+CREATE TRIGGER setCartItemPrice
+BEFORE INSERT ON CART
+FOR EACH ROW
+EXECUTE PROCEDURE setItemPrice();
+
+CREATE TRIGGER setOrderItemPrice
+BEFORE INSERT ON ORDERITEM
+FOR EACH ROW
+EXECUTE PROCEDURE setItemPrice();
+
+/* ------------ orderItemsCreate() TRIGGER ----------------- */
+CREATE TRIGGER orderItemsCreate
+AFTER INSERT ON ORDERS
+FOR EACH ROW
+EXECUTE PROCEDURE orderItemsCreate();
+
+/* ------------ checkIsSold() TRIGGER ----------------- */
+CREATE TRIGGER checkIsSold
+BEFORE INSERT ON CART
+FOR EACH ROW
+EXECUTE PROCEDURE checkIsSold();
+
+/* ------------ returnHandle() TRIGGER ----------------- */
+CREATE TRIGGER returnHandle
+AFTER INSERT ON RETURNS
+FOR EACH ROW
+EXECUTE PROCEDURE returnHandle();
+
+/* ------------ updateSession() TRIGGER ----------------- */
+CREATE TRIGGER updateSession
+BEFORE INSERT ON ACTIVEUSERS
+FOR EACH ROW
+EXECUTE PROCEDURE updateSession();
+
+/* ------------ productDelete() TRIGGER ----------------- */
+/*
+CREATE TRIGGER productDelete
+BEFORE DELETE ON PRODUCT
+FOR EACH ROW
+EXECUTE PROCEDURE productDelete(); 
+*/

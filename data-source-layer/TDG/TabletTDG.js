@@ -101,9 +101,14 @@ class TabletTDG {
    * Deletes an objects in the tablet table.
    * @static
    * @param {string} id model number of tablet to be deleted.
+<<<<<<< HEAD
    * @param {function} callback
    */
     static delete(id, callback) {
+=======
+   *
+    static delete(id) {
+>>>>>>> Added ordering and returning capabilities
         db.query('DELETE FROM tablet WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
@@ -111,12 +116,18 @@ class TabletTDG {
             console.log('This Tablet has been deleted from the database');
             return callback(err, result);
         });
+<<<<<<< HEAD
     }
 
     /**
      * Returns a tablet object
      * @param {function} callback
      */
+=======
+    }*/
+    
+    
+>>>>>>> Added ordering and returning capabilities
     static getTablet(callback) {
         db.query('SELECT DISTINCT d.model, d.brand, d.display, d.processor, d.ram, d.storage, d.cores, d.os, d.battery, d.camera, d.dimensions, d.weight, d.price FROM tablet d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {
