@@ -1,7 +1,7 @@
 let contract = require('obligations');
-let ProductCatalog = require('ProductCatalog');
-let OrderItem = require('OrderItem');
-let user = require('User');
+let ProductCatalog = require('../classes/ProductCatalog');
+let OrderItem = require('../classes/OrderItem');
+let User = require('../classes/User');
 /* global Map */
 
 /**
@@ -17,10 +17,9 @@ class ShoppingCart {
      * @param {object} Instance of orderItem
      */
 
-    constructor(productCatalog, orderItem, user) {
+    constructor(productCatalog, user) {
         contract.procondition(user.isAdmin === false);
         this.productCatalog = productCatalog;
-        this.orderItem = orderItem;
         this.quantity = 0;//max quantity of 7
         this.cart = [];
     }
