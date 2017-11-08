@@ -125,25 +125,6 @@ let Desktop = require('../classes/products/Desktop');
 // };
 
 
-//---------Unfinished Find-----------//
-// find
-// meld.around(DesktopMapper, 'find', findAdvice);
-
-
-// function findAdvice (methodCall){
-//     let modelNumber = methodCall.args[0];
-//     let callback = methodCall.args[1];
-//     let desktop = idMap.get('Desktop', modelNumber);
-//     if (desktop != null) {
-//         return callback(null, desktop);
-//     }
-//     else {
-//         methodCall.proceed();
-//     }
-// }
-//---------Unfinished Find-----------//
-
-
 //findAll
 meld.around(DesktopMapper, 'findAll', findAllAdvice);
 
@@ -171,7 +152,7 @@ function findAllAdvice (methodCall){
 //insert
 meld.around(DesktopMapper, 'insert', insertAdvice);
 
-function insertAdvice (methodCall){
+function insertAdvice (methodCall){1
     let desktopObject = methodCall.args[0];
     DesktopTDG.insert(desktopObject.model, desktopObject.brand, desktopObject.processor,
         desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
@@ -207,5 +188,3 @@ function updateAdvice (methodCall){
             }
         }); 
 }
-
-//module.exports = meld;
