@@ -123,3 +123,15 @@ function updateProdSpec(prodType, data, redi) {
     }
 }
 
+function addToCart(modelNumber, redi) {
+    $.post({
+        url: '/catalog/addToShoppingCart',
+        data: {
+            model: modelNumber,
+            redi: redi
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        }
+    });
+}

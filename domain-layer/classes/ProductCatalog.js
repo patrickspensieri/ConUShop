@@ -249,6 +249,17 @@ class ProductCatalog {
         });
     }
 
+    getItemAndLock(modelNumber, callback){
+        ItemMapper.getItemFromModel(modelNumber, function(err, result) {
+            if(!err){
+                let itemObject = result;
+                ItemMapper.lockItem(result.serialNumber, function(err, result) {
+                    return callback(null, result);
+                });
+            }
+        });
+    }
+
     /**
      * @param {string} productType string of the Object
      * @param {function} callback function

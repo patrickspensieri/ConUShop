@@ -98,6 +98,36 @@ class ItemMapper extends AbstractMapper {
             }
         });
     }
+
+    static getItemFromModel(modelNumber, callback) {
+        ItemTDG.getItemFromModel(modelNumber, function(err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                let value = result[0];
+                let item = new Item(value.serialnumber, value.model);
+                return callback(null, item);
+            }
+        })
+    }
+
+    static unlockItem(serialNumber, callback) {
+        ItemTDG.unlockItem(serialNumber, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+            return callback(err, result);
+        })
+    }
+
+    static lockItem(serialNumber, callback) {
+        ItemTDG.lockItem(modelNumber, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+            return callback(err, result);
+        })
+    }
 }
 
 module.exports = ItemMapper;

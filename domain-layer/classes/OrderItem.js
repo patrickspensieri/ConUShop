@@ -21,6 +21,13 @@ class OrderItem {
         this.itemTimeout = itemTimeout; //timer for each items
     }
     
+    getOrderItemId()
+    {
+        return this.orderItemId;
+    }
+
+    
+
     getItemObject(){
        return itemObj;
     }

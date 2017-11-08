@@ -71,6 +71,34 @@ class ItemTDG {
             return callback(err, result);
         });
     }
+
+    static getItemFromModel(modelNumber, callback) {
+        db.query('SELECT * FROM item WHERE model=$1 AND islocked=false', [modelNumber], (err, result) =>{
+            if (err) {
+                console.log(err.message);
+            }
+            return callback(err, result);
+        });
+    }
+
+    static unlockItem(serialNumber, callback) {
+        db.query('UPDATE item SET islocked=false WHERE serialnumber=$1', [serialNumber], (err, result) =>{
+            if (err) {
+                console.log(err.message);
+            }
+            return callback(err, result);
+        });
+    }
+
+    static lockItem(serialNumber, callback) {
+        db.query('UPDATE item SET islocked=true WHERE serialnumber=$1', [serialNumber], (err, result) =>{
+            if (err) {
+                console.log(err.message);
+            }
+            return callback(err, result);
+        });
+    }
+
 }
 
 module.exports = ItemTDG;

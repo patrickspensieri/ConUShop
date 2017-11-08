@@ -44,4 +44,13 @@ module.exports = {
             });
         });
     },
+
+    addToShoppingCart: function(req, res) {
+        this.client = new Client();
+        let modelNumber = req.body.model;
+        this.client.shoppingcart.addToShoppingCart(modelNumber, function(err, data) {
+            console.log(data);
+            res.send({redirect: req.body.redi});
+        });
+    }
 };

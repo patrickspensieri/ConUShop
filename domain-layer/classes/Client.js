@@ -1,5 +1,6 @@
 let User = require('./User');
 let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
+let ShoppingCart = require('../../domain-layer/classes/ShoppingCart');
 
 /**
  * Class describes an Admin.
@@ -19,8 +20,8 @@ class Client extends User {
      */
     constructor(firstName, lastName, address, email, phone, password, isAdmin) {
         super(firstName, lastName, address, email, phone, password, isAdmin);
-
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
+        this.shoppingcart = new ShoppingCart();
     }
 
     /**
