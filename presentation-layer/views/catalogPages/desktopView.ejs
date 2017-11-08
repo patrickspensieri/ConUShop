@@ -73,7 +73,6 @@
                 <td>Weight</td>
                 <td>Price</td>
                 <td>Edit</td>
-                <td>Delete</td>
             </tr>
         <% for(var i = 0; i < data.length; i++) { %> 
             <tr>
@@ -87,7 +86,6 @@
                 <td class="weight"><%= data[i].weight %></td>
                 <td class="price"><%= data[i].price %></td>
                 <td contenteditable="false"><button onclick="updateProdSpec('Desktop', $(this).closest('tr'), '/catalog/desktopView')">Edit</button></td>
-                <td contenteditable="false"><button onclick="deleteProdSpec('Desktop', '<%= data[i].model%>', '/catalog/desktopView')">Delete</button></td>
             </tr>
         <% } %>
         </table>

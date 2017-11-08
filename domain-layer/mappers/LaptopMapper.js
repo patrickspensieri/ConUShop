@@ -106,9 +106,10 @@ class LaptopMapper {
    * @static
    * @param {Object} laptopObject an object of type laptop.
    */
-    static delete(laptopObject) {
+    /*static delete(laptopObject) {
             LaptopTDG.delete(laptopObject.model);
-    }
+    }*/
+    
     static getLaptop(callback) {
         LaptopTDG.getLaptop(function(err, result) {
             let laptop = [];

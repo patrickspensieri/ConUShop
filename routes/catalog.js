@@ -130,10 +130,11 @@ router.post('/addProdSpec', function(req, res) {
     }
 });
 
+/*
 router.post('/deleteProdSpec', function(req, res) {
     this.admin.getProductCatalogInstance().deleteProductSpecification(req.body.prodType, req.body.model);
     res.send({redirect: req.body.redi});
-});
+});*/
 
 router.post('/updateProdSpec', function(req, res) {
     switch (req.body.prodType) {

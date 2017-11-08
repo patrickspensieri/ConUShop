@@ -17,11 +17,11 @@ class UserMapper {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password user password, hashed
-   * @param {string} sessionid sessionID for login
+   * @param {string} session_id session_id for login
    * @return {user} user object.
    */
-    static makeNew(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id) {
-        let user = new User(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id);
+    static makeNew(isAdmin, firstName, lastName, address, email, phone, password, session_id, id) {
+        let user = new User(isAdmin, firstName, lastName, address, email, phone, password, session_id, id);
         return user;
     }
 
@@ -42,7 +42,7 @@ class UserMapper {
                     return callback(err, null);
                 } else {
                     return callback(null, new User(value.isadmin, value.firstname,
-                        value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id));
+                        value.lastname, value.address, value.email, value.phone, value.password, value.session_id, value.id));
                 }
             }
         });
@@ -61,7 +61,7 @@ class UserMapper {
             } else {
                 for (let value of result) {
                     users.push(new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phone, value.sessionid));
+                        value.lastName, value.address, value.email, value.phone, value.session_id));
                 }
                 return callback(null, users);
             }
@@ -93,7 +93,7 @@ class UserMapper {
      * @param {Object} userObject an object of type user.
      */
     static updateLoginSession(userObject) {
-        UserTDG.updateLoginSession(userObject.id, userObject.sessionID);
+        UserTDG.updateLoginSession(userObject.id, userObject.session_id);
     }
 
     /**

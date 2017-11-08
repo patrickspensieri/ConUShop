@@ -95,6 +95,7 @@ class ProductCatalog {
      * @param {string} productType product Type
      * @param {string} modelNumber model number of product.
      */
+    /*
     deleteProductSpecification(productType, modelNumber) {
         this.getProductSpecification(productType, modelNumber, function callback(err, result) {
             switch (productType) {
@@ -112,7 +113,7 @@ class ProductCatalog {
                     break;
             }
         });
-    }
+    } */
 
     /**
      * @constructor

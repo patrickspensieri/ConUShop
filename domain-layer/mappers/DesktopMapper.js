@@ -96,9 +96,9 @@ class DesktopMapper {
    * @static
    * @param {Object} desktopObject an object of type desktop.
    */
-    static delete(desktopObject) {
+   /* static delete(desktopObject) {
         DesktopTDG.delete(desktopObject.model);
-    }
+    } */
 
     /**
      * Get all desktop objects
