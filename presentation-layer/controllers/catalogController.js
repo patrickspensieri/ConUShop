@@ -6,7 +6,9 @@ module.exports = {
     },
 
     desktop: function(req, res) {
-        this.client = new Client();
+        let currentUser = req.user;
+        this.client = new Client(currentUser.firstName, currentUser.lastName, currentUser.address, currentUser.email,
+             currentUser.phone, currentUser.password, currentUser.isAdmin, currentUser.sessionId, currentUser.id);
         this.client.getProductInventory('Desktop', function(err, data) {
             data.table = 'desktop';
             res.render('catalog/ClientPage', {
