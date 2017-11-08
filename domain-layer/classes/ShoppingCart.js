@@ -25,13 +25,15 @@ class ShoppingCart {
     }
 
     //add line item to shopping cart
-    addToCart(prodSpec) {
+    addToCart(prodSpec, callback) {
         contract.precondition(this.quantity < 7);
         this.quantity++;
-        contract.postcondition();
 
-        let orderItem = getItem(prodSpec);
+        let orderItem = this.getItem(prodSpec, function(err, result){
+            return callback(err, result);
+        });
         this.cart.push(orderItem);
+        return callback
 
     }
 

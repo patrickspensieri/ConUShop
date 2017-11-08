@@ -250,10 +250,10 @@ class ProductCatalog {
     }
 
     getItemAndLock(modelNumber, callback){
-        ItemMapper.getItemFromModel(modelNumber, function(err, result) {
+        itemMapper.getItemFromModel(modelNumber, function(err, result) {
             if(!err){
                 let itemObject = result;
-                ItemMapper.lockItem(result.serialNumber, function(err, result) {
+                itemMapper.lockItem(result.serialNumber, function(err, result) {
                     return callback(null, result);
                 });
             }

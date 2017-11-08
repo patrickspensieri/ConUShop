@@ -102,13 +102,17 @@ class ItemMapper extends AbstractMapper {
     static getItemFromModel(modelNumber, callback) {
         ItemTDG.getItemFromModel(modelNumber, function(err, result) {
             if (err) {
-                console.log(err);
+                return callback(err, null);
             } else {
-                let value = result[0];
-                let item = new Item(value.serialnumber, value.model);
-                return callback(null, item);
+                if (result.length <= 0){
+                    return callback("Item not available anymore", null);
+                }  else {
+                    let value = result[0];
+                    let item = new Item(value.serialnumber, value.model);
+                    return callback(null, item);
+                }
             }
-        })
+        });
     }
 
     static unlockItem(serialNumber, callback) {
@@ -117,16 +121,16 @@ class ItemMapper extends AbstractMapper {
                 console.log(err);
             }
             return callback(err, result);
-        })
+        });
     }
 
     static lockItem(serialNumber, callback) {
-        ItemTDG.lockItem(modelNumber, function(err, result) {
+        ItemTDG.lockItem(serialNumber, function(err, result) {
             if (err) {
                 console.log(err);
             }
             return callback(err, result);
-        })
+        });
     }
 }
 
