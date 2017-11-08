@@ -1,6 +1,8 @@
 let User = require('../../domain-layer/classes/User');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 let AbstractMapper = require('./AbstractMapper');
+let Admin = require('../../domain-layer/classes/Admin');
+let Client = require('../../domain-layer/classes/Client');
 
 /**
  * User object mapper
@@ -23,7 +25,11 @@ class UserMapper extends AbstractMapper {
    * @return {User} user object.
    */
     static create(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
-        let user = new User(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+        if (isAdmin) {
+            let user = new Admin(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+        } else {
+            let user = new Client(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+        }
         return user;
     }
 
@@ -47,10 +53,17 @@ class UserMapper extends AbstractMapper {
                     if (result.length==0) {
                         return callback(err, null);
                     } else {
-                        let user = new User(value.firstname, value.lastname,
-                            value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id);
-                        idMap.add(user, user.email);
-                        return callback(null, user);
+                        if (value.isadmin) {
+                            let user = new Admin(value.firstname, value.lastname,
+                                value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id);
+                            idMap.add(user, user.email);
+                            return callback(null, user);
+                        } else {
+                            let user = new Client(value.firstname, value.lastname,
+                                value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id);
+                            idMap.add(user, user.email);
+                            return callback(null, user);
+                        }
                     }
                 }
             });

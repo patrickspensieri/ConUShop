@@ -9,5 +9,6 @@ router.get('/laptops', catalogController.laptop);
 router.get('/monitors', catalogController.monitor);
 router.get('/tablets', catalogController.tablet);
 router.post('/addToShoppingCart', catalogController.addToShoppingCart);
+router.get('/shoppingCart', catalogController.viewShoppingCart);
 
 module.exports = router;

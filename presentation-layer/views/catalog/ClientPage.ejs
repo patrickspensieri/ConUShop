@@ -61,8 +61,8 @@
                     <td class="dimensions"><%= data[i].dimensions %></td>
                     <td class="weight"><%= data[i].weight %></td>
                     <td class="price"><%= data[i].price %></td>
+                    <td><button onclick="addToCart('<%= data[i].model %>', '/catalog/desktops')" class="btn btn-default prod-addToCart">Add to Shopping Cart</button></td>
                 </tr>
-                <button onclick="addToCart('<%= data[i].model %>', '/catalog/')" class="btn btn-default prod-addToCart">Add to Shopping Cart</button>
                 <% } %>
                 </tbody>
             </table>

@@ -19,8 +19,8 @@ class Register {
      * @param {string} password user password
      * @param {function} callback function
      */
-    static createNewUser(isAdmin, firstName, lastName, address, email, phone, password, callback) {
-        let user = new User(isAdmin, firstName, lastName, address, email, phone, password);
+    static createNewUser(firstName, lastName, address, email, phone, password, isAdmin, callback) {
+        let user = new User(firstName, lastName, address, email, phone, password, isAdmin);
 
         bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(password, salt, function(err, hash) {

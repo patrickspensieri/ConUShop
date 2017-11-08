@@ -1,3 +1,5 @@
+let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
+
 /**
  * Class describes a user.
  * @class User
@@ -26,7 +28,7 @@ class User {
         this.password = password;
         this.sessionID = sessionID;
         this.id = id;
-        // user registration always creates clients
+        this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }
 
 
@@ -38,6 +40,15 @@ class User {
     display() {
         console.log(this.isAdmin + ' ' + this.firstName + ' ' +
          this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.sessionID);
+    }
+
+    /**
+     * @param {string} productType string of the Object
+     * @param {function} callback function
+     * @return {Object} product catalog's inventory
+     */
+    getProductInventory(productType, callback) {
+        return this.productCatalog.getAllProductInventory(productType, callback);
     }
 }
 
