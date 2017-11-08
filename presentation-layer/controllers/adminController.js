@@ -1,48 +1,48 @@
 let Admin = require('../../domain-layer/classes/Admin');
 
 module.exports = {
-    adminDashboard: function(req, res) {
+    dashboard: function(req, res) {
         this.admin = new Admin();
-        res.render('pages/adminDashboard');
+        res.render('admin/dashboard');
     },
 
-    desktopView: function(req, res) {
+    desktop: function(req, res) {
         this.admin = new Admin();
 
         this.admin.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
-            res.render('catalogPages/desktopView', {
+            res.render('admin/desktop', {
                 data: data,
             });
         });
     },
 
-    laptopView: function(req, res) {
+    laptop: function(req, res) {
         this.admin.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
-            res.render('catalogPages/laptopView', {
+            res.render('admin/laptop', {
                 data: data,
             });
         });
     },
 
-    monitorView: function(req, res) {
+    monitor: function(req, res) {
         this.admin.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
-            res.render('catalogPages/monitorView', {
+            res.render('admin/monitor', {
                 data: data,
             });
         });
     },
 
-    tabletView: function(req, res) {
+    tablet: function(req, res) {
         this.admin.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
-            res.render('catalogPages/tabletView', {
+            res.render('admin/tablet', {
                 data: data,
             });
         });
     },
 
-    itemView: function(req, res) {
+    inventory: function(req, res) {
         this.admin.getProductCatalog().getItems(function(err, data) {
-            res.render('catalogPages/itemsView', {
+            res.render('admin/inventory', {
                 data: data,
             });
         });

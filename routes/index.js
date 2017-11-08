@@ -15,8 +15,4 @@ router.get('/',
             success_message: req.flash('success_msg')});
 });
 
-router.get('/itemsView', function(req, res) {
-    res.render('catalogPages/itemsView');
-});
-
 module.exports = router;

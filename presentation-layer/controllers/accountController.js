@@ -98,8 +98,11 @@ module.exports = {
         if (req.isAuthenticated()){
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;
-                if (user.isAdmin)
+                if (user.isAdmin) {
                     res.locals.isAdmin = true;
+                } else {
+                    res.locals.isAdmin = false;
+                }
                 res.locals.name = user.firstName + " " + user.lastName;
             });
         }

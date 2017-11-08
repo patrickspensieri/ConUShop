@@ -1,0 +1,239 @@
+<html lang="en">
+<head>
+    <title>ConUshop | Home </title>
+    <% include ../../assets/components/header.ejs %>
+</head>
+<body>
+<script type="text/javascript" src="/js/bootstrap-3.1.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.min.css" rel="stylesheet" type="text/css" media="all" />
+
+<% include ../../assets/components/navigator.ejs %>
+<% include ../../assets/components/clientNav.ejs %>
+
+<div class="client_content table-responsive">
+    <div>
+            <% if (typeof data=='undefined') { %>
+                <div>
+                    <br>
+                    <h2>Welcome to ConUshop!</h2><br/>
+                    <img src="\images\concordia.jpg" />
+                </div>
+            <%}%>
+
+            <% if (typeof data!='undefined' && data.table=='desktop') { %>
+            <h1>Desktop</h1><br>
+            <select class="brandSelect" placeholder="Brand" multiple style="width:150px;" ></select>
+            <select class="processorSelect" placeholder="Processor" multiple style="width:150px;"></select>
+            <select class="ramSelect" placeholder="RAM" multiple style="width:150px;" ></select>
+            <select class="storageSelect" placeholder="Storage" multiple style="width:150px;"></select>
+            <input class ="priceLower" placeholder="priceLower" type="number" style="width:100px;"></input>
+            <input class ="priceUpper" placeholder="priceUpper" type="number" style="width:100px;"></input>
+            <br><br>
+
+            <div id="desktops">
+            <table class="table table-hover" id="prodTable" type="desktop">
+                <thead>
+                <tr>
+                    <th><a class="sort" data-sort="model">Model</a></th>
+                    <th><a class="sort" data-sort="brand">Brand</a></th>
+                    <th><a class="sort" data-sort="processor">Processor</th>
+                    <th><a class="sort" data-sort="ram">RAM</a></th>
+                    <th><a class="sort" data-sort="storage">Storage</a></th>
+                    <th><a class="sort" data-sort="cores">Cores</a></th>
+                    <th>Dimensions</th>
+                    <th><a class="sort" data-sort="weight">Weight</a></th>
+                    <th><a class="sort" data-sort="price">Price</a></th>
+                </tr>
+                </thead>
+                <tbody class="list">
+                <% for(var i = 0; i < data.length; i++) { %>
+                <tr data-toggle="modal"  data-target="#productCatalog" data-value="Desktop">
+                    <td class="model"><%= data[i].model %></td>
+                    <td class="brand"><%= data[i].brand %></td>
+                    <td class="processor"><%= data[i].processor %></td>
+                    <td class="ram"><%= data[i].ram %></td>
+                    <td class="storage"><%= data[i].storage %></td>
+                    <td class="cores"><%= data[i].cores %></td>
+                    <td class="dimensions"><%= data[i].dimensions %></td>
+                    <td class="weight"><%= data[i].weight %></td>
+                    <td class="price"><%= data[i].price %></td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+
+            <% } %>
+        <% if (typeof data!='undefined' && data.table=='laptop') { %>
+        <h1>Laptop</h1><br>
+        <select class="brandSelect" placeholder="Brand" multiple style="width:150px;" ></select>
+        <select class="osSelect" placeholder="OS" multiple style="width:150px;" ></select>
+        <select class="processorSelect" placeholder="Processor" multiple style="width:150px;"></select>
+        <select class="ramSelect" placeholder="RAM" multiple style="width:150px;" ></select>
+        <select class="storageSelect" placeholder="Storage" multiple style="width:150px;"></select>
+        <select class="touchSelect" placeholder="Touch" multiple style="width:150px;"></select>
+        <select class="cameraSelect" placeholder="Camera" multiple style="width:150px;"></select>
+        <input class ="displayLower" placeholder="displayLower" type="number" style="width:100px;"></input>
+        <input class ="displayUpper" placeholder="displayUpper" type="number" style="width:100px;"></input>
+        <input class ="priceLower" placeholder="priceLower" type="number" style="width:100px;"></input>
+        <input class ="priceUpper" placeholder="priceUpper" type="number" style="width:100px;"></input>
+        <br><br>
+        <div id="laptops">
+        <table class="table table-hover" id="prodTable" type="laptop">
+            <thead>
+            <tr>
+                <th><a class="sort" data-sort="model">Model</a></th>
+                <th><a class="sort" data-sort="brand">Brand</a></th>
+                <th><a class="sort" data-sort="display">Display</a></th>
+                <th><a class="sort" data-sort="processor">Processor</th>
+                <th><a class="sort" data-sort="ram">RAM</a></th>
+                <th><a class="sort" data-sort="storage">Storage</a></th>
+                <th><a class="sort" data-sort="cores">Cores</a></th>
+                <th><a class="sort" data-sort="cores">Os</a></td>
+                <th><a class="sort" data-sort="battery">Battery</a></th>
+                <th><a class="sort" data-sort="camera">Camera</a></th>
+                <th><a class="sort" data-sort="touch">Touch</a></th>
+                <th>Dimensions</td>
+                <th><a class="sort" data-sort="weight">Weight</a></th>
+                <th><a class="sort" data-sort="price">Price</a></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            <% for(var i = 0; i < data.length; i++) { %>
+            <tr data-toggle="modal"  data-target="#productCatalog" data-value="Laptop">
+                <td class="model"><%= data[i].model %></td>
+                <td class="brand"><%= data[i].brand %></td>
+                <td class="display"><%= data[i].display %></td>
+                <td class="processor"><%= data[i].processor %></td>
+                <td class="ram"><%= data[i].ram %></td>
+                <td class="storage"><%= data[i].storage %></td>
+                <td class="cores"><%= data[i].cores %></td>
+                <td class="os"><%= data[i].os %></td>
+                <td class="battery"><%= data[i].battery %></td>
+                <td class="camera"><%= data[i].camera %></td>
+                <td class="touch"><%= data[i].touch %></td>
+                <td class="dimensions"><%= data[i].dimensions %></td>
+                <td class="weight"><%= data[i].weight %></td>
+                <td class="price"><%= data[i].price %></td>
+            </tr>
+            <% } %>
+        </tbody>
+        </table>
+    </div>
+        <% } %>
+        <% if (typeof data!='undefined' && data.table=='monitor') { %>
+            <h1>Monitor</h1><br>
+            <select class="brandSelect" placeholder="Brand" multiple style="width:150px;" ></select>
+            <input class ="displayLower" placeholder="displayLower" type="number" style="width:100px;"></input>
+            <input class ="displayUpper" placeholder="displayUpper" type="number" style="width:100px;"></input>
+            <input class ="priceLower" placeholder="priceLower" type="number" style="width:100px;"></input>
+            <input class ="priceUpper" placeholder="priceUpper" type="number" style="width:100px;"></input>
+            <br><br>
+        <div id=monitors>
+        <table class="table table-hover" id="prodTable"  type="monitor">
+            <thead>
+            <tr>
+                <th><a class="sort" data-sort="model">Model</a></th>
+                <th><a class="sort" data-sort="brand">Brand</a></th>
+                <th><a class="sort" data-sort="size">Size</a></th>
+                <th><a class="sort" data-sort="weight">Weight</a></th>
+                <th><a class="sort" data-sort="price">Price</a></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            <% for(var i = 0; i < data.length; i++) { %>
+            <tr data-toggle="modal"  data-target="#productCatalog" data-value="Monitor">
+                <td class="model"><%= data[i].model %></td>
+                <td class="brand"><%= data[i].brand %></td>
+                <td class="size"><%= data[i].size %></td>
+                <td class="weight"><%= data[i].weight %></td>
+                <td class="price"><%= data[i].price %></td>
+            </tr>
+            <% } %>
+        </tbody>
+        </table>
+    </div>
+        <% } %>
+        <% if (typeof data!='undefined' && data.table=='tablet') { %>
+            <h1>Tablet</h1><br>
+            <select class="brandSelect" placeholder="Brand" multiple style="width:150px;" ></select>
+            <select class="osSelect" placeholder="OS" multiple style="width:150px;" ></select>
+            <select class="processorSelect" placeholder="Processor" multiple style="width:150px;"></select>
+            <select class="ramSelect" placeholder="RAM" multiple style="width:150px;" ></select>
+            <select class="storageSelect" placeholder="Storage" multiple style="width:150px;"></select>
+            <input class ="displayLower" placeholder="displayLower" type="number" style="width:100px;"></input>
+            <input class ="displayUpper" placeholder="displayUpper" type="number" style="width:100px;"></input>
+            <input class ="priceLower" placeholder="priceLower" type="number" style="width:100px;"></input>
+            <input class ="priceUpper" placeholder="priceUpper" type="number" style="width:100px;"></input>
+            <br><br>
+        <div id="tablets">
+        <table class="table table-hover" id="prodTable"  type="tablet">
+            <thead>
+            <tr>
+                <th><a class="sort" data-sort="model">Model</a></th>
+                <th><a class="sort" data-sort="brand">Brand</a></th>
+                <th><a class="sort" data-sort="display">Display</a></th>
+                <th><a class="sort" data-sort="processor">Processor</th>
+                <th><a class="sort" data-sort="ram">RAM</a></th>
+                <th><a class="sort" data-sort="storage">Storage</a></th>
+                <th><a class="sort" data-sort="cores">Cores</a></th>
+                <th><a class="sort" data-sort="os">Os</a></th>
+                <th><a class="sort" data-sort="battery">Battery</a></th>
+                <th><a class="sort" data-sort="camera">Camera</a></th>
+                <th>Dimensions</th>
+                <th><a class="sort" data-sort="weight">Weight</a></th>
+                <th><a class="sort" data-sort="price">Price</a></th>
+            </tr>
+            <thead>
+            <tbody class="list">
+            <% for(var i = 0; i < data.length; i++) { %>
+            <tr data-toggle="modal"  data-target="#productCatalog" data-value="Tablet">
+                <td class="model"><%= data[i].model %></td>
+                <td class="brand"><%= data[i].brand %></td>
+                <td class="display"><%= data[i].display %></td>
+                <td class="processor"><%= data[i].processor %></td>
+                <td class="ram"><%= data[i].ram %></td>
+                <td class="storage"><%= data[i].storage %></td>
+                <td class="cores"><%= data[i].cores %></td>
+                <td class="os"><%= data[i].os %></td>
+                <td class="battery"><%= data[i].battery %></td>
+                <td class="camera"><%= data[i].camera %></td>
+                <td class="dimensions"><%= data[i].dimensions %></td>
+                <td class="weight"><%= data[i].weight %></td>
+                <td class="price"><%= data[i].price %></td>
+            </tr>
+            <% } %>
+        </tbody>
+        </table>
+    </div>
+        <% } %>
+
+    </div>
+</div>
+
+<div id="productCatalog" class="modal fade" role="dialog" aria-labelledby="productCatalogLabel" aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Item Details</h3>
+        </div>
+        <div id="productDetails" class="modal-body"></div>
+        <div class="modal-footer">
+            <button class="btn btn-default prod-addToCart">Add to Shopping Cart</button>
+            <button class="btn btn-default prod-prev">Prev</button>
+            <button class="btn btn-default prod-next">Next</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
+<script type="text/javascript" src="/js/main.js"></script>
+<script type="text/javascript" src="/js/catalog/catalog.js"></script>
+<% include ../../assets/components/footer.ejs %>
+</body>
+</html>
