@@ -22,8 +22,8 @@ class UserMapper extends AbstractMapper {
    * @param {string} id userID
    * @return {User} user object.
    */
-    static create(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id) {
-        let user = new User(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id);
+    static create(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
+        let user = new User(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
         return user;
     }
 
@@ -44,12 +44,11 @@ class UserMapper extends AbstractMapper {
                     console.log('Error during user find query', null);
                 } else {
                     let value = result[0];
-
                     if (result.length==0) {
                         return callback(err, null);
                     } else {
-                        let user = new User(value.isadmin, value.firstname,
-                            value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id);
+                        let user = new User(value.firstname, value.lastname,
+                            value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id);
                         idMap.add(user, user.email);
                         return callback(null, user);
                     }

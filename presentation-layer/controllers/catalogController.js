@@ -48,11 +48,13 @@ module.exports = {
     },
 
     addToShoppingCart: function(req, res) {
-        this.client = new Client();
+        let currentUser = req.user;
+        this.client = new Client(currentUser.firstName, currentUser.lastName, currentUser.address, currentUser.email,
+             currentUser.phone, currentUser.password, currentUser.isAdmin, currentUser.sessionId, currentUser.id);
         let modelNumber = req.body.model;
-        this.client.shoppingcart.addToShoppingCart(modelNumber, function(err, data) {
+        this.client.shoppingcart.addToCart(modelNumber, function(err, data) {
             console.log(data);
             res.send({redirect: req.body.redi});
         });
-    }
+    },
 };

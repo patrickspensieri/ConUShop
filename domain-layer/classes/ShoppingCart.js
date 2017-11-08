@@ -18,7 +18,6 @@ class ShoppingCart {
      */
 
     constructor(productCatalog, user) {
-        console.log(user);
         contract.precondition(user.isAdmin === false);
         this.productCatalog = productCatalog;
         this.quantity = 0;//max quantity of 7
@@ -28,12 +27,11 @@ class ShoppingCart {
     //add line item to shopping cart
     addToCart(prodSpec) {
         contract.precondition(this.quantity < 7);
-        this.cart.push(orderItem);
         this.quantity++;
         contract.postcondition();
 
         let orderItem = getItem(prodSpec);
-        cart.push(orderItem);
+        this.cart.push(orderItem);
 
     }
 

@@ -43,7 +43,6 @@
                     <td>Dimensions</td>
                     <td>Weight</td>
                     <td>Price</td>
-                    <td>Add to cart</td>
 
                 </tr>
                 <% for(var i = 0; i < data.length; i++) { %>
@@ -57,7 +56,6 @@
                     <td><%= data[i].dimensions %></td>
                     <td><%= data[i].weight %></td>
                     <td><%= data[i].price %></td>
-                    <td contenteditable="false"><button onclick="addToCart('<%= data[i].model%>', '/catalog/')">Add to Cart</button></td>
                 </tr>
                 <% } %>
             </table>

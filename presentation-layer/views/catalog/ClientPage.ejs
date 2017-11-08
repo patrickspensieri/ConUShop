@@ -9,6 +9,7 @@
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.min.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="/js/main.js"></script>
 
 <% include ../../assets/components/navigator.ejs %>
 <% include ../../assets/components/clientNav.ejs %>
@@ -46,7 +47,6 @@
                     <th>Dimensions</th>
                     <th><a class="sort" data-sort="weight">Weight</a></th>
                     <th><a class="sort" data-sort="price">Price</a></th>
-                    <th>Add to cart</th>
                 </tr>
                 </thead>
                 <tbody class="list">
@@ -61,8 +61,8 @@
                     <td class="dimensions"><%= data[i].dimensions %></td>
                     <td class="weight"><%= data[i].weight %></td>
                     <td class="price"><%= data[i].price %></td>
-                    <td class="addtocart"><button onclick="addToCart('<%= data[i].model%>', '/catalog/')">Add to Cart</button></td>
                 </tr>
+                <button onclick="addToCart('<%= data[i].model %>', '/catalog/')" class="btn btn-default prod-addToCart">Add to Shopping Cart</button>
                 <% } %>
                 </tbody>
             </table>
@@ -234,7 +234,6 @@
 
 <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
 <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
-<script type="text/javascript" src="/js/main.js"></script>
 <script type="text/javascript" src="/js/catalog/catalog.js"></script>
 <% include ../../assets/components/footer.ejs %>
 </body>
