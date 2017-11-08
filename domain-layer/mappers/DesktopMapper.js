@@ -36,10 +36,14 @@ class DesktopMapper extends AbstractMapper {
    */
     static find(modelNumber, callback) {
         console.log('proceeding from DesktopMapper...');
-            DesktopTDG.find(modelNumber, function(err, desktop) {
+            DesktopTDG.find(modelNumber, function(err, result) {
+                let value = result[0];
+                let desktop = new Desktop(value.model, value.brand, value.processor,
+                    value.ram, value.storage, value.cores, value.dimensions,
+                    value.weight, value.price);
                 if (err) {
                     console.log('Error during desktop find query', null);
-                } else if (desktop == null) {
+                } else if (result == null) {
                         return callback(err, null);
                 } else {
                         return callback(null, desktop);
@@ -63,9 +67,6 @@ class DesktopMapper extends AbstractMapper {
                         value.ram, value.storage, value.cores, value.dimensions,
                         value.weight, value.price);
                     desktops.push(desktop);
-                    if (idMap.get('Desktop', desktop.model) == null) {
-                        idMap.add(desktop, desktop.model);
-                    }
                 }
                 return callback(null, desktops);
             }
@@ -81,8 +82,8 @@ class DesktopMapper extends AbstractMapper {
         DesktopTDG.insert(desktopObject.model, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
             desktopObject.weight, desktopObject.price, function(err, result) {
-                if (!err) {
-                    idMap.add(desktopObject, desktopObject.model);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -96,8 +97,8 @@ class DesktopMapper extends AbstractMapper {
         DesktopTDG.update(desktopObject.model, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
             desktopObject.weight, desktopObject.price, function(err, result) {
-                if (!err) {
-                    idMap.update(desktopObject, desktopObject.model);
+                if (err) {
+                   console.log(err);
                 }
             });
     }
@@ -109,8 +110,11 @@ class DesktopMapper extends AbstractMapper {
    * @return {Object} desktop object
    */
     static delete(desktopObject) {
-        DesktopTDG.delete(desktopObject.model, function(err, result) {});
-        return desktopObject;
+        DesktopTDG.delete(desktopObject.model, function(err, result) {
+            if(err) {
+                console.log(err);
+            }
+        });
     }
 
     /**
