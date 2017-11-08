@@ -3,11 +3,11 @@ let router = new express.Router();
 let catalogController = require('../presentation-layer/controllers/catalogController');
 
 // Client routes
-router.get('/', catalogController.clientPage);
-router.get('/desktops', catalogController.clientDesktopView);
-router.get('/laptops', catalogController.clientLaptopView);
-router.get('/monitors', catalogController.clientMonitorView);
-router.get('/tablets', catalogController.clientTabletView);
+router.get('/', catalogController.dashboard);
+router.get('/desktops', catalogController.desktop);
+router.get('/laptops', catalogController.laptop);
+router.get('/monitors', catalogController.monitor);
+router.get('/tablets', catalogController.tablet);
 router.post('/addToShoppingCart', catalogController.addToShoppingCart);
 
 module.exports = router;

@@ -13,7 +13,7 @@
 <!-- navigator -->
 <% include ../../assets/components/navigator.ejs %>
 <!-- //navigator -->
-<% include ../../assets/components/dashboardNav.ejs %>
+<% include ../../assets/components/adminNav.ejs %>
 
 <form method="post" action="/admin/addProdSpec">
     <div class="AddMonitor">
@@ -54,7 +54,7 @@
                 <td>Edit</td>
                 <td>Delete</td>
             </tr>
-        <% for(var i = 0; i < data.length; i++) { %> 
+        <% for(var i = 0; i < data.length; i++) { %>
             <tr contenteditable='true'>
                 <td class="model" contenteditable="false"><%= data[i].model %></td>
                 <td class="brand"><%= data[i].brand %></td>
