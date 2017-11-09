@@ -110,6 +110,7 @@ class MonitorMapper extends AbstractMapper {
    * @static
    * @param {Object} monitorObject an object of type monitor.
    */
+<<<<<<< HEAD
     /*
     static delete(monitorObject) {
         MonitorTDG.delete(monitorObject.model, function(err, result) {
@@ -127,6 +128,11 @@ class MonitorMapper extends AbstractMapper {
         MonitorTDG.delete(monitorObject.model);
     } */
     
+=======
+   /* static delete(monitorObject) {
+        MonitorTDG.delete(monitorObject.model);
+    } */
+>>>>>>> ef9f62ac5dc5906077de98e6ef4dc5f748c59bf0
     static getMonitor(callback) {
         MonitorTDG.getMonitor(function(err, result) {
             let monitor = [];

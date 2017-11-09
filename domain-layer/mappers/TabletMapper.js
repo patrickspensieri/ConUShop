@@ -126,6 +126,7 @@ class TabletMapper extends AbstractMapper {
    * @static
    * @param {Object} tabletObject an object of type tablet.
    */
+<<<<<<< HEAD
 /*    static delete(tabletObject) {
         TabletTDG.delete(tabletObject.model, function(err, result) {
             if (!err) {
@@ -143,6 +144,11 @@ class TabletMapper extends AbstractMapper {
         TabletTDG.delete(tabletObject.model);
     }*/
     
+=======
+    /* static delete(tabletObject) {
+        TabletTDG.delete(tabletObject.model);
+    }*/
+>>>>>>> ef9f62ac5dc5906077de98e6ef4dc5f748c59bf0
     static getTablet(callback) {
         TabletTDG.getTablet(function(err, result) {
             let tablet = [];

@@ -1,6 +1,5 @@
 let express = require('express');
 let router = new express.Router();
-<<<<<<< HEAD
 let catalogController = require('../presentation-layer/controllers/catalogController');
 
 // Client routes

@@ -508,7 +508,10 @@ INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$Ha2c1wrG.E3HFvY2FzUEPu.9K8J0uEC1WCAcrO59GHpiHSQnFQ59K');
 
 /* ------------------------------------------ ACTIVEUSERS TABLE QUERIES --------------------------------------------- */
+<<<<<<< HEAD
 >>>>>>> Added ordering and returning capabilities
+=======
+>>>>>>> ef9f62ac5dc5906077de98e6ef4dc5f748c59bf0
 
 CREATE TABLE ACTIVEUSERS(
     user_id SERIAL REFERENCES USERS(ID) NOT NULL UNIQUE,

@@ -93,14 +93,11 @@ class DesktopTDG {
    * Deletes an objects in the desktop table.
    * @static
    * @param {string} id model number of desktop to be deleted.
-<<<<<<< HEAD
    * @param {function} callback function
    */
+    /*
     static delete(id, callback) {
-=======
-   
     static delete(id) {
->>>>>>> Added ordering and returning capabilities
       db.query('DELETE FROM desktop WHERE model=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);

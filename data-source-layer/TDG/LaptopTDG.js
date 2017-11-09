@@ -104,14 +104,11 @@ class LaptopTDG {
    * Deletes an objects in the laptop table.
    * @static
    * @param {string} id model number of laptop to be deleted.
-<<<<<<< HEAD
    * @param {function} callback function
    */
+    /*
     static delete(id, callback) {
-=======
-   *
     static delete(id) {
->>>>>>> Added ordering and returning capabilities
         db.query('DELETE FROM laptop WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
@@ -119,18 +116,12 @@ class LaptopTDG {
             console.log('This Laptop has been deleted from the database');
             return callback(err, result);
         });
-<<<<<<< HEAD
     }
 
    /**
     * Return a laptop object
     * @param {function} callback 
     */
-=======
-    }*/
-    
-    
->>>>>>> Added ordering and returning capabilities
     static getLaptop(callback) {
         db.query('SELECT DISTINCT d.model, d.brand, d.display, d.processor, d.ram, d.storage, d.cores, d.os, d.battery, d.camera, d.touch, d.dimensions, d.weight, d.price FROM laptop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {

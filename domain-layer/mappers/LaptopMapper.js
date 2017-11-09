@@ -127,6 +127,7 @@ class LaptopMapper extends AbstractMapper {
    * @static
    * @param {Object} laptopObject an object of type laptop.
    */
+<<<<<<< HEAD
     /*
     static delete(laptopObject) {
         LaptopTDG.delete(laptopObject.model, function(err, result) {
@@ -140,6 +141,8 @@ class LaptopMapper extends AbstractMapper {
      * Returns a laptop object
      * @param {function} callback 
      */
+=======
+>>>>>>> ef9f62ac5dc5906077de98e6ef4dc5f748c59bf0
     /*static delete(laptopObject) {
             LaptopTDG.delete(laptopObject.model);
     }*/
