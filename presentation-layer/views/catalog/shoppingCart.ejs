@@ -25,7 +25,7 @@
                     <tr>
                         <td class="serial"><%= data[i].serialNumber %></td>
                         <td class="model"><%= data[i].modelNumber %></td>
-                        <td><button onclick="deletePlaceholder()">Delete</button></td>
+                        <td><button onclick="deleteCartItem('<%= data[i].serialNumber %>')">Delete</button></td>
                     </tr>
                 <% } %>
             </table>

@@ -234,3 +234,13 @@ $( document ).ready(function() {
         }
     }
 });
+
+function deleteCartItem(serialNumber) {
+    $.ajax({
+        type: 'POST',
+        url: '/catalog/deleteFromShoppingCart',
+        data: {
+            serialNumber: serialNumber,
+        },
+    });
+}

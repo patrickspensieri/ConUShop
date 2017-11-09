@@ -60,6 +60,20 @@ module.exports = {
         }
     },
 
+    deleteFromShoppingCart: function(req, res) {
+        if (req.isAuthenticated()) {
+            let currentUser = req.user;
+            UserMapper.find(currentUser.email, function(err, result) {
+                let serialNumber = req.body.serialNumber;
+                let client = result;
+                client.shoppingcart.removeFromCart(serialNumber, function(err, data) {
+                });
+            });
+        } else {
+            console.log('Not a client');
+        }
+    },
+
     viewShoppingCart: function(req, res) {
         if (req.isAuthenticated()) {
             let currentUser = req.user;

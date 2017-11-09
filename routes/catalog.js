@@ -8,7 +8,8 @@ router.get('/desktops', catalogController.desktop);
 router.get('/laptops', catalogController.laptop);
 router.get('/monitors', catalogController.monitor);
 router.get('/tablets', catalogController.tablet);
-router.post('/addToShoppingCart', catalogController.addToShoppingCart);
 router.get('/shoppingCart', catalogController.viewShoppingCart);
+router.post('/addToShoppingCart', catalogController.addToShoppingCart);
+router.post('/deleteFromShoppingCart', catalogController.deleteFromShoppingCart);
 
 module.exports = router;

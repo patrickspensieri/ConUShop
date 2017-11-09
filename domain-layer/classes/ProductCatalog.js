@@ -269,6 +269,21 @@ class ProductCatalog {
     }
 
     /**
+     * Unlocks an item.
+     * @param {*} serialNumber 
+     * @param {*} callback 
+     */
+    unlockItem(serialNumber, callback) {
+        itemMapper.unlockItem(serialNumber, function(err, result) {
+            if (err) {
+                console.log(err);
+                return callback(err, null);
+            }
+            return callback(null, result);
+        });
+    }
+
+    /**
      * @param {string} productType string of the Object
      * @param {function} callback function
      */

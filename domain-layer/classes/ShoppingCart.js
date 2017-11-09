@@ -44,14 +44,26 @@ class ShoppingCart {
 
     /**
      * Remove item from cart
-     * @param {*} orderItem 
+     * @param {*} serialNumber 
      */
-    removeFromCart(orderItem) {
+    removeFromCart(serialNumber, callback) {
         contract.precondition(this.quantity > 0);
-        let index = this.cart.indexOf(orderItem);
-        if (index != 0) {
-            return this.cart.splice(index, 1);
-        }
+        // let index = this.cart.indexOf(orderItem);
+        // if (index != 0) {
+        //     return this.cart.splice(index, 1);
+        // }
+        const self = this;
+        this.productCatalog.unlockItem(serialNumber, function(err, result) {
+            if (!err) {
+                for (let i = 0; i < self.cart.length; i++) {
+                    if (self.cart[i].serialNumber == serialNumber) {
+                        self.cart.splice(i, 1);
+                        break;
+                     }
+                }
+                return callback(err, 'Success');
+            }
+        });
     }
 
     /**
