@@ -61,7 +61,6 @@
                     <td class="dimensions"><%= data[i].dimensions %></td>
                     <td class="weight"><%= data[i].weight %></td>
                     <td class="price"><%= data[i].price %></td>
-                    <td><button onclick="addToCart('<%= data[i].model %>', '/catalog/desktops')" class="btn btn-default prod-addToCart">Add to Shopping Cart</button></td>
                 </tr>
                 <% } %>
                 </tbody>
@@ -224,7 +223,7 @@
         </div>
         <div id="productDetails" class="modal-body"></div>
         <div class="modal-footer">
-            <button class="btn btn-default prod-addToCart" onclick="addToCart(model, '/catalog/desktops')">Add to Shopping Cart</button>
+            <button class="btn btn-default prod-addToCart">Add to Shopping Cart</button>
             <button class="btn btn-default prod-prev">Prev</button>
             <button class="btn btn-default prod-next">Next</button>
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

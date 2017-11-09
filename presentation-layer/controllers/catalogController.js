@@ -53,12 +53,10 @@ module.exports = {
                 let modelNumber = req.body.model;
                 let client = result;
                 client.shoppingcart.addToCart(modelNumber, function(err, data) {
-                    res.send({redirect: req.body.redi});
                 });
             });
         } else {
             console.log('Not a client');
-            res.send({redirect: req.body.redi});
         }
     },
 
