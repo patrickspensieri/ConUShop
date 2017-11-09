@@ -15,8 +15,8 @@ class ItemMapper extends AbstractMapper {
      * @param {string} modelNumber of Product Specification
      * @return {item} item object.
      */
-    static create(serialNumber, modelNumber) {
-        let item = new Item(serialNumber, modelNumber);
+    static create(serialNumber, modelNumber, islocked) {
+        let item = new Item(serialNumber, modelNumber, islocked);
         return item;
     }
 
@@ -28,7 +28,7 @@ class ItemMapper extends AbstractMapper {
      * @return {function} callback result
      */
     static find(serialNumber, callback) {
-        let item = idMap.get('Item', modelNumber);
+        let item = idMap.get('Item', serialNumber);
         if (item != null) {
             return callback(null, item);
         } else {
@@ -40,7 +40,7 @@ class ItemMapper extends AbstractMapper {
                     if (result.length==0) {
                         return callback(err, null);
                     } else {
-                        let item = new Item(value.serialnumber, value.model);
+                        let item = new Item(value.serialnumber, value.model, value.islocked);
                         idMap.add(item, item.serialNumber);
                         return callback(null, item);
                     }
@@ -61,7 +61,7 @@ class ItemMapper extends AbstractMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    let item = new Item(value.serialnumber, value.model);
+                    let item = new Item(value.serialnumber, value.model, value.islocked);
                     items.push(item);
                     if (idMap.get('Item', item.serialNumber) == null) {
                         idMap.add(item, item.serialNumber);
@@ -86,12 +86,24 @@ class ItemMapper extends AbstractMapper {
     }
 
     /**
+     * Maps an objects attributes to seperate values for TDG update method.
+     * @static
+     * @param {Object} itemObject an object of type item.
+     */
+    static update(itemObject) {
+        ItemTDG.update(itemObject.serialNumber, itemObject.modelNumber, itemObject.isLocked, function(err, result) {
+                if (!err) {
+                    idMap.update(itemObject, itemObject.serialNumber);
+                }
+        });
+    }
+
+    /**
      * Uses an objects serialNumber to use with TDG delete method.
      * @static
      * @param {Object} itemObject item object to delete.
      */
     static delete(itemObject) {
-        console.log(itemObject);
         ItemTDG.delete(itemObject.serialNumber, function(err, result) {
             if (!err) {
                 idMap.delete(itemObject, itemObject.serialNumber);
@@ -113,7 +125,7 @@ class ItemMapper extends AbstractMapper {
                     return callback('Item not available anymore', null);
                 } else {
                     let value = result[0];
-                    let item = new Item(value.serialnumber, value.model);
+                    let item = new Item(value.serialnumber, value.model, value.islocked);
                     return callback(null, item);
                 }
             }
@@ -122,16 +134,14 @@ class ItemMapper extends AbstractMapper {
 
     /**
      * Unlocks an item
-     * @param {*} serialNumber 
+     * @param {*} object 
      * @param {*} callback 
      */
-    static unlockItem(serialNumber, callback) {
-        ItemTDG.unlockItem(serialNumber, function(err, result) {
-            if (err) {
-                console.log(err);
-            }
-            return callback(err, result);
-        });
+    static unlockItem(object, callback) {
+        object.islocked = false;
+        UOW.registerDirty(object);
+        UOW.commit();
+        return callback(null, 'Success');
     }
 
     /**
@@ -139,13 +149,11 @@ class ItemMapper extends AbstractMapper {
      * @param {*} serialNumber 
      * @param {*} callback 
      */
-    static lockItem(serialNumber, callback) {
-        ItemTDG.lockItem(serialNumber, function(err, result) {
-            if (err) {
-                console.log(err);
-            }
-            return callback(err, result);
-        });
+    static lockItem(object, callback) {
+        object.islocked = true;
+        UOW.registerDirty(object);
+        UOW.commit();
+        return callback(null, 'Success');
     }
 }
 

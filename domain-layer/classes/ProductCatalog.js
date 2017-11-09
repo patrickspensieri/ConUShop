@@ -257,7 +257,7 @@ class ProductCatalog {
     getItemAndLock(modelNumber, callback) {
         itemMapper.getItemFromModel(modelNumber, function(err, result) {
             if (!err) {
-                itemMapper.lockItem(result.serialNumber, function(err, result) {
+                itemMapper.lockItem(result, function(err, result) {
                     if (err) {
                         console.log(err);
                         return callback(err, null);
@@ -274,12 +274,14 @@ class ProductCatalog {
      * @param {*} callback 
      */
     unlockItem(serialNumber, callback) {
-        itemMapper.unlockItem(serialNumber, function(err, result) {
-            if (err) {
-                console.log(err);
-                return callback(err, null);
-            }
-            return callback(null, result);
+        itemMapper.find(serialNumber, function(err, result) {
+            itemMapper.unlockItem(result, function(err, result) {
+                if (err) {
+                    console.log(err);
+                    return callback(err, null);
+                }
+                return callback(null, result);
+            });
         });
     }
 

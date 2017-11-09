@@ -19,15 +19,6 @@ class Monitor extends ElectronicDevice {
         super(model, brand, weight, price);
         this.size = size;
     }
-
-    /**
-     * Displays information about monitor object. 
-     * To be run on an instance of monitor.
-     * @method display
-     */
-    display() {
-        console.log(this.model + ' ' + this.brand + ' ' + this.size + ' ' + this.weight + ' ' + this.price);
-    }
 }
 
 module.exports = Monitor;

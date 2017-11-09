@@ -9,18 +9,10 @@ class Item {
      * @param {string} serialNumber of product
      * @param {string} modelNumber of Product Specification
      */
-    constructor(serialNumber, modelNumber) {
+    constructor(serialNumber, modelNumber, islocked) {
         this.serialNumber = serialNumber;
         this.modelNumber = modelNumber;
-    }
-
-    /**
-     * Displays information about item object.
-     * To be run on an instance of item.
-     * @method display
-     */
-    display() {
-        console.log(this.serialNumber + ' ' + this.modelNumber);
+        this.islocked = islocked;
     }
 }
 
