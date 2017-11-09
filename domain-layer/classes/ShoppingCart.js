@@ -9,7 +9,6 @@ let User = require('../classes/User');
  * @class ShoppingCart
  * @export
  */
-
 class ShoppingCart {
     /**
      * @constructor
@@ -17,44 +16,54 @@ class ShoppingCart {
      * @param {object} Instance of orderItem
      */
 
+     /**
+      * Constructor
+      */
     constructor(productCatalog, user) {
         contract.precondition(user.isAdmin === false);
         this.productCatalog = productCatalog;
-        this.quantity = 0;//max quantity of 7
+        this.quantity = 0; // max quantity of 7
         this.cart = [];
     }
 
-    //add line item to shopping cart
+    /**
+     * Add item to cart
+     * @param {*} prodSpec 
+     * @param {*} callback 
+     */
     addToCart(prodSpec, callback) {
+        const self = this;
         contract.precondition(this.quantity < 7);
         this.quantity++;
 
-        let orderItem = this.getItem(prodSpec, function(err, result){
+        self.getItem(prodSpec, function(err, result) {
+            self.cart.push(result);
             return callback(err, result);
         });
-        this.cart.push(orderItem);
-        return callback
-
     }
 
+    /**
+     * Remove item from cart
+     * @param {*} orderItem 
+     */
     removeFromCart(orderItem) {
         contract.precondition(this.quantity > 0);
-        var index = this.cart.indexOf(orderItem);
-        if (index != 0){
-            return this.cart.splice(index,1);
+        let index = this.cart.indexOf(orderItem);
+        if (index != 0) {
+            return this.cart.splice(index, 1);
         }
     }
 
+    /**
+     * Get an Item from database
+     */
     getItem(modelNumber, callback) {
-        this.productCatalog.getItemAndLock(modelNumber, function (err, result) {
+        this.productCatalog.getItemAndLock(modelNumber, function(err, result) {
             if (!err) {
                 return callback(err, result);
             }
         });
-    } 
-
-
-
+    }
 }
 
 module.exports = ShoppingCart;

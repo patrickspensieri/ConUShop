@@ -99,14 +99,19 @@ class ItemMapper extends AbstractMapper {
         });
     }
 
+    /**
+     *  Gets item from model
+     * @param {*} modelNumber 
+     * @param {*} callback 
+     */
     static getItemFromModel(modelNumber, callback) {
         ItemTDG.getItemFromModel(modelNumber, function(err, result) {
             if (err) {
                 return callback(err, null);
             } else {
-                if (result.length <= 0){
-                    return callback("Item not available anymore", null);
-                }  else {
+                if (result.length <= 0) {
+                    return callback('Item not available anymore', null);
+                } else {
                     let value = result[0];
                     let item = new Item(value.serialnumber, value.model);
                     return callback(null, item);
@@ -115,6 +120,11 @@ class ItemMapper extends AbstractMapper {
         });
     }
 
+    /**
+     * Unlocks an item
+     * @param {*} serialNumber 
+     * @param {*} callback 
+     */
     static unlockItem(serialNumber, callback) {
         ItemTDG.unlockItem(serialNumber, function(err, result) {
             if (err) {
@@ -124,6 +134,11 @@ class ItemMapper extends AbstractMapper {
         });
     }
 
+    /**
+     * Locks an item
+     * @param {*} serialNumber 
+     * @param {*} callback 
+     */
     static lockItem(serialNumber, callback) {
         ItemTDG.lockItem(serialNumber, function(err, result) {
             if (err) {

@@ -16,7 +16,19 @@
     
     <div>
         <% if (typeof data!='undefined') { %>
-            
+            <table>
+                <tr>
+                    <th>Serial #</th>
+                    <th>Model</th>
+                </tr>
+                <% for(var i = 0; i < data.length; i++) { %>
+                    <tr>
+                        <td class="serial"><%= data[i].serialNumber %></td>
+                        <td class="model"><%= data[i].modelNumber %></td>
+                        <td><button onclick="deletePlaceholder()">Delete</button></td>
+                    </tr>
+                <% } %>
+            </table>
         <% } %>
     </div>
     

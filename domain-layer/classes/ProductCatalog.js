@@ -249,13 +249,21 @@ class ProductCatalog {
         });
     }
 
-    getItemAndLock(modelNumber, callback){
+    /**
+     * Gets and item and locks it
+     * @param {*} modelNumber 
+     * @param {*} callback 
+     */
+    getItemAndLock(modelNumber, callback) {
         itemMapper.getItemFromModel(modelNumber, function(err, result) {
-            if(!err){
-                let itemObject = result;
+            if (!err) {
                 itemMapper.lockItem(result.serialNumber, function(err, result) {
-                    return callback(null, result);
+                    if (err) {
+                        console.log(err);
+                        return callback(err, null);
+                    }
                 });
+                return callback(null, result);
             }
         });
     }

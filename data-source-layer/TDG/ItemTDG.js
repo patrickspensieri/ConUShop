@@ -72,6 +72,11 @@ class ItemTDG {
         });
     }
 
+    /**
+     * Gets an item from model
+     * @param {*} modelNumber 
+     * @param {*} callback 
+     */
     static getItemFromModel(modelNumber, callback) {
         db.query('SELECT * FROM item WHERE model=$1 AND islocked=false LIMIT 1', [modelNumber], (err, result) =>{
             if (err) {
@@ -81,6 +86,11 @@ class ItemTDG {
         });
     }
 
+    /**
+     * Unlocks item
+     * @param {*} serialNumber 
+     * @param {*} callback 
+     */
     static unlockItem(serialNumber, callback) {
         db.query('UPDATE item SET islocked=false WHERE serialnumber=$1', [serialNumber], (err, result) =>{
             if (err) {
@@ -90,6 +100,11 @@ class ItemTDG {
         });
     }
 
+    /**
+     * Locks item
+     * @param {*} serialNumber 
+     * @param {*} callback 
+     */
     static lockItem(serialNumber, callback) {
         db.query('UPDATE item SET islocked=true WHERE serialnumber=$1', [serialNumber], (err, result) =>{
             if (err) {

@@ -224,6 +224,7 @@ $( document ).ready(function() {
 });
 
 function addToCart(modelNumber, redi) {
+    console.log(modelNumber)
     $.ajax({
         type: "POST",
         url: '/catalog/addToShoppingCart',

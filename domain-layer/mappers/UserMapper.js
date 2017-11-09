@@ -27,10 +27,11 @@ class UserMapper extends AbstractMapper {
     static create(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
         if (isAdmin) {
             let user = new Admin(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+            return user;
         } else {
             let user = new Client(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+            return user;
         }
-        return user;
     }
 
   /**

@@ -1,5 +1,4 @@
-let User = require('../../domain-layer/classes/User')
-let Client = require('../../domain-layer/classes/Client')
+let User = require('../../domain-layer/classes/User');
 let UserMapper = require('../../domain-layer/mappers/UserMapper');
 
 module.exports = {
@@ -50,16 +49,15 @@ module.exports = {
     addToShoppingCart: function(req, res) {
         if (req.isAuthenticated()) {
             let currentUser = req.user;
-            UserMapper.find(currentUser.email, function (err, result) {
+            UserMapper.find(currentUser.email, function(err, result) {
                 let modelNumber = req.body.model;
-                console.log(this.client.shoppingcart);
-                this.client.shoppingcart.addToCart(modelNumber, function(err, data) {
-                    console.log(data);
+                let client = result;
+                client.shoppingcart.addToCart(modelNumber, function(err, data) {
                     res.send({redirect: req.body.redi});
                 });
             });
         } else {
-            console.log('Not a user');
+            console.log('Not a client');
             res.send({redirect: req.body.redi});
         }
     },
@@ -67,9 +65,10 @@ module.exports = {
     viewShoppingCart: function(req, res) {
         if (req.isAuthenticated()) {
             let currentUser = req.user;
-            this.client = UserMapper.create(currentUser.firstName, currentUser.lastName, currentUser.address, currentUser.email,
-                currentUser.phone, currentUser.password, currentUser.isAdmin, currentUser.sessionId, currentUser.id);
-            this.client.shoppingcart.viewCart(function(err, data) {
+            UserMapper.find(currentUser.email, function(err, result) {
+                let client = result;
+                let data = client.shoppingcart.cart;
+                console.log(data);
                 res.render('catalog/shoppingCart', {
                     data: data,
                 });

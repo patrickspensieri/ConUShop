@@ -93,20 +93,26 @@ module.exports = {
         }
     },
 
+    /**
+     * Ensures a user is logged in
+     * @param  {[type]}   req  request
+     * @param  {[type]}   res  response
+     * @param  {Function} next callback
+     * @return {[type]}
+     */
     ensureLoggedIn: function(req, res, next) {
         res.locals.isAuthenticated = req.isAuthenticated();
-        if (req.isAuthenticated()){
+        if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
-                console.log(user);
                 if (err) throw err;
                 if (user.isAdmin) {
                     res.locals.isAdmin = true;
                 } else {
                     res.locals.isAdmin = false;
                 }
-                res.locals.name = user.firstName + " " + user.lastName;
+                res.locals.name = user.firstName + ' ' + user.lastName;
             });
         }
         return next();
-    }
+    },
 };
