@@ -145,6 +145,11 @@ $( document ).ready(function() {
                 detailsView(row, prodType);
             }
         });
+
+        $(this).find('.prod-addToCart').click(function() {
+            let model = row.find('td.model').text();
+            // For Tusman
+        });
     });
 
     function detailsView(row, prodType) {
