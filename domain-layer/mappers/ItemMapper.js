@@ -125,8 +125,13 @@ class ItemMapper extends AbstractMapper {
                     return callback('Item not available anymore', null);
                 } else {
                     let value = result[0];
-                    let item = new Item(value.serialnumber, value.model, value.islocked);
-                    return callback(null, item);
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let item = new Item(value.serialnumber, value.model, value.islocked);
+                        idMap.add(item, item.serialNumber);
+                        return callback(null, item);
+                    }
                 }
             }
         });
@@ -138,7 +143,7 @@ class ItemMapper extends AbstractMapper {
      * @param {*} callback 
      */
     static unlockItem(object, callback) {
-        object.islocked = false;
+        object.isLocked = false;
         UOW.registerDirty(object);
         UOW.commit();
         return callback(null, 'Success');
@@ -150,7 +155,7 @@ class ItemMapper extends AbstractMapper {
      * @param {*} callback 
      */
     static lockItem(object, callback) {
-        object.islocked = true;
+        object.isLocked = true;
         UOW.registerDirty(object);
         UOW.commit();
         return callback(null, 'Success');

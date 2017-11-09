@@ -65,7 +65,6 @@ class ItemTDG {
     static update(serialNumber, modelNumber, isLocked, callback) {
         let queryString = 'UPDATE item SET model=$2, islocked=$3 WHERE serialnumber=$1';
         let queryValues = [serialNumber, modelNumber, isLocked];
-
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
                 console.log(err.message);
