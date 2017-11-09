@@ -118,6 +118,7 @@ class DesktopMapper extends AbstractMapper {
    * @static
    * @param {Object} desktopObject an object of type desktop.
    */
+    /*
     static delete(desktopObject) {
         DesktopTDG.delete(desktopObject.model, function(err, result) {
             if (!err) {
@@ -125,12 +126,16 @@ class DesktopMapper extends AbstractMapper {
             }
         });
     }
+   /* static delete(desktopObject) {
+        DesktopTDG.delete(desktopObject.model);
+    } */
 
     /**
      * Get all desktop objects
      * @static
      * @param {function} callback
      */
+    
     static getDesktop(callback) {
         DesktopTDG.getDesktop(function(err, result) {
             let desktop = [];

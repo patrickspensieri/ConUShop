@@ -934,7 +934,8 @@ BEGIN
 END $BODY$ LANGUAGE 'plpgsql';
 
 
-/* ------------ updateSession() FUNCTION, UPDATES SESSION_ID WHEN USER SIGNS IN FROM DIFFERENT DEVICE */  
+/* ------------ updateSession() FUNCTION, UPDATES SESSION_ID WHEN USER SIGNS IN FROM DIFFERENT DEVICE */ 
+/*
 CREATE OR REPLACE FUNCTION updateSession() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -947,7 +948,7 @@ BEGIN
     END IF;
     RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
-
+*/
 
 /* ------------ cartAdminCheck() FUNCTION, CHECKS IF CLIENT ADDING TO CART IS A CUSTOMER AND NOT AN ADMIN */  
 CREATE OR REPLACE FUNCTION cartAdminCheck() RETURNS TRIGGER AS
@@ -1166,10 +1167,12 @@ FOR EACH ROW
 EXECUTE PROCEDURE returnHandle();
 
 /* ------------ updateSession() TRIGGER ----------------- */
+/*
 CREATE TRIGGER updateSession
 BEFORE INSERT ON ACTIVEUSERS
 FOR EACH ROW
-EXECUTE PROCEDURE updateSession();
+EXECUTE PROCEDURE updateSession(); 
+*/
 
 /* ------------ cartAdminCheck() TRIGGER ----------------- */
 CREATE TRIGGER cartAdminCheck

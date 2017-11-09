@@ -42,7 +42,7 @@ module.exports = {
 
     /**
      * Logout given user from the session.
-     * Clears the given user's sessionid, allowing user to login.
+     * Clears the given user's session_id, allowing user to login.
      * @param  {[type]} user User sent from request
      */
     logoutSession: function(user) {
@@ -50,8 +50,8 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            if (user.sessionID) {
-                user.sessionID = null;
+            if (user.session_id) {
+                user.session_id = null;
                 UserMapper.updateLoginSession(user);
             }
         });
