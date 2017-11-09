@@ -18,7 +18,6 @@ class UserMapper extends AbstractMapper {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password user password, hashed
-<<<<<<< HEAD
    * @param {string} sessionID sessionID for login
    * @param {string} id userID
    * @return {User} user object.
@@ -29,14 +28,10 @@ class UserMapper extends AbstractMapper {
    /* @param {string} session_id session_id for login
    * @return {user} user object.
    */
-=======
-   * @param {string} session_id session_id for login
-   * @return {user} user object.
-   */
->>>>>>> ef9f62ac5dc5906077de98e6ef4dc5f748c59bf0
     static makeNew(isAdmin, firstName, lastName, address, email, phone, password, session_id, id) {
         let user = new User(isAdmin, firstName, lastName, address, email, phone, password, session_id, id);
         return user;
+        }
     }
 
   /**

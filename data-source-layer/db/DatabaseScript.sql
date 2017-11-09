@@ -498,20 +498,11 @@ CREATE TABLE USERS (
 );
 
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'C', 'C', 'Concordia University', 'CC@hotmail.com', '5143184562', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
-<<<<<<< HEAD
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', '$2a$10$UpoxaHPzla6e80MeSKHeYumgh4xe7tiLOk3vjhLK5Wb6TxZNsfuBe');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$YfHMABFbSnL5HaEjlhWCXOlqGDuV4vOpl8TOEvl3cU6G08/vW/h2W');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$0xjuhHOiXj32lyS9Zml9melW4mHyHIxzgYWNBvQELk8zA9SlAoo8O');
-=======
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', '$2a$10$qGiZLXEyCmAkhSMLHNKH7eYakVCPJwKnyHRiEjvkEWzXB3V4xk.Na');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$Gegcqydf1DhwKeXWREhF1eWxIXXzDnVirlcTrqF5LODZ0lZDRyUl.');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$Ha2c1wrG.E3HFvY2FzUEPu.9K8J0uEC1WCAcrO59GHpiHSQnFQ59K');
 
 /* ------------------------------------------ ACTIVEUSERS TABLE QUERIES --------------------------------------------- */
-<<<<<<< HEAD
->>>>>>> Added ordering and returning capabilities
-=======
->>>>>>> ef9f62ac5dc5906077de98e6ef4dc5f748c59bf0
 
 CREATE TABLE ACTIVEUSERS(
     user_id SERIAL REFERENCES USERS(ID) NOT NULL UNIQUE,
