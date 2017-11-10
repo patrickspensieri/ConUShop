@@ -16,29 +16,41 @@
 <% include ../../assets/components/adminNav.ejs %>
 
 <form method="post" action="/admin/addProdSpec">
-    <div class="AddMonitor">
-        <label>Product Table: </label>
-        <input type="text" class="" name="formProductType" value="Monitor" readonly>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Product Table: </label>
+        <div class="col-md-2">
+            <input type="text" class="" name="formProductType" value="Monitor" readonly>
+        </div>
     </div>
-    <div class="AddMonitor">
-        <label>modeNumber</label>
-        <input type="text" class="" name="model" placeholder="model">
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Model Number:</label>
+        <div class="col-md-2">
+            <input type="text" class="" name="model" placeholder="model">
+        </div>
     </div>
-    <div class="AddMonitor">
-        <label>brand</label>
-        <input type="text" class="" name="brand" placeholder="brand">
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Brand:</label>
+        <div class="col-md-2">
+            <input type="text" class="" name="brand" placeholder="brand">
+        </div>
     </div>
-    <div class="AddMonitor">
-        <label>size</label>
-        <input type="text" class="" name="size" placeholder="size">
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Size:</label>
+        <div class="col-md-2">
+            <input type="text" class="" name="size" placeholder="size">
+        </div>
     </div>
-    <div class="AddMonitor">
-        <label>weight</label>
-        <input type="text" class="" name="weight" placeholder="weight">
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Weight:</label>
+        <div class="col-md-2">
+            <input type="text" class="" name="weight" placeholder="weight">
+        </div>
     </div>
-    <div class="AddMonitor">
-        <label>price</label>
-        <input type="text" class="" name="price" placeholder="price">
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Price:</label>
+        <div class="col-md-2">
+            <input type="text" class="" name="price" placeholder="price">
+        </div>
     </div>
     <button type="submit" class="">Add new Monitor item</button>
 </form></br>
