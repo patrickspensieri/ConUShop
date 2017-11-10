@@ -1,47 +1,113 @@
-let Client = require('../../domain-layer/classes/Client');
+let User = require('../../domain-layer/classes/User');
+let UserMapper = require('../../domain-layer/mappers/UserMapper');
 
 module.exports = {
-    clientPage: function(req, res) {
-        res.render('pages/ClientPage');
+    dashboard: function(req, res) {
+        res.render('catalog/ClientPage');
     },
 
-    clientDesktopView: function(req, res) {
-        this.client = new Client();
-        this.client.getProductInventory('Desktop', function(err, data) {
+    desktop: function(req, res) {
+        this.user = new User();
+        this.user.getProductInventory('Desktop', function(err, data) {
             data.table = 'desktop';
-            res.render('pages/ClientPage', {
+            res.render('catalog/ClientPage', {
                 data: data,
             });
         });
     },
 
-    clientLaptopView: function(req, res) {
-        this.client = new Client();
-        this.client.getProductInventory('Laptop', function(err, data) {
+    laptop: function(req, res) {
+        this.user = new User();
+        this.user.getProductInventory('Laptop', function(err, data) {
             data.table = 'laptop';
-            res.render('pages/ClientPage', {
+            res.render('catalog/ClientPage', {
                 data: data,
             });
         });
     },
 
-    clientMonitorView: function(req, res) {
-        this.client = new Client();
-        this.client.getProductInventory('Monitor', function(err, data) {
+    monitor: function(req, res) {
+        this.user = new User();
+        this.user.getProductInventory('Monitor', function(err, data) {
             data.table = 'monitor';
-            res.render('pages/ClientPage', {
+            res.render('catalog/ClientPage', {
                 data: data,
             });
         });
     },
 
-    clientTabletView: function(req, res) {
-        this.client = new Client();
-        this.client.getProductInventory('Tablet', function(err, data) {
+    tablet: function(req, res) {
+        this.user = new User();
+        this.user.getProductInventory('Tablet', function(err, data) {
             data.table = 'tablet';
-            res.render('pages/ClientPage', {
+            res.render('catalog/ClientPage', {
                 data: data,
             });
         });
+    },
+
+    addToShoppingCart: function(req, res) {
+        if (req.isAuthenticated()) {
+            let currentUser = req.user;
+            UserMapper.find(currentUser.email, function(err, result) {
+                let modelNumber = req.body.model;
+                let type = req.body.type;
+                let client = result;
+                client.shoppingcart.addToCart(modelNumber, type, function(err, data) {
+                });
+            });
+        } else {
+            console.log('Not a client');
+        }
+    },
+
+    deleteFromShoppingCart: function(req, res) {
+        if (req.isAuthenticated()) {
+            let currentUser = req.user;
+            UserMapper.find(currentUser.email, function(err, result) {
+                let serialNumber = req.body.serialNumber;
+                let client = result;
+                client.shoppingcart.removeFromCart(serialNumber, function(err, data) {
+                });
+            });
+        } else {
+            console.log('Not a client');
+        }
+    },
+
+    viewShoppingCart: function(req, res) {
+        if (req.isAuthenticated()) {
+            let currentUser = req.user;
+            UserMapper.find(currentUser.email, function(err, result) {
+                let client = result;
+                let data = client.shoppingcart.cart;
+                console.log(data);
+                res.render('catalog/shoppingCart', {
+                    data: data,
+                });
+            });
+        } else {
+            console.log('Not a user');
+        }
+    },
+
+    makePurchase: function(req, res) {
+        if (req.isAuthenticated()) {
+            let currentUser = req.user;
+            UserMapper.find(currentUser.email, function(err, result) {
+                let client = result;
+                client.makePurchase(function(err, result) {
+                    res.render('catalog/shoppingCart', {
+                        data: [],
+                    });
+                });
+            });
+        } else {
+            console.log('Not a user');
+        }
+    },
+
+    confirmPurchase: function(req, res) {
+
     },
 };

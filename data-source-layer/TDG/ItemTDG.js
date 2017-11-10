@@ -57,6 +57,23 @@ class ItemTDG {
     }
 
     /**
+     * Update an item.
+     * @param {*} serialNumber 
+     * @param {*} modelNumner 
+     * @param {*} isLocked 
+     */
+    static update(serialNumber, modelNumber, isLocked, callback) {
+        let queryString = 'UPDATE item SET model=$2, islocked=$3 WHERE serialnumber=$1';
+        let queryValues = [serialNumber, modelNumber, isLocked];
+        db.query(queryString, queryValues, (err, result) => {
+            if (err) {
+                console.log(err.message);
+            }
+            return callback(err, result);
+        });
+    }
+
+    /**
      * Deletes an objects in the item table.
      * @static
      * @param {string} serialNumber serial number of item to be deleted.
@@ -69,6 +86,22 @@ class ItemTDG {
             }
             console.log('This item has been deleted from the database');
             return callback(err, result);
+        });
+    }
+
+    /**
+     * Gets an item from model
+     * @param {*} modelNumber 
+     * @param {*} callback 
+     */
+    static getItemFromModel(modelNumber, callback) {
+        db.query('SELECT * FROM item WHERE model=$1 AND islocked=false LIMIT 1', [modelNumber], (err, result) =>{
+            if (err) {
+                console.log(err.message);
+                return callback(err, null);
+            } else {
+                return callback(err, result.rows);
+            }
         });
     }
 }

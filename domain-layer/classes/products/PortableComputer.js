@@ -30,17 +30,6 @@ class PortableComputer extends Computer {
         this.battery = battery;
         this.camera = camera;
     }
-
-     /**
-     * Displays information about portable computer object. 
-     * To be run on an instance of portable computer.
-     * @method display
-     */
-    display() {
-        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
-        + this.ram + ' ' + this.storage + ' ' + this.cores + ' ' + this.dimensions + ' ' + this.display + ' '
-        + this.os + ' ' + this.battery + ' ' + this.camera);
-    }
 }
 
 module.exports = PortableComputer;
