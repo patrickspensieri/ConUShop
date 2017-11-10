@@ -51,8 +51,9 @@ module.exports = {
             let currentUser = req.user;
             UserMapper.find(currentUser.email, function(err, result) {
                 let modelNumber = req.body.model;
+                let type = req.body.type;
                 let client = result;
-                client.shoppingcart.addToCart(modelNumber, function(err, data) {
+                client.shoppingcart.addToCart(modelNumber, type, function(err, data) {
                 });
             });
         } else {
@@ -88,5 +89,25 @@ module.exports = {
         } else {
             console.log('Not a user');
         }
+    },
+
+    makePurchase: function(req, res) {
+        if (req.isAuthenticated()) {
+            let currentUser = req.user;
+            UserMapper.find(currentUser.email, function(err, result) {
+                let client = result;
+                client.makePurchase(function(err, result) {
+                    res.render('catalog/shoppingCart', {
+                        data: [],
+                    });
+                });
+            });
+        } else {
+            console.log('Not a user');
+        }
+    },
+
+    confirmPurchase: function(req, res) {
+
     },
 };

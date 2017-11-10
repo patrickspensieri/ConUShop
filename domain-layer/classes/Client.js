@@ -1,6 +1,10 @@
 let User = require('./User');
 let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
 let ShoppingCart = require('../../domain-layer/classes/ShoppingCart');
+let OrderItemMapper = require('../../domain-layer/mappers/OrderItemMapper');
+let OrderMapper = require('../../domain-layer/mappers/OrderMapper');
+let moment = require('moment');
+
 
 /**
  * Class describes an Admin.
@@ -31,6 +35,20 @@ class Client extends User {
      */
     getProductInventory(productType, callback) {
         return this.productCatalog.getAllProductInventory(productType, callback);
+    }
+
+    makePurchase(callback) {
+        let self = this;
+        this.shoppingcart.getTotal(function(total) {
+            let orderId = self.shoppingcart.generateOrderId(self.id);
+            let date = moment().format('YYYY-MM-DD');
+            let order = OrderMapper.create(orderId, self.id, date, total);
+            let orderItems = OrderItemMapper.createItems(self.shoppingcart, orderId);
+            OrderMapper.insertPurchase(order, orderItems, function(err, result) {
+                self.shoppingcart.cart = [];
+                return callback(null, null);
+            });
+        });
     }
 }
 module.exports = Client;

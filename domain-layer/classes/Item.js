@@ -13,6 +13,12 @@ class Item {
         this.serialNumber = serialNumber;
         this.modelNumber = modelNumber;
         this.islocked = islocked;
+        this.type = null;
+        this.price = null;
+    }
+
+    setPrice(price) {
+        this.price = price;
     }
 }
 

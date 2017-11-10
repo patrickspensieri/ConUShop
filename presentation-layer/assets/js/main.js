@@ -152,6 +152,7 @@ $( document ).ready(function() {
                 url: '/catalog/addToShoppingCart',
                 data: {
                     model: modelNumber,
+                    type: prodType,
                 },
                 success: function(response) {
                     console.log(response);
@@ -242,5 +243,12 @@ function deleteCartItem(serialNumber) {
         data: {
             serialNumber: serialNumber,
         },
+    });
+}
+
+function makePurchase() {
+    $.ajax({
+        type: 'GET',
+        url: '/catalog/makePurchase',
     });
 }

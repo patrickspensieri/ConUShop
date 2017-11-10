@@ -10,17 +10,12 @@ class Order {
      * @param {object} Instance of ShoppingCart
      */
     
-    constructor(orderId, userId, orderDate, total, shoppingCart) {
+    constructor(orderId, userId, orderDate, total) {
        this.orderId = orderId;
        this.userId = userId;
        this.orderDate = orderDate;
        this.total = total;
-       this.shoppingCart = shoppingCart;
        this.isCompleted = false;
-    }
-
-    makePurchase(client, shoppingCart){
-        //...
     }
 }
 

@@ -19,6 +19,18 @@ class OrderItemMapper extends AbstractMapper {
         return orderItem;
     }
 
+    static createItems(shoppingcart, orderId) {
+        let orderItems = [];
+        let cart = shoppingcart.cart;
+        console.log(shoppingcart);
+        for (let i = 0; i < cart.length; i++) {
+            let orderItemId = shoppingcart.generateOIID(orderId, cart[i].serialNumber);
+            let orderItem = new OrderItem(orderItemId, orderId, cart[i].serialNumber, cart[i].price, false);
+            orderItems.push(orderItem);
+        }
+        return orderItems;
+    }
+    
   /**
    * Maps the returned value to an object of type OrderItem.
    * @static

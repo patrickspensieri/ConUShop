@@ -5,6 +5,8 @@ let MonitorMapper = require('../mappers/monitorMapper');
 let TabletMapper = require('../mappers/tabletMapper');
 let UserMapper = require('../mappers/userMapper');
 let ItemMapper = require('../mappers/itemMapper');
+let OrderItemMapper = require('../mappers/OrderItemMapper');
+let OrderMapper = require('../mappers/OrderMapper');
 
 /**
  * In-memory object which keeps track of which domain objects should 
@@ -107,6 +109,12 @@ class UnitOfWork {
             if (this._newObjects[i].constructor.name == 'Item') {
                 ItemMapper.insert(this._newObjects[i]);
             }
+            if (this._newObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.insert(this._newObjects[i]);
+            }
+            if (this._newObjects[i].constructor.name == 'Order') {
+                OrderMapper.insert(this._newObjects[i]);
+            }
         }
     }
 
@@ -134,6 +142,12 @@ class UnitOfWork {
             if (this._dirtyObjects[i].constructor.name == 'Item') {
                 ItemMapper.update(this._dirtyObjects[i]);
             }
+            if (this._dirtyObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.update(this._dirtyObjects[i]);
+            }
+            if (this._dirtyObjects[i].constructor.name == 'Order') {
+                OrderMapper.update(this._dirtyObjects[i]);
+            }
         }
     }
 
@@ -160,6 +174,12 @@ class UnitOfWork {
             }
             if (this._deletedObjects[i].constructor.name == 'Item') {
                 ItemMapper.delete(this._deletedObjects[i]);
+            }
+            if (this._deletedObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.delete(this._deletedObjects[i]);
+            }
+            if (this._deletedObjects[i].constructor.name == 'Order') {
+                OrderMapper.delete(this._deletedObjects[i]);
             }
         }
     }

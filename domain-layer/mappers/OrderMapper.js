@@ -17,8 +17,8 @@ class OrderMapper extends AbstractMapper {
    * @param {number} total weight of Order.
    * @return {Order} Order object.
    */
-    static create(orderId, userId, orderDate, total, shoppingCart) {
-        let order = new Order(orderId, userId, orderDate, total, shoppingCart);
+    static create(orderId, userId, orderDate, total) {
+        let order = new Order(orderId, userId, orderDate, total);
         return order;
     }
 
@@ -83,7 +83,7 @@ class OrderMapper extends AbstractMapper {
    */
     static insert(OrderObject) {
         OrderTDG.insert(OrderObject.orderId, OrderObject.userId, OrderObject.orderDate,
-            OrderObject.total, OrderObject.shoppingCart, function(err, result) {
+            OrderObject.total, function(err, result) {
                 if (!err) {
                     idMap.add(OrderObject, OrderObject.orderId);
                 }
@@ -97,7 +97,7 @@ class OrderMapper extends AbstractMapper {
    */
     static update(OrderObject) {
         OrderTDG.update(OrderObject.orderId, OrderObject.userId, OrderObject.orderDate,
-            OrderObject.total, OrderObject.shoppingCart, function(err, result) {
+            OrderObject.total, function(err, result) {
                 if (!err) {
                     idMap.update(OrderObject, OrderObject.orderId);
                 }
@@ -115,6 +115,15 @@ class OrderMapper extends AbstractMapper {
                 idMap.delete(OrderObject, OrderObject.orderId);
             }
         });
+    }
+
+    static insertPurchase(orderObject, orderItemsArray, callback) {
+        UOW.registerNew(orderObject);
+        for (let i = 0; i < orderItemsArray.length; i++) {
+            UOW.registerNew(orderItemsArray[i]);
+        }
+        UOW.commit();
+        return callback(null, 'Success');
     }
 }
 

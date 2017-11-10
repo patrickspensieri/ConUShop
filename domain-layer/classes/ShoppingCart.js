@@ -29,14 +29,16 @@ class ShoppingCart {
     /**
      * Add item to cart
      * @param {*} prodSpec 
+     * @param {*} type
      * @param {*} callback 
      */
-    addToCart(prodSpec, callback) {
+    addToCart(prodSpec, type, callback) {
         const self = this;
         contract.precondition(this.quantity < 7);
         this.quantity++;
 
         self.getItem(prodSpec, function(err, result) {
+            result.type = type;
             self.cart.push(result);
             return callback(err, result);
         });
@@ -75,6 +77,35 @@ class ShoppingCart {
                 return callback(err, result);
             }
         });
+    }
+
+    getTotal(callback) {
+        let self = this;
+        let inserted = 0;
+        let total = 0;
+        for (let i = 0; i < this.cart.length; i++) {
+            this.productCatalog.getProductSpecification(this.cart[i].type, this.cart[i].modelNumber, function(err, result) {
+                if (!err) {
+                    total += parseFloat(result.price);
+                    self.cart[i].setPrice(result.price);
+                }
+                if (++inserted == self.cart.length) {
+                    return callback(total);
+                }
+            });
+        }
+    }
+
+    generateOrderId(userId) {
+        let d = new Date().getTime();
+        let randomInt = Math.floor(Math.random() *10);
+        let orderid = userId + '' + d + '' + randomInt;
+        return orderid;
+    }
+
+    generateOIID(orderId, serialNumber) {
+        let ooid = orderId + '' + serialNumber;
+        return ooid;
     }
 }
 
