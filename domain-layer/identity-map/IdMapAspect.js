@@ -5,11 +5,15 @@ let MonitorMapper = require('../mappers/MonitorMapper');
 let TabletMapper = require('../mappers/TabletMapper');
 let ItemMapper = require('../mappers/ItemMapper');
 let UserMapper = require('../mappers/UserMapper');
+let OrderMapper  = require('../mappers/OrderItemMapper');
+let OrderItemMapper  = require('../mappers/OrderItemMapper');
 let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
 let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
 let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
 let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
 let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
+let OrderTDG = require('../../data-source-layer/TDG/OrderTDG');
+let OrderItemTDG = require('../../data-source-layer/TDG/OrderItemTDG');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 
 
@@ -139,7 +143,7 @@ function updateAdvice(methodCall) {
  * @return {string} Class name
  */
 let getClassNameHelper = function(targetName) {
-    let classNames = ['Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item'];
+    let classNames = ['Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item','Order','OrderItem'];
     for (name of classNames) {
         if (targetName.includes(name)) {
             return name;
@@ -182,6 +186,14 @@ let getAttributesHelper = function(value, className) {
         case 'Item':
             return [value.serialnumber, value.model];
             break;
+        case 'Order':
+            return [value.orderId, value.userId, value.orderDate,
+                value.total, value.shoppingCart];
+            break;
+        case 'OrderItem':
+            return [value.orderItemId, value.orderId, value.serialNumber, value.price,
+                value.isReturned];
+            break;
         }
 };
 
@@ -210,6 +222,12 @@ let getTDGHelper = function(className) {
         case 'User':
             return UserTDG;
             break;
+        case 'Order':
+            return OrderTDG;
+            break;
+        case 'OrderItem':
+            return OrderItemTDG;
+            break;
     }
 };
 
@@ -237,6 +255,12 @@ let getMapperHelper = function(className) {
             break;
         case 'User':
             return UserMapper;
+            break;
+        case 'Order':
+            return OrderMapper;
+            break;
+        case 'OrderItem':
+            return OrderItemMapper;
             break;
     }
 };
