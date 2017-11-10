@@ -511,7 +511,7 @@ CREATE TABLE ACTIVEUSERS(
 /* ------------------------------------------ ORDER TABLE QUERIES --------------------------------------------- */
 CREATE TABLE ORDERS (
     order_id BIGINT NOT NULL UNIQUE,
-    user_id SERIAL REFERENCES ACTIVEUSERS(user_id) NOT NULL,
+    user_id SERIAL REFERENCES USERS(ID) NOT NULL,
     orderDate DATE NOT NULL default CURRENT_DATE,
     total DECIMAL NOT NULL DEFAULT 0,
     PRIMARY KEY (order_id, user_id)
@@ -534,7 +534,7 @@ CREATE TABLE ORDERITEM (
 CREATE TABLE RETURNS (
     return_id SERIAL PRIMARY KEY NOT NULL,
     order_id BIGINT REFERENCES ORDERS(order_id) NOT NULL,
-    user_id SERIAL REFERENCES ACTIVEUSERS(user_id) NOT NULL,
+    user_id SERIAL REFERENCES USERS(ID) NOT NULL,
     order_item_id VARCHAR(60) REFERENCES ORDERITEM(order_item_id) NOT NULL
 );
 

@@ -104,22 +104,6 @@ class ItemTDG {
             }
         });
     }
-
-    /**
-     * Finds the specification of an item.
-     * @static
-     * @param {string} modelNumber modelNumber of item specification to be found.
-     * @param {function} callback function
-     */
-    static getItemSpecification(modelNumber, callback) {
-        db.query('SELECT DISTINCT * FROM $2 INNER JOIN Item on Laptop.model = Item.model WHERE modelNumber=$1;', [modelNumber, type], (err, result) => {
-            if (err) {
-                console.log(err.message);
-            } else {
-                return callback(null, result.rows);
-            }
-        });
-    }
 }
 
 module.exports = ItemTDG;
