@@ -98,8 +98,10 @@ class ItemTDG {
         db.query('SELECT * FROM item WHERE model=$1 AND islocked=false LIMIT 1', [modelNumber], (err, result) =>{
             if (err) {
                 console.log(err.message);
+                return callback(err, null);
+            } else {
+                return callback(err, result.rows);
             }
-            return callback(err, result.rows);
         });
     }
 
