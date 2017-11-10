@@ -1,12 +1,15 @@
 let User = require('../../domain-layer/classes/User');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
+let AbstractMapper = require('./AbstractMapper');
+let Admin = require('../../domain-layer/classes/Admin');
+let Client = require('../../domain-layer/classes/Client');
 
 /**
  * User object mapper
  * @class UserMapper
  * @export
  */
-class UserMapper {
+class UserMapper extends AbstractMapper {
   /**
    * Creates a new user
    * @static
@@ -17,12 +20,18 @@ class UserMapper {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password user password, hashed
-   * @param {string} sessionid sessionID for login
-   * @return {user} user object.
+   * @param {string} sessionID sessionID for login
+   * @param {string} id userID
+   * @return {User} user object.
    */
-    static makeNew(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id) {
-        let user = new User(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id);
-        return user;
+    static create(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
+        if (isAdmin) {
+            let user = new Admin(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+            return user;
+        } else {
+            let user = new Client(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+            return user;
+        }
     }
 
   /**
@@ -30,22 +39,36 @@ class UserMapper {
    * @static
    * @param {string} email of user to be found.
    * @param {function} callback function that holds User object.
+   * @return {function} callback object
    */
     static find(email, callback) {
-        UserTDG.find(email, function(err, result) {
-            if (err) {
-                console.log('Error during user find query', null);
-            } else {
-                let value = result[0];
-
-                if (result.length==0) {
-                    return callback(err, null);
+        let user = idMap.get('User', email);
+        if (user != null) {
+            return callback(null, user);
+        } else {
+            UserTDG.find(email, function(err, result) {
+                if (err) {
+                    console.log('Error during user find query', null);
                 } else {
-                    return callback(null, new User(value.isadmin, value.firstname,
-                        value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        if (value.isadmin) {
+                            let user = new Admin(value.firstname, value.lastname,
+                                value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id);
+                            idMap.add(user, user.email);
+                            return callback(null, user);
+                        } else {
+                            let user = new Client(value.firstname, value.lastname,
+                                value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id);
+                            idMap.add(user, user.email);
+                            return callback(null, user);
+                        }
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
   /**
@@ -60,8 +83,12 @@ class UserMapper {
                 console.log('Error during user findAll query', null);
             } else {
                 for (let value of result) {
-                    users.push(new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phone, value.sessionid));
+                    let user = new User(value.isadmin, value.firstname,
+                        value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id);
+                    users.push(user);
+                    if (idMap.get('User', user.email) == null) {
+                        idMap.add(user, user.email);
+                    }
                 }
                 return callback(null, users);
             }
@@ -75,7 +102,11 @@ class UserMapper {
    */
     static insert(userObject) {
         UserTDG.insert(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password);
+            userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password, function(err, result) {
+                if (!err) {
+                    idMap.add(userObject, userObject.email);
+                }
+            });
     }
 
   /**
@@ -85,7 +116,11 @@ class UserMapper {
    */
     static update(userObject) {
         UserTDG.update(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone);
+            userObject.lastName, userObject.address, userObject.email, userObject.phone, function(err, result) {
+                if (!err) {
+                    idMap.update(userObject, userObject.email);
+                }
+            });
     }
 
     /**
@@ -110,7 +145,11 @@ class UserMapper {
    * @param {Object} userObject an object of type user.
    */
     static delete(userObject) {
-        UserTDG.delete(userObject.email);
+        UserTDG.delete(userObject.email, function(err, result) {
+            if (!err) {
+                idMap.delete(userObject, userObject.email);
+            }
+        });
     }
 }
 

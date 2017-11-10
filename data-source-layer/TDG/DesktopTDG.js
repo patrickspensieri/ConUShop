@@ -49,8 +49,9 @@ class DesktopTDG {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
+   * @param {function} callback function
    */
-    static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
+    static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price, callback) {
         let queryString = 'INSERT INTO desktop (model, brand, processor, ram, storage, cores, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
         let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
 
@@ -58,6 +59,7 @@ class DesktopTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -73,8 +75,9 @@ class DesktopTDG {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
+   * @param {function} callback function
    */
-    static update(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
+    static update(model, brand, processor, ram, storage, cores, dimensions, weight, price, callback) {
         let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, weight=$8, price=$9 WHERE model=$1';
         let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
 
@@ -82,6 +85,7 @@ class DesktopTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -89,14 +93,17 @@ class DesktopTDG {
    * Deletes an objects in the desktop table.
    * @static
    * @param {string} id model number of desktop to be deleted.
+   * @param {function} callback function
    */
-    static delete(id) {
 
+
+    static delete(id, callback) {
       db.query('DELETE FROM desktop WHERE model=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
           console.log('This Desktop has been deleted from the database');
+          return callback(err, result);
       });
     }
 

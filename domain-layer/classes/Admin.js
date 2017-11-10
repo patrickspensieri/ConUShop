@@ -16,21 +16,19 @@ class Admin extends User {
      * @param {number} phone phone number of user
      * @param {string} password user password, hashed
      * @param {Boolean} isAdmin is the user an Admin
-     *
-
      */
-    constructor(firstName, lastName, address, email, phone, password, isAdmin) {
-        super(firstName, lastName, address, email, phone, password, isAdmin);
+    constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
+        super(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
 
-        this.productCatalog = new ProductCatalog();
+        this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }
 
     /**
-     * Method to access ProductCatalog instances
+     * Product catalog accessor method
      * @method display
      * @return {ProductCatalog} ProductCatalog instance
      */
-    getProductCatalogInstance() {
+    getProductCatalog() {
         return this.productCatalog;
     }
 }

@@ -1,9 +1,10 @@
 let User = require('./User');
 let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
-let DesktopMapper = require('../../domain-layer/mappers/DesktopMapper');
-let LaptopMapper = require('../../domain-layer/mappers/LaptopMapper');
-let MonitorMapper = require('../../domain-layer/mappers/MonitorMapper');
-let TabletMapper = require('../../domain-layer/mappers/TabletMapper');
+let ShoppingCart = require('../../domain-layer/classes/ShoppingCart');
+let OrderItemMapper = require('../../domain-layer/mappers/OrderItemMapper');
+let OrderMapper = require('../../domain-layer/mappers/OrderMapper');
+let moment = require('moment');
+
 
 /**
  * Class describes an Admin.
@@ -20,44 +21,35 @@ class Client extends User {
      * @param {number} phone phone number of user
      * @param {string} password user password, hashed
      * @param {Boolean} isAdmin is the user an Admin
-
      */
-    constructor(firstName, lastName, address, email, phone, password, isAdmin) {
-        super(firstName, lastName, address, email, phone, password, isAdmin);
-
-        this.productCatalog = new ProductCatalog();
+    constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
+        super(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+        this.productCatalog = ProductCatalog.getProductCatalogInstance();
+        this.shoppingcart = new ShoppingCart(this.productCatalog, this);
     }
 
     /**
-     * View items in product catalog
-     * To be run on an instance of item.
-     * @method display
+     * @param {string} productType string of the Object
      * @param {function} callback function
-     *
+     * @return {Object} product catalog's inventory
      */
-    getDesktop(callback) {
-        DesktopMapper.getDesktop(function(err, data) {
-            return callback(null, data);
-        });
+    getProductInventory(productType, callback) {
+        return this.productCatalog.getAllProductInventory(productType, callback);
     }
-    getLaptop(callback) {
-        LaptopMapper.getLaptop(function(err, data) {
-            return callback(null, data);
+
+    makePurchase(callback) {
+        let self = this;
+        let total = this.shoppingcart.getTotal();
+        let orderId = self.shoppingcart.generateOrderId(self.id);
+        let date = moment().format('YYYY-MM-DD');
+        let order = OrderMapper.create(orderId, self.id, date, total);
+        for(let i = 0; i < this.shoppingcart.cart.length; i++) {
+            this.shoppingcart.cart[i].setOrderItemId(orderId);
+        }
+        OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {
+            self.shoppingcart.cart = [];
+            return callback(null, null);
         });
-    }
-    getMonitor(callback) {
-        MonitorMapper.getMonitor(function(err, data) {
-            return callback(null, data);
-        });
-    }
-    getTablet(callback) {
-        TabletMapper.getTablet(function(err, data) {
-            return callback(null, data);
-        });
-    }
-    getProductCatalogInstance() {
-        return this.productCatalog;
     }
 }
-
 module.exports = Client;

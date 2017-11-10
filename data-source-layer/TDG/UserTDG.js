@@ -22,7 +22,7 @@ class UserTDG {
         });
     }
 
-// TODO update query to select from activeusers as well
+// TODO: update query to select from activeusers as well
   /**
    * Finds all objects from the user table.
    * @static
@@ -48,9 +48,9 @@ class UserTDG {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password password of user
-   * @param {string} sessionID sessionID for login
+   * @param {function} callback
    */
-    static insert(isAdmin, firstName, lastName, address, email, phone, password) {
+    static insert(isAdmin, firstName, lastName, address, email, phone, password, callback) {
         let queryString = 'INSERT INTO users (isadmin, firstname, lastname, address, email, phone, password) VALUES($1, $2, $3, $4, $5, $6, $7)';
         let queryValues = [isAdmin, firstName, lastName, address, email, phone, password];
 
@@ -61,6 +61,7 @@ class UserTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -73,9 +74,9 @@ class UserTDG {
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
-   * @param {string} sessionID sessionID for login
+   * @param {function} callback
    */
-    static update(isAdmin, firstName, lastName, address, email, phone) {
+    static update(isAdmin, firstName, lastName, address, email, phone, callback) {
         let queryString = 'UPDATE users SET isadmin=$1, firstname=$2, lastname=$3, address=$4, phone=$6 WHERE email=$5';
         let queryValues = [isAdmin, firstName, lastName, address, email, phone];
 
@@ -83,6 +84,7 @@ class UserTDG {
             if (err) {
                 console.log(err.message);
             }
+            return callback(err, result);
         });
     }
 
@@ -105,6 +107,7 @@ class UserTDG {
     /**
      * Deletes all the login sessions from the active users table.
      * Intended for use on startup, express memory-store will always be clear on server startup.
+     * @static
      */
     static clearAllLoginSessions() {
         let queryString = 'DELETE FROM activeusers *';
@@ -120,13 +123,15 @@ class UserTDG {
    * Deletes an objects in the user table.
    * @static
    * @param {string} email email of user to be deleted.
+   * @param {function} callback
    */
-    static delete(email) {
+    static delete(email, callback) {
       db.query('DELETE FROM users WHERE email=$1', [email], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
           console.log('This user has been deleted from the database');
+          return callback(err, result);
       });
     }
 }

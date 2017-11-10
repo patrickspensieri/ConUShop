@@ -14,10 +14,10 @@
 <% include ../../assets/components/navigator.ejs %>
 <!-- //navigator -->
 
-<% include ../../assets/components/dashboardNav.ejs %>
+<% include ../../assets/components/adminNav.ejs %>
 
 
-<form method="post" action="/catalog/addProdSpec">
+<form method="post" action="/admin/addProdSpec">
     <div class="AddTablet">
         <label>Product Table: </label>
         <input type="text" class="" name="formProductType" value="Tablet" readonly>
@@ -96,7 +96,7 @@
                 <td>Edit</td>
                 <td>Delete</td>
             </tr>
-        <% for(var i = 0; i < data.length; i++) { %> 
+        <% for(var i = 0; i < data.length; i++) { %>
             <tr>
                 <td class="model" contenteditable="false"><%= data[i].model %></td>
                 <td class="brand"><%= data[i].brand %></td>
@@ -111,8 +111,8 @@
                 <td class="dimensions"><%= data[i].dimensions %></td>
                 <td class="weight"><%= data[i].weight %></td>
                 <td class="price"><%= data[i].price %></td>
-                <td contenteditable="false"><button onclick="updateProdSpec('Tablet', $(this).closest('tr'), '/catalog/tabletView')">Edit</button></td>
-                <td contenteditable="false"><button onclick="deleteProdSpec('Tablet', '<%= data[i].model%>', '/catalog/tabletView')">Delete</button></td>
+                <td contenteditable="false"><button onclick="updateProdSpec('Tablet', $(this).closest('tr'), '/admin/tablets')">Edit</button></td>
+                <td contenteditable="false"><button onclick="deleteProdSpec('Tablet', '<%= data[i].model%>', '/admin/tablets')">Delete</button></td>
             </tr>
         <% } %>
         </table>

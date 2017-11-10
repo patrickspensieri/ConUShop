@@ -1,12 +1,13 @@
 let Item = require('../../domain-layer/classes/Item');
 let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
+let AbstractMapper = require('./AbstractMapper');
 
 /**
  * Item object mapper
  * @class ItemMapper
  * @export
  */
-class ItemMapper {
+class ItemMapper extends AbstractMapper {
     /**
      * Creates a new item
      * @static
@@ -14,8 +15,8 @@ class ItemMapper {
      * @param {string} modelNumber of Product Specification
      * @return {item} item object.
      */
-    static makeNew(serialNumber, modelNumber) {
-        let item = new Item(serialNumber, modelNumber);
+    static create(serialNumber, modelNumber, islocked) {
+        let item = new Item(serialNumber, modelNumber, islocked);
         return item;
     }
 
@@ -24,20 +25,28 @@ class ItemMapper {
      * @static
      * @param {string} serialNumber serial number of item to be found.
      * @param {function} callback function that returns item object.
+     * @return {function} callback result
      */
     static find(serialNumber, callback) {
-        ItemTDG.find(serialNumber, function(err, result) {
-            if (err) {
-                console.log('Error during item find query', null);
-            } else {
-                let value = result[0];
-                if (result.length==0) {
-                    return callback(err, null);
+        let item = idMap.get('Item', serialNumber);
+        if (item != null) {
+            return callback(null, item);
+        } else {
+            ItemTDG.find(serialNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during item find query', null);
                 } else {
-                    return callback(null, new Item(value.serialnumber, value.model));
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let item = new Item(value.serialnumber, value.model, value.islocked);
+                        idMap.add(item, item.serialNumber);
+                        return callback(null, item);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -52,7 +61,11 @@ class ItemMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    items.push(new Item(value.serialnumber, value.model));
+                    let item = new Item(value.serialnumber, value.model, value.islocked);
+                    items.push(item);
+                    if (idMap.get('Item', item.serialNumber) == null) {
+                        idMap.add(item, item.serialNumber);
+                    }
                 }
                 return callback(null, items);
             }
@@ -65,16 +78,87 @@ class ItemMapper {
      * @param {Object} itemObject an object of type item.
      */
     static insert(itemObject) {
-        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber);
+        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber, function(err, result) {
+            if (!err) {
+                idMap.add(itemObject, itemObject.serialNumber);
+            }
+        });
+    }
+
+    /**
+     * Maps an objects attributes to seperate values for TDG update method.
+     * @static
+     * @param {Object} itemObject an object of type item.
+     */
+    static update(itemObject) {
+        ItemTDG.update(itemObject.serialNumber, itemObject.modelNumber, itemObject.isLocked, function(err, result) {
+                if (!err) {
+                    idMap.update(itemObject, itemObject.serialNumber);
+                }
+        });
     }
 
     /**
      * Uses an objects serialNumber to use with TDG delete method.
      * @static
-     * @param {Object} serialNumber serial number of object to delete.
+     * @param {Object} itemObject item object to delete.
      */
-    static delete(serialNumber) {
-        ItemTDG.delete(serialNumber);
+    static delete(itemObject) {
+        ItemTDG.delete(itemObject.serialNumber, function(err, result) {
+            if (!err) {
+                idMap.delete(itemObject, itemObject.serialNumber);
+            }
+        });
+    }
+
+    /**
+     *  Gets item from model
+     * @param {*} modelNumber 
+     * @param {*} callback 
+     */
+    static getItemFromModel(modelNumber, callback) {
+        ItemTDG.getItemFromModel(modelNumber, function(err, result) {
+            if (err) {
+                return callback(err, null);
+            } else {
+                if (result.length <= 0) {
+                    return callback('Item not available anymore', null);
+                } else {
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let item = new Item(value.serialnumber, value.model, value.islocked);
+                        idMap.add(item, item.serialNumber);
+                        return callback(null, item);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Unlocks an item
+     * @param {*} object 
+     * @param {*} callback 
+     */
+    static unlockItem(object, callback) {
+        object.isLocked = false;
+        UOW.registerDirty(object);
+        UOW.commit();
+        return callback(null, 'Success');
+    }
+
+    /**
+     * Locks an item
+     * @param {*} serialNumber 
+     * @param {*} callback 
+     */
+    static lockItem(object, callback) {
+        object.isLocked = true;
+        UOW.registerDirty(object);
+        UOW.commit();
+        return callback(null, 'Success');
     }
 }
 

@@ -4,8 +4,11 @@ let expressValidator = require('express-validator');
 let session = require('express-session');
 let passport = require('passport');
 let flash = require('connect-flash');
-// let MemoryStore = require('memorystore')(session);
 let MemoryStore = require('./config/memoryStore');
+
+let UnitOfWork = require('./domain-layer/unit-of-work/unitOfWork');
+let IdentityMap = require('./domain-layer/identity-map/idMap');
+let IdentityMapAspect = require('./domain-layer/identity-map/IdMapAspect');
 
 let express = require('express');
 let app = express();
@@ -62,7 +65,12 @@ app.use(expressValidator({
     },
 }));
 
+UOW = new UnitOfWork();
+idMap = new IdentityMap();
+
 app.use(require('./routes'));
 // run the startup tasks
 let startup = require('./config/startup');
 startup.run();
+
+module.exports = {app};

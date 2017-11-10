@@ -27,16 +27,6 @@ class Computer extends ElectronicDevice {
         this.cores = cores;
         this.dimensions = dimensions;
     }
-
-    /**
-     * Displays information about computer object. 
-     * To be run on an instance of computer.
-     * @method display
-     */
-    display() {
-        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
-        + this.ram + ' ' + this.storage + ' ' + this.cores + ' ' + this.dimensions);
-    }
 }
 
 module.exports = Computer;
