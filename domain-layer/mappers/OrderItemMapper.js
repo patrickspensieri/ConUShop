@@ -14,8 +14,8 @@ class OrderItemMapper extends AbstractMapper {
      * @param {object} Instance of Item
      * @param {int} Quantity of Item
      */
-    static create(orderItemId, orderId, serialNumber, price, isReturned) {
-        let orderItem = new OrderItem(orderItemId, orderId, serialNumber, price, isReturned);
+    static create(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout, productCatalog) {
+        let orderItem = new OrderItem(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout, productCatalog);
         return orderItem;
     }
 

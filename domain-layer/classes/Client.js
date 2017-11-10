@@ -43,6 +43,7 @@ class Client extends User {
             let orderId = self.shoppingcart.generateOrderId(self.id);
             let date = moment().format('YYYY-MM-DD');
             let order = OrderMapper.create(orderId, self.id, date, total);
+            // TO DO , modify existing orderitems, not create new
             let orderItems = OrderItemMapper.createItems(self.shoppingcart, orderId);
             OrderMapper.insertPurchase(order, orderItems, function(err, result) {
                 self.shoppingcart.cart = [];

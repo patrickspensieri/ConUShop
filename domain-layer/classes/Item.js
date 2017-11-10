@@ -9,10 +9,10 @@ class Item {
      * @param {string} serialNumber of product
      * @param {string} modelNumber of Product Specification
      */
-    constructor(serialNumber, modelNumber, islocked) {
+    constructor(serialNumber, modelNumber, isLocked) {
         this.serialNumber = serialNumber;
         this.modelNumber = modelNumber;
-        this.islocked = islocked;
+        this.isLocked = isLocked;
         this.type = null;
         this.price = null;
     }

@@ -2,6 +2,7 @@ let contract = require('obligations');
 let ProductCatalog = require('../classes/ProductCatalog');
 let OrderItem = require('../classes/OrderItem');
 let User = require('../classes/User');
+let OrderItemMapper = require('../mappers/OrderItemMapper');
 /* global Map */
 
 /**
@@ -28,17 +29,16 @@ class ShoppingCart {
 
     /**
      * Add item to cart
-     * @param {*} prodSpec 
+     * @param {*} modelNumber 
      * @param {*} type
      * @param {*} callback 
      */
-    addToCart(prodSpec, type, callback) {
+    addToCart(modelNumber, type, callback) {
         const self = this;
         contract.precondition(this.quantity < 7);
         this.quantity++;
 
-        self.getItem(prodSpec, function(err, result) {
-            result.type = type;
+        self.getItem(modelNumber, type, function(err, result) {
             self.cart.push(result);
             return callback(err, result);
         });
@@ -71,10 +71,15 @@ class ShoppingCart {
     /**
      * Get an Item from database
      */
-    getItem(modelNumber, callback) {
+    getItem(modelNumber, type, callback) {
+        let self = this;
         this.productCatalog.getItemAndLock(modelNumber, function(err, result) {
             if (!err) {
-                return callback(err, result);
+                result.type = type;
+                let orderItem = OrderItemMapper.create(null, null, result.serialNumber, null, null, result, null, self.productCatalog);
+                orderItem.setSpecification(function() {
+                    return callback(null, orderItem);
+                })
             }
         });
     }

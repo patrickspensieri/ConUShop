@@ -20,11 +20,27 @@
                 <tr>
                     <th>Serial #</th>
                     <th>Model</th>
+                    <th>Brand</a></th>
+                    <th>Processor</th>
+                    <th>RAM</a></th>
+                    <th>Storage</a></th>
+                    <th>Cores</a></th>
+                    <th>Dimensions</th>
+                    <th>Weight</a></th>
+                    <th>Price</a></th>
                 </tr>
                 <% for(var i = 0; i < data.length; i++) { %>
                     <tr>
-                        <td class="serial"><%= data[i].serialNumber %></td>
-                        <td class="model"><%= data[i].modelNumber %></td>
+                        <td class="serial"><%= data[i].itemObj.serialNumber %></td>
+                        <td class="model"><%= data[i].itemObj.modelNumber %></td>
+                        <td class="brand"><%= data[i].specification.brand %></td>
+                        <td class="processor"><%= data[i].specification.processor %></td>
+                        <td class="ram"><%= data[i].specification.ram %></td>
+                        <td class="storage"><%= data[i].specification.storage %></td>
+                        <td class="cores"><%= data[i].specification.cores %></td>
+                        <td class="dimensions"><%= data[i].specification.dimensions %></td>
+                        <td class="weight"><%= data[i].specification.weight %></td>
+                        <td class="price"><%= data[i].specification.price %></td>
                         <td><button onclick="deleteCartItem('<%= data[i].serialNumber %>')">Delete</button></td>
                     </tr>
                 <% } %>
