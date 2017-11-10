@@ -1,9 +1,12 @@
+let contract = require('obligations');
 let DesktopMapper = require('../mappers/DesktopMapper');
 let LaptopMapper = require('../mappers/LaptopMapper');
 let MonitorMapper = require('../mappers/MonitorMapper');
 let TabletMapper = require('../mappers/TabletMapper');
 let UserMapper = require('../mappers/UserMapper');
 let ItemMapper = require('../mappers/ItemMapper');
+let OrderItemMapper = require('../mappers/OrderItemMapper');
+let OrderMapper = require('../mappers/OrderMapper');
 
 /**
  * In-memory object which keeps track of which domain objects should
@@ -28,7 +31,12 @@ class UnitOfWork {
      * @param {Object} domainObject
      */
     registerNew(domainObject) {
+        contract.precondition(domainObject != null);
+        contract.precondition(this._dirtyObjects.includes(domainObject) == false, 'cant register a dirty obj as new');
+        contract.precondition(this._deletedObjects.includes(domainObject) == false, 'cant register a removed obj as new');
+        contract.precondition(this._newObjects.includes(domainObject) == false, 'cant register a obj new twice');
         this._newObjects.push(domainObject);
+        contract.postcondition(this._newObjects.includes(domainObject) == true, 'new obj added to new list');
     }
 
     /**
@@ -37,7 +45,11 @@ class UnitOfWork {
      * @param {Object} domainObject
      */
     registerDirty(domainObject) {
-        this._dirtyObjects.push(domainObject);
+        contract.precondition(domainObject != null);
+        contract.precondition(this._deletedObjects.includes(domainObject) == false, 'cant register a removed obj as dirty');
+        if (!this._dirtyObjects.includes(domainObject) && !this._newObjects.includes(domainObject)) {
+            this._dirtyObjects.push(domainObject);
+        } 
     }
 
     /**
@@ -46,6 +58,8 @@ class UnitOfWork {
      * @param {Object} domainObject
      */
     registerDeleted(domainObject) {
+        contract.precondition(domainObject != null);
+        contract.precondition(this._deletedObjects.includes(domainObject) == false, 'cant register a removed obj as dirty');
         this._deletedObjects.push(domainObject);
     }
 
@@ -95,6 +109,12 @@ class UnitOfWork {
             if (this._newObjects[i].constructor.name == 'Item') {
                 ItemMapper.insert(this._newObjects[i]);
             }
+            if (this._newObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.insert(this._newObjects[i]);
+            }
+            if (this._newObjects[i].constructor.name == 'Order') {
+                OrderMapper.insert(this._newObjects[i]);
+            }
         }
     }
 
@@ -122,6 +142,12 @@ class UnitOfWork {
             if (this._dirtyObjects[i].constructor.name == 'Item') {
                 ItemMapper.update(this._dirtyObjects[i]);
             }
+            if (this._dirtyObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.update(this._dirtyObjects[i]);
+            }
+            if (this._dirtyObjects[i].constructor.name == 'Order') {
+                OrderMapper.update(this._dirtyObjects[i]);
+            }
         }
     }
 
@@ -148,6 +174,12 @@ class UnitOfWork {
             }
             if (this._deletedObjects[i].constructor.name == 'Item') {
                 ItemMapper.delete(this._deletedObjects[i]);
+            }
+            if (this._deletedObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.delete(this._deletedObjects[i]);
+            }
+            if (this._deletedObjects[i].constructor.name == 'Order') {
+                OrderMapper.delete(this._deletedObjects[i]);
             }
         }
     }
