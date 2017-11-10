@@ -39,16 +39,16 @@ class Client extends User {
 
     makePurchase(callback) {
         let self = this;
-        this.shoppingcart.getTotal(function(total) {
-            let orderId = self.shoppingcart.generateOrderId(self.id);
-            let date = moment().format('YYYY-MM-DD');
-            let order = OrderMapper.create(orderId, self.id, date, total);
-            // TO DO , modify existing orderitems, not create new
-            let orderItems = OrderItemMapper.createItems(self.shoppingcart, orderId);
-            OrderMapper.insertPurchase(order, orderItems, function(err, result) {
-                self.shoppingcart.cart = [];
-                return callback(null, null);
-            });
+        let total = this.shoppingcart.getTotal();
+        let orderId = self.shoppingcart.generateOrderId(self.id);
+        let date = moment().format('YYYY-MM-DD');
+        let order = OrderMapper.create(orderId, self.id, date, total);
+        for(let i = 0; i < this.shoppingcart.cart.length; i++) {
+            this.shoppingcart.cart[i].setOrderItemId(orderId);
+        }
+        OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {
+            self.shoppingcart.cart = [];
+            return callback(null, null);
         });
     }
 }

@@ -76,7 +76,7 @@ class ShoppingCart {
         this.productCatalog.getItemAndLock(modelNumber, function(err, result) {
             if (!err) {
                 result.type = type;
-                let orderItem = OrderItemMapper.create(null, null, result.serialNumber, null, null, result, null, self.productCatalog);
+                let orderItem = OrderItemMapper.create(null, null, result.serialNumber, null, false, result, null, self.productCatalog);
                 orderItem.setSpecification(function() {
                     return callback(null, orderItem);
                 })
@@ -84,21 +84,14 @@ class ShoppingCart {
         });
     }
 
-    getTotal(callback) {
-        let self = this;
-        let inserted = 0;
+    getTotal() {
         let total = 0;
         for (let i = 0; i < this.cart.length; i++) {
-            this.productCatalog.getProductSpecification(this.cart[i].type, this.cart[i].modelNumber, function(err, result) {
-                if (!err) {
-                    total += parseFloat(result.price);
-                    self.cart[i].setPrice(result.price);
-                }
-                if (++inserted == self.cart.length) {
-                    return callback(total);
-                }
-            });
+            console.log(this.cart[i].price);
+            total += parseFloat(this.cart[i].price);
         }
+        total = round(total, 2);
+        return total;
     }
 
     generateOrderId(userId) {
@@ -107,11 +100,10 @@ class ShoppingCart {
         let orderid = userId + '' + d + '' + randomInt;
         return orderid;
     }
+}
 
-    generateOIID(orderId, serialNumber) {
-        let ooid = orderId + '' + serialNumber;
-        return ooid;
-    }
+function round(value, decimals) {
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
 module.exports = ShoppingCart;

@@ -21,15 +21,12 @@ class OrderItem {
         this.specification = null;
         this.productCatalog = productCatalog;
         this.itemTimeout = itemTimeout; //timer for each items
-        
     }
     
     getOrderItemId()
     {
         return this.orderItemId;
     }
-
-    
 
     getItemObject(){
        return itemObj;
@@ -45,6 +42,17 @@ class OrderItem {
             return callback();
         });
     }
+
+    setOrderItemId(orderId) {
+        this.orderId = orderId;
+        this.orderItemId = this.generateOIID();
+    }
+    
+    generateOIID() {
+        let ooid = this.orderId + '' + this.serialNumber;
+        return ooid;
+    }
+
 }
 
 module.exports = OrderItem;
