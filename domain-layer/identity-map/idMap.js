@@ -24,7 +24,6 @@
             className = 'User';
         }
         let mappedObject;
-
         if (this._identityMap[className]) {
             mappedObject = this._identityMap[className][id];
             if (mappedObject) {
@@ -67,6 +66,7 @@
             className = 'User';
         }
         delete this._identityMap[className][id];
+        console.log('This object ' + id +' is no longer mapped');
     }
 
     /**

@@ -1,15 +1,15 @@
 let contract = require('obligations');
-let DesktopMapper = require('../mappers/desktopMapper');
-let LaptopMapper = require('../mappers/laptopMapper');
-let MonitorMapper = require('../mappers/monitorMapper');
-let TabletMapper = require('../mappers/tabletMapper');
-let UserMapper = require('../mappers/userMapper');
-let ItemMapper = require('../mappers/itemMapper');
+let DesktopMapper = require('../mappers/DesktopMapper');
+let LaptopMapper = require('../mappers/LaptopMapper');
+let MonitorMapper = require('../mappers/MonitorMapper');
+let TabletMapper = require('../mappers/TabletMapper');
+let UserMapper = require('../mappers/UserMapper');
+let ItemMapper = require('../mappers/ItemMapper');
 let OrderItemMapper = require('../mappers/OrderItemMapper');
 let OrderMapper = require('../mappers/OrderMapper');
 
 /**
- * In-memory object which keeps track of which domain objects should 
+ * In-memory object which keeps track of which domain objects should
  * be scheduled for insertion, update, and removal.
  * @class UnitOfWork
  * @export
@@ -64,7 +64,7 @@ class UnitOfWork {
     }
 
     /**
-     * Commit changes to persistance layer 
+     * Commit changes to persistance layer
      * @method commit
      */
     commit() {
