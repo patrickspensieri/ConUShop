@@ -77,6 +77,7 @@ let Desktop = require('../classes/products/Desktop');
 //  * @param  {string} targetName target class (TDG or Mapper)
 //  * @return {string} Class name
 //  */
+
 // let getClassNameHelper = function(targetName) {
 //     let classNames = ['Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item'];
 //     for (name of classNames) {
@@ -125,11 +126,43 @@ let Desktop = require('../classes/products/Desktop');
 // };
 
 
+//find
+meld.around(DesktopMapper, 'find', findAll);
+
+function findAdvice (methodCall){
+    let modelNumber = methodCall.args[0];
+    let callback = methodCall. args[1];
+        let desktop = idMap.get('Desktop', modelNumber);
+        if (desktop != null) {
+            return callback(null, desktop);
+        } else {
+            DesktopTDG.find(modelNumber, function(err, result) {
+                if (err) {
+                    console.log('Error during desktop find query', null);
+                } else {
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let desktop = new Desktop(value.model, value.brand, value.processor,
+                            value.ram, value.storage, value.cores, value.dimensions,
+                            value.weight, value.price);
+                        idMap.add(desktop, desktop.model);
+                        return callback(null, desktop);
+                    }
+                }
+            });
+        }
+}
+
 //findAll
 meld.around(DesktopMapper, 'findAll', findAllAdvice);
 
 function findAllAdvice (methodCall){
     let callback = methodCall.args[0];
+    let target = meld.joinpoint().target;
+    console.log(target);
+    console.log(getClassNameHelper(target));
     DesktopTDG.findAll(function(err, result) {
         let desktops = [];
         if (err) {
@@ -152,7 +185,7 @@ function findAllAdvice (methodCall){
 //insert
 meld.around(DesktopMapper, 'insert', insertAdvice);
 
-function insertAdvice (methodCall){1
+function insertAdvice (methodCall){
     let desktopObject = methodCall.args[0];
     DesktopTDG.insert(desktopObject.model, desktopObject.brand, desktopObject.processor,
         desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
