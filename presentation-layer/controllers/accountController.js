@@ -33,7 +33,7 @@ module.exports = {
         if (errors) {
             res.redirect('/');
         } else {
-            Register.createNewUser(isAdmin, firstName, lastName, address, email, phone, password, function(err, user) {
+            Register.createNewUser(firstName, lastName, address, email, phone, password, isAdmin, function(err, user) {
                 if (err) throw err;
             });
             res.redirect('/');
@@ -93,9 +93,16 @@ module.exports = {
         }
     },
 
+    /**
+     * Ensures a user is logged in
+     * @param  {[type]}   req  request
+     * @param  {[type]}   res  response
+     * @param  {Function} next callback
+     * @return {[type]}
+     */
     ensureLoggedIn: function(req, res, next) {
         res.locals.isAuthenticated = req.isAuthenticated();
-        if (req.isAuthenticated()){
+        if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;
                 if (user.isAdmin) {
@@ -103,9 +110,9 @@ module.exports = {
                 } else {
                     res.locals.isAdmin = false;
                 }
-                res.locals.name = user.firstName + " " + user.lastName;
+                res.locals.name = user.firstName + ' ' + user.lastName;
             });
         }
         return next();
-    }
+    },
 };
