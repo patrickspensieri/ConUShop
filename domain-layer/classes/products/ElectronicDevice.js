@@ -17,15 +17,6 @@ class ElectronicDevice {
         this.weight = weight;
         this.price = price;
     }
-
-    /**
-     * Displays information about electronic device object. 
-     * To be run on an instance of electronic device.
-     * @method display
-     */
-    display() {
-        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price);
-    }
 }
 
 module.exports = ElectronicDevice;

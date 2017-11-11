@@ -28,17 +28,6 @@ class Laptop extends PortableComputer {
         super(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
         this.touch = touch;
     }
-
-    /**
-     * Displays information about laptop object. 
-     * To be run on an instance of laptop.
-     * @method display
-     */
-    display() {
-        console.log(this.model + ' ' + this.brand + ' ' + this.weight + ' ' + this.price + ' ' + this.processor
-        + this.ram + ' ' + this.storage + ' ' + this.cores + ' ' + this.dimensions + ' ' + this.display + ' '
-        + this.os + ' ' + this.battery + ' ' + this.camera + ' ' + this.touch);
-    }
 }
 
 module.exports = Laptop;

@@ -17,8 +17,8 @@ class Admin extends User {
      * @param {string} password user password, hashed
      * @param {Boolean} isAdmin is the user an Admin
      */
-    constructor(firstName, lastName, address, email, phone, password, isAdmin) {
-        super(firstName, lastName, address, email, phone, password, isAdmin);
+    constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
+        super(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
 
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }

@@ -1,13 +1,15 @@
 let contract = require('obligations');
-let DesktopMapper = require('../mappers/desktopMapper');
-let LaptopMapper = require('../mappers/laptopMapper');
-let MonitorMapper = require('../mappers/monitorMapper');
-let TabletMapper = require('../mappers/tabletMapper');
-let UserMapper = require('../mappers/userMapper');
-let ItemMapper = require('../mappers/itemMapper');
+let DesktopMapper = require('../mappers/DesktopMapper');
+let LaptopMapper = require('../mappers/LaptopMapper');
+let MonitorMapper = require('../mappers/MonitorMapper');
+let TabletMapper = require('../mappers/TabletMapper');
+let UserMapper = require('../mappers/UserMapper');
+let ItemMapper = require('../mappers/ItemMapper');
+let OrderItemMapper = require('../mappers/OrderItemMapper');
+let OrderMapper = require('../mappers/OrderMapper');
 
 /**
- * In-memory object which keeps track of which domain objects should 
+ * In-memory object which keeps track of which domain objects should
  * be scheduled for insertion, update, and removal.
  * @class UnitOfWork
  * @export
@@ -61,7 +63,7 @@ class UnitOfWork {
     }
 
     /**
-     * Commit changes to persistance layer 
+     * Commit changes to persistance layer
      * @method commit
      */
     commit() {
@@ -106,6 +108,12 @@ class UnitOfWork {
             if (this._newObjects[i].constructor.name == 'Item') {
                 ItemMapper.insert(this._newObjects[i]);
             }
+            if (this._newObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.insert(this._newObjects[i]);
+            }
+            if (this._newObjects[i].constructor.name == 'Order') {
+                OrderMapper.insert(this._newObjects[i]);
+            }
         }
     }
 
@@ -133,6 +141,12 @@ class UnitOfWork {
             if (this._dirtyObjects[i].constructor.name == 'Item') {
                 ItemMapper.update(this._dirtyObjects[i]);
             }
+            if (this._dirtyObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.update(this._dirtyObjects[i]);
+            }
+            if (this._dirtyObjects[i].constructor.name == 'Order') {
+                OrderMapper.update(this._dirtyObjects[i]);
+            }
         }
     }
 
@@ -159,6 +173,12 @@ class UnitOfWork {
             }
             if (this._deletedObjects[i].constructor.name == 'Item') {
                 ItemMapper.delete(this._deletedObjects[i]);
+            }
+            if (this._deletedObjects[i].constructor.name == 'OrderItem') {
+                OrderItemMapper.delete(this._deletedObjects[i]);
+            }
+            if (this._deletedObjects[i].constructor.name == 'Order') {
+                OrderMapper.delete(this._deletedObjects[i]);
             }
         }
     }

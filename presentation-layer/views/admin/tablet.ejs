@@ -14,80 +14,105 @@
 <% include ../../assets/components/navigator.ejs %>
 <!-- //navigator -->
 
-<% include ../../assets/components/dashboardNav.ejs %>
+<% include ../../assets/components/adminNav.ejs %>
+
 
 <form method="post" action="/admin/addProdSpec">
-    <div class="AddDesktop">
+    <div class="AddTablet">
         <label>Product Table: </label>
-        <input type="text" class="" name="formProductType" value="Desktop" readonly>
+        <input type="text" class="" name="formProductType" value="Tablet" readonly>
     </div>
-    <div class="AddDesktop">
-        <label>modelNumber</label>
+    <div class="AddTablet">
+        <label>modeNumber</label>
         <input type="text" class="" name="model" placeholder="model">
     </div>
-    <div class="AddDesktop">
+    <div class="AddTablet">
         <label>brand</label>
         <input type="text" class="" name="brand" placeholder="brand">
     </div>
-    <div class="AddDesktop">
+    <div class="AddTablet">
+        <label>display</label>
+        <input type="text" class="" name="display" placeholder="display">
+    </div>
+    <div class="AddTablet">
         <label>processor</label>
         <input type="text" class="" name="processor" placeholder="processor">
     </div>
-    <div class="AddDesktop">
+    <div class="AddTablet">
         <label>ram</label>
         <input type="text" class="" name="ram" placeholder="ram">
     </div>
-    <div class="AddDesktop">
+    <div class="AddTablet">
         <label>storage</label>
         <input type="text" class="" name="storage" placeholder="storage">
     </div>
-    <div class="AddDesktop">
+    <div class="AddTablet">
         <label>cores</label>
         <input type="text" class="" name="cores" placeholder="cores">
     </div>
-    <div class="AddDesktop">
+    <div class="AddTablet">
+        <label>os</label>
+        <input type="text" class="" name="os" placeholder="os">
+    </div>
+    <div class="AddTablet">
+        <label>battery</label>
+        <input type="text" class="" name="battery" placeholder="battery">
+    </div>
+    <div class="AddTablet">
+        <label>camera</label>
+        <input type="text" class="" name="camera" placeholder="camera">
+    </div>
+    <div class="AddTablet">
         <label>dimensions</label>
         <input type="text" class="" name="dimensions" placeholder="dimensions">
     </div>
-    <div class="AddDesktop">
+    <div class="AddTablet">
         <label>weight</label>
         <input type="text" class="" name="weight" placeholder="weight">
     </div>
-    <div class="AddDesktop">
+    <div class="AddTablet">
         <label>price</label>
         <input type="text" class="" name="price" placeholder="price">
     </div>
-    <button type="submit" class="">Add new Desktop item</button>
+    <button type="submit" class="">Add new Tablet item</button>
 </form></br>
 <div>
     <% if (typeof data!='undefined') { %>
-        <table contenteditable="true" id="prodTable">
+        <table contenteditable="true">
             <tr contenteditable="false">
                 <td>Model</td>
                 <td>Brand</td>
+                <td>Display</td>
                 <td>Processor</td>
                 <td>Ram</td>
                 <td>Storage</td>
                 <td>Cores</td>
+                <td>OS</td>
+                <td>Battery</td>
+                <td>Camera</td>
                 <td>Dimensions</td>
                 <td>Weight</td>
                 <td>Price</td>
                 <td>Edit</td>
                 <td>Delete</td>
             </tr>
-        <% for(var i = 0; i < data.length; i++) { %> 
+        <% for(var i = 0; i < data.length; i++) { %>
             <tr>
                 <td class="model" contenteditable="false"><%= data[i].model %></td>
                 <td class="brand"><%= data[i].brand %></td>
+                <td class="display"><%= data[i].display %></td>
                 <td class="processor"><%= data[i].processor %></td>
                 <td class="ram"><%= data[i].ram %></td>
                 <td class="storage"><%= data[i].storage %></td>
                 <td class="cores"><%= data[i].cores %></td>
+                <td class="os"><%= data[i].os %></td>
+                <td class="battery"><%= data[i].battery %></td>
+                <td class="camera"><%= data[i].camera %></td>
                 <td class="dimensions"><%= data[i].dimensions %></td>
                 <td class="weight"><%= data[i].weight %></td>
                 <td class="price"><%= data[i].price %></td>
-                <td contenteditable="false"><button onclick="updateProdSpec('Desktop', $(this).closest('tr'), '/admin/desktops')">Edit</button></td>
-                <td contenteditable="false"><button onclick="deleteProdSpec('Desktop', '<%= data[i].model%>', '/admin/desktops')">Delete</button></td>
+                <td contenteditable="false"><button onclick="updateProdSpec('Tablet', $(this).closest('tr'), '/admin/tablets')">Edit</button></td>
+                <td contenteditable="false"><button onclick="deleteProdSpec('Tablet', '<%= data[i].model%>', '/admin/tablets')">Delete</button></td>
             </tr>
         <% } %>
         </table>
