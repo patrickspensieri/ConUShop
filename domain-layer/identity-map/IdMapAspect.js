@@ -31,7 +31,6 @@ arrMapper.map((object) => meld.around(object, ['delete'], deleteAdvice));
  * @return {[type]}            [description]
  */
 function findAdvice(methodCall) {
-    console.log('findAdvice');
     let id = methodCall.args[0];
     let callback = methodCall. args[1];
     let className = getClassNameHelper(meld.joinpoint().target.name);
@@ -39,8 +38,10 @@ function findAdvice(methodCall) {
     let classMapper = getMapperHelper(className);
         let object = idMap.get(className, id);
         if (object != null) {
+            console.log('Found it from findAdvice');
             return callback(null, object);
         } else {
+            console.log('findAdvice');
             classTDG.find(id, function(err, result) {
                 if (err) {
                     console.log('Error during find query', null);
@@ -51,6 +52,7 @@ function findAdvice(methodCall) {
                     } else {
                         let object = classMapper.create(...getAttributesHelper(value, className));
                         idMap.add(object, id);
+                        console.log(object);
                         return callback(null, object);
                     }
                 }

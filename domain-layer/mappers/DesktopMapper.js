@@ -35,18 +35,19 @@ class DesktopMapper extends AbstractMapper {
    * @return {function} callback result
    */
     static find(modelNumber, callback) {
-        console.log('proceeding from DesktopMapper...');
             DesktopTDG.find(modelNumber, function(err, result) {
-                let value = result[0];
-                let desktop = new Desktop(value.model, value.brand, value.processor,
-                    value.ram, value.storage, value.cores, value.dimensions,
-                    value.weight, value.price);
-                if (err) {
+                if(err){
                     console.log('Error during desktop find query', null);
-                } else if (result == null) {
-                        return callback(err, null);
                 } else {
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let desktop = new Desktop(value.model, value.brand, value.processor,
+                            value.ram, value.storage, value.cores, value.dimensions,
+                            value.weight, value.price);
                         return callback(null, desktop);
+                    }
                 }
             });
     }

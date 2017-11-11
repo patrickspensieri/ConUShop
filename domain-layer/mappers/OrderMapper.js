@@ -30,10 +30,6 @@ class OrderMapper extends AbstractMapper {
    * @return {function} callback object
    */
     static find(orderId, callback) {
-        let order = idMap.get('Order', orderId);
-        if (order != null) {
-            return callback(null, order);
-        } else {
             OrderTDG.find(orderId, function(err, result) {
                 if (err) {
                     console.log('Error during Order find query', null);
@@ -44,12 +40,10 @@ class OrderMapper extends AbstractMapper {
                     } else {
                         let order = new Order(value.orderId, value.userId, value.orderDate,
                             value.total, value.shoppingCart);
-                        idMap.add(order, order.id);
                         return callback(null, order);
                     }
                 }
             });
-        }
     }
 
   /**
@@ -67,9 +61,6 @@ class OrderMapper extends AbstractMapper {
                     let order = new Order(value.orderId, value.userId, value.orderDate,
                         value.total, value.shoppingCart);
                     orders.push(order);
-                    if (idMap.get('Order', order.orderId) == null) {
-                        idMap.add(order, order.orderId);
-                    }
                 }
                 return callback(null, orders);
             }
@@ -84,8 +75,8 @@ class OrderMapper extends AbstractMapper {
     static insert(OrderObject) {
         OrderTDG.insert(OrderObject.orderId, OrderObject.userId, OrderObject.orderDate,
             OrderObject.total, function(err, result) {
-                if (!err) {
-                    idMap.add(OrderObject, OrderObject.orderId);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -98,8 +89,8 @@ class OrderMapper extends AbstractMapper {
     static update(OrderObject) {
         OrderTDG.update(OrderObject.orderId, OrderObject.userId, OrderObject.orderDate,
             OrderObject.total, function(err, result) {
-                if (!err) {
-                    idMap.update(OrderObject, OrderObject.orderId);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -111,8 +102,8 @@ class OrderMapper extends AbstractMapper {
    */
     static delete(OrderObject) {
         OrderTDG.delete(OrderObject.orderId, function(err, result) {
-            if (!err) {
-                idMap.delete(OrderObject, OrderObject.orderId);
+            if (err) {
+                console.log(err);
             }
         });
     }
