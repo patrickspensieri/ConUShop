@@ -6,18 +6,18 @@ let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
  * @export
  */
 class User {
-  /**
-   * @constructor
-   * @param {Boolean} isAdmin is the user an Admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
-   * @param {string} address home address of user
-   * @param {string} email email of user
-   * @param {number} phone phone number of user
-   * @param {string} password user password
-   * @param {string} sessionID sessionID for login session
-   * @param {number} id the user id, set to null if not passed
-   */
+    /**
+     * Creates an User
+     * @param {string} firstName 
+     * @param {string} lastName 
+     * @param {string} address 
+     * @param {string} email 
+     * @param {string} phone 
+     * @param {string} password 
+     * @param {boolean} isAdmin 
+     * @param {string} sessionID 
+     * @param {string} id 
+     */
     constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
         this.isAdmin = isAdmin;
         this.firstName = firstName;
@@ -34,7 +34,6 @@ class User {
 
     /**
      * Displays information about user object.
-     * To be run on an instance of user.
      * @method display
      */
     display() {

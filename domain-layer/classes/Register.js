@@ -3,21 +3,21 @@ let userMapper = require('../../domain-layer/mappers/UserMapper');
 let bcrypt = require('bcryptjs');
 
 /**
- * Class describes a user.
+ * User Creator class
  * @class User
  * @export
  */
 class Register {
     /**
-     * @constructor
-     * @param {Boolean} isAdmin is the user an Admin
-     * @param {string} firstName first name of user
-     * @param {string} lastName last name of user
-     * @param {string} address home address of user
-     * @param {string} email email of user
-     * @param {number} phone phone number of user
-     * @param {string} password user password
-     * @param {function} callback function
+     * Creates an new User and hashes the password
+     * @param {string} firstName 
+     * @param {string} lastName 
+     * @param {string} address 
+     * @param {string} email 
+     * @param {string} phone 
+     * @param {string} password 
+     * @param {boolean} isAdmin 
+     * @param {*} callback 
      */
     static createNewUser(firstName, lastName, address, email, phone, password, isAdmin, callback) {
         let user = new User(firstName, lastName, address, email, phone, password, isAdmin);

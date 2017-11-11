@@ -48,7 +48,7 @@ class OrderItemTDG {
    * @param {number} isReturned weight of Order.
    * @param {function} callback
    */
-    static insert(orderItemId, orderId, serialNumber, price, isReturned,callback) {
+    static insert(orderItemId, orderId, serialNumber, price, isReturned, callback) {
         let queryString = 'INSERT INTO OrderItem (order_item_id, order_id, serialNumber, price, isReturned) VALUES($1, $2, $3, $4 ,$5)';
         let queryValues = [orderItemId, orderId, serialNumber, price, isReturned];
 

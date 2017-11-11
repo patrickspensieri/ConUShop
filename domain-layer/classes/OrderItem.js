@@ -3,14 +3,18 @@
  * @class OrderItem
  * @export
  */
-
 class OrderItem {
     /**
      * @constructor
-     * @param {object} Instance of Item
-     * @param {int} Quantity of Item
+     * @param {string} orderItemId 
+     * @param {string} orderId 
+     * @param {string} serialNumber 
+     * @param {number} price 
+     * @param {boolean} isReturned 
+     * @param {Object} itemObj 
+     * @param {Date} itemTimeout 
+     * @param {Object} productCatalog 
      */
-    
     constructor(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout, productCatalog) {
         this.orderItemId = orderItemId;
         this.orderId = orderId;
@@ -20,18 +24,29 @@ class OrderItem {
         this.itemObj = itemObj;
         this.specification = null;
         this.productCatalog = productCatalog;
-        this.itemTimeout = itemTimeout; //timer for each items
+        this.itemTimeout = itemTimeout; // timer for each items
     }
-    
-    getOrderItemId()
-    {
+
+    /**
+     * 
+     * @return {string} returns item object id
+     */
+    getOrderItemId() {
         return this.orderItemId;
     }
 
-    getItemObject(){
+    /**
+     * 
+     * @return {Object} returns item object
+     */
+    getItemObject() {
        return itemObj;
     }
 
+    /**
+     * 
+     * @param {*} callback
+     */
     setSpecification(callback) {
         let self = this;
         this.productCatalog.getProductSpecification(this.itemObj.type, this.itemObj.modelNumber, function(err, result) {
@@ -43,16 +58,23 @@ class OrderItem {
         });
     }
 
+    /**
+     * 
+     * @param {*} orderId 
+     */
     setOrderItemId(orderId) {
         this.orderId = orderId;
         this.orderItemId = this.generateOIID();
     }
-    
+
+    /**
+     * 
+     * @return {string} OOID
+     */
     generateOIID() {
         let ooid = this.orderId + '' + this.serialNumber;
         return ooid;
     }
-
 }
 
 module.exports = OrderItem;

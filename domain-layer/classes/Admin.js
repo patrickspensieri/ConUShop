@@ -16,6 +16,8 @@ class Admin extends User {
      * @param {number} phone phone number of user
      * @param {string} password user password, hashed
      * @param {Boolean} isAdmin is the user an Admin
+     * @param {string} sessionID session id of an Admin
+     * @param {string} id unique id of an Admin class
      */
     constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
         super(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);

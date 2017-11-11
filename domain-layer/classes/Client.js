@@ -1,13 +1,11 @@
 let User = require('./User');
 let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
 let ShoppingCart = require('../../domain-layer/classes/ShoppingCart');
-let OrderItemMapper = require('../../domain-layer/mappers/OrderItemMapper');
 let OrderMapper = require('../../domain-layer/mappers/OrderMapper');
 let moment = require('moment');
 
-
 /**
- * Class describes an Admin.
+ * Class describes a Client.
  * @class Client
  * @export
  */
@@ -20,7 +18,9 @@ class Client extends User {
      * @param {string} email email of user
      * @param {number} phone phone number of user
      * @param {string} password user password, hashed
-     * @param {Boolean} isAdmin is the user an Admin
+     * @param {Boolean} isAdmin set to False
+     * @param {string} sessionID session id of an Client
+     * @param {string} id unique id of a Client class
      */
     constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
         super(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
@@ -29,6 +29,7 @@ class Client extends User {
     }
 
     /**
+     * Function that returns all the items existing in the product catalog
      * @param {string} productType string of the Object
      * @param {function} callback function
      * @return {Object} product catalog's inventory
@@ -37,13 +38,17 @@ class Client extends User {
         return this.productCatalog.getAllProductInventory(productType, callback);
     }
 
+    /**
+     * Function that allows clients to purchase items from the product Catalog
+     * @param {*} callback 
+     */
     makePurchase(callback) {
         let self = this;
         let total = this.shoppingcart.getTotal();
         let orderId = self.shoppingcart.generateOrderId(self.id);
         let date = moment().format('YYYY-MM-DD');
         let order = OrderMapper.create(orderId, self.id, date, total);
-        for(let i = 0; i < this.shoppingcart.cart.length; i++) {
+        for (let i = 0; i < this.shoppingcart.cart.length; i++) {
             this.shoppingcart.cart[i].setOrderItemId(orderId);
         }
         OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {
@@ -52,4 +57,5 @@ class Client extends User {
         });
     }
 }
+
 module.exports = Client;

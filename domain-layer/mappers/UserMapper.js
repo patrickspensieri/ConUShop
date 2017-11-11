@@ -10,20 +10,19 @@ let Client = require('../../domain-layer/classes/Client');
  * @export
  */
 class UserMapper extends AbstractMapper {
-  /**
-   * Creates a new user
-   * @static
-   * @param {boolean} isAdmin is user client or admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
-   * @param {string} address home address of user
-   * @param {string} email email of user
-   * @param {number} phone phone number of user
-   * @param {string} password user password, hashed
-   * @param {string} sessionID sessionID for login
-   * @param {string} id userID
-   * @return {User} user object.
-   */
+    /**
+     * Creates a new user
+     * @param {string} firstName 
+     * @param {string} lastName 
+     * @param {string} address 
+     * @param {string} email 
+     * @param {string} phone 
+     * @param {string} password 
+     * @param {boolan} isAdmin 
+     * @param {string} sessionID 
+     * @param {string} id
+     * @return {Object} newly created user 
+     */
     static create(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
         if (isAdmin) {
             let user = new Admin(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);

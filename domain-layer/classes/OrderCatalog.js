@@ -3,20 +3,22 @@
  * @class OrderItem
  * @export
  */
-
 class OrderCatalog {
     /**
      * @constructor
-     * @param {object} Instance of Item
-     * @param {int} Quantity of Item
+     * @param {object} itemObj of Item
+     * @param {Date} itemTimeout timer for each item
      */
-    
     constructor(itemObj, itemTimeout) {
        this.itemObj = itemObj;
-       this.itemTimeout = itemTimeout; //timer for each items
+       this.itemTimeout = itemTimeout; // timer for each items
     }
-    
-    getItemObject(){
+
+    /**
+     * Order getter
+     * @return {Object} order item
+     */
+    getItemObject() {
        return itemObj;
     }
 }
