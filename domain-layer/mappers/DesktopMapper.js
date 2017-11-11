@@ -32,7 +32,6 @@ class DesktopMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of desktop to be found.
    * @param {function} callback function that holds desktop object.
-   * @return {function} callback result
    */
     static find(modelNumber, callback) {
         console.log('proceeding from DesktopMapper...');
@@ -107,11 +106,10 @@ class DesktopMapper extends AbstractMapper {
    * Extracts an objects id to use with TDG delete method.
    * @static
    * @param {Object} desktopObject an object of type desktop.
-   * @return {Object} desktop object
    */
     static delete(desktopObject) {
         DesktopTDG.delete(desktopObject.model, function(err, result) {
-            if(err) {
+            if (err) {
                 console.log(err);
             }
         });

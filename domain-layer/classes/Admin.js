@@ -8,14 +8,16 @@ let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
  */
 class Admin extends User {
     /**
-     * @constructor
-     * @param {string} firstname first name of user
-     * @param {string} lastname last name of user
-     * @param {string} address home address of user
-     * @param {string} email email of user
-     * @param {number} phone phone number of user
-     * @param {string} password user password, hashed
-     * @param {Boolean} isadmin is the user an Admin
+     * Creates an admin class
+     * @param {string} firstname 
+     * @param {string} lastname 
+     * @param {string} address 
+     * @param {string} email 
+     * @param {string} phone 
+     * @param {string} password 
+     * @param {boolean} isadmin 
+     * @param {string} sessionid 
+     * @param {string} id 
      */
     constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
         super(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);

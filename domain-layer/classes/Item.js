@@ -8,6 +8,7 @@ class Item {
      * @constructor
      * @param {string} serialNumber of product
      * @param {string} modelNumber of Product Specification
+     * @param {boolean} isLocked lock the product
      */
     constructor(serialNumber, modelNumber, isLocked) {
         this.serialNumber = serialNumber;
@@ -17,6 +18,10 @@ class Item {
         this.price = null;
     }
 
+    /**
+     * Price setter
+     * @param {number} price 
+     */
     setPrice(price) {
         this.price = price;
     }

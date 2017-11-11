@@ -57,10 +57,11 @@ class ItemTDG {
     }
 
     /**
-     * Update an item.
-     * @param {*} serialNumber 
-     * @param {*} modelNumner 
-     * @param {*} isLocked 
+     * Update an item
+     * @param {string} serialNumber 
+     * @param {string} modelNumber 
+     * @param {boolean} isLocked 
+     * @param {*} callback 
      */
     static update(serialNumber, modelNumber, isLocked, callback) {
         let queryString = 'UPDATE item SET model=$2, islocked=$3 WHERE serialnumber=$1';

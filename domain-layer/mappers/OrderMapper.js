@@ -117,6 +117,13 @@ class OrderMapper extends AbstractMapper {
         });
     }
 
+    /**
+     * Inserts purchase to UOW
+     * @param {*} orderObject 
+     * @param {*} orderItemsArray 
+     * @param {*} callback 
+     * @return {*} callback
+     */
     static insertPurchase(orderObject, orderItemsArray, callback) {
         UOW.registerNew(orderObject);
         for (let i = 0; i < orderItemsArray.length; i++) {

@@ -13,7 +13,8 @@ class ItemMapper extends AbstractMapper {
      * @static
      * @param {string} serialNumber of product
      * @param {string} modelNumber of Product Specification
-     * @return {item} item object.
+     * @param {boolean} islocked of Product Specification
+     * @return {Object} item object.
      */
     static create(serialNumber, modelNumber, islocked) {
         let item = new Item(serialNumber, modelNumber, islocked);
@@ -139,8 +140,9 @@ class ItemMapper extends AbstractMapper {
 
     /**
      * Unlocks an item
-     * @param {*} object 
+     * @param {Object} object 
      * @param {*} callback 
+     * @return {*} callback
      */
     static unlockItem(object, callback) {
         object.isLocked = false;
@@ -151,8 +153,9 @@ class ItemMapper extends AbstractMapper {
 
     /**
      * Locks an item
-     * @param {*} serialNumber 
-     * @param {*} callback 
+     * @param {Object} object 
+     * @param {*} callback
+     * @return {*} callback
      */
     static lockItem(object, callback) {
         object.isLocked = true;
