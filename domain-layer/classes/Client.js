@@ -14,16 +14,16 @@ let moment = require('moment');
 class Client extends User {
     /**
      * @constructor
-     * @param {string} firstName first name of user
-     * @param {string} lastName last name of user
+     * @param {string} firstname first name of user
+     * @param {string} lastname last name of user
      * @param {string} address home address of user
      * @param {string} email email of user
      * @param {number} phone phone number of user
      * @param {string} password user password, hashed
-     * @param {Boolean} isAdmin is the user an Admin
+     * @param {Boolean} isadmin is the user an Admin
      */
-    constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
-        super(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+    constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
+        super(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
         this.shoppingcart = new ShoppingCart(this.productCatalog, this);
     }

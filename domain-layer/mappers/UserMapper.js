@@ -13,23 +13,23 @@ class UserMapper extends AbstractMapper {
   /**
    * Creates a new user
    * @static
-   * @param {boolean} isAdmin is user client or admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
+   * @param {boolean} isadmin is user client or admin
+   * @param {string} firstname first name of user
+   * @param {string} lastname last name of user
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password user password, hashed
-   * @param {string} sessionID sessionID for login
+   * @param {string} sessionid sessionid for login
    * @param {string} id userID
    * @return {User} user object.
    */
-    static create(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
-        if (isAdmin) {
-            let user = new Admin(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+    static create(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
+        if (isadmin) {
+            let user = new Admin(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
             return user;
         } else {
-            let user = new Client(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id);
+            let user = new Client(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
             return user;
         }
     }
@@ -101,8 +101,8 @@ class UserMapper extends AbstractMapper {
    * @param {Object} userObject an object of type user.
    */
     static insert(userObject) {
-        UserTDG.insert(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password, function(err, result) {
+        UserTDG.insert(userObject.isadmin, userObject.firstname,
+            userObject.lastname, userObject.address, userObject.email, userObject.phone, userObject.password, function(err, result) {
                 if (!err) {
                     idMap.add(userObject, userObject.email);
                 }
@@ -115,8 +115,8 @@ class UserMapper extends AbstractMapper {
    * @param {Object} userObject an object of type user.
    */
     static update(userObject) {
-        UserTDG.update(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone, function(err, result) {
+        UserTDG.update(userObject.isadmin, userObject.firstname,
+            userObject.lastname, userObject.address, userObject.email, userObject.phone, function(err, result) {
                 if (!err) {
                     idMap.update(userObject, userObject.email);
                 }
@@ -128,7 +128,7 @@ class UserMapper extends AbstractMapper {
      * @param {Object} userObject an object of type user.
      */
     static updateLoginSession(userObject) {
-        UserTDG.updateLoginSession(userObject.id, userObject.sessionID);
+        UserTDG.updateLoginSession(userObject.id, userObject.sessionid);
     }
 
     /**
