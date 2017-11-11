@@ -10,17 +10,17 @@ module.exports = {
      * @param  {[type]} res response
      */
     register: function(req, res) {
-        let firstName = req.body.firstName;
-        let lastName = req.body.lastName;
+        let firstname = req.body.firstname;
+        let lastname = req.body.lastname;
         let phone = req.body.phone;
         let address = req.body.address;
         let email = req.body.email;
         let password = req.body.password;
-        let isAdmin = false;
+        let isadmin = false;
 
         // Validation
-        req.checkBody('firstName', 'First Name is required').notEmpty();
-        req.checkBody('lastName', 'Last Name is required').notEmpty();
+        req.checkBody('firstname', 'First Name is required').notEmpty();
+        req.checkBody('lastname', 'Last Name is required').notEmpty();
         req.checkBody('phone', 'Phone Number is required').notEmpty();
         req.checkBody('address', 'Address is required').notEmpty();
         req.checkBody('email', 'Email is required').notEmpty();
@@ -33,7 +33,7 @@ module.exports = {
         if (errors) {
             res.redirect('/');
         } else {
-            Register.createNewUser(firstName, lastName, address, email, phone, password, isAdmin, function(err, user) {
+            Register.createNewUser(firstname, lastname, address, email, phone, password, isadmin, function(err, user) {
                 if (err) throw err;
             });
             res.redirect('/');
@@ -50,8 +50,8 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            if (user.sessionID) {
-                user.sessionID = null;
+            if (user.sessionid) {
+                user.sessionid = null;
                 UserMapper.updateLoginSession(user);
             }
         });
@@ -67,7 +67,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;
-                if (user.isAdmin) {
+                if (user.isadmin) {
                     return next();
                 } else {
                     res.redirect('/');
@@ -105,12 +105,12 @@ module.exports = {
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;
-                if (user.isAdmin) {
-                    res.locals.isAdmin = true;
+                if (user.isadmin) {
+                    res.locals.isadmin = true;
                 } else {
-                    res.locals.isAdmin = false;
+                    res.locals.isadmin = false;
                 }
-                res.locals.name = user.firstName + ' ' + user.lastName;
+                res.locals.name = user.firstname + ' ' + user.lastname;
             });
         }
         return next();
