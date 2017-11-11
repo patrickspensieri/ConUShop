@@ -8,25 +8,25 @@ let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
 class User {
   /**
    * @constructor
-   * @param {Boolean} isAdmin is the user an Admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
+   * @param {Boolean} isadmin is the user an Admin
+   * @param {string} firstname first name of user
+   * @param {string} lastname last name of user
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {string} password user password
-   * @param {string} sessionID sessionID for login session
+   * @param {string} sessionid sessionid for login session
    * @param {number} id the user id, set to null if not passed
    */
-    constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
-        this.isAdmin = isAdmin;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
+        this.isadmin = isadmin;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.address = address;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.sessionID = sessionID;
+        this.sessionid = sessionid;
         this.id = id;
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }
@@ -38,8 +38,8 @@ class User {
      * @method display
      */
     display() {
-        console.log(this.isAdmin + ' ' + this.firstName + ' ' +
-         this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.sessionID);
+        console.log(this.isadmin + ' ' + this.firstname + ' ' +
+         this.lastname + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.sessionid);
     }
 
     /**

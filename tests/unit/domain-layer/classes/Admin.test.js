@@ -25,13 +25,13 @@ describe('Unit Tests: Admin class', function() {
         let admin = new Admin('fn', 'ln', 'ad', 'em', 123, 'pw', true);
         expect(admin).to.be.instanceOf(Admin);
         expect(admin).to.be.an('object');
-        expect(admin).to.have.own.property('firstName');
-        expect(admin).to.have.own.property('lastName');
+        expect(admin).to.have.own.property('firstname');
+        expect(admin).to.have.own.property('lastname');
         expect(admin).to.have.own.property('address');
         expect(admin).to.have.own.property('email');
         expect(admin).to.have.own.property('phone');
         expect(admin).to.have.own.property('password');
-        expect(admin).to.have.own.property('isAdmin');
+        expect(admin).to.have.own.property('isadmin');
     });
 
     it('should have a productCatalog instance', () => {

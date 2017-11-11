@@ -10,17 +10,17 @@ let bcrypt = require('bcryptjs');
 class Register {
     /**
      * @constructor
-     * @param {Boolean} isAdmin is the user an Admin
-     * @param {string} firstName first name of user
-     * @param {string} lastName last name of user
+     * @param {Boolean} isadmin is the user an Admin
+     * @param {string} firstname first name of user
+     * @param {string} lastname last name of user
      * @param {string} address home address of user
      * @param {string} email email of user
      * @param {number} phone phone number of user
      * @param {string} password user password
      * @param {function} callback function
      */
-    static createNewUser(firstName, lastName, address, email, phone, password, isAdmin, callback) {
-        let user = new User(firstName, lastName, address, email, phone, password, isAdmin);
+    static createNewUser(firstname, lastname, address, email, phone, password, isadmin, callback) {
+        let user = new User(firstname, lastname, address, email, phone, password, isadmin);
 
         bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(password, salt, function(err, hash) {
