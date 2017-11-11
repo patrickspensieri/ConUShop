@@ -7,38 +7,37 @@ let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
  */
 class User {
     /**
-     * Creates an User
-     * @param {string} firstName 
-     * @param {string} lastName 
+     * 
+     * @param {string} firstname 
+     * @param {string} lastname 
      * @param {string} address 
      * @param {string} email 
      * @param {string} phone 
      * @param {string} password 
-     * @param {boolean} isAdmin 
-     * @param {string} sessionID 
+     * @param {boolean} isadmin 
+     * @param {string} sessionid 
      * @param {string} id 
      */
-    constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
-        this.isAdmin = isAdmin;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
+        this.isadmin = isadmin;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.address = address;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.sessionID = sessionID;
+        this.sessionid = sessionid;
         this.id = id;
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }
-
 
     /**
      * Displays information about user object.
      * @method display
      */
     display() {
-        console.log(this.isAdmin + ' ' + this.firstName + ' ' +
-         this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.sessionID);
+        console.log(this.isadmin + ' ' + this.firstname + ' ' +
+         this.lastname + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.sessionid);
     }
 
     /**

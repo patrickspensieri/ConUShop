@@ -9,13 +9,13 @@ describe('Unit Tests: Client class', function() {
         let client = new Client('fn', 'ln', 'ad', 'em', 123, 'pw', false);
         expect(client).to.be.instanceOf(Client);
         expect(client).to.be.an('object');
-        expect(client).to.have.own.property('firstName');
-        expect(client).to.have.own.property('lastName');
+        expect(client).to.have.own.property('firstname');
+        expect(client).to.have.own.property('lastname');
         expect(client).to.have.own.property('address');
         expect(client).to.have.own.property('email');
         expect(client).to.have.own.property('phone');
         expect(client).to.have.own.property('password');
-        expect(client).to.have.own.property('isAdmin');
+        expect(client).to.have.own.property('isadmin');
     });
 
     it('should have the getProductInventory function', () => {
