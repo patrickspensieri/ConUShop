@@ -176,8 +176,8 @@ let getAttributesHelper = function(value, className) {
                 value.weight, value.price];
             break;
         case 'User':
-            return [value.isadmin, value.firstname,
-                value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id];
+            return [value.firstname,
+                value.lastname, value.address, value.email, value.phone, value.password,value.isadmin,value.sessionid, value.id];
             break;
         case 'Item':
             return [value.serialnumber, value.model];
