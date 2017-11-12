@@ -532,10 +532,10 @@ CREATE TABLE CART (
 /* ------------------------------------------ ORDER TABLE QUERIES --------------------------------------------- */
 CREATE TABLE ORDERS (
     order_id BIGINT NOT NULL UNIQUE,
-    user_id SERIAL REFERENCES ACTIVEUSERS(user_id) NOT NULL,
+    user_id SERIAL REFERENCES USERS(user_id) NOT NULL,
     orderDate DATE NOT NULL default CURRENT_DATE,
     total DECIMAL NOT NULL DEFAULT 0,
-    PRIMARY KEY (order_id, user_id)
+    PRIMARY KEY (order_id)
 );
 
 
@@ -547,7 +547,7 @@ CREATE TABLE ORDERITEM (
     serialNumber VARCHAR(10) NOT NULL,
     price DECIMAL NOT NULL,
     isReturned BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY (order_item_id, order_id)
+    PRIMARY KEY (order_item_id)
 );
 
 /* ------------------------------------------ RETURN TABLE QUERIES --------------------------------------------- */
@@ -1129,27 +1129,34 @@ FOR EACH ROW
 EXECUTE PROCEDURE adminCheckUpdate();
 
 /* ------------ setItemPrice() TRIGGERS ----------------- */
+/*
 CREATE TRIGGER setCartItemPrice
 BEFORE INSERT ON CART
 FOR EACH ROW
 EXECUTE PROCEDURE setItemPrice();
-
+*/
+/*
 CREATE TRIGGER setOrderItemPrice
 BEFORE INSERT ON ORDERITEM
 FOR EACH ROW
 EXECUTE PROCEDURE setItemPrice();
+*/
 
 /* ------------ orderItemsCreate() TRIGGER ----------------- */
+/*
 CREATE TRIGGER orderItemsCreate
 AFTER INSERT ON ORDERS
 FOR EACH ROW
 EXECUTE PROCEDURE orderItemsCreate();
+*/
 
 /* ------------ checkIsSold() TRIGGER ----------------- */
+/*
 CREATE TRIGGER checkIsSold
 BEFORE INSERT ON CART
 FOR EACH ROW
 EXECUTE PROCEDURE checkIsSold();
+*/
 
 /* ------------ returnHandle() TRIGGER ----------------- */
 CREATE TRIGGER returnHandle
