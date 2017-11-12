@@ -1,5 +1,3 @@
-let UserMapper = require('../domain-layer/mappers/UserMapper');
-
 module.exports = {
     addToShoppingCart: function(req, res) {
         let modelNumber = req.body.model;
@@ -10,9 +8,10 @@ module.exports = {
     },
 
     deleteFromShoppingCart: function(req, res) {
-        let serialNumber = req.body.serialNumber;
+        let serialNumber = req.params.id;
         let client = req.client;
         client.shoppingcart.removeFromCart(serialNumber, function(err, data) {
+            res.redirect(req.get('referer'));
         });
     },
 
@@ -27,9 +26,7 @@ module.exports = {
     makePurchase: function(req, res) {
         let client = req.client;
         client.makePurchase(function(err, result) {
-            res.render('client/shoppingCart', {
-                data: [],
-            });
+            res.redirect(req.get('referer'));
         });
     },
 

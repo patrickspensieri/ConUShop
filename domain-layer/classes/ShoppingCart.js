@@ -43,6 +43,7 @@ class ShoppingCart {
      */
     removeFromCart(serialNumber, callback) {
         contract.precondition(this.quantity > 0);
+        this.quantity--;
         const self = this;
         this.productCatalog.unlockItem(serialNumber, function(err, result) {
             if (!err) {

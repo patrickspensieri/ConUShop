@@ -41,12 +41,20 @@
                         <td class="dimensions"><%= data[i].specification.dimensions %></td>
                         <td class="weight"><%= data[i].specification.weight %></td>
                         <td class="price"><%= data[i].specification.price %></td>
-                        <td><button onclick="deleteCartItem('<%= data[i].serialNumber %>')">Delete</button></td>
+                        <td>
+                            <form method="get" action="/client/deleteFromShoppingCart/<%= data[i].serialNumber %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                         </td>
                     </tr>
                 <% } %>
             </table>
         <% } %>
-        <td><button onclick="makePurchase()">Make Purchase</button></td>
+        <td>
+            <form method="get" action="/client/makePurchase">
+                <button type="submit">Make Purchase</button>
+            </form>
+        </td>
     </div>
     
     <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->

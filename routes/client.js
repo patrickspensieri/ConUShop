@@ -5,7 +5,7 @@ let clientController = require('../controllers/clientController');
 // Client routes
 router.get('/shoppingCart', clientController.viewShoppingCart);
 router.post('/addToShoppingCart', clientController.addToShoppingCart);
-router.post('/deleteFromShoppingCart', clientController.deleteFromShoppingCart);
+router.get('/deleteFromShoppingCart/:id', clientController.deleteFromShoppingCart);
 router.get('/makePurchase', clientController.makePurchase);
 router.get('/orders', clientController.viewOrders);
 router.get('/order/details/:id', clientController.viewOrderDetails);

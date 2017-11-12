@@ -235,20 +235,3 @@ $( document ).ready(function() {
         }
     }
 });
-
-function deleteCartItem(serialNumber) {
-    $.ajax({
-        type: 'POST',
-        url: '/client/deleteFromShoppingCart',
-        data: {
-            serialNumber: serialNumber,
-        },
-    });
-}
-
-function makePurchase() {
-    $.ajax({
-        type: 'GET',
-        url: '/client/makePurchase',
-    });
-}
