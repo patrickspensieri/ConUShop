@@ -65,8 +65,6 @@ class UserMapper extends AbstractMapper {
                             return callback(null, user);
                         }
                     }
-                    return callback(null, new User(value.isadmin, value.firstname,
-                        value.lastname, value.address, value.email, value.phone, value.password, value.session_id, value.id));
                 }
             });
         }
@@ -90,8 +88,6 @@ class UserMapper extends AbstractMapper {
                     if (idMap.get('User', user.email) == null) {
                         idMap.add(user, user.email);
                     }
-                    users.push(new User(value.isAdmin, value.firstName,
-                        value.lastName, value.address, value.email, value.phone, value.session_id));
                 }
                 return callback(null, users);
             }
