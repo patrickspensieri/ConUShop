@@ -66,7 +66,7 @@ class Client extends User {
                 console.log(result);
                 UOW.registerDirty(result);
                 ItemMapper.find(result.serialNumber, function(err, result2) {
-                    result2.islocked = false;
+                    result2.isLocked = false;
                     UOW.registerDirty(result2);
                     UOW.commit();
                     return callback(err, null);
