@@ -158,6 +158,13 @@ $( document ).ready(function() {
         });
     });
 
+    $('li.dropdown').hover(function() {
+		$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+	  }, function() {
+		$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+	  });
+
+
     function detailsView(row, prodType) {
         let model = row.find('td.model').text();
         let brand = row.find('td.brand').text();

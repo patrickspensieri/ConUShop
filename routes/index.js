@@ -16,4 +16,5 @@ router.get('/',
             success_message: req.flash('success_msg')});
 });
 
+
 module.exports = router;
