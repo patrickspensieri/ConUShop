@@ -64,7 +64,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(req, email, done) {
     UserMapper.find(email, function(err, user) {
         // update the user's sessionid and store changes
-        user.sessionid = req.sessionid;
+        user.sessionid = req.sessionID;
         UserMapper.updateLoginSession(user);
         done(err, user);
     });
