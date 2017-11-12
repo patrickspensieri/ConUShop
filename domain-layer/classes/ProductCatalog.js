@@ -264,6 +264,8 @@ class ProductCatalog {
                     }
                 });
                 return callback(null, result);
+            } else {
+                return callback(err, null);
             }
         });
     }

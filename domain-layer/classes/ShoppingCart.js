@@ -29,7 +29,9 @@ class ShoppingCart {
         contract.precondition(this.cart.length < 7);
 
         self.getItem(modelNumber, type, function(err, result) {
-            self.cart.push(result);
+            if (result != null) {
+                self.cart.push(result);
+            }
             return callback(err, result);
         });
     }
@@ -70,6 +72,8 @@ class ShoppingCart {
                 orderItem.setSpecification(function() {
                     return callback(null, orderItem);
                 });
+            } else {
+                return callback(err, null);
             }
         });
     }
