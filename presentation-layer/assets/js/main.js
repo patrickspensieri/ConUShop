@@ -149,7 +149,7 @@ $( document ).ready(function() {
             let modelNumber = row.find('td.model').text();
             $.ajax({
                 type: 'POST',
-                url: '/catalog/addToShoppingCart',
+                url: '/client/addToShoppingCart',
                 data: {
                     model: modelNumber,
                     type: prodType,
@@ -239,7 +239,7 @@ $( document ).ready(function() {
 function deleteCartItem(serialNumber) {
     $.ajax({
         type: 'POST',
-        url: '/catalog/deleteFromShoppingCart',
+        url: '/client/deleteFromShoppingCart',
         data: {
             serialNumber: serialNumber,
         },
@@ -249,6 +249,6 @@ function deleteCartItem(serialNumber) {
 function makePurchase() {
     $.ajax({
         type: 'GET',
-        url: '/catalog/makePurchase',
+        url: '/client/makePurchase',
     });
 }

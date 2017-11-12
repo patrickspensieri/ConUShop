@@ -1,3 +1,4 @@
+let ProductCatalog = require('./ProductCatalog');
 /**
  * Class describes a OrderItem.
  * @class OrderItem
@@ -11,7 +12,7 @@ class OrderItem {
      * @param {int} Quantity of Item
      */
     
-    constructor(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout, productCatalog) {
+    constructor(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout) {
         this.orderItemId = orderItemId;
         this.orderId = orderId;
         this.serialNumber = serialNumber;
@@ -19,7 +20,7 @@ class OrderItem {
         this.isReturned = isReturned;
         this.itemObj = itemObj;
         this.specification = null;
-        this.productCatalog = productCatalog;
+        this.productCatalog = ProductCatalog.getProductCatalogInstance();
         this.itemTimeout = itemTimeout; //timer for each items
     }
     
@@ -28,8 +29,16 @@ class OrderItem {
         return this.orderItemId;
     }
 
-    getItemObject(){
+    getItemObject() {
        return itemObj;
+    }
+
+    setItemObject(callback) {
+        let self = this;
+        this.productCatalog.getItem(this.serialNumber, function(err, result) {
+            self.itemObj = result;
+            return callback(err, result);
+        });
     }
 
     setSpecification(callback) {

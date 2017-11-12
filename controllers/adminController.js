@@ -1,4 +1,4 @@
-let Admin = require('../../domain-layer/classes/Admin');
+let Admin = require('../domain-layer/classes/Admin');
 
 module.exports = {
     dashboard: function(req, res) {

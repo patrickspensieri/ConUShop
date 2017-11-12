@@ -1,3 +1,5 @@
+let OrderMapper = require('../mappers/OrderMapper');
+
 /**
  * Class describes a OrderItem.
  * @class OrderItem
@@ -7,17 +9,36 @@
 class OrderCatalog {
     /**
      * @constructor
-     * @param {object} Instance of Item
-     * @param {int} Quantity of Item
      */
-    
-    constructor(itemObj, itemTimeout) {
-       this.itemObj = itemObj;
-       this.itemTimeout = itemTimeout; //timer for each items
+    constructor() {
+       this.orders = null;
     }
     
-    getItemObject(){
-       return itemObj;
+    getOrders(userId, callback) {
+        let self = this;
+        OrderMapper.findAll(userId, function(err, result) {
+            self.orders = result;
+            return callback(err, result);
+        });
+    }
+
+    getOrderDetails(orderId, callback) {
+        for (let i = 0; i < this.orders.length; i++) {
+            if (this.orders[i].orderId == orderId) {
+                let inserted = 0;
+                this.orders[i].getOrderItems(function(err, result) {
+                    for (let i = 0; i < result.length; i++) {
+                        result[i].setItemObject(function(err, result2) {
+                            //This part is not doing anything right now....
+                            result[i].setSpecification(function() {});
+                            if (++inserted == result.length) {
+                                return callback(err, result);
+                            }
+                        });
+                    }
+                });
+            }
+        }
     }
 }
 

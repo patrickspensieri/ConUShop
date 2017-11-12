@@ -1,5 +1,5 @@
-let UserMapper = require('../../domain-layer/mappers/UserMapper');
-let Register = require('../../domain-layer/classes/Register');
+let UserMapper = require('../domain-layer/mappers/UserMapper');
+let Register = require('../domain-layer/classes/Register');
 
 // QUESTION why do we have a Register object?
 
@@ -100,7 +100,7 @@ module.exports = {
      * @param  {Function} next callback
      * @return {[type]}
      */
-    ensureLoggedIn: function(req, res, next) {
+    checkLoggedIn: function(req, res, next) {
         res.locals.isAuthenticated = req.isAuthenticated();
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
@@ -114,5 +114,27 @@ module.exports = {
             });
         }
         return next();
+    },
+
+    /**
+     * Ensure user is a Client.
+     * @param  {path} req request
+     * @param  {path} res response
+     * @param  {path} next callback function
+     */
+    ensureClient: function(req, res, next) {
+        if (req.isAuthenticated()) {
+            UserMapper.find(req.user.email, function(err, user) {
+                if (err) throw err;
+                if (!user.isadmin) {
+                    req.client = user;
+                    return next();
+                } else {
+                    res.redirect('/');
+                }
+            });
+        } else {
+            res.redirect('/');
+        }
     },
 };

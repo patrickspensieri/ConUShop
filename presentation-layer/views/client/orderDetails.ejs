@@ -1,0 +1,49 @@
+<html lang="en">
+        <head>
+            <title>ConUshop | Home </title>
+            <% include ../components/header.ejs %>
+        </head>
+        <body>
+        <script type="text/javascript" src="/js/bootstrap-3.1.1.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.min.css" rel="stylesheet" type="text/css" media="all" />
+        <script type="text/javascript" src="/js/main.js"></script>
+        
+        <% include ../components/navigator.ejs %>
+        <% include ../components/clientNav.ejs %>
+        
+        <div>
+            <% if (typeof data!='undefined') { %>
+                <table>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Model Number</th>
+                        <th>Total</a></th>
+                        <th>Returned</th>
+                    </tr>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                        <tr>
+                            <td class="serial"><%= data[i].serialNumber %></td>
+                            <td class="model"><%= data[i].itemObj.modelNumber%></td>
+                            <td class="brand"><%= data[i].itemObj.price %></td>
+                            <td class="brand"><%= data[i].isReturned %></td>
+                            <td>
+                                <form method="get" action="/client/item/return/<%= data[i].orderItemId %>">
+                                    <button type="submit">Return</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
+                </table>
+            <% } %>
+        </div>
+        
+        <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
+        <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
+        <script type="text/javascript" src="/js/catalog/catalog.js"></script>
+        <% include ../components/footer.ejs %>
+        </body>
+        </html>
+        

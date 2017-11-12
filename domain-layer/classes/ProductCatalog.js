@@ -269,6 +269,19 @@ class ProductCatalog {
     }
 
     /**
+     * Gets and item and locks it
+     * @param {*} modelNumber 
+     * @param {*} callback 
+     */
+    getItem(serialNumber, callback) {
+        itemMapper.find(serialNumber, function(err, result) {
+            if (!err) {
+                return callback(null, result);
+            }
+        });
+    }
+
+    /**
      * Unlocks an item.
      * @param {*} serialNumber 
      * @param {*} callback 

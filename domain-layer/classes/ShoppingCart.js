@@ -76,7 +76,7 @@ class ShoppingCart {
         this.productCatalog.getItemAndLock(modelNumber, function(err, result) {
             if (!err) {
                 result.type = type;
-                let orderItem = OrderItemMapper.create(null, null, result.serialNumber, null, false, result, null, self.productCatalog);
+                let orderItem = OrderItemMapper.create(null, null, result.serialNumber, null, false, result, null);
                 orderItem.setSpecification(function() {
                     return callback(null, orderItem);
                 })

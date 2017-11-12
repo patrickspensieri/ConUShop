@@ -28,8 +28,8 @@ class OrderItemTDG {
    * @param {string} orderId brand of OrderId.
    * @param {function} callback function that holds array of Order object.
    */
-    static findAll(orderItemId, callback) {
-        db.query('SELECT * FROM OrderItem where order_item_id=$1', [orderItemId], (err, result) => {
+    static findAll(orderId, callback) {
+        db.query('SELECT * FROM OrderItem where order_id=$1', [orderId], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -48,7 +48,7 @@ class OrderItemTDG {
    * @param {number} isReturned weight of Order.
    * @param {function} callback
    */
-    static insert(orderItemId, orderId, serialNumber, price, isReturned,callback) {
+    static insert(orderItemId, orderId, serialNumber, price, isReturned, callback) {
         let queryString = 'INSERT INTO OrderItem (order_item_id, order_id, serialNumber, price, isReturned) VALUES($1, $2, $3, $4 ,$5)';
         let queryValues = [orderItemId, orderId, serialNumber, price, isReturned];
 
