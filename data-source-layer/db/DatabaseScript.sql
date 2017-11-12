@@ -551,14 +551,14 @@ CREATE TABLE ORDERITEM (
 );
 
 /* ------------------------------------------ RETURN TABLE QUERIES --------------------------------------------- */
-
+/*
 CREATE TABLE RETURNS (
     return_id SERIAL PRIMARY KEY NOT NULL,
     order_id BIGINT REFERENCES ORDERS(order_id) NOT NULL,
     user_id SERIAL REFERENCES ACTIVEUSERS(user_id) NOT NULL,
     order_item_id VARCHAR(60) REFERENCES ORDERITEM(order_item_id) NOT NULL
 );
-
+*/
 
 /* ------------------------------------------ TRIGGER FUNCTIONS --------------------------------------------- */
 /* ------------ modelCheck() FUNCTIONS, CHECKS IF MODEL FORMAT IS GOOD & IF PRODUCT EXISTS */
