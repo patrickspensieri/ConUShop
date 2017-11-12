@@ -518,7 +518,7 @@ CREATE TABLE ACTIVEUSERS(
 
 
 /* ------------------------------------------ CART TABLE QUERIES --------------------------------------------- */
-
+/*
 CREATE TABLE CART (
     user_id VARCHAR(60) REFERENCES ACTIVEUSERS(user_id) NOT NULL,
     cart_item_id SERIAL NOT NULL,
@@ -527,7 +527,7 @@ CREATE TABLE CART (
     entryTime TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY(cart_item_id)
 );
-
+*/
 
 /* ------------------------------------------ ORDER TABLE QUERIES --------------------------------------------- */
 CREATE TABLE ORDERS (
@@ -1166,23 +1166,28 @@ EXECUTE PROCEDURE updateSession();
 */
 
 /* ------------ cartAdminCheck() TRIGGER ----------------- */
+/*
 CREATE TRIGGER cartAdminCheck
 BEFORE INSERT ON CART
 FOR EACH ROW
 EXECUTE PROCEDURE cartAdminCheck();
+*/
 
 /* ------------ maxNumberCart() TRIGGER ----------------- */
+/*
 CREATE TRIGGER maxNumberCart
 BEFORE INSERT ON CART
 FOR EACH ROW
 EXECUTE PROCEDURE maxNumberCart();
+*/
 
 /* ------------ resetCartSerial() TRIGGERS ----------------- */  
-
+/*
 CREATE TRIGGER resetCartSerial
 BEFORE INSERT ON CART
 FOR EACH ROW
 EXECUTE PROCEDURE resetCartSerial();
+*/
 
 /* ------------ productDelete() TRIGGER ----------------- */
 /*
