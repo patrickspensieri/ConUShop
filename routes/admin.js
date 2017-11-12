@@ -1,6 +1,6 @@
 let express = require('express');
 let router = new express.Router();
-let adminController = require('../presentation-layer/controllers/adminController');
+let adminController = require('../controllers/adminController');
 
 router.get('/dashboard', adminController.dashboard);
 

@@ -145,21 +145,25 @@ $( document ).ready(function() {
             }
         });
 
-        $(this).find('.prod-addToCart').click(function() {
+        $(this).find('.prod-addToCart').off().click(function() {
             let modelNumber = row.find('td.model').text();
             $.ajax({
                 type: 'POST',
-                url: '/catalog/addToShoppingCart',
+                url: '/client/addToShoppingCart',
                 data: {
                     model: modelNumber,
                     type: prodType,
                 },
-                success: function(response) {
-                    console.log(response);
-                },
             });
         });
     });
+
+    $('li.dropdown').hover(function() {
+		$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+	  }, function() {
+		$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+	  });
+
 
     function detailsView(row, prodType) {
         let model = row.find('td.model').text();
@@ -235,20 +239,3 @@ $( document ).ready(function() {
         }
     }
 });
-
-function deleteCartItem(serialNumber) {
-    $.ajax({
-        type: 'POST',
-        url: '/catalog/deleteFromShoppingCart',
-        data: {
-            serialNumber: serialNumber,
-        },
-    });
-}
-
-function makePurchase() {
-    $.ajax({
-        type: 'GET',
-        url: '/catalog/makePurchase',
-    });
-}

@@ -1,5 +1,5 @@
-let UserMapper = require('../../domain-layer/mappers/UserMapper');
-let Register = require('../../domain-layer/classes/Register');
+let UserMapper = require('../domain-layer/mappers/UserMapper');
+let Register = require('../domain-layer/classes/Register');
 
 // QUESTION why do we have a Register object?
 
@@ -42,7 +42,7 @@ module.exports = {
 
     /**
      * Logout given user from the session.
-     * Clears the given user's sessionid, allowing user to login.
+     * Clears the given user's session_id, allowing user to login.
      * @param  {[type]} user User sent from request
      */
     logoutSession: function(user) {
@@ -50,32 +50,11 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            if (user.sessionid) {
-                user.sessionid = null;
+            if (user.session_id) {
+                user.session_id = null;
                 UserMapper.updateLoginSession(user);
             }
         });
-    },
-
-    /**
-     * Ensure user is an Adminstrator.
-     * @param  {path} req request
-     * @param  {path} res response
-     * @param  {path} next callback function
-     */
-    ensureAdministrator: function(req, res, next) {
-        if (req.isAuthenticated()) {
-            UserMapper.find(req.user.email, function(err, user) {
-                if (err) throw err;
-                if (user.isadmin) {
-                    return next();
-                } else {
-                    res.redirect('/');
-                }
-            });
-        } else {
-            res.redirect('/');
-        }
     },
 
     /**
@@ -94,25 +73,62 @@ module.exports = {
     },
 
     /**
-     * Ensures a user is logged in
+     * Gets user
      * @param  {[type]}   req  request
      * @param  {[type]}   res  response
      * @param  {Function} next callback
      * @return {[type]}
      */
-    ensureLoggedIn: function(req, res, next) {
+    getUser: function(req, res, next) {
         res.locals.isAuthenticated = req.isAuthenticated();
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;
                 if (user.isadmin) {
                     res.locals.isadmin = true;
+                    res.locals.isclient = false;
+                    req.adminUser = user;
                 } else {
                     res.locals.isadmin = false;
+                    res.locals.isclient = true;
+                    req.clientUser = user;
                 }
                 res.locals.name = user.firstname + ' ' + user.lastname;
+                req.guestUser = user;
             });
+        } else {
+            res.locals.isclient = false;
+            req.guestUser = UserMapper.create();
         }
         return next();
+    },
+
+    /**
+     * Ensure user is a Client.
+     * @param  {path} req request
+     * @param  {path} res response
+     * @param  {path} next callback function
+     */
+    ensureClient: function(req, res, next) {
+        if (req.clientUser) {
+            return next();
+        } else {
+            req.flash('error_msg', 'Please login with your client account in order to access this feature.');
+            res.redirect('/');
+        }
+    },
+
+    /**
+     * Ensure user is an Adminstrator.
+     * @param  {path} req request
+     * @param  {path} res response
+     * @param  {path} next callback function
+     */
+    ensureAdministrator: function(req, res, next) {
+        if (req.adminUser) {
+            return next();
+        } else {
+            res.redirect('/');
+        }
     },
 };

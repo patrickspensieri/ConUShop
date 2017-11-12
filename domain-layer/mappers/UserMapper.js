@@ -24,13 +24,17 @@ class UserMapper extends AbstractMapper {
      * @return {Object} new user
      */
     static create(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
+        let user = null;
         if (isadmin) {
-            let user = new Admin(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
-            return user;
+            user = new Admin(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
         } else {
-            let user = new Client(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
-            return user;
+            if (firstname && lastname && address && email && phone && password) {
+                user = new Client(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
+            } else {
+                user = new User();
+            }
         }
+        return user;
     }
 
   /**
@@ -127,7 +131,7 @@ class UserMapper extends AbstractMapper {
      * @param {Object} userObject an object of type user.
      */
     static updateLoginSession(userObject) {
-        UserTDG.updateLoginSession(userObject.id, userObject.sessionid);
+        UserTDG.updateLoginSession(userObject.id, userObject.session_id);
     }
 
     /**

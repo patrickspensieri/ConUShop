@@ -1,0 +1,50 @@
+<html lang="en">
+        <head>
+            <title>ConUshop | Home </title>
+            <% include ../components/header.ejs %>
+        </head>
+        <body>
+        
+        <% include ../components/navigator.ejs %>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="client_content table-responsive">
+            <h1>Order Details</h1>
+            <div class="content">
+                <% if (typeof data!='undefined') { %>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Serial Number</th>
+                                <th>Model Number</th>
+                                <th>Price</a></th>
+                                <th>Returned</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td class="serial"><%= data[i].serialNumber %></td>
+                                <td class="model"><%= data[i].itemObj.modelNumber%></td>
+                                <td class="brand"><%= data[i].price %></td>
+                                <td class="brand"><%= data[i].isReturned %></td>
+                                <td>
+                                    <form method="get" action="/client/item/return/<%= data[i].orderItemId %>">
+                                        <button type="submit">Return</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                <% } %>
+            </div>
+        </div>
+        
+<% include ../components/footer.ejs %>
+</body>
+</html>
+        

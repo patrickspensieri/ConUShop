@@ -1,3 +1,5 @@
+let OrderItemMapper = require('../mappers/OrderItemMapper');
+
 /**
  * Class describes a Order.
  * @class Order
@@ -17,6 +19,15 @@ class Order {
        this.orderDate = orderDate;
        this.total = total;
        this.isCompleted = false;
+       this.orderItems = null;
+    }
+
+    getOrderItems(callback) {
+        let self = this;
+        OrderItemMapper.findAll(this.orderId, function(err, result) {
+            self.orderItems = result;
+            return callback(err, result);
+        });
     }
 }
 

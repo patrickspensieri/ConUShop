@@ -1,18 +1,12 @@
 <html lang="en">
 <head>
     <title>ConUshop | Home </title>
-    <% include ../../assets/components/header.ejs %>
+    <% include ../components/header.ejs %>
 </head>
 <body>
-<script type="text/javascript" src="/js/bootstrap-3.1.1.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.min.css" rel="stylesheet" type="text/css" media="all" />
-<script type="text/javascript" src="/js/main.js"></script>
-
-<% include ../../assets/components/navigator.ejs %>
-<% include ../../assets/components/clientNav.ejs %>
+    
+<% include ../components/navigator.ejs %>
+<% include ../components/clientNav.ejs %>
 
 <div class="client_content table-responsive">
     <div>
@@ -216,17 +210,19 @@
 </div>
 
 <div id="productCatalog" class="modal fade" role="dialog" aria-labelledby="productCatalogLabel" aria-hidden="true">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3>Item Details</h3>
-        </div>
-        <div id="productDetails" class="modal-body"></div>
-        <div class="modal-footer">
-            <button class="btn btn-default prod-addToCart">Add to Shopping Cart</button>
-            <button class="btn btn-default prod-prev">Prev</button>
-            <button class="btn btn-default prod-next">Next</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <div class='modal-dialog modal-lg'>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3>Item Details</h3>
+            </div>
+            <div id="productDetails" class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-default prod-addToCart">Add to Shopping Cart</button>
+                <button class="btn btn-default prod-prev">Prev</button>
+                <button class="btn btn-default prod-next">Next</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
         </div>
     </div>
 </div>
@@ -234,6 +230,6 @@
 <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
 <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
 <script type="text/javascript" src="/js/catalog/catalog.js"></script>
-<% include ../../assets/components/footer.ejs %>
+<% include ../components/footer.ejs %>
 </body>
 </html>

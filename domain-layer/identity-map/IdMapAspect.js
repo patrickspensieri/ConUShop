@@ -126,7 +126,7 @@ function updateAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    classTDG.update(...getAttributesHelper(object, className), function(err, result) {
+    classTDG.update(...getObjectAttributesHelper(object, className), function(err, result) {
             if (!err) {
                 idMap.update(object, id);
             }
@@ -181,6 +181,44 @@ let getAttributesHelper = function(value, className) {
             break;
         case 'Item':
             return [value.serialnumber, value.model, value.islocked];
+            break;
+        }
+};
+
+/**
+ * Models
+ * @param  {[type]} value     [description]
+ * @param  {[type]} className [description]
+ * @return {[type]}           [description]
+ */
+let getObjectAttributesHelper = function(value, className) {
+    switch (className) {
+        case 'Desktop':
+            return [value.model, value.brand, value.processor, value.ram,
+                value.storage, value.cores, value.dimensions, value.weight, value.price];
+            break;
+        case 'Laptop':
+            return [value.model, value.brand, value.display, value.processor,
+                value.ram, value.storage, value.cores, value.os,
+                value.battery, value.camera, value.touch, value.dimensions,
+                value.weight, value.price];
+            break;
+        case 'Monitor':
+            return [value.model, value.brand, value.size,
+                value.weight, value.price];
+            break;
+        case 'Tablet':
+            return [value.model, value.brand, value.display, value.processor,
+                value.ram, value.storage, value.cores, value.os,
+                value.battery, value.camera, value.dimensions,
+                value.weight, value.price];
+            break;
+        case 'User':
+            return [value.firstname,
+                value.lastname, value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id];
+            break;
+        case 'Item':
+            return [value.serialNumber, value.modelNumber, value.isLocked];
             break;
         }
 };

@@ -188,7 +188,6 @@ a.simpleCart_empty {
     height: 44px;
     text-align: center;
     outline: none;
-    position: fixed;
     right: 14%;
 	z-index: 999
 }
@@ -5002,17 +5001,13 @@ td.invert-image a img {
 table, th, td {
 	border: 1px solid black;
 }
-.admin_dashboard{
 
-
-
-}
-div.inside_dashboard_nav{
+div.inside_nav{
     background-color: rgb(203,181,118);
     width: 100%;
 
 }
-ul.admin_dashboard {
+ul.nav_ul {
     margin: auto;
     overflow: hidden;
     list-style-type: none;
@@ -5022,11 +5017,11 @@ ul.admin_dashboard {
     background-color: rgb(203,181,118);
 
 }
-li.nav_dashboard {
+li.nav_li {
     float: left;
 
 }
-li.nav_dashboard a{
+li.nav_li a{
     border: 1px;
     display: block;
     padding: 10px 25px;
@@ -5034,7 +5029,7 @@ li.nav_dashboard a{
     font-weight: bold;
 
 }
-li.nav_dashboard a:hover:not(.active){
+li.nav_li a:hover:not(.active){
     border: 1px;
     color: #932439;
     font-weight: bold;
@@ -5082,5 +5077,10 @@ li.nav_client a:hover:not(.active) {
 
 .client_content{
     position: relative;
-    margin-left: 25%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.content {
+	margin-top: 2%;
 }

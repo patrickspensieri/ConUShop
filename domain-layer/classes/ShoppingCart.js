@@ -15,7 +15,6 @@ class ShoppingCart {
     constructor(productCatalog, user) {
         contract.precondition(user.isadmin === false);
         this.productCatalog = productCatalog;
-        this.quantity = 0; // max quantity of 7
         this.cart = [];
     }
 
@@ -27,11 +26,12 @@ class ShoppingCart {
      */
     addToCart(modelNumber, type, callback) {
         const self = this;
-        contract.precondition(this.quantity < 7);
-        this.quantity++;
+        contract.precondition(this.cart.length < 7);
 
         self.getItem(modelNumber, type, function(err, result) {
-            self.cart.push(result);
+            if (result != null) {
+                self.cart.push(result);
+            }
             return callback(err, result);
         });
     }
@@ -42,7 +42,8 @@ class ShoppingCart {
      * @param {*} callback 
      */
     removeFromCart(serialNumber, callback) {
-        contract.precondition(this.quantity > 0);
+        contract.precondition(this.cart.length > 0);
+
         const self = this;
         this.productCatalog.unlockItem(serialNumber, function(err, result) {
             if (!err) {
@@ -64,14 +65,15 @@ class ShoppingCart {
      * @param {*} callback 
      */
     getItem(modelNumber, type, callback) {
-        let self = this;
         this.productCatalog.getItemAndLock(modelNumber, function(err, result) {
             if (!err) {
                 result.type = type;
-                let orderItem = OrderItemMapper.create(null, null, result.serialNumber, null, false, result, null, self.productCatalog);
+                let orderItem = OrderItemMapper.create(null, null, result.serialNumber, null, false, result, null);
                 orderItem.setSpecification(function() {
                     return callback(null, orderItem);
                 });
+            } else {
+                return callback(err, null);
             }
         });
     }

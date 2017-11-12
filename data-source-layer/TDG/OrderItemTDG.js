@@ -28,8 +28,8 @@ class OrderItemTDG {
    * @param {string} orderId brand of OrderId.
    * @param {function} callback function that holds array of Order object.
    */
-    static findAll(orderItemId, callback) {
-        db.query('SELECT * FROM OrderItem where order_item_id=$1', [orderItemId], (err, result) => {
+    static findAll(orderId, callback) {
+        db.query('SELECT * FROM OrderItem where order_id=$1', [orderId], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {

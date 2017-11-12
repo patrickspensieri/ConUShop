@@ -264,6 +264,21 @@ class ProductCatalog {
                     }
                 });
                 return callback(null, result);
+            } else {
+                return callback(err, null);
+            }
+        });
+    }
+
+    /**
+     * Gets and item and locks it
+     * @param {*} modelNumber 
+     * @param {*} callback 
+     */
+    getItem(serialNumber, callback) {
+        itemMapper.find(serialNumber, function(err, result) {
+            if (!err) {
+                return callback(null, result);
             }
         });
     }
