@@ -145,7 +145,7 @@ $( document ).ready(function() {
             }
         });
 
-        $(this).find('.prod-addToCart').click(function() {
+        $(this).find('.prod-addToCart').off().click(function() {
             let modelNumber = row.find('td.model').text();
             $.ajax({
                 type: 'POST',
@@ -153,9 +153,6 @@ $( document ).ready(function() {
                 data: {
                     model: modelNumber,
                     type: prodType,
-                },
-                success: function(response) {
-                    console.log(response);
                 },
             });
         });

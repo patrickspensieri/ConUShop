@@ -139,7 +139,6 @@ class UnitOfWork {
                 UserMapper.update(this._dirtyObjects[i]);
             }
             if (this._dirtyObjects[i].constructor.name == 'Item') {
-                console.log(this._dirtyObjects[i]);
                 ItemMapper.update(this._dirtyObjects[i]);
             }
             if (this._dirtyObjects[i].constructor.name == 'OrderItem') {

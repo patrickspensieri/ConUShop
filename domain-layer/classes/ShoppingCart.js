@@ -65,7 +65,6 @@ class ShoppingCart {
      * @param {*} callback 
      */
     getItem(modelNumber, type, callback) {
-        let self = this;
         this.productCatalog.getItemAndLock(modelNumber, function(err, result) {
             if (!err) {
                 result.type = type;
