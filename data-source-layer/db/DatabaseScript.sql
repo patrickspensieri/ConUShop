@@ -532,7 +532,7 @@ CREATE TABLE CART (
 /* ------------------------------------------ ORDER TABLE QUERIES --------------------------------------------- */
 CREATE TABLE ORDERS (
     order_id BIGINT NOT NULL UNIQUE,
-    user_id SERIAL REFERENCES USERS(user_id) NOT NULL,
+    user_id SERIAL REFERENCES USERS(id) NOT NULL,
     orderDate DATE NOT NULL default CURRENT_DATE,
     total DECIMAL NOT NULL DEFAULT 0,
     PRIMARY KEY (order_id)
