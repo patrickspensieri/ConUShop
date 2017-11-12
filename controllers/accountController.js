@@ -113,6 +113,7 @@ module.exports = {
         if (req.clientUser) {
             return next();
         } else {
+            req.flash('error_msg', 'Please login with your client account in order to access this feature.');
             res.redirect('/');
         }
     },
