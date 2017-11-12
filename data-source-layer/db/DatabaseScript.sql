@@ -1159,10 +1159,12 @@ EXECUTE PROCEDURE checkIsSold();
 */
 
 /* ------------ returnHandle() TRIGGER ----------------- */
+/*
 CREATE TRIGGER returnHandle
 AFTER INSERT ON RETURNS
 FOR EACH ROW
 EXECUTE PROCEDURE returnHandle();
+*/
 
 /* ------------ updateSession() TRIGGER ----------------- */
 /*
