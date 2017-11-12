@@ -7,7 +7,6 @@ let ProductCatalog = require('./ProductCatalog');
  */
 class User {
     /**
-     * 
      * @param {string} firstname 
      * @param {string} lastname 
      * @param {string} address 
@@ -15,10 +14,10 @@ class User {
      * @param {string} phone 
      * @param {string} password 
      * @param {boolean} isadmin 
-     * @param {string} sessionid 
+     * @param {string} session_id 
      * @param {string} id 
      */
-    constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
+    constructor(firstname, lastname, address, email, phone, password, isadmin, session_id, id) {
         this.isadmin = isadmin;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -26,7 +25,7 @@ class User {
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.sessionid = sessionid;
+        this.session_id = session_id;
         this.id = id;
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }

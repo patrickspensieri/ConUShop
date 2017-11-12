@@ -49,6 +49,7 @@ class UserTDG {
    * @param {number} phone phone number of user
    * @param {string} password password of user
    * @param {function} callback
+   * @param {string} session_id session_id for login
    */
     static insert(firstname, lastname, address, email, phone, password, isadmin, sessionid, id, callback) {
         let queryString = 'INSERT INTO users (isadmin, firstname, lastname, address, email, phone, password) VALUES($1, $2, $3, $4, $5, $6, $7)';
@@ -75,6 +76,7 @@ class UserTDG {
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {function} callback
+   * @param {string} session_id session_id for login
    */
     static update(firstname, lastname, address, email, phone, password, isadmin, sessionid, id, callback) {
         let queryString = 'UPDATE users SET isadmin=$1, firstname=$2, lastname=$3, address=$4, phone=$6 WHERE email=$5';
@@ -91,11 +93,11 @@ class UserTDG {
     /**
      * Updates user's login session in the activeusers table
      * @param {string} id the id of user
-     * @param {string} sessionid the sessionid for login
+     * @param {string} session_id the session_id for login
      */
-    static updateLoginSession(id, sessionid) {
-        let queryString = 'INSERT INTO activeusers (user_id, sessionid) VALUES ($1, $2) ON CONFLICT (user_id) DO UPDATE SET sessionid=$2;';
-        let queryValues = [id, sessionid];
+    static updateLoginSession(id, session_id) {
+        let queryString = 'INSERT INTO activeusers (user_id, session_id) VALUES ($1, $2) ON CONFLICT (user_id) DO UPDATE SET session_id=$2;';
+        let queryValues = [id, session_id];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {

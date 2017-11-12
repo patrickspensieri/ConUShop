@@ -131,7 +131,7 @@ class UserMapper extends AbstractMapper {
      * @param {Object} userObject an object of type user.
      */
     static updateLoginSession(userObject) {
-        UserTDG.updateLoginSession(userObject.id, userObject.sessionid);
+        UserTDG.updateLoginSession(userObject.id, userObject.session_id);
     }
 
     /**
