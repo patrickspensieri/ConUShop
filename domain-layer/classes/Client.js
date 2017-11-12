@@ -33,16 +33,6 @@ class Client extends User {
     }
 
     /**
-     * Function that returns all the items existing in the product catalog
-     * @param {string} productType string of the Object
-     * @param {function} callback function
-     * @return {Object} product catalog's inventory
-     */
-    getProductInventory(productType, callback) {
-        return this.productCatalog.getAllProductInventory(productType, callback);
-    }
-
-    /**
      * Function that allows clients to purchase items from the product Catalog
      * @param {*} callback 
      */
@@ -64,18 +54,6 @@ class Client extends User {
             console.log('Shopping cart empty');
             return callback(null, null);
         }
-    }
-
-    getOrders(callback) {
-        this.orderCatalog.getOrders(this.id, function(err, result) {
-            return callback(err, result);
-        });
-    }
-
-    getOrderDetails(orderId, callback) {
-        this.orderCatalog.getOrderDetails(orderId, function(err, result) {
-            return callback(err, result);
-        });
     }
 
     returnItem(orderItemId, callback) {

@@ -1,4 +1,4 @@
-let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
+let ProductCatalog = require('./ProductCatalog');
 
 /**
  * Class describes a user.
@@ -29,15 +29,6 @@ class User {
         this.sessionid = sessionid;
         this.id = id;
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
-    }
-
-    /**
-     * Displays information about user object.
-     * @method display
-     */
-    display() {
-        console.log(this.isadmin + ' ' + this.firstname + ' ' +
-         this.lastname + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.sessionid);
     }
 
     /**
