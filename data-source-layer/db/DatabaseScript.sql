@@ -511,16 +511,16 @@ INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)
 
 CREATE TABLE ACTIVEUSERS(
     user_id SERIAL REFERENCES USERS(ID) NOT NULL UNIQUE,
-    session_id VARCHAR(60) NOT NULL,
+    session_id VARCHAR(60),
     lastActive TIMESTAMP NOT NULL DEFAULT now(),
-    PRIMARY KEY (session_id)
+    PRIMARY KEY (user_id)
 );
 
 
 /* ------------------------------------------ CART TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE CART (
-    session_id VARCHAR(60) REFERENCES ACTIVEUSERS(session_id) NOT NULL,
+    user_id VARCHAR(60) REFERENCES ACTIVEUSERS(user_id) NOT NULL,
     cart_item_id SERIAL NOT NULL,
     serialNumber VARCHAR(10) REFERENCES ITEM(serialNumber) NOT NULL UNIQUE,
     price DECIMAL NOT NULL,
