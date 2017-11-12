@@ -8,20 +8,22 @@ let OrderItemMapper = require('../mappers/OrderItemMapper');
 let ItemMapper = require('../mappers/ItemMapper');
 
 /**
- * Class describes an Admin.
+ * Class describes a Client.
  * @class Client
  * @export
  */
 class Client extends User {
     /**
-     * @constructor
-     * @param {string} firstname first name of user
-     * @param {string} lastname last name of user
-     * @param {string} address home address of user
-     * @param {string} email email of user
-     * @param {number} phone phone number of user
-     * @param {string} password user password, hashed
-     * @param {Boolean} isadmin is the user an Admin
+     * Creates a client user
+     * @param {string} firstname 
+     * @param {string} lastname 
+     * @param {string} address 
+     * @param {string} email 
+     * @param {string} phone 
+     * @param {string} password 
+     * @param {boolean} isadmin 
+     * @param {string} sessionid 
+     * @param {string} id 
      */
     constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
         super(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
@@ -31,6 +33,7 @@ class Client extends User {
     }
 
     /**
+     * Function that returns all the items existing in the product catalog
      * @param {string} productType string of the Object
      * @param {function} callback function
      * @return {Object} product catalog's inventory
@@ -39,6 +42,10 @@ class Client extends User {
         return this.productCatalog.getAllProductInventory(productType, callback);
     }
 
+    /**
+     * Function that allows clients to purchase items from the product Catalog
+     * @param {*} callback 
+     */
     makePurchase(callback) {
         if (this.shoppingcart.cart.length > 0) {
             let self = this;
@@ -85,4 +92,5 @@ class Client extends User {
         });
     }
 }
+
 module.exports = Client;

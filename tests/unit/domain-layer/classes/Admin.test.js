@@ -1,26 +1,10 @@
 let chai = require('chai');
-let chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
 let expect = chai.expect;
-const app = require('../../../../index');
-let server;
 
 let Admin = require('../../../../domain-layer/classes/Admin');
 let ProductCatalog = require('../../../../domain-layer/classes/ProductCatalog');
 
 describe('Unit Tests: Admin class', function() {
-
-    before((done) => {
-        // starts the server
-        server = app.app;
-        done();
-    });
-
-    after((done) => {
-        // closes the server
-        done();
-    });
-
     it('should be able to create objects using the class constructor', () => {
         let admin = new Admin('fn', 'ln', 'ad', 'em', 123, 'pw', true);
         expect(admin).to.be.instanceOf(Admin);

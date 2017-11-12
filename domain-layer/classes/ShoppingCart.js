@@ -1,9 +1,5 @@
 let contract = require('obligations');
-let ProductCatalog = require('../classes/ProductCatalog');
-let OrderItem = require('../classes/OrderItem');
-let User = require('../classes/User');
 let OrderItemMapper = require('../mappers/OrderItemMapper');
-/* global Map */
 
 /**
  * Class describes a ShoppingCart.
@@ -13,13 +9,9 @@ let OrderItemMapper = require('../mappers/OrderItemMapper');
 class ShoppingCart {
     /**
      * @constructor
-     * @param {object} Instance of productCatalog
-     * @param {object} Instance of orderItem
+     * @param {Object} productCatalog 
+     * @param {Object} user
      */
-
-     /**
-      * Constructor
-      */
     constructor(productCatalog, user) {
         contract.precondition(user.isadmin === false);
         this.productCatalog = productCatalog;
@@ -29,8 +21,8 @@ class ShoppingCart {
 
     /**
      * Add item to cart
-     * @param {*} modelNumber 
-     * @param {*} type
+     * @param {string} modelNumber 
+     * @param {string} type
      * @param {*} callback 
      */
     addToCart(modelNumber, type, callback) {
@@ -45,15 +37,12 @@ class ShoppingCart {
     }
 
     /**
-     * Remove item from cart
-     * @param {*} serialNumber 
+     * Remove an item from the shopping cart
+     * @param {string} serialNumber 
+     * @param {*} callback 
      */
     removeFromCart(serialNumber, callback) {
         contract.precondition(this.quantity > 0);
-        // let index = this.cart.indexOf(orderItem);
-        // if (index != 0) {
-        //     return this.cart.splice(index, 1);
-        // }
         const self = this;
         this.productCatalog.unlockItem(serialNumber, function(err, result) {
             if (!err) {
@@ -69,7 +58,10 @@ class ShoppingCart {
     }
 
     /**
-     * Get an Item from database
+     * Get an item from the shopping cart
+     * @param {string} modelNumber 
+     * @param {string} type 
+     * @param {*} callback 
      */
     getItem(modelNumber, type, callback) {
         let self = this;
@@ -79,31 +71,35 @@ class ShoppingCart {
                 let orderItem = OrderItemMapper.create(null, null, result.serialNumber, null, false, result, null);
                 orderItem.setSpecification(function() {
                     return callback(null, orderItem);
-                })
+                });
             }
         });
     }
 
+    /**
+     * Get the total price of the shopping cart items
+     * @return {number} returns the total
+     */
     getTotal() {
         let total = 0;
         for (let i = 0; i < this.cart.length; i++) {
-            console.log(this.cart[i].price);
             total += parseFloat(this.cart[i].price);
         }
-        total = round(total, 2);
+        total = Number(Math.round(total+'e'+2)+'e-'+2); // round to 2 decimals
         return total;
     }
 
+    /**
+     * Generates a random order id
+     * @param {string} userId user id
+     * @return {string} order id
+     */
     generateOrderId(userId) {
         let d = new Date().getTime();
         let randomInt = Math.floor(Math.random() *10);
         let orderid = userId + '' + d + '' + randomInt;
         return orderid;
     }
-}
-
-function round(value, decimals) {
-    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
 module.exports = ShoppingCart;

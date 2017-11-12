@@ -8,17 +8,23 @@ let AbstractMapper = require('./AbstractMapper');
  * @export
  */
 class OrderItemMapper extends AbstractMapper {
-
     /**
      * Creates a new OrderItem
-     * @param {object} Instance of Item
-     * @param {int} Quantity of Item
+     * @param {string} orderItemId 
+     * @param {string} orderId 
+     * @param {string} serialNumber 
+     * @param {number} price 
+     * @param {boolean} isReturned 
+     * @param {Object} itemObj 
+     * @param {Date} itemTimeout 
+     * @param {Object} productCatalog
+     * @return {Object} order item
      */
     static create(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout) {
         let orderItem = new OrderItem(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout);
         return orderItem;
     }
-    
+
   /**
    * Maps the returned value to an object of type OrderItem.
    * @static
@@ -106,7 +112,7 @@ class OrderItemMapper extends AbstractMapper {
   /**
    * Extracts an objects id to use with TDG delete method.
    * @static
-   * @param {Object} OrderObject an object of type Order.
+   * @param {Object} OrderItemObject an object of type Order.
    */
     static delete(OrderItemObject) {
         OrderItemTDG.delete(OrderItemObject.orderItemId, function(err, result) {

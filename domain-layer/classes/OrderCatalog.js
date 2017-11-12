@@ -5,7 +5,6 @@ let OrderMapper = require('../mappers/OrderMapper');
  * @class OrderItem
  * @export
  */
-
 class OrderCatalog {
     /**
      * @constructor
