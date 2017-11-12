@@ -5,10 +5,14 @@
     </head>
     <body>
     <% include ../components/navigator.ejs %>
-    <% include ../components/clientNav.ejs %>
-    <div class="container">
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="client_content container">
+        <h1>Shopping Cart</h1>
         <% if (typeof data!='undefined' && data.length > 0) { %>
-        <div class="row">
+        <div class="content row">
             <div class="col-sm-12 col-md-10 col-md-offset-1">
                 <table class="table table-hover">
                     <thead>
@@ -63,7 +67,7 @@
             </div>
         </div>
         <% } else { %>
-            <div class="row">
+            <div class="content row">
                     <div class="col-sm-12 col-md-10 col-md-offset-1">
                             Your Shopping Cart is Empty.
                     </div>
