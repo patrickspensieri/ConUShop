@@ -92,6 +92,7 @@ module.exports = {
                     req.clientUser = user;
                 }
                 res.locals.name = user.firstname + ' ' + user.lastname;
+                req.guestUser = user;
             });
         } else {
             req.guestUser = UserMapper.create();
