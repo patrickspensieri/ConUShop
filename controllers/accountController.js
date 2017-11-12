@@ -86,15 +86,18 @@ module.exports = {
                 if (err) throw err;
                 if (user.isadmin) {
                     res.locals.isadmin = true;
+                    res.locals.isclient = false;
                     req.adminUser = user;
                 } else {
                     res.locals.isadmin = false;
+                    res.locals.isclient = true;
                     req.clientUser = user;
                 }
                 res.locals.name = user.firstname + ' ' + user.lastname;
                 req.guestUser = user;
             });
         } else {
+            res.locals.isclient = false;
             req.guestUser = UserMapper.create();
         }
         return next();
