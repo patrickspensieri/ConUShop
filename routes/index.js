@@ -3,9 +3,9 @@ let router = new express.Router();
 let accountController = require('../controllers/accountController');
 
 // Registering all routes
-router.use('/', accountController.checkLoggedIn);
+router.use('/', accountController.getUser);
 router.use('/account', require('./account'));
-router.use('/catalog', accountController.getUser, require('./catalog'));
+router.use('/catalog', require('./catalog'));
 router.use('/admin', accountController.ensureAdministrator, require('./admin'));
 router.use('/client', accountController.ensureClient, require('./client'));
 

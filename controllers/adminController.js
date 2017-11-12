@@ -4,7 +4,7 @@ module.exports = {
     },
 
     desktop: function(req, res) {
-        req.admin.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
+        req.adminUser.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
             res.render('admin/desktop', {
                 data: data,
             });
@@ -12,7 +12,7 @@ module.exports = {
     },
 
     laptop: function(req, res) {
-        req.admin.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
+        req.adminUser.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
             res.render('admin/laptop', {
                 data: data,
             });
@@ -20,7 +20,7 @@ module.exports = {
     },
 
     monitor: function(req, res) {
-        req.admin.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
+        req.adminUser.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
             res.render('admin/monitor', {
                 data: data,
             });
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     tablet: function(req, res) {
-        req.admin.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
+        req.adminUser.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
             res.render('admin/tablet', {
                 data: data,
             });
@@ -36,7 +36,7 @@ module.exports = {
     },
 
     inventory: function(req, res) {
-        req.admin.getProductCatalog().getItems(function(err, data) {
+        req.adminUser.getProductCatalog().getItems(function(err, data) {
             res.render('admin/inventory', {
                 data: data,
             });
@@ -44,12 +44,12 @@ module.exports = {
     },
 
     deleteItem: function(req, res) {
-        req.admin.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
+        req.adminUser.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
         res.redirect(req.get('referer'));
     },
 
     addItem: function(req, res) {
-        req.admin.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
+        req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
         res.redirect(req.get('referer'));
     },
 
@@ -134,14 +134,14 @@ module.exports = {
                 errors: errors,
             });
         } else {
-            req.admin.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+            req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
                 weight, price, display, os, battery, camera, touch, size);
             res.redirect(req.get('referer'));
         }
     },
 
     deleteProdSpec: function(req, res) {
-        let admin = req.admin;
+        let admin = req.adminUser;
         admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
         res.send({redirect: req.body.redi});
     },
@@ -149,20 +149,20 @@ module.exports = {
     updateProdSpec: function(req, res) {
         switch (req.body.prodType) {
             case 'Desktop':
-                req.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+                req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
                     req.body.processor, req.body.ram, req.body.storage, req.body.cores,
                     req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
                 break;
             case 'Laptop':
-                req.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                     req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
                 break;
             case 'Monitor':
-                req.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+                req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
                     null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
                 break;
             case 'Tablet':
-                req.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                     req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null);
                 break;
         }

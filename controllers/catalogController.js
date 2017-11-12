@@ -4,7 +4,7 @@ module.exports = {
     },
 
     desktop: function(req, res) {
-        req.user.getProductInventory('Desktop', function(err, data) {
+        req.guestUser.getProductInventory('Desktop', function(err, data) {
             data.table = 'desktop';
             res.render('catalog/ClientPage', {
                 data: data,
@@ -13,7 +13,7 @@ module.exports = {
     },
 
     laptop: function(req, res) {
-        req.user.getProductInventory('Laptop', function(err, data) {
+        req.guestUser.getProductInventory('Laptop', function(err, data) {
             data.table = 'laptop';
             res.render('catalog/ClientPage', {
                 data: data,
@@ -22,7 +22,7 @@ module.exports = {
     },
 
     monitor: function(req, res) {
-        req.user.getProductInventory('Monitor', function(err, data) {
+        req.guestUser.getProductInventory('Monitor', function(err, data) {
             data.table = 'monitor';
             res.render('catalog/ClientPage', {
                 data: data,
@@ -31,7 +31,7 @@ module.exports = {
     },
 
     tablet: function(req, res) {
-        req.user.getProductInventory('Tablet', function(err, data) {
+        req.guestUser.getProductInventory('Tablet', function(err, data) {
             data.table = 'tablet';
             res.render('catalog/ClientPage', {
                 data: data,

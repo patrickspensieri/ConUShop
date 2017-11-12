@@ -58,28 +58,6 @@ module.exports = {
     },
 
     /**
-     * Ensure user is an Adminstrator.
-     * @param  {path} req request
-     * @param  {path} res response
-     * @param  {path} next callback function
-     */
-    ensureAdministrator: function(req, res, next) {
-        if (req.isAuthenticated()) {
-            UserMapper.find(req.user.email, function(err, user) {
-                if (err) throw err;
-                if (user.isadmin) {
-                    req.admin = user;
-                    return next();
-                } else {
-                    res.redirect('/');
-                }
-            });
-        } else {
-            res.redirect('/');
-        }
-    },
-
-    /**
      * Ensure no user is currently authenticated.
      * @param  {[type]}   req  request
      * @param  {[type]}   res  response
@@ -95,24 +73,28 @@ module.exports = {
     },
 
     /**
-     * Ensures a user is logged in
+     * Gets user
      * @param  {[type]}   req  request
      * @param  {[type]}   res  response
      * @param  {Function} next callback
      * @return {[type]}
      */
-    checkLoggedIn: function(req, res, next) {
+    getUser: function(req, res, next) {
         res.locals.isAuthenticated = req.isAuthenticated();
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;
                 if (user.isadmin) {
                     res.locals.isadmin = true;
+                    req.adminUser = user;
                 } else {
                     res.locals.isadmin = false;
+                    req.clientUser = user;
                 }
                 res.locals.name = user.firstname + ' ' + user.lastname;
             });
+        } else {
+            req.guestUser = UserMapper.create();
         }
         return next();
     },
@@ -124,31 +106,24 @@ module.exports = {
      * @param  {path} next callback function
      */
     ensureClient: function(req, res, next) {
-        if (req.isAuthenticated()) {
-            UserMapper.find(req.user.email, function(err, user) {
-                if (err) throw err;
-                if (!user.isadmin) {
-                    req.client = user;
-                    return next();
-                } else {
-                    res.redirect('/');
-                }
-            });
+        if (req.clientUser) {
+            return next();
         } else {
             res.redirect('/');
         }
     },
 
-    getUser: function(req, res, next) {
-        if (req.isAuthenticated()) {
-            UserMapper.find(req.user.email, function(err, user) {
-                if (err) throw err;
-                req.user = user;
-                return next();
-            });
-        } else {
-            req.user = UserMapper.create();
+    /**
+     * Ensure user is an Adminstrator.
+     * @param  {path} req request
+     * @param  {path} res response
+     * @param  {path} next callback function
+     */
+    ensureAdministrator: function(req, res, next) {
+        if (req.adminUser) {
             return next();
+        } else {
+            res.redirect('/');
         }
     },
 };
