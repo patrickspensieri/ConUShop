@@ -61,7 +61,7 @@ class Client extends User {
                 return callback(null, null);
             });
         } else {
-            console.log('Shoppinh cart empty');
+            console.log('Shopping cart empty');
             return callback(null, null);
         }
     }

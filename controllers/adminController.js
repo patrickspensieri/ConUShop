@@ -1,15 +1,10 @@
-let Admin = require('../domain-layer/classes/Admin');
-
 module.exports = {
     dashboard: function(req, res) {
-        this.admin = new Admin();
         res.render('admin/dashboard');
     },
 
     desktop: function(req, res) {
-        this.admin = new Admin();
-
-        this.admin.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
+        req.admin.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
             res.render('admin/desktop', {
                 data: data,
             });
@@ -17,7 +12,7 @@ module.exports = {
     },
 
     laptop: function(req, res) {
-        this.admin.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
+        req.admin.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
             res.render('admin/laptop', {
                 data: data,
             });
@@ -25,7 +20,7 @@ module.exports = {
     },
 
     monitor: function(req, res) {
-        this.admin.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
+        req.admin.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
             res.render('admin/monitor', {
                 data: data,
             });
@@ -33,7 +28,7 @@ module.exports = {
     },
 
     tablet: function(req, res) {
-        this.admin.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
+        req.admin.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
             res.render('admin/tablet', {
                 data: data,
             });
@@ -41,7 +36,7 @@ module.exports = {
     },
 
     inventory: function(req, res) {
-        this.admin.getProductCatalog().getItems(function(err, data) {
+        req.admin.getProductCatalog().getItems(function(err, data) {
             res.render('admin/inventory', {
                 data: data,
             });
@@ -49,12 +44,12 @@ module.exports = {
     },
 
     deleteItem: function(req, res) {
-        this.admin.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
+        req.admin.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
         res.redirect(req.get('referer'));
     },
 
     addItem: function(req, res) {
-        this.admin.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
+        req.admin.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
         res.redirect(req.get('referer'));
     },
 
@@ -139,34 +134,35 @@ module.exports = {
                 errors: errors,
             });
         } else {
-            this.admin.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+            req.admin.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
                 weight, price, display, os, battery, camera, touch, size);
             res.redirect(req.get('referer'));
         }
     },
 
     deleteProdSpec: function(req, res) {
-        this.admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+        let admin = req.admin;
+        admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
         res.send({redirect: req.body.redi});
     },
 
     updateProdSpec: function(req, res) {
         switch (req.body.prodType) {
             case 'Desktop':
-                this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+                req.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
                     req.body.processor, req.body.ram, req.body.storage, req.body.cores,
                     req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
                 break;
             case 'Laptop':
-                this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                req.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                     req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
                 break;
             case 'Monitor':
-                this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+                req.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
                     null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
                 break;
             case 'Tablet':
-                this.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                req.admin.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                     req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null);
                 break;
         }

@@ -68,6 +68,7 @@ module.exports = {
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;
                 if (user.isadmin) {
+                    req.admin = user;
                     return next();
                 } else {
                     res.redirect('/');
@@ -135,6 +136,19 @@ module.exports = {
             });
         } else {
             res.redirect('/');
+        }
+    },
+
+    getUser: function(req, res, next) {
+        if (req.isAuthenticated()) {
+            UserMapper.find(req.user.email, function(err, user) {
+                if (err) throw err;
+                req.user = user;
+                return next();
+            });
+        } else {
+            req.user = UserMapper.create();
+            return next();
         }
     },
 };
