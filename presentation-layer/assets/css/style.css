@@ -188,7 +188,6 @@ a.simpleCart_empty {
     height: 44px;
     text-align: center;
     outline: none;
-    position: fixed;
     right: 14%;
 	z-index: 999
 }
