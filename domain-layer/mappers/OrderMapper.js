@@ -1,6 +1,7 @@
 let OrderTDG = require('../../data-source-layer/TDG/OrderTDG');
 let Order = require('../../domain-layer/classes/Order');
 let AbstractMapper = require('./AbstractMapper');
+let moment = require('moment');
 
 /**
  * Order object mapper
@@ -42,6 +43,7 @@ class OrderMapper extends AbstractMapper {
                     if (result.length==0) {
                         return callback(err, null);
                     } else {
+                        value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
                         let order = new Order(value.order_id, value.user_id, value.orderdate,
                             value.total);
                         idMap.add(order, order.id);
@@ -64,6 +66,8 @@ class OrderMapper extends AbstractMapper {
                 console.log('Error during Orders findALL query', null);
             } else {
                 for (let value of result) {
+                    value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
+                    console.log(value.orderdate);
                     let order = new Order(value.order_id, value.user_id, value.orderdate,
                         value.total);
                     orders.push(order);

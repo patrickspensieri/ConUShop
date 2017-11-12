@@ -58,15 +58,20 @@ class Client extends User {
 
     returnItem(orderItemId, callback) {
         OrderItemMapper.find(orderItemId, function(err, result) {
-            result.isReturned = true;
-            console.log(result);
-            UOW.registerDirty(result);
-            ItemMapper.find(result.serialNumber, function(err, result2) {
-                result2.islocked = false;
-                UOW.registerDirty(result2);
-                UOW.commit();
+            if (result.isReturned == true) {
+                console.log('item is already returned');
                 return callback(err, null);
-            });
+            } else {
+                result.isReturned = true;
+                console.log(result);
+                UOW.registerDirty(result);
+                ItemMapper.find(result.serialNumber, function(err, result2) {
+                    result2.islocked = false;
+                    UOW.registerDirty(result2);
+                    UOW.commit();
+                    return callback(err, null);
+                });
+            }
         });
     }
 }

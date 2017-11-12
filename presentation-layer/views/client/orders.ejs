@@ -8,14 +8,18 @@
     <% include ../components/navigator.ejs %>
     <% include ../components/clientNav.ejs %>
     
-    <div>
+    <div class="client_content table-responsive">
         <% if (typeof data!='undefined') { %>
-            <table>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Order Date</th>
-                    <th>Total</a></th>
-                </tr>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
                 <% for(var i = 0; i < data.length; i++) { %>
                     <tr>
                         <td class="serial"><%= data[i].orderId %></td>
@@ -28,14 +32,12 @@
                         </td>
                     </tr>
                 <% } %>
+                </tbody>
             </table>
         <% } %>
     </div>
-    
-    <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
-    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
-    <script type="text/javascript" src="/js/catalog/catalog.js"></script>
-    <% include ../components/footer.ejs %>
-    </body>
-    </html>
+
+<% include ../components/footer.ejs %>
+</body>
+</html>
     

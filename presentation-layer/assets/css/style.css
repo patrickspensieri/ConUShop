@@ -5083,3 +5083,8 @@ li.nav_client a:hover:not(.active) {
     position: relative;
     margin-left: 25%;
 }
+
+.content{
+    position: relative;
+    margin-left: 25%;
+}
