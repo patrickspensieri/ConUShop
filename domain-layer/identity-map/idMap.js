@@ -36,6 +36,7 @@
             this._identityMap[className] = {};
             this._identityMap[className][id] = newObject;
         }
+        console.log(this);
     }
 
     /**

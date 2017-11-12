@@ -1,5 +1,6 @@
 module.exports = {
     addToShoppingCart: function(req, res) {
+        console.log("called");
         let modelNumber = req.body.model;
         let type = req.body.type;
         req.clientUser.shoppingcart.addToCart(modelNumber, type, function(err, data) {

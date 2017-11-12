@@ -15,7 +15,6 @@ class ShoppingCart {
     constructor(productCatalog, user) {
         contract.precondition(user.isadmin === false);
         this.productCatalog = productCatalog;
-        this.quantity = 0; // max quantity of 7
         this.cart = [];
     }
 
@@ -27,8 +26,7 @@ class ShoppingCart {
      */
     addToCart(modelNumber, type, callback) {
         const self = this;
-        contract.precondition(this.quantity < 7);
-        this.quantity++;
+        contract.precondition(this.cart.length < 7);
 
         self.getItem(modelNumber, type, function(err, result) {
             self.cart.push(result);
@@ -42,8 +40,8 @@ class ShoppingCart {
      * @param {*} callback 
      */
     removeFromCart(serialNumber, callback) {
-        contract.precondition(this.quantity > 0);
-        this.quantity--;
+        contract.precondition(this.cart.length > 0);
+
         const self = this;
         this.productCatalog.unlockItem(serialNumber, function(err, result) {
             if (!err) {
