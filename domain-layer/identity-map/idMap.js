@@ -20,8 +20,10 @@
      */
      add(newObject, id) {
         let className = newObject.constructor.name;
+        if (className == 'Admin' || className == 'Client') {
+            className = 'User';
+        }
         let mappedObject;
-
         if (this._identityMap[className]) {
             mappedObject = this._identityMap[className][id];
             if (mappedObject) {
@@ -44,6 +46,9 @@
      */
      update(updatedObject, id) {
         let className = updatedObject.constructor.name;
+        if (className == 'Admin' || className == 'Client') {
+            className = 'User';
+        }
         if (this._identityMap[className][id]) {
             this._identityMap[className][id] = updatedObject;
         }
@@ -57,7 +62,11 @@
      */
      delete(deletedObject, id) {
         let className = deletedObject.constructor.name;
+        if (className == 'Admin' || className == 'Client') {
+            className = 'User';
+        }
         delete this._identityMap[className][id];
+        console.log('This object ' + id +' is no longer mapped');
     }
 
     /**

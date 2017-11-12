@@ -251,6 +251,42 @@ class ProductCatalog {
     }
 
     /**
+     * Gets and item and locks it
+     * @param {*} modelNumber 
+     * @param {*} callback 
+     */
+    getItemAndLock(modelNumber, callback) {
+        itemMapper.getItemFromModel(modelNumber, function(err, result) {
+            if (!err) {
+                itemMapper.lockItem(result, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        return callback(err, null);
+                    }
+                });
+                return callback(null, result);
+            }
+        });
+    }
+
+    /**
+     * Unlocks an item.
+     * @param {*} serialNumber 
+     * @param {*} callback 
+     */
+    unlockItem(serialNumber, callback) {
+        itemMapper.find(serialNumber, function(err, result) {
+            itemMapper.unlockItem(result, function(err, result) {
+                if (err) {
+                    console.log(err);
+                    return callback(err, null);
+                }
+                return callback(null, result);
+            });
+        });
+    }
+
+    /**
      * @param {string} productType string of the Object
      * @param {function} callback function
      */

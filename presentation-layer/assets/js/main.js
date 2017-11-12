@@ -4,7 +4,7 @@ function deleteProdSpec(prodType, modelNumber, redi) {
                 data: {
                     prodType: prodType,
                     model: modelNumber,
-                    redi: redi
+                    redi: redi,
                 },
                 success: function(response) {
                     window.location.href = response.redirect;
@@ -13,7 +13,6 @@ function deleteProdSpec(prodType, modelNumber, redi) {
 }
 
 function updateProdSpec(prodType, data, redi) {
-
     let model = data.find('.model').text();
     let brand = data.find('.brand').text();
     let processor = data.find('.processor').text();
@@ -45,11 +44,11 @@ function updateProdSpec(prodType, data, redi) {
                     dimensions: dimensions,
                     weight: weight,
                     price: price,
-                    redi: redi
+                    redi: redi,
                 },
                 success: function(response) {
                     window.location.href = response.redirect;
-                }
+                },
             });
             break;
         case 'Laptop':
@@ -145,6 +144,21 @@ $( document ).ready(function() {
                 detailsView(row, prodType);
             }
         });
+
+        $(this).find('.prod-addToCart').click(function() {
+            let modelNumber = row.find('td.model').text();
+            $.ajax({
+                type: 'POST',
+                url: '/catalog/addToShoppingCart',
+                data: {
+                    model: modelNumber,
+                    type: prodType,
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+            });
+        });
     });
 
     function detailsView(row, prodType) {
@@ -220,6 +234,21 @@ $( document ).ready(function() {
                 break;
         }
     }
-
 });
 
+function deleteCartItem(serialNumber) {
+    $.ajax({
+        type: 'POST',
+        url: '/catalog/deleteFromShoppingCart',
+        data: {
+            serialNumber: serialNumber,
+        },
+    });
+}
+
+function makePurchase() {
+    $.ajax({
+        type: 'GET',
+        url: '/catalog/makePurchase',
+    });
+}

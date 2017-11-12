@@ -1,6 +1,8 @@
 let User = require('../../domain-layer/classes/User');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 let AbstractMapper = require('./AbstractMapper');
+let Admin = require('../../domain-layer/classes/Admin');
+let Client = require('../../domain-layer/classes/Client');
 
 /**
  * User object mapper
@@ -8,29 +10,26 @@ let AbstractMapper = require('./AbstractMapper');
  * @export
  */
 class UserMapper extends AbstractMapper {
-  /**
-   * Creates a new user
-   * @static
-   * @param {boolean} isAdmin is user client or admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
-   * @param {string} address home address of user
-   * @param {string} email email of user
-   * @param {number} phone phone number of user
-   * @param {string} password user password, hashed
-   * @param {string} sessionID sessionID for login
-   * @param {string} id userID
-   * @return {User} user object.
-   */
-    static create(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id) {
-        let user = new User(isAdmin, firstName, lastName, address, email, phone, password, sessionID, id);
-        
-   /* @param {string} session_id session_id for login
-   * @return {user} user object.
-   */
-    static makeNew(isAdmin, firstName, lastName, address, email, phone, password, session_id, id) {
-        let user = new User(isAdmin, firstName, lastName, address, email, phone, password, session_id, id);
-        return user;
+    /**
+     * Map creates an user
+     * @param {string} firstname 
+     * @param {string} lastname 
+     * @param {string} address 
+     * @param {string} email 
+     * @param {string} phone 
+     * @param {string} password 
+     * @param {boolean} isadmin 
+     * @param {string} sessionid 
+     * @param {string} id 
+     * @return {Object} new user
+     */
+    static create(firstname, lastname, address, email, phone, password, isadmin, session_id, id) {
+        if (isadmin) {
+            let user = new Admin(firstname, lastname, address, email, phone, password, isadmin, session_id, id);
+            return user;
+        } else {
+            let user = new Client(firstname, lastname, address, email, phone, password, isadmin, session_id, id);
+            return user;
         }
     }
 
@@ -51,14 +50,20 @@ class UserMapper extends AbstractMapper {
                     console.log('Error during user find query', null);
                 } else {
                     let value = result[0];
-
                     if (result.length==0) {
                         return callback(err, null);
                     } else {
-                        let user = new User(value.isadmin, value.firstname,
-                            value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id);
-                        idMap.add(user, user.email);
-                        return callback(null, user);
+                        if (value.isadmin) {
+                            let user = new Admin(value.firstname, value.lastname,
+                                value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id);
+                            idMap.add(user, user.email);
+                            return callback(null, user);
+                        } else {
+                            let user = new Client(value.firstname, value.lastname,
+                                value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id);
+                            idMap.add(user, user.email);
+                            return callback(null, user);
+                        }
                     }
                     return callback(null, new User(value.isadmin, value.firstname,
                         value.lastname, value.address, value.email, value.phone, value.password, value.session_id, value.id));
@@ -99,8 +104,8 @@ class UserMapper extends AbstractMapper {
    * @param {Object} userObject an object of type user.
    */
     static insert(userObject) {
-        UserTDG.insert(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone, userObject.password, function(err, result) {
+        UserTDG.insert(userObject.isadmin, userObject.firstname,
+            userObject.lastname, userObject.address, userObject.email, userObject.phone, userObject.password, function(err, result) {
                 if (!err) {
                     idMap.add(userObject, userObject.email);
                 }
@@ -113,8 +118,8 @@ class UserMapper extends AbstractMapper {
    * @param {Object} userObject an object of type user.
    */
     static update(userObject) {
-        UserTDG.update(userObject.isAdmin, userObject.firstName,
-            userObject.lastName, userObject.address, userObject.email, userObject.phone, function(err, result) {
+        UserTDG.update(userObject.isadmin, userObject.firstname,
+            userObject.lastname, userObject.address, userObject.email, userObject.phone, function(err, result) {
                 if (!err) {
                     idMap.update(userObject, userObject.email);
                 }

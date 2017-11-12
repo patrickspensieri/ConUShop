@@ -1,43 +1,51 @@
+let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
+
 /**
  * Class describes a user.
  * @class User
  * @export
  */
 class User {
-  /**
-   * @constructor
-   * @param {Boolean} isAdmin is the user an Admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
-   * @param {string} address home address of user
-   * @param {string} email email of user
-   * @param {number} phone phone number of user
-   * @param {string} password user password
-   * @param {string} session_id session_id for login session
-   * @param {number} id the user id, set to null if not passed
-   */
-    constructor(isAdmin, firstName, lastName, address, email, phone, password, session_id, id) {
-        this.isAdmin = isAdmin;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    /**
+     * @param {string} firstname 
+     * @param {string} lastname 
+     * @param {string} address 
+     * @param {string} email 
+     * @param {string} phone 
+     * @param {string} password 
+     * @param {boolean} isadmin 
+     * @param {string} session_id 
+     * @param {string} id 
+     */
+    constructor(firstname, lastname, address, email, phone, password, isadmin, session_id, id) {
+        this.isadmin = isadmin;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.address = address;
         this.email = email;
         this.phone = phone;
         this.password = password;
         this.session_id = session_id;
         this.id = id;
-        // user registration always creates clients
+        this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }
-
 
     /**
      * Displays information about user object.
-     * To be run on an instance of user.
      * @method display
      */
     display() {
-        console.log(this.isAdmin + ' ' + this.firstName + ' ' +
-         this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.session_id);
+        console.log(this.isadmin + ' ' + this.firstname + ' ' +
+         this.lastname + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.session_id);
+    }
+
+    /**
+     * @param {string} productType string of the Object
+     * @param {function} callback function
+     * @return {Object} product catalog's inventory
+     */
+    getProductInventory(productType, callback) {
+        return this.productCatalog.getAllProductInventory(productType, callback);
     }
 }
 

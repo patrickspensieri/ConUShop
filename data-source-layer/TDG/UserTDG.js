@@ -41,9 +41,9 @@ class UserTDG {
   /**
    * Inserts an object into the user table.
    * @static
-   * @param {boolean} isAdmin is user client or admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
+   * @param {boolean} isadmin is user client or admin
+   * @param {string} firstname first name of user
+   * @param {string} lastname last name of user
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
@@ -51,9 +51,9 @@ class UserTDG {
    * @param {function} callback
    * @param {string} session_id session_id for login
    */
-    static insert(isAdmin, firstName, lastName, address, email, phone, password, callback) {
+    static insert(firstname, lastname, address, email, phone, password, isadmin, sessionid, id, callback) {
         let queryString = 'INSERT INTO users (isadmin, firstname, lastname, address, email, phone, password) VALUES($1, $2, $3, $4, $5, $6, $7)';
-        let queryValues = [isAdmin, firstName, lastName, address, email, phone, password];
+        let queryValues = [isadmin, firstname, lastname, address, email, phone, password];
 
         // TODO update userObject ID once query completed
         // OR
@@ -69,18 +69,18 @@ class UserTDG {
   /**
    * Updates an object in the user table.
    * @static
-   * @param {boolean} isAdmin is user client or admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
+   * @param {boolean} isadmin is user client or admin
+   * @param {string} firstname first name of user
+   * @param {string} lastname last name of user
    * @param {string} address home address of user
    * @param {string} email email of user
    * @param {number} phone phone number of user
    * @param {function} callback
    * @param {string} session_id session_id for login
    */
-    static update(isAdmin, firstName, lastName, address, email, phone, callback) {
+    static update(firstname, lastname, address, email, phone, password, isadmin, sessionid, id, callback) {
         let queryString = 'UPDATE users SET isadmin=$1, firstname=$2, lastname=$3, address=$4, phone=$6 WHERE email=$5';
-        let queryValues = [isAdmin, firstName, lastName, address, email, phone];
+        let queryValues = [isadmin, firstname, lastname, address, email, phone];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {

@@ -39,10 +39,10 @@ passport.use(new LocalStrategy(
                         return done(null, false, req.flash('error_msg', 'User already has an active session.'));
                     } else {
                         // TODO temporary flash message to identify user, not shown for admin because may appear on logout
-                        if (user.isAdmin) {
+                        if (user.isadmin) {
                             return done(null, user, req.flash());
                         }
-                        return done(null, user, req.flash('success_msg', 'Welcome back, young ' + user.firstName));
+                        return done(null, user, req.flash('success_msg', 'Welcome back, young ' + user.firstname));
                     }
                 }
             });
