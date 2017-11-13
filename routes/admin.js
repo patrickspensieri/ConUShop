@@ -16,5 +16,6 @@ router.post('/addItem', adminController.addItem);
 router.post('/addProdSpec', adminController.addProdSpec);
 router.post('/deleteProdSpec', adminController.deleteProdSpec);
 router.post('/updateProdSpec', adminController.updateProdSpec);
-
+router.post('/startProductCatalogSession', adminController.startProductCatalogSession);
+router.post('/endProductCatalogSession', adminController.endProductCatalogSession);
 module.exports = router;
