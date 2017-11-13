@@ -1,9 +1,5 @@
 let UserMapper = require('../domain-layer/mappers/UserMapper');
-// let Register = require('../domain-layer/classes/Register');
 require('../config/passport');
-
-
-// QUESTION why do we have a Register object?
 
 module.exports = {
     /**
@@ -31,10 +27,10 @@ module.exports = {
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
 
         let errors = req.validationErrors();
-
         if (errors) {
             res.redirect('/');
         } else {
+            // secure the password before storing
             securePassword(password, function(err, securePassword) {
                 let newUser = UserMapper.create(firstname, lastname, address, email, phone, securePassword, isadmin);
                 UserMapper.makeInsertion(newUser);
@@ -111,6 +107,7 @@ module.exports = {
      * @param  {path} req request
      * @param  {path} res response
      * @param  {path} next callback function
+     * @return {callback}
      */
     ensureClient: function(req, res, next) {
         if (req.clientUser) {
@@ -126,6 +123,7 @@ module.exports = {
      * @param  {path} req request
      * @param  {path} res response
      * @param  {path} next callback function
+     * @return {callback}
      */
     ensureAdministrator: function(req, res, next) {
         if (req.adminUser) {
