@@ -127,12 +127,17 @@ class UserTDG {
    * @param {function} callback
    */
     static delete(email, callback) {
-      this.clearAllLoginSessions()
+      db.query('DELETE FROM activeusers WHERE user_id IN (SELECT id FROM users WHERE (email =$1))', [email], (err, result) => {
+        if (err) {
+            console.log(err.message);
+        }
+        console.log("User session timeout");
+      });
       db.query('DELETE FROM users WHERE email=$1', [email], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
-          console.log('This user has been deleted from the database');
+          console.log('User has been deleted from the database');
           return callback(err, result);
       });
     }
