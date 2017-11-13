@@ -57,6 +57,28 @@ module.exports = {
         });
     },
 
+    
+    /**
+     * Deletes user's account.
+     * Clears the given user's session_id, allowing user to login.
+     * @param  {[type]} user User object sent from request
+     * @param  {[type]} req  request
+     */
+    deleteAccount: function(user, req) {
+        UserMapper.find(user.email, function(err, user) {
+            if (err) {
+                throw err;
+                req.flash('error_msg', 'Your account has been deleted');
+            }
+            if (user.session_id) {
+                console.log(user.session_id);
+                UserMapper.delete(user);
+                req.flash('success_msg', 'Your account has been successfully deleted');
+            }
+        });
+ 
+    },
+
     /**
      * Ensure no user is currently authenticated.
      * @param  {[type]}   req  request
@@ -131,4 +153,6 @@ module.exports = {
             res.redirect('/');
         }
     },
+    
+
 };

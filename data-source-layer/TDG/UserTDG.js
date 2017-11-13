@@ -120,7 +120,6 @@ class UserTDG {
             }
         });
     }
-
   /**
    * Deletes an objects in the user table.
    * @static
@@ -128,6 +127,7 @@ class UserTDG {
    * @param {function} callback
    */
     static delete(email, callback) {
+      this.clearAllLoginSessions()
       db.query('DELETE FROM users WHERE email=$1', [email], (err, result) =>{
           if (err) {
               console.log(err.message);

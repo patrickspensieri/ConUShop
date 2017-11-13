@@ -33,6 +33,11 @@ module.exports = {
 
     },
 
+    viewAccount: function(req, res) {
+            res.render('client/account', {
+            });
+    },
+
     viewOrders: function(req, res) {
         req.clientUser.orderCatalog.getOrders(req.clientUser.id, function(err, result) {
             res.render('client/orders', {

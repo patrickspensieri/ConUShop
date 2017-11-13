@@ -10,5 +10,6 @@ router.get('/makePurchase', clientController.makePurchase);
 router.get('/orders', clientController.viewOrders);
 router.get('/order/details/:id', clientController.viewOrderDetails);
 router.get('/item/return/:id', clientController.returnItem);
+router.get('/account', clientController.viewAccount);
 
 module.exports = router;
