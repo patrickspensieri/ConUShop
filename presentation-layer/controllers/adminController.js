@@ -5,6 +5,10 @@ module.exports = {
         this.admin = new Admin();
         res.render('admin/dashboard');
     },
+    edit_view: function(req, res) {
+        this.admin = new Admin();
+        res.render('admin/desktop');
+    },
 
     desktop: function(req, res) {
         this.admin = new Admin();

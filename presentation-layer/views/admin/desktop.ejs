@@ -14,11 +14,18 @@
 <% include ../../assets/components/navigator.ejs %>
 <!-- //navigator -->
 <% include ../../assets/components/adminNav.ejs %>
+
+<% if (typeof data =='undefined') { %>
+<br>
+<h2>Edit/View Items</h2>
+<% } %>
+
+<% if (typeof data !='undefined') { %>
 <ul class="nav nav-tabs" style="list-style-type: none;">
     <li class="active"><a data-toggle="tab" href="#view">View</a></li>
     <li><a data-toggle="tab" href="#edit">Edit</a></li>
 </ul>
-
+<% } %>
 <div class="tab-content">
     <div id="view" class="tab-pane fade in active">
         <div>

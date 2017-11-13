@@ -4,6 +4,7 @@ let adminController = require('../presentation-layer/controllers/adminController
 
 router.get('/dashboard', adminController.dashboard);
 
+router.get('/edit_view', adminController.edit_view);
 router.get('/desktops', adminController.desktop);
 router.get('/laptops', adminController.laptop);
 router.get('/monitors', adminController.monitor);
