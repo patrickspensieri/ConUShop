@@ -37,8 +37,8 @@ class ShoppingCart {
         });
     }
 
-    setTimeOutFunc(result){
-        setTimeout(this.removeFromCart, 12000, result.serialNumber, function(err,result){
+    setTimeOutFunc(result) {
+        setTimeout(this.removeFromCart.bind(this), 12000, result.serialNumber, function(err, result) {
             console.log(result);
         });
     }
