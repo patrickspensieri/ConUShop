@@ -102,7 +102,9 @@ class UnitOfWork {
             if (this._newObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.insert(this._newObjects[i]);
             }
-            if (this._newObjects[i].constructor.name == 'User') {
+            if (this._newObjects[i].constructor.name == 'User' ||
+                this._newObjects[i].constructor.name == 'Client' ||
+                this._newObjects[i].constructor.name == 'Admin') {
                 UserMapper.insert(this._newObjects[i]);
             }
             if (this._newObjects[i].constructor.name == 'Item') {
@@ -135,7 +137,9 @@ class UnitOfWork {
             if (this._dirtyObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.update(this._dirtyObjects[i]);
             }
-            if (this._dirtyObjects[i].constructor.name == 'User') {
+            if (this._dirtyObjects[i].constructor.name == 'User' ||
+                this._dirtyObjects[i].constructor.name == 'Client' ||
+                this._dirtyObjects[i].constructor.name == 'Admin') {
                 UserMapper.update(this._dirtyObjects[i]);
             }
             if (this._dirtyObjects[i].constructor.name == 'Item') {
@@ -168,7 +172,9 @@ class UnitOfWork {
             if (this._deletedObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.delete(this._deletedObjects[i]);
             }
-            if (this._deletedObjects[i].constructor.name == 'User') {
+            if (this._deletedObjects[i].constructor.name == 'User' ||
+                this._deletedObjects[i].constructor.name == 'Client' ||
+                this._deletedObjects[i].constructor.name == 'Admin') {
                 UserMapper.delete(this._deletedObjects[i]);
             }
             if (this._deletedObjects[i].constructor.name == 'Item') {
