@@ -102,7 +102,7 @@ class UnitOfWork {
             if (this._newObjects[i].constructor.name == 'Monitor') {
                 MonitorMapper.insert(this._newObjects[i]);
             }
-            if (this._newObjects[i].constructor.name == 'User') {
+            if (this._newObjects[i].constructor.name == 'Client' || 'Admin' || 'User') {
                 UserMapper.insert(this._newObjects[i]);
             }
             if (this._newObjects[i].constructor.name == 'Item') {

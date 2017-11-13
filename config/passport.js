@@ -84,6 +84,19 @@ comparePassword = function(candidatePassword, hash, done) {
 };
 
 /**
+ * Salt and hash user's password
+ * @param  {[type]}   plainPassword
+ * @param  {Function} done
+ */
+securePassword = function(plainPassword, done) {
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(plainPassword, salt, function(err, hash) {
+            return done(err, hash);
+        });
+    });
+};
+
+/**
  * Clear existing user session from memory-store and from database
  * @param  {User} user
  */

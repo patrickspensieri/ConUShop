@@ -1,5 +1,7 @@
 let UserMapper = require('../domain-layer/mappers/UserMapper');
-let Register = require('../domain-layer/classes/Register');
+// let Register = require('../domain-layer/classes/Register');
+require('../config/passport');
+
 
 // QUESTION why do we have a Register object?
 
@@ -14,7 +16,7 @@ module.exports = {
         let lastname = req.body.lastname;
         let phone = req.body.phone;
         let address = req.body.address;
-        let email = req.body.email;
+        let email = req.body.email.toLowerCase();
         let password = req.body.password;
         let isadmin = false;
 
@@ -33,8 +35,9 @@ module.exports = {
         if (errors) {
             res.redirect('/');
         } else {
-            Register.createNewUser(firstname, lastname, address, email, phone, password, isadmin, function(err, user) {
-                if (err) throw err;
+            securePassword(password, function(err, securePassword) {
+                let newUser = UserMapper.create(firstname, lastname, address, email, phone, securePassword, isadmin);
+                UserMapper.makeInsertion(newUser);
             });
             res.redirect('/');
         }
