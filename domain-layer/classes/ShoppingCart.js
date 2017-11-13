@@ -38,7 +38,7 @@ class ShoppingCart {
     }
 
     setTimeOutFunc(result) {
-        setTimeout(this.removeFromCart.bind(this), 12000, result.serialNumber, function(err, result) {
+        setTimeout(this.removeFromCart.bind(this), 120000, result.serialNumber, function(err, result) {
             console.log(result);
         });
     }
