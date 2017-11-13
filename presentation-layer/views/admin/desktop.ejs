@@ -2,19 +2,14 @@
 <html lang="en">
 <head>
     <title>ConUshop | Home </title>
-    <% include ../../assets/components/header.ejs %>
+    <% include ../components/header.ejs %>
 </head>
 <body>
-<!-- for bootstrap working -->
-<script type="text/javascript" src="/js/bootstrap-3.1.1.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="/js/main.js"></script>
-<!-- //for bootstrap working -->
 <!-- navigator -->
-<% include ../../assets/components/navigator.ejs %>
+<% include ../components/navigator.ejs %>
 <!-- //navigator -->
 
-<% include ../../assets/components/adminNav.ejs %>
+<% include ../components/adminNav.ejs %>
 
 <form method="post" action="/admin/addProdSpec">
     <div class="AddDesktop">
@@ -73,7 +68,6 @@
                 <td>Weight</td>
                 <td>Price</td>
                 <td>Edit</td>
-                <td>Delete</td>
             </tr>
         <% for(var i = 0; i < data.length; i++) { %>
             <tr>
@@ -87,7 +81,6 @@
                 <td class="weight"><%= data[i].weight %></td>
                 <td class="price"><%= data[i].price %></td>
                 <td contenteditable="false"><button onclick="updateProdSpec('Desktop', $(this).closest('tr'), '/admin/desktops')">Edit</button></td>
-                <td contenteditable="false"><button onclick="deleteProdSpec('Desktop', '<%= data[i].model%>', '/admin/desktops')">Delete</button></td>
             </tr>
         <% } %>
         </table>
@@ -95,7 +88,7 @@
 </div>
 <!--%= jsonData %-->
 <!-- footer -->
-<% include ../../assets/components/footer.ejs %>
+<% include ../components/footer.ejs %>
 <!-- //footer -->
 
 </body>

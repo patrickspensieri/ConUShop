@@ -1,0 +1,85 @@
+<html lang="en">
+    <head>
+        <title>ConUshop | Home </title>
+        <% include ../components/header.ejs %>
+    </head>
+    <body>
+    <% include ../components/navigator.ejs %>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="client_content container">
+        <h1>Shopping Cart</h1>
+        <% if (typeof data!='undefined' && data.length > 0) { %>
+        <div class="content row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-center">Price</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                        <tr>
+                            <td class="col-sm-8 col-md-6">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="#"><%= data[i].itemObj.modelNumber %></a></h4>
+                                    <h5 class="media-heading"> by <a href="#"><%= data[i].specification.brand %></a></h5>
+                                    <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                                </div>
+                            </div></td>
+                            <td class="col-sm-1 col-md-1 text-center"><strong><%= data[i].specification.price %></strong></td>
+                            <td class="col-sm-1 col-md-1">
+                                <form method="get" action="/client/deleteFromShoppingCart/<%= data[i].serialNumber %>">
+                                    <button type="submit" class="btn btn-danger">
+                                            <span class="glyphicon glyphicon-remove"></span> Remove
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% } %>
+                        <tr>
+                            <td>   </td>
+                            <td><h3>Total</h3></td>
+                            <td class="text-right"><h3><strong>$<%= total %></strong></h3></td>
+                        </tr>
+                        <tr>
+                            <td>   </td>
+                            <td>
+                                <button type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                                </button></td>
+                            <td>
+                                <form method="get" action="/client/makePurchase">
+                                    <button type="submit" class="btn btn-success">
+                                            Purchase <span class="glyphicon glyphicon-play"></span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } else { %>
+            <div class="content row">
+                    <div class="col-sm-12 col-md-10 col-md-offset-1">
+                            Your Shopping Cart is Empty.
+                    </div>
+                </div>
+        <% } %>
+    </div>
+
+    
+    <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
+    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
+    <script type="text/javascript" src="/js/catalog/catalog.js"></script>
+    <% include ../components/footer.ejs %>
+    </body>
+    </html>
+    

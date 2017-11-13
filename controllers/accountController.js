@@ -1,5 +1,5 @@
-let UserMapper = require('../../domain-layer/mappers/UserMapper');
-let Register = require('../../domain-layer/classes/Register');
+let UserMapper = require('../domain-layer/mappers/UserMapper');
+let Register = require('../domain-layer/classes/Register');
 
 // QUESTION why do we have a Register object?
 
@@ -10,17 +10,17 @@ module.exports = {
      * @param  {[type]} res response
      */
     register: function(req, res) {
-        let firstName = req.body.firstName;
-        let lastName = req.body.lastName;
+        let firstname = req.body.firstname;
+        let lastname = req.body.lastname;
         let phone = req.body.phone;
         let address = req.body.address;
         let email = req.body.email;
         let password = req.body.password;
-        let isAdmin = false;
+        let isadmin = false;
 
         // Validation
-        req.checkBody('firstName', 'First Name is required').notEmpty();
-        req.checkBody('lastName', 'Last Name is required').notEmpty();
+        req.checkBody('firstname', 'First Name is required').notEmpty();
+        req.checkBody('lastname', 'Last Name is required').notEmpty();
         req.checkBody('phone', 'Phone Number is required').notEmpty();
         req.checkBody('address', 'Address is required').notEmpty();
         req.checkBody('email', 'Email is required').notEmpty();
@@ -33,7 +33,7 @@ module.exports = {
         if (errors) {
             res.redirect('/');
         } else {
-            Register.createNewUser(firstName, lastName, address, email, phone, password, isAdmin, function(err, user) {
+            Register.createNewUser(firstname, lastname, address, email, phone, password, isadmin, function(err, user) {
                 if (err) throw err;
             });
             res.redirect('/');
@@ -42,7 +42,7 @@ module.exports = {
 
     /**
      * Logout given user from the session.
-     * Clears the given user's sessionid, allowing user to login.
+     * Clears the given user's session_id, allowing user to login.
      * @param  {[type]} user User sent from request
      */
     logoutSession: function(user) {
@@ -50,32 +50,11 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            if (user.sessionID) {
-                user.sessionID = null;
+            if (user.session_id) {
+                user.session_id = null;
                 UserMapper.updateLoginSession(user);
             }
         });
-    },
-
-    /**
-     * Ensure user is an Adminstrator.
-     * @param  {path} req request
-     * @param  {path} res response
-     * @param  {path} next callback function
-     */
-    ensureAdministrator: function(req, res, next) {
-        if (req.isAuthenticated()) {
-            UserMapper.find(req.user.email, function(err, user) {
-                if (err) throw err;
-                if (user.isAdmin) {
-                    return next();
-                } else {
-                    res.redirect('/');
-                }
-            });
-        } else {
-            res.redirect('/');
-        }
     },
 
     /**
@@ -94,25 +73,62 @@ module.exports = {
     },
 
     /**
-     * Ensures a user is logged in
+     * Gets user
      * @param  {[type]}   req  request
      * @param  {[type]}   res  response
      * @param  {Function} next callback
      * @return {[type]}
      */
-    ensureLoggedIn: function(req, res, next) {
+    getUser: function(req, res, next) {
         res.locals.isAuthenticated = req.isAuthenticated();
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
                 if (err) throw err;
-                if (user.isAdmin) {
-                    res.locals.isAdmin = true;
+                if (user.isadmin) {
+                    res.locals.isadmin = true;
+                    res.locals.isclient = false;
+                    req.adminUser = user;
                 } else {
-                    res.locals.isAdmin = false;
+                    res.locals.isadmin = false;
+                    res.locals.isclient = true;
+                    req.clientUser = user;
                 }
-                res.locals.name = user.firstName + ' ' + user.lastName;
+                res.locals.name = user.firstname + ' ' + user.lastname;
+                req.guestUser = user;
             });
+        } else {
+            res.locals.isclient = false;
+            req.guestUser = UserMapper.create();
         }
         return next();
+    },
+
+    /**
+     * Ensure user is a Client.
+     * @param  {path} req request
+     * @param  {path} res response
+     * @param  {path} next callback function
+     */
+    ensureClient: function(req, res, next) {
+        if (req.clientUser) {
+            return next();
+        } else {
+            req.flash('error_msg', 'Please login with your client account in order to access this feature.');
+            res.redirect('/');
+        }
+    },
+
+    /**
+     * Ensure user is an Adminstrator.
+     * @param  {path} req request
+     * @param  {path} res response
+     * @param  {path} next callback function
+     */
+    ensureAdministrator: function(req, res, next) {
+        if (req.adminUser) {
+            return next();
+        } else {
+            res.redirect('/');
+        }
     },
 };

@@ -8,17 +8,23 @@ let AbstractMapper = require('./AbstractMapper');
  * @export
  */
 class OrderItemMapper extends AbstractMapper {
-
     /**
      * Creates a new OrderItem
-     * @param {object} Instance of Item
-     * @param {int} Quantity of Item
+     * @param {string} orderItemId 
+     * @param {string} orderId 
+     * @param {string} serialNumber 
+     * @param {number} price 
+     * @param {boolean} isReturned 
+     * @param {Object} itemObj 
+     * @param {Date} itemTimeout 
+     * @param {Object} productCatalog
+     * @return {Object} order item
      */
-    static create(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout, productCatalog) {
-        let orderItem = new OrderItem(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout, productCatalog);
+    static create(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout) {
+        let orderItem = new OrderItem(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout);
         return orderItem;
     }
-    
+
   /**
    * Maps the returned value to an object of type OrderItem.
    * @static
@@ -39,8 +45,8 @@ class OrderItemMapper extends AbstractMapper {
                     if (result.length==0) {
                         return callback(err, null);
                     } else {
-                        let orderItem = new OrderItem(value.orderItemId, value.orderId, value.serialNumber, value.price,
-                            value.isReturned);
+                        let orderItem = new OrderItem(value.order_item_id, value.order_id, value.serialnumber, value.price,
+                            value.isreturned);
                         idMap.add(orderItem, orderItem.orderItemId);
                         return callback(null, orderItem);
                     }
@@ -54,15 +60,15 @@ class OrderItemMapper extends AbstractMapper {
    * @static
    * @param {function} callback function that holds array of OrderItem object
    */
-    static findAll(callback) {
-        OrderItemTDG.findAll(function(err, result) {
+    static findAll(orderId, callback) {
+        OrderItemTDG.findAll(orderId, function(err, result) {
             let orderItems = [];
             if (err) {
                 console.log('Error during OrdersItem findALL query', null);
             } else {
                 for (let value of result) {
-                    let orderItem = new OrderItem(value.orderItemId, value.orderId, value.serialNumber, value.price,
-                        value.isReturned);
+                    let orderItem = new OrderItem(value.order_item_id, value.order_id, value.serialnumber, value.price,
+                        value.isreturned);
                     orderItems.push(orderItem);
                     if (idMap.get('OrderItem', orderItem.orderItemId) == null) {
                         idMap.add(orderItem, orderItem.orderItemId);
@@ -106,7 +112,7 @@ class OrderItemMapper extends AbstractMapper {
   /**
    * Extracts an objects id to use with TDG delete method.
    * @static
-   * @param {Object} OrderObject an object of type Order.
+   * @param {Object} OrderItemObject an object of type Order.
    */
     static delete(OrderItemObject) {
         OrderItemTDG.delete(OrderItemObject.orderItemId, function(err, result) {

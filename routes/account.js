@@ -1,7 +1,7 @@
 let express = require('express');
 let router = new express.Router();
 let passport = require('passport');
-let accountController = require('../presentation-layer/controllers/accountController');
+let accountController = require('../controllers/accountController');
 require('../config/passport');
 
 router.post('/login',

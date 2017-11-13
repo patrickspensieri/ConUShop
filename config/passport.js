@@ -30,19 +30,19 @@ passport.use(new LocalStrategy(
                     return done(null, false, req.flash('error_msg', 'Invalid password. try again'));
                 } else {
                     // IF user requested to clear all existing sessions, if any
-                    if (req.body.clearExistingSession && user.sessionID) {
+                    if (req.body.clearExistingSession && user.session_id) {
                         // destroy session from memory-store
                         destroyExistingSession(user);
                     }
-                    // IF user.sessionID != null THEN user logged in elsewhere, failure
-                    if (user.sessionID) {
+                    // IF user.session_id != null THEN user logged in elsewhere, failure
+                    if (user.session_id) {
                         return done(null, false, req.flash('error_msg', 'User already has an active session.'));
                     } else {
                         // TODO temporary flash message to identify user, not shown for admin because may appear on logout
-                        if (user.isAdmin) {
+                        if (user.isadmin) {
                             return done(null, user, req.flash());
                         }
-                        return done(null, user, req.flash('success_msg', 'Welcome back, young ' + user.firstName));
+                        return done(null, user, req.flash('success_msg', 'Welcome back, young ' + user.firstname));
                     }
                 }
             });
@@ -51,7 +51,7 @@ passport.use(new LocalStrategy(
 
 /**
  * Store user into session.
- * Session maintained in memory-store, while cookie contains sessionID.
+ * Session maintained in memory-store, while cookie contains session_id.
  */
 passport.serializeUser(function(user, done) {
     done(null, user.email);
@@ -63,8 +63,8 @@ passport.serializeUser(function(user, done) {
  */
 passport.deserializeUser(function(req, email, done) {
     UserMapper.find(email, function(err, user) {
-        // update the user's sessionID and store changes
-        user.sessionID = req.sessionID;
+        // update the user's session_id and store changes
+        user.session_id = req.sessionID;
         UserMapper.updateLoginSession(user);
         done(err, user);
     });
@@ -89,10 +89,10 @@ comparePassword = function(candidatePassword, hash, done) {
  */
 destroyExistingSession = function(user) {
     // destroy session from memory-store
-    MemoryStore.store.destroy(user.sessionID, function(err) {
+    MemoryStore.store.destroy(user.session_id, function(err) {
         if (err) throw err;
     });
-    // clear user's sessionID
-    user.sessionID = null;
-    UserMapper.updateLoginSession(user.id, user.sessionID);
+    // clear user's session_id
+    user.session_id = null;
+    UserMapper.updateLoginSession(user.id, user.session_id);
 };

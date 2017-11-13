@@ -1,4 +1,4 @@
-let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
+let ProductCatalog = require('./ProductCatalog');
 
 /**
  * Class describes a user.
@@ -6,40 +6,28 @@ let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
  * @export
  */
 class User {
-  /**
-   * @constructor
-   * @param {Boolean} isAdmin is the user an Admin
-   * @param {string} firstName first name of user
-   * @param {string} lastName last name of user
-   * @param {string} address home address of user
-   * @param {string} email email of user
-   * @param {number} phone phone number of user
-   * @param {string} password user password
-   * @param {string} sessionID sessionID for login session
-   * @param {number} id the user id, set to null if not passed
-   */
-    constructor(firstName, lastName, address, email, phone, password, isAdmin, sessionID, id) {
-        this.isAdmin = isAdmin;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    /**
+     * @param {string} firstname 
+     * @param {string} lastname 
+     * @param {string} address 
+     * @param {string} email 
+     * @param {string} phone 
+     * @param {string} password 
+     * @param {boolean} isadmin 
+     * @param {string} session_id 
+     * @param {string} id 
+     */
+    constructor(firstname, lastname, address, email, phone, password, isadmin, session_id, id) {
+        this.isadmin = isadmin;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.address = address;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.sessionID = sessionID;
+        this.session_id = session_id;
         this.id = id;
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
-    }
-
-
-    /**
-     * Displays information about user object.
-     * To be run on an instance of user.
-     * @method display
-     */
-    display() {
-        console.log(this.isAdmin + ' ' + this.firstName + ' ' +
-         this.lastName + ' ' + this.address + ' ' + this.email + ' ' + this.phone + ' ' + this.sessionID);
     }
 
     /**
