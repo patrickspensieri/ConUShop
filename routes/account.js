@@ -21,12 +21,6 @@ router.get('/logout',
         res.redirect('/');
 });
 
-router.get('/', function(req, res) {
-    res.render('pages/index',
-        {error_message: req.flash('error_msg'),
-        success_message: req.flash('success_msg')});
-});
-
 router.post('/register', accountController.register);
 
 module.exports = router;
