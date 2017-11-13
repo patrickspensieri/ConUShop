@@ -37,6 +37,11 @@ class ShoppingCart {
         });
     }
 
+    /**
+     * Helper
+     * Item in cart timeout session
+     * @param {*} result 
+     */
     setTimeOutFunc(result) {
         setTimeout(this.removeFromCart.bind(this), 120000, result.serialNumber, function(err, result) {
             console.log(result);
