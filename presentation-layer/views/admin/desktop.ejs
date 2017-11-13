@@ -10,50 +10,106 @@
 <!-- //navigator -->
 
 <% include ../components/adminNav.ejs %>
+<br><br>
+<h1 class="text-center">Manage Desktops</h1>
+<br><br>
 
-<form method="post" action="/admin/addProdSpec">
-    <div class="AddDesktop">
-        <label>Product Table: </label>
-        <input type="text" class="" name="formProductType" value="Desktop" readonly>
+<div class="container">
+    <h1 class="well">Desktop Registration Form</h1>
+	<div class="col-lg-12 well">
+	<div class="row">
+				<form method="post" action="/admin/addProdSpec">
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-sm-6 AddDesktop">
+                                <label>Product Table: </label>
+                                <input type="text" class="form-control" name="formProductType" value="Desktop" readonly>
+							</div>
+							<div class="col-sm-6 AddDesktop">
+                                <label>modelNumber</label>
+                                <input type="text" class="form-control" name="model" placeholder="model">
+							</div>
+						</div>					
+						<div class="AddDesktop">
+                            <label>brand</label>
+                            <input type="text" class="form-control" name="brand" placeholder="brand">
+						</div>	
+						<div class="row">
+							<div class="col-sm-3 AddDesktop">
+                                <label>processor</label>
+                                <input type="text" class="form-control" name="processor" placeholder="processor">
+							</div>	
+							<div class="col-sm-3 AddDesktop">
+                                <label>ram</label>
+                                <input type="text" class="form-control" name="ram" placeholder="ram">
+							</div>	
+							<div class="col-sm-3 AddDesktop">
+                                <label>storage</label>
+                                <input type="text" class="form-control" name="storage" placeholder="storage">
+                            </div>	
+                            <div class="col-sm-3 AddDesktop">
+                                <label>cores</label>
+                                <input type="text" class="form-control" name="cores" placeholder="cores">
+                            </div>	
+						</div>
+						<div class="row">
+							<div class="col-sm-6 AddDesktop">
+                                <label>dimensions</label>
+                                <input type="text" class="form-control" name="dimensions" placeholder="dimensions">
+							</div>		
+							<div class="col-sm-6 AddDesktop">
+                                <label>weight</label>
+                                <input type="text" class="form-control" name="weight" placeholder="weight">
+							</div>	
+						</div>						
+					<div class="AddDesktop">
+                        <label>price</label>
+                        <input type="text" class="form-control" name="price" placeholder="price">
+					</div><br>		
+					<button type="submit" class="btn btn-lg btn-success">Add desktop</button>					
+                    </div>
+				</form> 
+				</div>
     </div>
-    <div class="AddDesktop">
-        <label>modelNumber</label>
-        <input type="text" class="" name="model" placeholder="model">
+<div>
+    <% if (typeof data!='undefined') { %>
+    <div class="container">
+        <h2>Table</h2> 
+        <table class="table table-striped" contenteditable="true" id="prodTable">
+          <thead>
+            <tr>
+                <th>Model</th>
+                <th>Brand</th>
+                <th>Processor</th>
+                <th>Ram</th>
+                <th>Storage</th>
+                <th>Cores</th>
+                <th>Dimensions</th>
+                <th>Weight</th>
+                <th>Price</th>
+                <th>Edit</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i = 0; i < data.length; i++) { %>
+                <tr>
+                    <td class="model" contenteditable="false"><%= data[i].model %></td>
+                    <td class="brand"><%= data[i].brand %></td>
+                    <td class="processor"><%= data[i].processor %></td>
+                    <td class="ram"><%= data[i].ram %></td>
+                    <td class="storage"><%= data[i].storage %></td>
+                    <td class="cores"><%= data[i].cores %></td>
+                    <td class="dimensions"><%= data[i].dimensions %></td>
+                    <td class="weight"><%= data[i].weight %></td>
+                    <td class="price"><%= data[i].price %></td>
+                    <td contenteditable="false"><button class="btn btn-warning" onclick="updateProdSpec('Desktop', $(this).closest('tr'), '/admin/desktops')">Edit</button></td>
+                </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
     </div>
-    <div class="AddDesktop">
-        <label>brand</label>
-        <input type="text" class="" name="brand" placeholder="brand">
-    </div>
-    <div class="AddDesktop">
-        <label>processor</label>
-        <input type="text" class="" name="processor" placeholder="processor">
-    </div>
-    <div class="AddDesktop">
-        <label>ram</label>
-        <input type="text" class="" name="ram" placeholder="ram">
-    </div>
-    <div class="AddDesktop">
-        <label>storage</label>
-        <input type="text" class="" name="storage" placeholder="storage">
-    </div>
-    <div class="AddDesktop">
-        <label>cores</label>
-        <input type="text" class="" name="cores" placeholder="cores">
-    </div>
-    <div class="AddDesktop">
-        <label>dimensions</label>
-        <input type="text" class="" name="dimensions" placeholder="dimensions">
-    </div>
-    <div class="AddDesktop">
-        <label>weight</label>
-        <input type="text" class="" name="weight" placeholder="weight">
-    </div>
-    <div class="AddDesktop">
-        <label>price</label>
-        <input type="text" class="" name="price" placeholder="price">
-    </div>
-    <button type="submit" class="">Add new Desktop item</button>
-</form></br>
 <div>
     <% if (typeof data!='undefined') { %>
         <table contenteditable="true" id="prodTable">
