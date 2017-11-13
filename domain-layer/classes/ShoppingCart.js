@@ -31,8 +31,15 @@ class ShoppingCart {
         self.getItem(modelNumber, type, function(err, result) {
             if (result != null) {
                 self.cart.push(result);
+                self.setTimeOutFunc(result);                
             }
             return callback(err, result);
+        });
+    }
+
+    setTimeOutFunc(result) {
+        setTimeout(this.removeFromCart.bind(this), 120000, result.serialNumber, function(err, result) {
+            console.log(result);
         });
     }
 
