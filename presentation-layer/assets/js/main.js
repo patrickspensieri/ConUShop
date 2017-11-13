@@ -1,3 +1,29 @@
+function beginSession(redi) {
+    $.ajax({
+        type: 'POST',
+        url: '/admin/startProductCatalogSession',
+        data: {
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        },
+    });
+}
+
+function endSession(redi) {
+    $.ajax({
+        type: 'POST',
+        url: '/admin/endProductCatalogSession',
+        data: {
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        },
+    });
+}
+
 function deleteProdSpec(prodType, modelNumber, redi) {
             $.post({
                 url: '/admin/deleteProdSpec',

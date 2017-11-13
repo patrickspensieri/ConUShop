@@ -9,7 +9,27 @@
 <% include ../components/navigator.ejs %>
 <!-- //navigator -->
 <% include ../components/adminNav.ejs %>
-
+<!-- flash messages -->
+<% if (sessStart_msg.length > 0) { %>
+<div class="alert alert-success alert-dismissable fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <%= sessStart_msg %>
+</div>
+<% } %>
+<% if (sessEnd_msg.length > 0) { %>
+<div class="alert alert-danger alert-dismissable fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <%= sessEnd_msg %>
+</div>
+<% } %>
+<% if (otherSess_msg.length > 0) { %>
+<div class="alert alert-danger alert-dismissable fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <%= otherSess_msg %>
+</div>
+<% } %>
+<button onclick="beginSession('/admin/desktops')">EditOn</button>
+<button onclick="endSession('/admin/desktops')">EditOff</button>
 <form method="post" action="/admin/addProdSpec">
     <div class="AddMonitor">
         <label>Product Table: </label>
