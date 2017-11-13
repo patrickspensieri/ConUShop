@@ -31,7 +31,8 @@ function updateProdSpec(prodType, data, redi) {
 
     switch (prodType) {
         case 'Desktop':
-            $.post({
+            $.ajax({
+                type: 'POST',
                 url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
@@ -52,7 +53,8 @@ function updateProdSpec(prodType, data, redi) {
             });
             break;
         case 'Laptop':
-            $.post({
+            $.ajax({
+                type: 'POST',
                 url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
@@ -78,7 +80,8 @@ function updateProdSpec(prodType, data, redi) {
             });
             break;
         case 'Monitor':
-            $.post({
+            $.ajax({
+                type: 'POST',
                 url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
@@ -95,7 +98,8 @@ function updateProdSpec(prodType, data, redi) {
             });
             break;
         case 'Tablet':
-            $.post({
+            $.ajax({
+                type: 'POST',
                 url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
