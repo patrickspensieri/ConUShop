@@ -16,7 +16,6 @@ router.get('/logout',
     function(req, res) {
         if (req.user) {
             accountController.logoutSession(req.user);
-
             req.logout();
         }
         res.redirect('/');
