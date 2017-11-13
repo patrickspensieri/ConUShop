@@ -21,15 +21,6 @@ router.get('/logout',
         res.redirect('/');
 });
 
-router.get('/deleteAccount',
-function(req, res) {
-    if (req.user) {
-        accountController.deleteAccount(req.user, req);
-        req.logout();
-    }
-    res.redirect('/');
-});
-
 router.get('/', function(req, res) {
     res.render('pages/index',
         {error_message: req.flash('error_msg'),
