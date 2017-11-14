@@ -39,6 +39,12 @@
                     </tbody>
                 </table>
             <% } %>
+
+            <% if(data.length == 0) { %>
+                <div class="alert alert-warning">
+                        <strong>No Orders:</strong> You have not made any purchases yet.
+                </div>
+            <% } %>
         </div>
     </div>
 
