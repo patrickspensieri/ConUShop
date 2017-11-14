@@ -42,12 +42,12 @@ class ItemTDG {
      * @static
      * @param {string} serialNumber number of product.
      * @param {string} modelNumber of product description.
+     * @param {boolean} isLocked item locked
      * @param {function} callback function
      */
-    static insert(serialNumber, modelNumber, callback) {
+    static insert(serialNumber, modelNumber, isLocked, callback) {
         let queryString = 'INSERT INTO item (serialnumber, model) VALUES($1, $2)';
         let queryValues = [serialNumber, modelNumber];
-
         db.query(queryString, queryValues, (err, result) =>{
             if (err) {
                 console.log(err.message);
@@ -58,10 +58,10 @@ class ItemTDG {
 
     /**
      * Update an item
-     * @param {string} serialNumber 
-     * @param {string} modelNumber 
-     * @param {boolean} isLocked 
-     * @param {*} callback 
+     * @param {string} serialNumber
+     * @param {string} modelNumber
+     * @param {boolean} isLocked
+     * @param {*} callback
      */
     static update(serialNumber, modelNumber, isLocked, callback) {
         let queryString = 'UPDATE item SET model=$2, islocked=$3 WHERE serialnumber=$1';
@@ -69,8 +69,9 @@ class ItemTDG {
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
                 console.log(err.message);
+            } else {
+                return callback(err, result);
             }
-            return callback(err, result);
         });
     }
 
@@ -92,8 +93,8 @@ class ItemTDG {
 
     /**
      * Gets an item from model
-     * @param {*} modelNumber 
-     * @param {*} callback 
+     * @param {*} modelNumber
+     * @param {*} callback
      */
     static getItemFromModel(modelNumber, callback) {
         db.query('SELECT * FROM item WHERE model=$1 AND islocked=false LIMIT 1', [modelNumber], (err, result) =>{
