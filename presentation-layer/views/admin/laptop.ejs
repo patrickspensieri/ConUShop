@@ -8,133 +8,249 @@
 <!-- navigator -->
 <% include ../components/navigator.ejs %>
 <!-- //navigator -->
+
 <% include ../components/adminNav.ejs %>
-<!-- flash messages -->
-<% if (sessStart_msg.length > 0) { %>
-<div class="alert alert-success alert-dismissable fade in">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <%= sessStart_msg %>
+<div class="container">
+    <ul class="nav nav-tabs" style="list-style-type: none;" id="myTab">
+        <li class="active"><a data-toggle="tab" href="#edit">Edit</a></li>
+        <li><a data-toggle="tab" href="#view">View</a></li>
+    </ul>
 </div>
-<% } %>
-<% if (sessEnd_msg.length > 0) { %>
-<div class="alert alert-danger alert-dismissable fade in">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <%= sessEnd_msg %>
+<div class="tab-content">
+    <div id="view" class="tab-pane fade">
+        <br><br>
+        <h1 class="text-center">View Laptops</h1>
+        <br><br>
+        <!-- List of items -->
+        <div>
+            <hr>
+            <% if (typeof data!='undefined') { %>
+            <div class="container">
+                <br><br><br>
+                <h2 class="text-center">All Laptops</h2>
+                <br>
+                <table class="table table-striped table-condensed" id="prodTable">
+                    <thead>
+                    <tr>
+                        <td>Model</td>
+                        <td>Brand</td>
+                        <td>Display</td>
+                        <td>Processor</td>
+                        <td>Ram</td>
+                        <td>Storage</td>
+                        <td>Cores</td>
+                        <td>OS</td>
+                        <td>Battery</td>
+                        <td>Camera</td>
+                        <td>Touch</td>
+                        <td>Dimensions</td>
+                        <td>Weight</td>
+                        <td>Price</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                    <tr>
+                        <td class="model"><%= data[i].model %></td>
+                        <td class="brand"><%= data[i].brand %></td>
+                        <td class="display"><%= data[i].display %></td>
+                        <td class="processor"><%= data[i].processor %></td>
+                        <td class="ram"><%= data[i].ram %></td>
+                        <td class="storage"><%= data[i].storage %></td>
+                        <td class="cores"><%= data[i].cores %></td>
+                        <td class="os"><%= data[i].os %></td>
+                        <td class="battery"><%= data[i].battery %></td>
+                        <td class="camera"><%= data[i].camera %></td>
+                        <td class="touch"><%= data[i].touch %></td>
+                        <td class="dimensions"><%= data[i].dimensions %></td>
+                        <td class="weight"><%= data[i].weight %></td>
+                        <td class="price"><%= data[i].price %></td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+        </div>
+    </div>
+    <div id="edit" class="tab-pane fade in active">
+        <br><br>
+        <h1 class="text-center">Manage Laptops</h1>
+        <br><br>
+        <div class="container">
+
+
+            <div id="selector" class="btn-group" data-toggle="buttons-radio">
+                <% if (!editIsOn) { %>
+                <button name="editToggle" class="btn btn-default" onclick="beginSession('/admin/laptops')">Turn Edit ON</button>
+                <% } %>
+                <% if (editIsOn) { %>
+                <button name="editToggle" class="btn btn-danger" onclick="endSession('/admin/laptops')">Turn Edit OFF</button>
+                <% } %>
+            </div>
+            <br><br>
+            <!-- flash messages -->
+            <% if (sessStart_msg.length > 0) { %>
+            <div class="alert alert-success alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= sessStart_msg %>
+            </div>
+            <% } %>
+            <% if (sessEnd_msg.length > 0) { %>
+            <div class="alert alert-danger alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= sessEnd_msg %>
+            </div>
+            <% } %>
+            <% if (otherSess_msg.length > 0) { %>
+            <div class="alert alert-danger alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= otherSess_msg %>
+            </div>
+            <% } %>
+
+            <!-- Item register form -->
+            <h1 class="well">Register a  new LAPTOP</h1>
+            <div class="col-lg-12 well">
+                <div class="row">
+                    <form method="post" action="/admin/addProdSpec">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Product Table: </label>
+                                    <input type="text" class="form-control" name="formProductType" value="Laptop" readonly>
+                                </div>
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Model Number</label>
+                                    <input type="text" class="form-control" name="model" placeholder="model">
+                                </div>
+                            </div>
+                            <div class="AddLaptop">
+                                <label>Brand</label>
+                                <input type="text" class="form-control" name="brand" placeholder="brand">
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 AddLaptop">
+                                    <label>Display</label>
+                                    <input type="text" class="form-control" name="display" placeholder="display">
+                                </div>
+                                <div class="col-sm-3 AddLaptop">
+                                    <label>Processor</label>
+                                    <input type="text" class="form-control" name="processor" placeholder="processor">
+                                </div>
+                                <div class="col-sm-3 AddLaptop">
+                                    <label>Ram</label>
+                                    <input type="text" class="form-control" name="ram" placeholder="ram">
+                                </div>
+                                <div class="col-sm-3 AddLaptop">
+                                    <label>Storage</label>
+                                    <input type="text" class="form-control" name="storage" placeholder="storage">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Cores</label>
+                                    <input type="text" class="form-control" name="cores" placeholder="cores">
+                                </div>
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>OS</label>
+                                    <input type="text" class="form-control" name="os" placeholder="os">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Battery</label>
+                                    <input type="text" class="form-control" name="battery" placeholder="battery">
+                                </div>
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Camera</label>
+                                    <input type="text" class="form-control" name="camera" placeholder="camera">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Touch</label>
+                                    <input type="text" class="form-control" name="touch" placeholder="touch">
+                                </div>
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Dimensions</label>
+                                    <input type="text" class="form-control" name="dimensions" placeholder="dimensions">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Weight</label>
+                                    <input type="text" class="form-control" name="weight" placeholder="weight">
+                                </div>
+                                <div class="col-sm-6 AddLaptop">
+                                    <label>Price</label>
+                                    <input type="text" class="form-control" name="price" placeholder="price">
+                                </div>
+                            </div><br>
+                            <button type="submit" class="btn btn-lg btn-success">Add Laptop</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- List of items -->
+            <div>
+                <hr>
+                <% if (typeof data!='undefined') { %>
+                <div class="container">
+                    <br><br><br>
+                    <h2 class="text-center">Laptop Catalog</h2>
+                    <p class="text-center">Simply modify any field and click edit to save</p>
+                    <br>
+                    <table class="table table-striped table-condensed" contenteditable="true" id="prodTable">
+                        <thead>
+                        <tr contenteditable='false'>
+                            <td contenteditable='false'>Model</td>
+                            <td>Brand</td>
+                            <td>Display</td>
+                            <td>Processor</td>
+                            <td>Ram</td>
+                            <td>Storage</td>
+                            <td>Cores</td>
+                            <td>OS</td>
+                            <td>Battery</td>
+                            <td>Camera</td>
+                            <td>Touch</td>
+                            <td>Dimensions</td>
+                            <td>Weight</td>
+                            <td>Price</td>
+                            <td>Edit</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                        <tr>
+                            <td class="model" contenteditable="false"><%= data[i].model %></td>
+                            <td class="brand"><%= data[i].brand %></td>
+                            <td class="display"><%= data[i].display %></td>
+                            <td class="processor"><%= data[i].processor %></td>
+                            <td class="ram"><%= data[i].ram %></td>
+                            <td class="storage"><%= data[i].storage %></td>
+                            <td class="cores"><%= data[i].cores %></td>
+                            <td class="os"><%= data[i].os %></td>
+                            <td class="battery"><%= data[i].battery %></td>
+                            <td class="camera"><%= data[i].camera %></td>
+                            <td class="touch"><%= data[i].touch %></td>
+                            <td class="dimensions"><%= data[i].dimensions %></td>
+                            <td class="weight"><%= data[i].weight %></td>
+                            <td class="price"><%= data[i].price %></td>
+                            <td contenteditable="false"><button onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/admin/laptops')">Edit</button></td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
 </div>
-<% } %>
-<% if (otherSess_msg.length > 0) { %>
-<div class="alert alert-danger alert-dismissable fade in">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <%= otherSess_msg %>
-</div>
-<% } %>
-<button onclick="beginSession('/admin/laptops')">EditOn</button>
-<button onclick="endSession('/admin/laptops')">EditOff</button>
-<form method="post" action="/admin/addProdSpec">
-    <div class="AddLaptop">
-        <label>Product Table: </label>
-        <input type="text" class="" name="formProductType" value="Laptop" readonly>
-    </div>
-    <div class="AddLaptop">
-        <label>modeNumber</label>
-        <input type="text" class="" name="model" placeholder="model">
-    </div>
-    <div class="AddLaptop">
-        <label>brand</label>
-        <input type="text" class="" name="brand" placeholder="brand">
-    </div>
-    <div class="AddLaptop">
-        <label>display</label>
-        <input type="text" class="" name="display" placeholder="display">
-    </div>
-    <div class="AddLaptop">
-        <label>processor</label>
-        <input type="text" class="" name="processor" placeholder="processor">
-    </div>
-    <div class="AddLaptop">
-        <label>ram</label>
-        <input type="text" class="" name="ram" placeholder="ram">
-    </div>
-    <div class="AddLaptop">
-        <label>storage</label>
-        <input type="text" class="" name="storage" placeholder="storage">
-    </div>
-    <div class="AddLaptop">
-        <label>cores</label>
-        <input type="text" class="" name="cores" placeholder="cores">
-    </div>
-    <div class="AddLaptop">
-        <label>os</label>
-        <input type="text" class="" name="os" placeholder="os">
-    </div>
-    <div class="AddLaptop">
-        <label>battery</label>
-        <input type="text" class="" name="battery" placeholder="battery">
-    </div>
-    <div class="AddLaptop">
-        <label>camera</label>
-        <input type="text" class="" name="camera" placeholder="camera">
-    </div>
-    <div class="AddLaptop">
-        <label>touch</label>
-        <input type="text" class="" name="touch" placeholder="touch">
-    </div>
-    <div class="AddLaptop">
-        <label>dimensions</label>
-        <input type="text" class="" name="dimensions" placeholder="dimensions">
-    </div>
-    <div class="AddLaptop">
-        <label>weight</label>
-        <input type="text" class="" name="weight" placeholder="weight">
-    </div>
-    <div class="AddLaptop">
-        <label>price</label>
-        <input type="text" class="" name="price" placeholder="price">
-    </div>
-    <button type="submit" class="">Add new Laptop item</button>
-</form></br>
-<div>
-    <% if (typeof data!='undefined') { %>
-        <table contenteditable='true'>
-            <tr contenteditable='false'>
-                <td contenteditable='false'>Model</td>
-                <td>Brand</td>
-                <td>Display</td>
-                <td>Processor</td>
-                <td>Ram</td>
-                <td>Storage</td>
-                <td>Cores</td>
-                <td>OS</td>
-                <td>Battery</td>
-                <td>Camera</td>
-                <td>Touch</td>
-                <td>Dimensions</td>
-                <td>Weight</td>
-                <td>Price</td>
-                <td>Edit</td>
-            </tr>
-        <% for(var i = 0; i < data.length; i++) { %>
-            <tr>
-                <td class="model" contenteditable="false"><%= data[i].model %></td>
-                <td class="brand"><%= data[i].brand %></td>
-                <td class="display"><%= data[i].display %></td>
-                <td class="processor"><%= data[i].processor %></td>
-                <td class="ram"><%= data[i].ram %></td>
-                <td class="storage"><%= data[i].storage %></td>
-                <td class="cores"><%= data[i].cores %></td>
-                <td class="os"><%= data[i].os %></td>
-                <td class="battery"><%= data[i].battery %></td>
-                <td class="camera"><%= data[i].camera %></td>
-                <td class="touch"><%= data[i].touch %></td>
-                <td class="dimensions"><%= data[i].dimensions %></td>
-                <td class="weight"><%= data[i].weight %></td>
-                <td class="price"><%= data[i].price %></td>
-                <td contenteditable="false"><button onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/admin/laptops')">Edit</button></td>
-            </tr>
-        <% } %>
-        </table>
-    <% } %>
-</div>
+
 <!--%= jsonData %-->
 <!-- footer -->
 <% include ../components/footer.ejs %>
