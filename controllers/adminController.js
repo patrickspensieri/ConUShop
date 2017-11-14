@@ -1,3 +1,5 @@
+let UserMapper = require('../domain-layer/mappers/UserMapper');
+
 module.exports = {
     dashboard: function(req, res) {
         res.render('admin/dashboard');
@@ -57,6 +59,14 @@ module.exports = {
             });
         });
     },
+
+    clients: function(req, res) {
+        UserMapper.findAllClients(function(err,data){
+            res.render('admin/clients', {
+                data:data,
+            });
+        });
+     },
 
     deleteItem: function(req, res) {
         let otherMsg = req.adminUser.getProductCatalog().deleteItem(req.body.serialNumberToRemove);

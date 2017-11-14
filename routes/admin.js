@@ -9,6 +9,7 @@ router.get('/laptops', adminController.laptop);
 router.get('/monitors', adminController.monitor);
 router.get('/tablets', adminController.tablet);
 router.get('/items', adminController.inventory);
+router.get('/clients', adminController.clients);
 
 router.post('/deleteItem', adminController.deleteItem);
 router.post('/addItem', adminController.addItem);
