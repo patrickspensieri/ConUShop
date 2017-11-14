@@ -16,6 +16,7 @@ class ShoppingCart {
         contract.precondition(user.isadmin === false);
         this.productCatalog = productCatalog;
         this.cart = [];
+        this.timeouts = [];
     }
 
     /**
@@ -31,20 +32,12 @@ class ShoppingCart {
         self.getItem(modelNumber, type, function(err, result) {
             if (result != null) {
                 self.cart.push(result);
-                self.setTimeOutFunc(result);                
+                self.timeouts.push(
+                    setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {
+                    console.log(result);
+                }));
             }
             return callback(err, result);
-        });
-    }
-
-    /**
-     * Helper
-     * Item in cart timeout session
-     * @param {*} result 
-     */
-    setTimeOutFunc(result) {
-        setTimeout(this.removeFromCart.bind(this), 120000, result.serialNumber, function(err, result) {
-            console.log(result);
         });
     }
 
@@ -62,6 +55,8 @@ class ShoppingCart {
                 for (let i = 0; i < self.cart.length; i++) {
                     if (self.cart[i].serialNumber == serialNumber) {
                         self.cart.splice(i, 1);
+                        clearTimeout(self.timeouts[i]);
+                        self.timeouts.splice(i, 1);
                         break;
                      }
                 }
