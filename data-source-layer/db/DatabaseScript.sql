@@ -654,7 +654,7 @@ BEGIN
         RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
     END IF;
     IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
+        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: # x # x ## .';
     END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -685,7 +685,7 @@ BEGIN
         RAISE EXCEPTION 'Provided OS does not exist in the system.';
     END IF;
     IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
+        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: # x # x ## .';
     END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -731,7 +731,7 @@ BEGIN
         RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
     END IF;
     IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
+        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: # x # x ## .';
     END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
@@ -769,7 +769,7 @@ BEGIN
         RAISE EXCEPTION 'Provided OS does not exist in the system.';
     END IF;
     IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
+        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: # x # x ## .';
     END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
@@ -807,7 +807,7 @@ BEGIN
         RAISE EXCEPTION 'Provided OS does not exist in the system.';
     END IF;
     IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
+        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: # x # x ## .';
     END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
