@@ -12,27 +12,38 @@
 <% include ../components/adminNav.ejs %>
 
 <div>
+    <hr>
     <% if (typeof data!='undefined') { %>
-    <table contenteditable="true" id="prodTable">
-        <tr contenteditable="false">
-            <td>First Name</td>
-            <td>Last Name</td>
-            <td>Address</td>
-            <td>Email</td>
-            <td>Phone</td>
-        </tr>
-        <% for(var i = 0; i < data.length; i++) { %>
-        <tr>
-            <td class="FirstName" contenteditable="false"><%= data[i].firstname %></td>
-            <td class="LastName"><%= data[i].lastname %></td>
-            <td class="Address"><%= data[i].address %></td>
-            <td class="Email"><%= data[i].email %></td>
-            <td class="Phone"><%= data[i].phone %></td>
-        </tr>
-        <% } %>
-    </table>
+    <div class="container">
+        <br><br><br>
+        <h2 class="text-center">Registered Clients</h2>
+        <br>
+        <table class="table table-striped table-condensed" contenteditable="true" id="prodTable">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for(var i = 0; i < data.length; i++) { %>
+            <tr>
+                <td class="FirstName" contenteditable="false"><%= data[i].firstname %></td>
+                <td class="LastName"><%= data[i].lastname %></td>
+                <td class="Address"><%= data[i].address %></td>
+                <td class="Email"><%= data[i].email %></td>
+                <td class="Phone"><%= data[i].phone %></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
     <% } %>
-</div>
+    </div>
+
 <!--%= jsonData %-->
 <!-- footer -->
 <% include ../components/footer.ejs %>

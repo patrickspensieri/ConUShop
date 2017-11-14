@@ -1,6 +1,5 @@
 let User = require('./User');
 let ProductCatalog = require('../../domain-layer/classes/ProductCatalog');
-let UserMapper = require('../../domain-layer/mappers/UserMapper');
 
 /**
  * Class describes an Admin.
@@ -35,6 +34,5 @@ class Admin extends User {
         return this.productCatalog;
     }
 }
-
 
 module.exports = Admin;
