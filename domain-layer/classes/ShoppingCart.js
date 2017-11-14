@@ -33,7 +33,7 @@ class ShoppingCart {
             if (result != null) {
                 self.cart.push(result);
                 self.timeouts.push(
-                    setTimeout(self.removeFromCart.bind(self), 20000, result.serialNumber, function(err, result) {
+                    setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {
                     console.log(result);
                 }));
             }
