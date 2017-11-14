@@ -357,6 +357,9 @@ class ProductCatalog {
         this.isComplete = false;
     }
     productCatalogSessionIsComplete() {
+        if(this.isComplete == null){
+            return false;
+        }
         return this.isComplete;
     }
 

@@ -68,28 +68,36 @@
         <h1 class="text-center">Manage Desktops</h1>
         <br><br>
         <div class="container">
-            <!-- flash messages -->
-            <% if (sessStart_msg.length > 0) { %>
-            <div class="alert alert-success alert-dismissable fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <%= sessStart_msg %>
+
+
+            <div id="selector" class="btn-group" data-toggle="buttons-radio">
+                <% if (!editIsOn) { %>
+                <button name="editToggle" class="btn btn-default" onclick="beginSession('/admin/desktops')">Turn Edit ON</button>
+                <% } %>
+                <% if (editIsOn) { %>
+                <button name="editToggle" class="btn btn-danger" onclick="endSession('/admin/desktops')">Turn Edit OFF</button>
+                <% } %>
             </div>
-            <% } %>
-            <% if (sessEnd_msg.length > 0) { %>
-            <div class="alert alert-danger alert-dismissable fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <%= sessEnd_msg %>
-            </div>
-            <% } %>
-            <% if (otherSess_msg.length > 0) { %>
-            <div class="alert alert-danger alert-dismissable fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <%= otherSess_msg %>
-            </div>
-            <% } %>
-            <button onclick="beginSession('/admin/desktops')">EditOn</button>
-            <button onclick="endSession('/admin/desktops')">EditOff</button>
             <br><br>
+                        <!-- flash messages -->
+                        <% if (sessStart_msg.length > 0) { %>
+                            <div class="alert alert-success alert-dismissable fade in">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <%= sessStart_msg %>
+                            </div>
+                            <% } %>
+                            <% if (sessEnd_msg.length > 0) { %>
+                            <div class="alert alert-danger alert-dismissable fade in">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <%= sessEnd_msg %>
+                            </div>
+                            <% } %>
+                            <% if (otherSess_msg.length > 0) { %>
+                            <div class="alert alert-danger alert-dismissable fade in">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <%= otherSess_msg %>
+                            </div>
+                            <% } %>
 
          <!-- Item register form -->
             <h1 class="well">Register a  new DESKTOP</h1>
@@ -103,44 +111,44 @@
                                     <input type="text" class="form-control" name="formProductType" value="Desktop" readonly>
                                 </div>
                                 <div class="col-sm-6 AddDesktop">
-                                    <label>modelNumber</label>
+                                    <label>Model Number</label>
                                     <input type="text" class="form-control" name="model" placeholder="model">
                                 </div>
                             </div>
                             <div class="AddDesktop">
-                                <label>brand</label>
+                                <label>Brand</label>
                                 <input type="text" class="form-control" name="brand" placeholder="brand">
                             </div>
                             <div class="row">
                                 <div class="col-sm-3 AddDesktop">
-                                    <label>processor</label>
+                                    <label>Processor</label>
                                     <input type="text" class="form-control" name="processor" placeholder="processor">
                                 </div>
                                 <div class="col-sm-3 AddDesktop">
-                                    <label>ram</label>
+                                    <label>Ram</label>
                                     <input type="text" class="form-control" name="ram" placeholder="ram">
                                 </div>
                                 <div class="col-sm-3 AddDesktop">
-                                    <label>storage</label>
+                                    <label>Storage</label>
                                     <input type="text" class="form-control" name="storage" placeholder="storage">
                                 </div>
                                 <div class="col-sm-3 AddDesktop">
-                                    <label>cores</label>
+                                    <label>Cores</label>
                                     <input type="text" class="form-control" name="cores" placeholder="cores">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddDesktop">
-                                    <label>dimensions</label>
+                                    <label>Dimensions</label>
                                     <input type="text" class="form-control" name="dimensions" placeholder="dimensions">
                                 </div>
                                 <div class="col-sm-6 AddDesktop">
-                                    <label>weight</label>
+                                    <label>Weight</label>
                                     <input type="text" class="form-control" name="weight" placeholder="weight">
                                 </div>
                             </div>
                         <div class="AddDesktop">
-                            <label>price</label>
+                            <label>Price</label>
                             <input type="text" class="form-control" name="price" placeholder="price">
                         </div><br>
                         <button type="submit" class="btn btn-lg btn-success">Add desktop</button>
@@ -155,7 +163,7 @@
                 <% if (typeof data!='undefined') { %>
                 <div class="container">
                     <br><br><br>
-                    <h2 class="text-center">All Desktops</h2>
+                    <h2 class="text-center">Desktop Catalog</h2>
                     <p class="text-center">Simply modify any field and click edit to save</p>
                     <br>
                     <table class="table table-striped table-condensed" contenteditable="true" id="prodTable">
