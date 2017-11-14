@@ -96,6 +96,7 @@ module.exports = {
                 req.guestUser = user;
             });
         } else {
+            res.locals.isadmin = false;
             res.locals.isclient = false;
             req.guestUser = UserMapper.create();
         }

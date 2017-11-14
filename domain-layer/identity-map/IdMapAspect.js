@@ -105,11 +105,21 @@ function deleteAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    classTDG.delete(id, function(err, result) {
-        if (!err) {
-            idMap.delete(object, id);
-        }
-    });
+    if(className == "User")
+    {
+      id = object[Object.keys(object)[4]];
+       classTDG.delete(id, function(err, result) {
+         if (!err) {
+             idMap.delete(object, id);
+         }
+     });
+    } else {
+        classTDG.delete(id, function(err, result) {
+            if (!err) {
+                idMap.delete(object, id);
+            }
+        });
+    }
 }
 
 /**

@@ -1,3 +1,5 @@
+let UserMapper = require('../domain-layer/mappers/UserMapper');
+
 module.exports = {
     addToShoppingCart: function(req, res) {
         let modelNumber = req.body.model;
@@ -33,6 +35,11 @@ module.exports = {
 
     },
 
+    viewAccount: function(req, res) {
+            res.render('client/account', {
+            });
+    },
+
     viewOrders: function(req, res) {
         req.clientUser.orderCatalog.getOrders(req.clientUser.id, function(err, result) {
             res.render('client/orders', {
@@ -57,5 +64,12 @@ module.exports = {
             console.log(result);
             res.redirect(req.get('referer'));
         });
+    },
+
+    deleteAccount: function(req, res) {
+        UserMapper.makeDeletion(req.clientUser);
+        req.flash('success_msg', 'Your account has been successfully deleted');
+        req.logout();
+        res.redirect('/');
     },
 };
