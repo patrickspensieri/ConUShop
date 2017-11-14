@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ConUshop | Home </title>
+    <% include ../components/header.ejs %>
+</head>
+<body>
+<!-- navigator -->
+<% include ../components/navigator.ejs %>
+<!-- //navigator -->
+
+<% include ../components/adminNav.ejs %>
+
+<div>
+    <% if (typeof data!='undefined') { %>
+    <table contenteditable="true" id="prodTable">
+        <tr contenteditable="false">
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Address</td>
+            <td>Email</td>
+            <td>Phone</td>
+        </tr>
+        <% for(var i = 0; i < data.length; i++) { %>
+        <tr>
+            <td class="FirstName" contenteditable="false"><%= data[i].FirstName %></td>
+            <td class="LastName"><%= data[i].LastName %></td>
+            <td class="Address"><%= data[i].Address %></td>
+            <td class="Email"><%= data[i].Email %></td>
+            <td class="Phone"><%= data[i].Phone %></td>
+        </tr>
+        <% } %>
+    </table>
+    <% } %>
+</div>
+<!--%= jsonData %-->
+<!-- footer -->
+<% include ../components/footer.ejs %>
+<!-- //footer -->
+
+</body>
+</html>

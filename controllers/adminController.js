@@ -1,3 +1,4 @@
+
 module.exports = {
     dashboard: function(req, res) {
         res.render('admin/dashboard');
@@ -38,6 +39,14 @@ module.exports = {
     inventory: function(req, res) {
         req.adminUser.getProductCatalog().getItems(function(err, data) {
             res.render('admin/inventory', {
+                data: data,
+            });
+        });
+    },
+
+    clients: function(req, res) {
+        req.adminUser.getUsers(function(err, data) {
+            res.render('admin/clients', {
                 data: data,
             });
         });

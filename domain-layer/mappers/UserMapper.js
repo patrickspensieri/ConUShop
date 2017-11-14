@@ -98,6 +98,30 @@ class UserMapper extends AbstractMapper {
         });
     }
 
+    /**
+     * Maps all returned values into objects of type Client.
+     * @static
+     * @param {function} callback function that holds array of Client object.
+     */
+    static findAllClients(callback) {
+        UserTDG.findAllClients(function(err, result) {
+            let clients = [];
+            if (err) {
+                console.log('Error during user findAll query', null);
+            } else {
+                for (let value of result) {
+                    let client = new User(value.isadmin, value.firstname,
+                        value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id);
+                    clients.push(client);
+                    if (idMap.get('User', client.email) == null) {
+                        idMap.add(client, client.email);
+                    }
+                }
+                return callback(null, clients);
+            }
+        });
+    }
+
   /**
    * Maps an objects attributes to seperate values for TDG insert method.
    * @static
