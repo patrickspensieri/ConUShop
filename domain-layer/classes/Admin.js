@@ -34,15 +34,6 @@ class Admin extends User {
     getProductCatalog() {
         return this.productCatalog;
     }
-
-    getUsers(callback) {
-        UserMapper.findAllClients(function(err, data) {
-            if (err) {
-                throw err;
-            }
-            return callback(null, data);
-        });
-    }
 }
 
 

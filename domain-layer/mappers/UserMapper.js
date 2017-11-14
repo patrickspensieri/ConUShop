@@ -88,7 +88,7 @@ class UserMapper extends AbstractMapper {
                 for (let value of result) {
                     let user = new User(value.isadmin, value.firstname,
                         value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id);
-                    users.push(user);
+                        users.push(user);
                     if (idMap.get('User', user.email) == null) {
                         idMap.add(user, user.email);
                     }
@@ -110,8 +110,8 @@ class UserMapper extends AbstractMapper {
                 console.log('Error during user findAll query', null);
             } else {
                 for (let value of result) {
-                    let client = new User(value.isadmin, value.firstname,
-                        value.lastname, value.address, value.email, value.phone, value.password, value.sessionid, value.id);
+                    let client = new User(value.firstname, value.lastname, value.address, value.email, 
+                        value.phone, value.password, value.isadmin, value.sessionid, value.id);
                     clients.push(client);
                     if (idMap.get('User', client.email) == null) {
                         idMap.add(client, client.email);
