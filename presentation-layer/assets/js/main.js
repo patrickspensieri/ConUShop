@@ -176,6 +176,7 @@ $( document ).ready(function() {
         });
 
         $(this).find('.prod-addToCart').off().click(function() {
+            $('#productCatalog').modal('hide');
             let modelNumber = row.find('td.model').text();
             $.ajax({
                 type: 'POST',
