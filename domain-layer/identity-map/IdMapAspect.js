@@ -27,7 +27,6 @@ arrMapper.map((object) => meld.around(object, ['delete'], deleteAdvice));
  * @return {[type]}            [description]
  */
 function findAdvice(methodCall) {
-    console.log('findAdvice');
     let id = methodCall.args[0];
     let callback = methodCall. args[1];
     let className = getClassNameHelper(meld.joinpoint().target.name);
@@ -59,7 +58,6 @@ function findAdvice(methodCall) {
  * @param  {[type]} methodCall [description]
  */
 function findAllAdvice(methodCall) {
-    console.log('findAllAdvice');
     let callback = methodCall.args[0];
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
@@ -87,7 +85,6 @@ function findAllAdvice(methodCall) {
  * @param  {[type]} methodCall [description]
  */
 function insertAdvice(methodCall) {
-    console.log('insertAdvice');
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
@@ -104,7 +101,6 @@ function insertAdvice(methodCall) {
  * @param  {[type]} methodCall [description]
  */
 function deleteAdvice(methodCall) {
-    console.log('deleteAdvice');
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
@@ -131,7 +127,6 @@ function deleteAdvice(methodCall) {
  * @param  {[type]} methodCall [description]
  */
 function updateAdvice(methodCall) {
-    console.log('updateAdvice');
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
