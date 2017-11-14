@@ -25,17 +25,18 @@ function endSession(redi) {
 }
 
 function deleteProdSpec(prodType, modelNumber, redi) {
-            $.post({
-                url: '/admin/deleteProdSpec',
-                data: {
-                    prodType: prodType,
-                    model: modelNumber,
-                    redi: redi,
-                },
-                success: function(response) {
-                    window.location.href = response.redirect;
-                }
-            });
+    $.ajax({
+        type: 'POST',
+        url: '/admin/deleteProdSpec',
+        data: {
+            prodType: prodType,
+            model: modelNumber,
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        }
+    });
 }
 
 function updateProdSpec(prodType, data, redi) {

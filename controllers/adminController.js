@@ -171,7 +171,8 @@ module.exports = {
 
     deleteProdSpec: function(req, res) {
         let admin = req.adminUser;
-        admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+        let otherMsg = admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+        req.flash('otherSess_msg', otherMsg);
         res.send({redirect: req.body.redi});
     },
 

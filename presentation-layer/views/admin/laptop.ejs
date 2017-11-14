@@ -32,20 +32,20 @@
                 <table class="table table-striped table-condensed" id="prodTable">
                     <thead>
                     <tr>
-                        <td>Model</td>
-                        <td>Brand</td>
-                        <td>Display</td>
-                        <td>Processor</td>
-                        <td>Ram</td>
-                        <td>Storage</td>
-                        <td>Cores</td>
-                        <td>OS</td>
-                        <td>Battery</td>
-                        <td>Camera</td>
-                        <td>Touch</td>
-                        <td>Dimensions</td>
-                        <td>Weight</td>
-                        <td>Price</td>
+                        <th>Model</th>
+                        <th>Brand</th>
+                        <th>Display</th>
+                        <th>Processor</th>
+                        <th>Ram</th>
+                        <th>Storage</th>
+                        <th>Cores</th>
+                        <th>OS</th>
+                        <th>Battery</th>
+                        <th>Camera</th>
+                        <th>Touch</th>
+                        <th>Dimensions</th>
+                        <th>Weight</th>
+                        <th>Price</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -205,21 +205,22 @@
                     <table class="table table-striped table-condensed" contenteditable="true" id="prodTable">
                         <thead>
                         <tr contenteditable='false'>
-                            <td contenteditable='false'>Model</td>
-                            <td>Brand</td>
-                            <td>Display</td>
-                            <td>Processor</td>
-                            <td>Ram</td>
-                            <td>Storage</td>
-                            <td>Cores</td>
-                            <td>OS</td>
-                            <td>Battery</td>
-                            <td>Camera</td>
-                            <td>Touch</td>
-                            <td>Dimensions</td>
-                            <td>Weight</td>
-                            <td>Price</td>
-                            <td>Edit</td>
+                            <th contenteditable='false'>Model</th>
+                            <th>Brand</th>
+                            <th>Display</th>
+                            <th>Processor</th>
+                            <th>Ram</th>
+                            <th>Storage</th>
+                            <th>Cores</th>
+                            <th>OS</th>
+                            <th>Battery</th>
+                            <th>Camera</th>
+                            <th>Touch</th>
+                            <th>Dimensions</th>
+                            <th>Weight</th>
+                            <th>Price</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -239,7 +240,8 @@
                             <td class="dimensions"><%= data[i].dimensions %></td>
                             <td class="weight"><%= data[i].weight %></td>
                             <td class="price"><%= data[i].price %></td>
-                            <td contenteditable="false"><button onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/admin/laptops')">Edit</button></td>
+                            <td contenteditable="false"><button class="btn btn-warning" onclick="updateProdSpec('Laptop', $(this).closest('tr'), '/admin/laptops')">Edit</button></td>
+                            <td contenteditable="false"><button class="btn btn-danger" onclick="deleteProdSpec('Laptop', '<%= data[i].model%>', '/admin/laptops')">Delete</button></td>
                         </tr>
                         <% } %>
                         </tbody>
