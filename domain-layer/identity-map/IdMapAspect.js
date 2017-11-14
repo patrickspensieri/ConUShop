@@ -13,7 +13,6 @@ let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 
 
-// // map all Mappers and TDGs to advices
 let arrMapper = [DesktopMapper, TabletMapper, MonitorMapper, LaptopMapper, ItemMapper, UserMapper];
 arrMapper.map((object) => meld.around(object, ['find'], findAdvice));
 arrMapper.map((object) => meld.around(object, ['findAll'], findAllAdvice));
@@ -109,8 +108,7 @@ function deleteAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    if(className == "User")
-    {
+    if (className == 'User') {
       id = object[Object.keys(object)[4]];
        classTDG.delete(id, function(err, result) {
          if (!err) {
@@ -158,7 +156,7 @@ let getClassNameHelper = function(targetName) {
 };
 
 /**
- * Models
+ * Models (intended for use with database results)
  * @param  {[type]} value     [description]
  * @param  {[type]} className [description]
  * @return {[type]}           [description]
@@ -196,7 +194,7 @@ let getAttributesHelper = function(value, className) {
 };
 
 /**
- * Models
+ * Models (intended for use with object attributes)
  * @param  {[type]} value     [description]
  * @param  {[type]} className [description]
  * @return {[type]}           [description]
