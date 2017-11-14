@@ -92,7 +92,7 @@ function insertAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    classTDG.insert(...getAttributesHelper(object, className), function(err, result) {
+    classTDG.insert(...getObjectAttributesHelper(object, className), function(err, result) {
             if (!err) {
                 idMap.add(object, id);
             }
@@ -227,7 +227,7 @@ let getObjectAttributesHelper = function(value, className) {
             return [value.firstname,
                 value.lastname, value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id];
             break;
-        case 'Item':
+        case 'Item': /* Item object attributes different than database result*/
             return [value.serialNumber, value.modelNumber, value.isLocked];
             break;
         }

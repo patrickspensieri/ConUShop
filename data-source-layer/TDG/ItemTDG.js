@@ -44,15 +44,15 @@ class ItemTDG {
      * @param {string} modelNumber of product description.
      * @param {function} callback function
      */
-    static insert(serialNumber, modelNumber, callback) {
+    static insert(serialNumber, modelNumber, isLocked, callback) {
         let queryString = 'INSERT INTO item (serialnumber, model) VALUES($1, $2)';
         let queryValues = [serialNumber, modelNumber];
-
         db.query(queryString, queryValues, (err, result) =>{
             if (err) {
                 console.log(err.message);
+            } else {
+                return callback(err, result); 
             }
-            return callback(err, result);
         });
     }
 
@@ -69,8 +69,9 @@ class ItemTDG {
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
                 console.log(err.message);
+            } else {
+                return callback(err, result);
             }
-            return callback(err, result);
         });
     }
 
