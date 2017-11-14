@@ -34,10 +34,10 @@ class ShoppingCart {
                 self.cart.push(result);
                 self.timeouts.push(
                     setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {
-                    console.log(result);
                 }));
+                return callback(null, result);
             }
-            return callback(err, result);
+            return callback(err, null);
         });
     }
 

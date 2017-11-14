@@ -159,6 +159,11 @@ $( document ).ready(function() {
                     model: modelNumber,
                     type: prodType,
                 },
+                success: function(response) {
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    }
+                },
             });
         });
     });

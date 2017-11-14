@@ -115,7 +115,7 @@ module.exports = {
             return next();
         } else {
             req.flash('error_msg', 'Please login with your client account in order to access this feature.');
-            res.redirect('/');
+            res.redirect(req.get('referer'));
         }
     },
 

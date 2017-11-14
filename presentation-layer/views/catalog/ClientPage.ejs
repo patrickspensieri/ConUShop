@@ -9,6 +9,8 @@
 <% include ../components/clientNav.ejs %>
 
 <div class="client_content table-responsive">
+    <!-- flash messages -->
+    <% include ../components/flashMessages.ejs %>
     <div>
             <% if (typeof data=='undefined') { %>
                 <div>
