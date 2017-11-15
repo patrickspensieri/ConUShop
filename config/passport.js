@@ -19,7 +19,8 @@ passport.use(new LocalStrategy(
     // IF credentials are valid, 'done' is invoked and user is passed to passport
     // ELSE false credentials lead to failure, invoke 'done' with false
     function(req, email, password, done, clearExistingSession) {
-        UserMapper.find(email, function(err, user) {
+        // ensure incoming email always lowercase
+        UserMapper.find(email.toLowerCase(), function(err, user) {
             if (err) throw err;
             if (!user) {
                 return done(null, false, req.flash('error_msg', 'Unknown user, we cannot find via email'));
@@ -38,11 +39,7 @@ passport.use(new LocalStrategy(
                     if (user.session_id) {
                         return done(null, false, req.flash('error_msg', 'User already has an active session.'));
                     } else {
-                        // TODO temporary flash message to identify user, not shown for admin because may appear on logout
-                        if (user.isadmin) {
-                            return done(null, user, req.flash());
-                        }
-                        return done(null, user, req.flash('success_msg', 'Welcome back, young ' + user.firstname));
+                        return done(null, user, req.flash('success_msg', 'Welcome back, ' + user.firstname));
                     }
                 }
             });
@@ -80,6 +77,19 @@ comparePassword = function(candidatePassword, hash, done) {
     bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
         if (err) throw err;
         return done(null, isMatch);
+    });
+};
+
+/**
+ * Salt and hash user's password
+ * @param  {[type]}   plainPassword
+ * @param  {Function} done
+ */
+securePassword = function(plainPassword, done) {
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(plainPassword, salt, function(err, hash) {
+            return done(err, hash);
+        });
     });
 };
 

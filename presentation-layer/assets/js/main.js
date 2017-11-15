@@ -1,15 +1,42 @@
+function beginSession(redi) {
+    $.ajax({
+        type: 'POST',
+        url: '/admin/startProductCatalogSession',
+        data: {
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        },
+    });
+}
+
+function endSession(redi) {
+    $.ajax({
+        type: 'POST',
+        url: '/admin/endProductCatalogSession',
+        data: {
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        },
+    });
+}
+
 function deleteProdSpec(prodType, modelNumber, redi) {
-            $.post({
-                url: '/admin/deleteProdSpec',
-                data: {
-                    prodType: prodType,
-                    model: modelNumber,
-                    redi: redi,
-                },
-                success: function(response) {
-                    window.location.href = response.redirect;
-                }
-            });
+    $.ajax({
+        type: 'POST',
+        url: '/admin/deleteProdSpec',
+        data: {
+            prodType: prodType,
+            model: modelNumber,
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        }
+    });
 }
 
 function updateProdSpec(prodType, data, redi) {
@@ -31,7 +58,8 @@ function updateProdSpec(prodType, data, redi) {
 
     switch (prodType) {
         case 'Desktop':
-            $.post({
+            $.ajax({
+                type: 'POST',
                 url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
@@ -52,7 +80,8 @@ function updateProdSpec(prodType, data, redi) {
             });
             break;
         case 'Laptop':
-            $.post({
+            $.ajax({
+                type: 'POST',
                 url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
@@ -78,7 +107,8 @@ function updateProdSpec(prodType, data, redi) {
             });
             break;
         case 'Monitor':
-            $.post({
+            $.ajax({
+                type: 'POST',
                 url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
@@ -95,7 +125,8 @@ function updateProdSpec(prodType, data, redi) {
             });
             break;
         case 'Tablet':
-            $.post({
+            $.ajax({
+                type: 'POST',
                 url: '/admin/updateProdSpec',
                 data: {
                     prodType: prodType,
@@ -146,6 +177,7 @@ $( document ).ready(function() {
         });
 
         $(this).find('.prod-addToCart').off().click(function() {
+            $('#productCatalog').modal('hide');
             let modelNumber = row.find('td.model').text();
             $.ajax({
                 type: 'POST',
@@ -153,6 +185,11 @@ $( document ).ready(function() {
                 data: {
                     model: modelNumber,
                     type: prodType,
+                },
+                success: function(response) {
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    }
                 },
             });
         });
@@ -162,7 +199,7 @@ $( document ).ready(function() {
 		$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
 	  }, function() {
 		$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
-	  });
+      });
 
 
     function detailsView(row, prodType) {
@@ -234,7 +271,7 @@ $( document ).ready(function() {
                     '<b> Camera: </b>'+ camera +'</br>' +
                     '<b> Dimensions: </b>'+ dimensions +'</br>' +
                     '<b> Weight: </b>'+ weight +'</br>' +
-                    '<b> Price: </b>'+ price));
+                    '<b> Price: </b>'+ price+'</br>'));
                 break;
         }
     }

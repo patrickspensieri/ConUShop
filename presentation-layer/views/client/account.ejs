@@ -1,0 +1,23 @@
+<html lang="en">
+        <head>
+            <title>ConUshop | Home </title>
+            <% include ../components/header.ejs %>
+        </head>
+    <body>
+            <% include ../components/navigator.ejs %>
+            <div class="container">
+                    <div class="jumbotron">
+                      <h2 class="text-center">Account Information</h2>
+                    </div>
+                    <h4 class="text-center">Delete your account<br><br></h4>
+                    <div class="text-center">
+                            <a href="/client/deleteAccount" class="btn btn-danger" role="button">DELETE</a> 
+                    </div>
+                    <p class="text-center" style="color:red;">Warning this will permenantly delete your account</p>      
+            </div>
+
+
+    <% include ../components/footer.ejs %>
+    
+    </body>
+</html>    

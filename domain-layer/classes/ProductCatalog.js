@@ -47,23 +47,27 @@ class ProductCatalog {
      * @param {string} size is size of product
      */
     addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
-        switch (productType) {
-            case 'Desktop':
-                this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price);
-                desktopMapper.makeInsertion(this.desktop);
-                break;
-            case 'Laptop':
-                this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
-                laptopMapper.makeInsertion(this.laptop);
-                break;
-            case 'Monitor':
-                this.monitor = monitorMapper.create(model, brand, size, weight, price);
-                monitorMapper.makeInsertion(this.monitor);
-                break;
-            case 'Tablet':
-                this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
-                tabletMapper.makeInsertion(this.tablet);
-                break;
+        if (this.productCatalogSessionIsComplete()) {
+            switch (productType) {
+                case 'Desktop':
+                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+                    desktopMapper.makeInsertion(this.desktop);
+                    break;
+                case 'Laptop':
+                    this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
+                    laptopMapper.makeInsertion(this.laptop);
+                    break;
+                case 'Monitor':
+                    this.monitor = monitorMapper.create(model, brand, size, weight, price);
+                    monitorMapper.makeInsertion(this.monitor);
+                    break;
+                case 'Tablet':
+                    this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+                    tabletMapper.makeInsertion(this.tablet);
+                    break;
+            }
+        } else {
+            return ('Begin Product Catalog Session to add Specifications.');
         }
     }
 
@@ -86,25 +90,29 @@ class ProductCatalog {
      * @param {string} size is size of product
      */
     updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
-        switch (productType) {
-            case 'Desktop':
-                this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price);
-                desktopMapper.makeUpdate(this.desktop);
-                break;
-            case 'Laptop':
-                this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
-                    touch, dimensions, weight, price);
-                laptopMapper.makeUpdate(this.laptop);
-                break;
-            case 'Monitor':
-                this.monitor = monitorMapper.create(model, brand, size, weight, price);
-                monitorMapper.makeUpdate(this.monitor);
-                break;
-            case 'Tablet':
-                this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
-                    dimensions, weight, price);
-                tabletMapper.makeUpdate(this.tablet);
-                break;
+        if (this.productCatalogSessionIsComplete()) {
+            switch (productType) {
+                case 'Desktop':
+                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+                    desktopMapper.makeUpdate(this.desktop);
+                    break;
+                case 'Laptop':
+                    this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
+                        touch, dimensions, weight, price);
+                    laptopMapper.makeUpdate(this.laptop);
+                    break;
+                case 'Monitor':
+                    this.monitor = monitorMapper.create(model, brand, size, weight, price);
+                    monitorMapper.makeUpdate(this.monitor);
+                    break;
+                case 'Tablet':
+                    this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
+                        dimensions, weight, price);
+                    tabletMapper.makeUpdate(this.tablet);
+                    break;
+            }
+        } else {
+            return ('Begin Product Catalog Session to edit.');
         }
     }
 
@@ -113,22 +121,26 @@ class ProductCatalog {
      * @param {string} modelNumber model number of product.
      */
     deleteProductSpecification(productType, modelNumber) {
-        this.getProductSpecification(productType, modelNumber, function callback(err, result) {
-            switch (productType) {
-                case 'Desktop':
-                    desktopMapper.makeDeletion(result);
-                    break;
-                case 'Laptop':
-                    laptopMapper.makeDeletion(result);
-                    break;
-                case 'Monitor':
-                    monitorMapper.makeDeletion(result);
-                    break;
-                case 'Tablet':
-                    tabletMapper.makeDeletion(result);
-                    break;
-            }
-        });
+        if (this.productCatalogSessionIsComplete()) {
+            this.getProductSpecification(productType, modelNumber, function callback(err, result) {
+                switch (productType) {
+                    case 'Desktop':
+                        desktopMapper.makeDeletion(result);
+                        break;
+                    case 'Laptop':
+                        laptopMapper.makeDeletion(result);
+                        break;
+                    case 'Monitor':
+                        monitorMapper.makeDeletion(result);
+                        break;
+                    case 'Tablet':
+                        tabletMapper.makeDeletion(result);
+                        break;
+                }
+            });
+        } else {
+            return ('Begin Product Catalog Session to edit.');
+        }
     }
 
     /**
@@ -225,16 +237,25 @@ class ProductCatalog {
      * @param {string} modelNumber model number of product specification
      */
     addItem(serialNumber, modelNumber) {
-        this.item = itemMapper.create(serialNumber, modelNumber);
-        itemMapper.makeInsertion(this.item);
+        if (this.productCatalogSessionIsComplete()) {
+            this.item = itemMapper.create(serialNumber, modelNumber);
+            itemMapper.makeInsertion(this.item);
+        } else {
+            return ('Begin Product Catalog Session to add items to catalog.');
+        }
     }
 
     /**
      * @param {string} serialNumber of product
      */
     deleteItem(serialNumber) {
-        let itemObject = itemMapper.create(serialNumber);
-        itemMapper.makeDeletion(itemObject);
+        if (this.productCatalogSessionIsComplete()) {
+
+            let itemObject = itemMapper.create(serialNumber);
+            itemMapper.makeDeletion(itemObject);
+        } else {
+            return ('Begin Product Catalog Session to delete items from catalog.');
+        }
     }
 
     /**
@@ -328,6 +349,20 @@ class ProductCatalog {
                 break;
         }
     }
+
+    startProductCatalogSession() {
+        this.isComplete = true;
+    }
+    endProductCatalogSession() {
+        this.isComplete = false;
+    }
+    productCatalogSessionIsComplete() {
+        if(this.isComplete == null){
+            return false;
+        }
+        return this.isComplete;
+    }
+
 }
 
 module.exports = ProductCatalog;

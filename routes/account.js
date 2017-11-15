@@ -9,14 +9,17 @@ router.post('/login',
     passport.authenticate('local', {failureRedirect: '/'}),
     function(req, res) {
         // NOTE will auto redirect to '/' if user not admin
-        res.redirect('/admin/dashboard');
+        if (req.user.isadmin) {
+            res.redirect('/admin/dashboard');
+        } else {
+            res.redirect('/');
+        }
     });
 
 router.get('/logout',
     function(req, res) {
         if (req.user) {
             accountController.logoutSession(req.user);
-
             req.logout();
         }
         res.redirect('/');

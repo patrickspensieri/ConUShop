@@ -2092,7 +2092,7 @@ section#tables  p {
 }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
 	font-size: 0.9em;
-	color: #999;
+	color: #000000;
 	border-top: none !important;
 }
 .tab-content > .active {
@@ -5083,4 +5083,33 @@ li.nav_client a:hover:not(.active) {
 
 .content {
 	margin-top: 2%;
+}
+.btn3d {
+    position:relative;
+    top: -6px;
+    border:0;
+    transition: all 40ms linear;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:2px;
+    margin-right:2px;
+    width: 200px;
+    height: 100px;
+}
+.btn3d:active:focus,
+.btn3d:focus:hover,
+.btn3d:focus {
+    -moz-outline-style:none;
+    outline:medium none;
+}
+.btn3d:hover, .btn3d.hover {
+    top: 2px;
+}
+.btn3d.btn-primary {
+    box-shadow:0 0 0 1px rgb(203,181,118) inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #a39059, 0 8px 8px 1px rgba(0,0,0,0.5);
+    background-color:rgb(203,181,118);
+}
+.btn3d.btn-primary:hover, .btn3d.btn-primary.hover {
+    box-shadow:0 0 0 1px rgb(203,181,118) inset, 0 0 0 1px rgba(255,255,255,0.15) inset, 0 1px 3px 1px rgba(0,0,0,0.3);
+    background-color:rgb(203,181,118);
 }

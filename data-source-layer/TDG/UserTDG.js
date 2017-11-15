@@ -38,6 +38,21 @@ class UserTDG {
         });
     }
 
+    /**
+     * Finds all clients objects from the user table.
+     * @static
+     * @param {function} callback function that holds array of client object.
+     */
+    static findAllClients(callback) {
+        db.query('SELECT * FROM users WHERE isAdmin = false', (err, result) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                return callback(null, result.rows);
+            }
+        });
+    }
+
   /**
    * Inserts an object into the user table.
    * @static
@@ -120,7 +135,6 @@ class UserTDG {
             }
         });
     }
-
   /**
    * Deletes an objects in the user table.
    * @static
@@ -128,11 +142,17 @@ class UserTDG {
    * @param {function} callback
    */
     static delete(email, callback) {
+      db.query('DELETE FROM activeusers WHERE user_id IN (SELECT id FROM users WHERE (email =$1))', [email], (err, result) => {
+        if (err) {
+            console.log(err.message);
+        }
+        console.log("User session timeout");
+      });
       db.query('DELETE FROM users WHERE email=$1', [email], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
-          console.log('This user has been deleted from the database');
+          console.log('User has been deleted from the database');
           return callback(err, result);
       });
     }
