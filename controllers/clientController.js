@@ -4,6 +4,11 @@ module.exports = {
     addToShoppingCart: function(req, res) {
         let modelNumber = req.body.model;
         let type = req.body.type;
+        if (req.clientUser.shoppingcart.cart.length == 7) {
+            req.flash('error_msg', 'Shpping cart is full.');
+            res.send({redirect: req.get('referer')});
+        }
+
         req.clientUser.shoppingcart.addToCart(modelNumber, type, function(err, result) {
             if (err) {
                 req.flash('error_msg', 'Item is out of stock.');
