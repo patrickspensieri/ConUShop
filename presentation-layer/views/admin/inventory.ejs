@@ -8,44 +8,123 @@
 <!-- navigator -->
 <% include ../components/navigator.ejs %>
 <!-- //navigator -->
-<% include ../components/adminNav.ejs %>
+
 <!-- flash messages -->
 <% include ../components/flashMessages.ejs %>
-<form method="post" action="/admin/addItem">
-    <div class="AddItem">
-        <label>serialNumber</label>
-        <input type="text" class="" name="serialNumber" placeholder="Serial Number">
+<div class="container">
+    <ul class="nav nav-tabs" style="list-style-type: none;" id="myTab">
+        <li class="active"><a data-toggle="tab" href="#edit">Edit</a></li>
+        <li><a data-toggle="tab" href="#view">View</a></li>
+    </ul>
+</div>
+<div class="tab-content">
+    <div id="view" class="tab-pane fade">
+        <br><br>
+        <h1 class="text-center">View Inventory</h1>
+        <br><br>
+        <!-- List of items -->
+        <div>
+            <hr>
+            <% if (typeof data!='undefined') { %>
+            <div class="container">
+                <br><br><br>
+                <h2 class="text-center">All Items</h2>
+                <br>
+                <table class="table table-striped table-condensed" id="prodTable">
+                    <thead>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Model Number</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                    <tr>
+                        <td><%= data[i].serialNumber %></td>
+                        <td><%= data[i].modelNumber %></td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div><br>
+            <% } %>
+        </div>
     </div>
-    <div class="AddItem">
-        <label>modelNumber</label>
-        <input type="text" class="" name="modelNumber" placeholder="Model Number">
-    </div>
-    <button type="submit" class="">Add item</button>
-</form></br>
+    <div id="edit" class="tab-pane fade in active">
+        <br><br>
+        <h1 class="text-center">Manage Inventory</h1>
+        <br><br>
+        <div class="container">
+            <div id="selector" class="btn-group" data-toggle="buttons-radio">
+                <% if (!editIsOn) { %>
+                <button name="editToggle" class="btn btn-default" onclick="beginSession('/admin/items')">Turn Edit ON</button>
+                <% } %>
+                <% if (editIsOn) { %>
+                <button name="editToggle" class="btn btn-danger" onclick="endSession('/admin/items')">Turn Edit OFF</button>
+                <% } %>
+            </div>
+            <br><br>
+            <!-- flash messages -->
+            <% if (sessStart_msg.length > 0) { %>
+            <div class="alert alert-success alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= sessStart_msg %>
+            </div>
+            <% } %>
+            <% if (sessEnd_msg.length > 0) { %>
+            <div class="alert alert-danger alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= sessEnd_msg %>
+            </div>
+            <% } %>
+            <% if (otherSess_msg.length > 0) { %>
+            <div class="alert alert-danger alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= otherSess_msg %>
+            </div>
+            <% } %>
 
-<form method="post" action="/admin/deleteItem">
-    <div class="DeleteItem">
-        <label>serialNumber</label>
-        <input type="text" class="" name="serialNumberToRemove" placeholder="Serial Number">
-    </div>
-    <button type="submit" class="">Delete item</button>
-</form></br>
-<div>
-    <% if (typeof data!='undefined') { %>
-        <table>
-            <tr>
-                <td>Serial Number</td>
-                <td>Model Number</td>
+            <!-- Item register form -->
+            <div class="col-lg-12 well">
+                <h1 class="well">Add a new Item to Catalog</h1>
+                <div class="row">
+                    <form method="post" action="/admin/addItem">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6 AddItem">
+                                    <label>Serial Number</label>
+                                    <input type="text" class="form-control" name="serialNumber" placeholder="Serial Number">
+                                </div>
+                                <div class="col-sm-6 AddItem">
+                                    <label> Number</label>
+                                    <input type="text" class="form-control" name="modelNumber" placeholder="Model Number">
+                                </div>
+                            </div><br>
+                            <button type="submit" class="btn btn-lg btn-success">Add item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-            </tr>
-        <% for(var i = 0; i < data.length; i++) { %>
-            <tr>
-                <td><%= data[i].serialNumber %></td>
-                <td><%= data[i].modelNumber %></td>
-            </tr>
-        <% } %>
-        </table>
-    <% } %>
+            <!-- Item delete form -->
+            <div class="col-lg-12 well">
+                <h1 class="well">Delete an Item from Catalog</h1>
+                <div class="row">
+                    <form method="post" action="/admin/deleteItem">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-12 DeleteItem">
+                                    <label>Serial Number</label>
+                                    <input type="text" class="form-control" name="serialNumber" placeholder="Serial Number">
+                                </div>
+                            </div><br>
+                            <button type="submit" class="btn btn-lg btn-danger">Delete item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!--%= jsonData %-->
 <!-- footer -->

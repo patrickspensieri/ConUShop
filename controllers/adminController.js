@@ -1,3 +1,5 @@
+let UserMapper = require('../domain-layer/mappers/UserMapper');
+
 module.exports = {
     dashboard: function(req, res) {
         res.render('admin/dashboard');
@@ -7,6 +9,9 @@ module.exports = {
         req.adminUser.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
             res.render('admin/desktop', {
                 data: data,
+                sessStart_msg: req.flash('sessStart_msg'),
+                sessEnd_msg: req.flash('sessEnd_msg'),
+                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -15,6 +20,9 @@ module.exports = {
         req.adminUser.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
             res.render('admin/laptop', {
                 data: data,
+                sessStart_msg: req.flash('sessStart_msg'),
+                sessEnd_msg: req.flash('sessEnd_msg'),
+                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -23,6 +31,9 @@ module.exports = {
         req.adminUser.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
             res.render('admin/monitor', {
                 data: data,
+                sessStart_msg: req.flash('sessStart_msg'),
+                sessEnd_msg: req.flash('sessEnd_msg'),
+                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -31,6 +42,9 @@ module.exports = {
         req.adminUser.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
             res.render('admin/tablet', {
                 data: data,
+                sessStart_msg: req.flash('sessStart_msg'),
+                sessEnd_msg: req.flash('sessEnd_msg'),
+                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -39,17 +53,30 @@ module.exports = {
         req.adminUser.getProductCatalog().getItems(function(err, data) {
             res.render('admin/inventory', {
                 data: data,
+                sessStart_msg: req.flash('sessStart_msg'),
+                sessEnd_msg: req.flash('sessEnd_msg'),
+                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
 
+    clients: function(req, res) {
+        UserMapper.findAllClients(function(err,data){
+            res.render('admin/clients', {
+                data:data,
+            });
+        });
+     },
+
     deleteItem: function(req, res) {
-        req.adminUser.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
+        let otherMsg = req.adminUser.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
+        req.flash('otherSess_msg', otherMsg);
         res.redirect(req.get('referer'));
     },
 
     addItem: function(req, res) {
-        req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
+        let otherMsg = req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
+        req.flash('otherSess_msg', otherMsg);
         res.redirect(req.get('referer'));
     },
 
@@ -130,42 +157,57 @@ module.exports = {
         let errors = req.validationErrors();
 
         if (errors) {
-            res.redirect(req.get('referer'), {
-                errors: errors,
-            });
-        } else {
-            req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
-                weight, price, display, os, battery, camera, touch, size);
+            req.flash('otherSess_msg', errors);
             res.redirect(req.get('referer'));
+
+        } else {
+            let otherMsg = req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+                weight, price, display, os, battery, camera, touch, size);
+            req.flash('otherSess_msg', otherMsg);
+            res.redirect(req.get('referer'));
+
         }
     },
 
     deleteProdSpec: function(req, res) {
         let admin = req.adminUser;
-        admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+        let otherMsg = admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+        req.flash('otherSess_msg', otherMsg);
         res.send({redirect: req.body.redi});
     },
 
     updateProdSpec: function(req, res) {
+        let otherMsg;
         switch (req.body.prodType) {
             case 'Desktop':
-                req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+                otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
                     req.body.processor, req.body.ram, req.body.storage, req.body.cores,
                     req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
                 break;
             case 'Laptop':
-                req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                     req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
                 break;
             case 'Monitor':
-                req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+                otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
                     null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
                 break;
             case 'Tablet':
-                req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                     req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null);
                 break;
         }
+        req.flash('otherSess_msg', otherMsg);
+        res.send({redirect: req.body.redi});
+    },
+    startProductCatalogSession: function(req, res) {
+        req.adminUser.getProductCatalog().startProductCatalogSession();
+        req.flash('sessStart_msg', 'Started Product Catalog Session. You can now make changes to Product Catalog');
+        res.send({redirect: req.body.redi});
+    },
+    endProductCatalogSession: function(req, res) {
+        req.adminUser.getProductCatalog().endProductCatalogSession();
+        req.flash('sessEnd_msg', 'Ended Product Catalog Session. You can no longer make changes to Product Catalog');
         res.send({redirect: req.body.redi});
     },
 };

@@ -87,6 +87,7 @@ module.exports = {
                     res.locals.isadmin = true;
                     res.locals.isclient = false;
                     req.adminUser = user;
+                    res.locals.editIsOn = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
                 } else {
                     res.locals.isadmin = false;
                     res.locals.isclient = true;

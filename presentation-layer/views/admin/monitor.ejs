@@ -8,60 +8,173 @@
 <!-- navigator -->
 <% include ../components/navigator.ejs %>
 <!-- //navigator -->
+
 <% include ../components/adminNav.ejs %>
 <!-- flash messages -->
 <% include ../components/flashMessages.ejs %>
-<form method="post" action="/admin/addProdSpec">
-    <div class="AddMonitor">
-        <label>Product Table: </label>
-        <input type="text" class="" name="formProductType" value="Monitor" readonly>
-    </div>
-    <div class="AddMonitor">
-        <label>modeNumber</label>
-        <input type="text" class="" name="model" placeholder="model">
-    </div>
-    <div class="AddMonitor">
-        <label>brand</label>
-        <input type="text" class="" name="brand" placeholder="brand">
-    </div>
-    <div class="AddMonitor">
-        <label>size</label>
-        <input type="text" class="" name="size" placeholder="size">
-    </div>
-    <div class="AddMonitor">
-        <label>weight</label>
-        <input type="text" class="" name="weight" placeholder="weight">
-    </div>
-    <div class="AddMonitor">
-        <label>price</label>
-        <input type="text" class="" name="price" placeholder="price">
-    </div>
-    <button type="submit" class="">Add new Monitor item</button>
-</form></br>
-<div>
-    <% if (typeof data!='undefined') { %>
-        <table>
-            <tr contenteditable="false">
-                <td>Model</td>
-                <td>Brand</td>
-                <td>Size</td>
-                <td>Weight</td>
-                <td>Price</td>
-                <td>Edit</td>
-            </tr>
-        <% for(var i = 0; i < data.length; i++) { %>
-            <tr contenteditable='true'>
-                <td class="model" contenteditable="false"><%= data[i].model %></td>
-                <td class="brand"><%= data[i].brand %></td>
-                <td class="size"><%= data[i].size %></td>
-                <td class="weight"><%= data[i].weight %></td>
-                <td class="price"><%= data[i].price %></td>
-                <td contenteditable="false"><button onclick="updateProdSpec('Monitor', $(this).closest('tr'), '/admin/monitors')">Edit</button></td>
-            </tr>
-        <% } %>
-        </table>
-    <% } %>
+<div class="container">
+    <ul class="nav nav-tabs" style="list-style-type: none;" id="myTab">
+        <li class="active"><a data-toggle="tab" href="#edit">Edit</a></li>
+        <li><a data-toggle="tab" href="#view">View</a></li>
+    </ul>
 </div>
+<div class="tab-content">
+    <div id="view" class="tab-pane fade">
+        <br><br>
+        <h1 class="text-center">View Monitors</h1>
+        <br><br>
+        <!-- List of items -->
+        <div>
+            <hr>
+            <% if (typeof data!='undefined') { %>
+            <div class="container">
+                <br><br><br>
+                <h2 class="text-center">All Monitors</h2>
+                <br>
+                <table class="table table-striped table-condensed" id="prodTable">
+                    <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Brand</th>
+                        <th>Size</th>
+                        <th>Weight</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                    <tr>
+                        <td class="model"><%= data[i].model %></td>
+                        <td class="brand"><%= data[i].brand %></td>
+                        <td class="size"><%= data[i].size %></td>
+                        <td class="weight"><%= data[i].weight %></td>
+                        <td class="price"><%= data[i].price %></td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+        </div>
+    </div>
+    <div id="edit" class="tab-pane fade in active">
+        <br><br>
+        <h1 class="text-center">Manage Monitors</h1>
+        <br><br>
+        <div class="container">
+
+
+            <div id="selector" class="btn-group" data-toggle="buttons-radio">
+                <% if (!editIsOn) { %>
+                <button name="editToggle" class="btn btn-default" onclick="beginSession('/admin/monitors')">Turn Edit ON</button>
+                <% } %>
+                <% if (editIsOn) { %>
+                <button name="editToggle" class="btn btn-danger" onclick="endSession('/admin/monitors')">Turn Edit OFF</button>
+                <% } %>
+            </div>
+            <br><br>
+            <!-- flash messages -->
+            <% if (sessStart_msg.length > 0) { %>
+            <div class="alert alert-success alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= sessStart_msg %>
+            </div>
+            <% } %>
+            <% if (sessEnd_msg.length > 0) { %>
+            <div class="alert alert-danger alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= sessEnd_msg %>
+            </div>
+            <% } %>
+            <% if (otherSess_msg.length > 0) { %>
+            <div class="alert alert-danger alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= otherSess_msg %>
+            </div>
+            <% } %>
+
+            <!-- Item register form -->
+            <h1 class="well">Register a  new MONITOR</h1>
+            <div class="col-lg-12 well">
+                <div class="row">
+                    <form method="post" action="/admin/addProdSpec">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6 AddMonitor">
+                                    <label>Product Table: </label>
+                                    <input type="text" class="form-control" name="formProductType" value="Monitor" readonly>
+                                </div>
+                                <div class="col-sm-6 AddMonitor">
+                                    <label>Model Number</label>
+                                    <input type="text" class="form-control" name="model" placeholder="model">
+                                </div>
+                            </div>
+                            <div class="AddMonitor">
+                                <label>Brand</label>
+                                <input type="text" class="form-control" name="brand" placeholder="brand">
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 AddMonitor">
+                                    <label>Size</label>
+                                    <input type="text" class="form-control" name="size" placeholder="size">
+                                </div>
+                                <div class="col-sm-4 AddMonitor">
+                                    <label>Weight</label>
+                                    <input type="text" class="form-control" name="weight" placeholder="weight">
+                                </div>
+                                <div class="col-sm-4 AddMonitor">
+                                    <label>Price</label>
+                                    <input type="text" class="form-control" name="price" placeholder="price">
+                                </div>
+                            </div><br>
+                            <button type="submit" class="btn btn-lg btn-success">Add monitor</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- List of items -->
+            <div>
+                <hr>
+                <% if (typeof data!='undefined') { %>
+                <div class="container">
+                    <br><br><br>
+                    <h2 class="text-center">Monitor Catalog</h2>
+                    <p class="text-center">Simply modify any field and click edit to save</p>
+                    <br>
+                    <table class="table table-striped table-condensed" contenteditable="true" id="prodTable">
+                        <thead>
+                        <tr contenteditable="false">
+                            <th>Model</th>
+                            <th>Brand</th>
+                            <th>Size</th>
+                            <th>Weight</th>
+                            <th>Price</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                        <tr contenteditable='true'>
+                            <td class="model" contenteditable="false"><%= data[i].model %></td>
+                            <td class="brand"><%= data[i].brand %></td>
+                            <td class="size"><%= data[i].size %></td>
+                            <td class="weight"><%= data[i].weight %></td>
+                            <td class="price"><%= data[i].price %></td>
+                            <td contenteditable="false"><button class="btn btn-warning" onclick="updateProdSpec('Monitor', $(this).closest('tr'), '/admin/monitors')">Edit</button></td>
+                            <td contenteditable="false"><button class="btn btn-danger" onclick="deleteProdSpec('Monitor', '<%= data[i].model%>', '/admin/monitors')">Delete</button></td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--%= jsonData %-->
 <!-- footer -->
 <% include ../components/footer.ejs %>
