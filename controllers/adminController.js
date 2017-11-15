@@ -54,7 +54,7 @@ module.exports = {
      },
 
     deleteItem: function(req, res) {
-        let otherMsg = req.adminUser.getProductCatalog().deleteItem(req.body.serialNumberToRemove);
+        let otherMsg = req.adminUser.getProductCatalog().deleteItem(req.body.serialNumber);
         req.flash('otherSess_msg', otherMsg);
         res.redirect(req.get('referer'));
     },
