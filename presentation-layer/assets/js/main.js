@@ -244,7 +244,7 @@ $( document ).ready(function() {
                     '<b> Camera: </b>'+ camera +'</br>' +
                     '<b> Dimensions: </b>'+ dimensions +'</br>' +
                     '<b> Weight: </b>'+ weight +'</br>' +
-                    '<b> Price: </b>'+ price));
+                    '<b> Price: </b>'+ price+'</br>'));
                 break;
         }
     }

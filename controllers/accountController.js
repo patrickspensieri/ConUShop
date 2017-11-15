@@ -1,7 +1,5 @@
 let UserMapper = require('../domain-layer/mappers/UserMapper');
-let Register = require('../domain-layer/classes/Register');
-
-// QUESTION why do we have a Register object?
+require('../config/passport');
 
 module.exports = {
     /**
@@ -14,7 +12,7 @@ module.exports = {
         let lastname = req.body.lastname;
         let phone = req.body.phone;
         let address = req.body.address;
-        let email = req.body.email;
+        let email = req.body.email.toLowerCase();
         let password = req.body.password;
         let isadmin = false;
 
@@ -29,12 +27,13 @@ module.exports = {
         req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
 
         let errors = req.validationErrors();
-
         if (errors) {
             res.redirect('/');
         } else {
-            Register.createNewUser(firstname, lastname, address, email, phone, password, isadmin, function(err, user) {
-                if (err) throw err;
+            // secure the password before storing
+            securePassword(password, function(err, securePassword) {
+                let newUser = UserMapper.create(firstname, lastname, address, email, phone, securePassword, isadmin);
+                UserMapper.makeInsertion(newUser);
             });
             res.redirect('/');
         }
@@ -109,6 +108,7 @@ module.exports = {
      * @param  {path} req request
      * @param  {path} res response
      * @param  {path} next callback function
+     * @return {callback}
      */
     ensureClient: function(req, res, next) {
         if (req.clientUser) {
@@ -124,6 +124,7 @@ module.exports = {
      * @param  {path} req request
      * @param  {path} res response
      * @param  {path} next callback function
+     * @return {callback}
      */
     ensureAdministrator: function(req, res, next) {
         if (req.adminUser) {

@@ -13,7 +13,6 @@ let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 
 
-// // map all Mappers and TDGs to advices
 let arrMapper = [DesktopMapper, TabletMapper, MonitorMapper, LaptopMapper, ItemMapper, UserMapper];
 arrMapper.map((object) => meld.around(object, ['find'], findAdvice));
 arrMapper.map((object) => meld.around(object, ['findAll'], findAllAdvice));
@@ -27,7 +26,6 @@ arrMapper.map((object) => meld.around(object, ['delete'], deleteAdvice));
  * @return {[type]}            [description]
  */
 function findAdvice(methodCall) {
-    console.log('findAdvice');
     let id = methodCall.args[0];
     let callback = methodCall. args[1];
     let className = getClassNameHelper(meld.joinpoint().target.name);
@@ -59,7 +57,6 @@ function findAdvice(methodCall) {
  * @param  {[type]} methodCall [description]
  */
 function findAllAdvice(methodCall) {
-    console.log('findAllAdvice');
     let callback = methodCall.args[0];
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
@@ -87,12 +84,11 @@ function findAllAdvice(methodCall) {
  * @param  {[type]} methodCall [description]
  */
 function insertAdvice(methodCall) {
-    console.log('insertAdvice');
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    classTDG.insert(...getAttributesHelper(object, className), function(err, result) {
+    classTDG.insert(...getObjectAttributesHelper(object, className), function(err, result) {
             if (!err) {
                 idMap.add(object, id);
             }
@@ -104,13 +100,11 @@ function insertAdvice(methodCall) {
  * @param  {[type]} methodCall [description]
  */
 function deleteAdvice(methodCall) {
-    console.log('deleteAdvice');
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    if(className == "User")
-    {
+    if (className == 'User') {
       id = object[Object.keys(object)[4]];
        classTDG.delete(id, function(err, result) {
          if (!err) {
@@ -131,7 +125,6 @@ function deleteAdvice(methodCall) {
  * @param  {[type]} methodCall [description]
  */
 function updateAdvice(methodCall) {
-    console.log('updateAdvice');
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
@@ -158,7 +151,7 @@ let getClassNameHelper = function(targetName) {
 };
 
 /**
- * Models
+ * Models (intended for use with database results)
  * @param  {[type]} value     [description]
  * @param  {[type]} className [description]
  * @return {[type]}           [description]
@@ -196,7 +189,7 @@ let getAttributesHelper = function(value, className) {
 };
 
 /**
- * Models
+ * Models (intended for use with object attributes)
  * @param  {[type]} value     [description]
  * @param  {[type]} className [description]
  * @return {[type]}           [description]
@@ -227,7 +220,7 @@ let getObjectAttributesHelper = function(value, className) {
             return [value.firstname,
                 value.lastname, value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id];
             break;
-        case 'Item':
+        case 'Item': /* Item object attributes different than database result*/
             return [value.serialNumber, value.modelNumber, value.isLocked];
             break;
         }
