@@ -13,37 +13,37 @@
     <div class="client_content table-responsive">
         <h1>Orders</h1>
         <div class="content">
-            <% if (typeof data!='undefined') { %>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Order Date</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <% for(var i = 0; i < data.length; i++) { %>
-                        <tr>
-                            <td class="serial"><%= data[i].orderId %></td>
-                            <td class="model"><%= data[i].orderDate%></td>
-                            <td class="brand"><%= data[i].total %></td>
-                            <td>
-                                <form method="get" action="/client/order/details/<%= data[i].orderId %>">
-                                    <button type="submit">View Details</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <% } %>
-                    </tbody>
-                </table>
-            <% } %>
-
             <% if(data.length == 0) { %>
                 <div class="alert alert-warning">
                         <strong>No Orders:</strong> You have not made any purchases yet.
                 </div>
+            <% } else { %>
+                <% if (typeof data!='undefined') { %>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Order Date</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td class="serial"><%= data[i].orderId %></td>
+                                <td class="model"><%= data[i].orderDate%></td>
+                                <td class="brand"><%= data[i].total %></td>
+                                <td>
+                                    <form method="get" action="/client/order/details/<%= data[i].orderId %>">
+                                        <button type="submit">View Details</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                <% } %>
             <% } %>
         </div>
     </div>
