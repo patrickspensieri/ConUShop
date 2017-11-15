@@ -9,9 +9,6 @@ module.exports = {
         req.adminUser.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
             res.render('admin/desktop', {
                 data: data,
-                sessStart_msg: req.flash('sessStart_msg'),
-                sessEnd_msg: req.flash('sessEnd_msg'),
-                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -20,9 +17,6 @@ module.exports = {
         req.adminUser.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
             res.render('admin/laptop', {
                 data: data,
-                sessStart_msg: req.flash('sessStart_msg'),
-                sessEnd_msg: req.flash('sessEnd_msg'),
-                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -31,9 +25,6 @@ module.exports = {
         req.adminUser.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
             res.render('admin/monitor', {
                 data: data,
-                sessStart_msg: req.flash('sessStart_msg'),
-                sessEnd_msg: req.flash('sessEnd_msg'),
-                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -42,9 +33,6 @@ module.exports = {
         req.adminUser.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
             res.render('admin/tablet', {
                 data: data,
-                sessStart_msg: req.flash('sessStart_msg'),
-                sessEnd_msg: req.flash('sessEnd_msg'),
-                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -53,9 +41,6 @@ module.exports = {
         req.adminUser.getProductCatalog().getItems(function(err, data) {
             res.render('admin/inventory', {
                 data: data,
-                sessStart_msg: req.flash('sessStart_msg'),
-                sessEnd_msg: req.flash('sessEnd_msg'),
-                otherSess_msg: req.flash('otherSess_msg'),
             });
         });
     },
@@ -63,7 +48,7 @@ module.exports = {
     clients: function(req, res) {
         UserMapper.findAllClients(function(err,data){
             res.render('admin/clients', {
-                data:data,
+                data: data,
             });
         });
      },
