@@ -87,6 +87,7 @@ module.exports = {
                     res.locals.isadmin = true;
                     res.locals.isclient = false;
                     req.adminUser = user;
+                    res.locals.editIsOn = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
                 } else {
                     res.locals.isadmin = false;
                     res.locals.isclient = true;
@@ -115,7 +116,7 @@ module.exports = {
             return next();
         } else {
             req.flash('error_msg', 'Please login with your client account in order to access this feature.');
-            res.redirect('/');
+            res.redirect(req.get('referer'));
         }
     },
 

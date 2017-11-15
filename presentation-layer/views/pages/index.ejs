@@ -8,22 +8,11 @@
 <!-- navigator -->
 <% include ../components/navigator.ejs %>
 <!-- //navigator -->
+<!-- flash messages -->
+<% include ../components/flashMessages.ejs %>
 
 <!-- //carousel -->
 <div class="container">
-    <!-- flash messages -->
-    <% if (error_message.length > 0) { %>
-        <div class="alert alert-danger alert-dismissable fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <%= error_message %>
-        </div>
-    <% } %>
-    <% if (success_message.length > 0) { %>
-        <div class="alert alert-success alert-dismissable fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <%= success_message %>
-        </div>
-    <% } %>
 
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->

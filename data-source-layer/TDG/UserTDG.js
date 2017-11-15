@@ -38,6 +38,21 @@ class UserTDG {
         });
     }
 
+    /**
+     * Finds all clients objects from the user table.
+     * @static
+     * @param {function} callback function that holds array of client object.
+     */
+    static findAllClients(callback) {
+        db.query('SELECT * FROM users WHERE isAdmin = false', (err, result) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                return callback(null, result.rows);
+            }
+        });
+    }
+
   /**
    * Inserts an object into the user table.
    * @static

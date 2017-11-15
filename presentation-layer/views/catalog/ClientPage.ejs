@@ -7,7 +7,8 @@
     
 <% include ../components/navigator.ejs %>
 <% include ../components/clientNav.ejs %>
-
+<!-- flash messages -->
+<% include ../components/flashMessages.ejs %>
 <div class="client_content table-responsive">
     <div>
             <% if (typeof data=='undefined') { %>
@@ -17,8 +18,9 @@
                     <img src="\images\concordia.jpg" />
                 </div>
             <%}%>
-
+            <!--<img src="\images\Cat_Desktop.png" alt="Desktop" style="width:170px;height:170px;margin-left:90%;"> -->
             <% if (typeof data!='undefined' && data.table=='desktop') { %>
+            <div style="float:left"></div>
             <h1>Desktop</h1><br>
             <select class="brandSelect" placeholder="Brand" multiple style="width:150px;" ></select>
             <select class="processorSelect" placeholder="Processor" multiple style="width:150px;"></select>
@@ -27,7 +29,9 @@
             <input class ="priceLower" placeholder="priceLower" type="number" style="width:100px;"></input>
             <input class ="priceUpper" placeholder="priceUpper" type="number" style="width:100px;"></input>
             <br><br>
+             </div>
 
+                  
             <div id="desktops">
             <table class="table table-hover" id="prodTable" type="desktop">
                 <thead>
@@ -122,8 +126,6 @@
         <% if (typeof data!='undefined' && data.table=='monitor') { %>
             <h1>Monitor</h1><br>
             <select class="brandSelect" placeholder="Brand" multiple style="width:150px;" ></select>
-            <input class ="displayLower" placeholder="displayLower" type="number" style="width:100px;"></input>
-            <input class ="displayUpper" placeholder="displayUpper" type="number" style="width:100px;"></input>
             <input class ="priceLower" placeholder="priceLower" type="number" style="width:100px;"></input>
             <input class ="priceUpper" placeholder="priceUpper" type="number" style="width:100px;"></input>
             <br><br>
@@ -209,6 +211,47 @@
     </div>
 </div>
 
+
+<% if (isadmin) { %>
+    <div class="container">
+            <!-- Modal -->
+            <div class="modal fade" id="modelMod" role="dialog">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-header" style="color:red;">Admin cannot add to cart</h4>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div>
+<% } %>
+
+<% if (!isclient && !isadmin) { %>
+<div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="modelMod" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-header" style="color:red;">Please login to have access to this feature</h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+<% } %>
+
 <div id="productCatalog" class="modal fade" role="dialog" aria-labelledby="productCatalogLabel" aria-hidden="true">
     <div class='modal-dialog modal-lg'>
         <div class="modal-content">
@@ -218,14 +261,15 @@
             </div>
             <div id="productDetails" class="modal-body"></div>
             <div class="modal-footer">
-                <button class="btn btn-default prod-addToCart">Add to Shopping Cart</button>
+                <button class="btn btn-info prod-addToCart" data-toggle="modal" data-target="#modelMod" >Add to Shopping Cart</button>
                 <button class="btn btn-default prod-prev">Prev</button>
                 <button class="btn btn-default prod-next">Next</button>
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>                
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
 <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->

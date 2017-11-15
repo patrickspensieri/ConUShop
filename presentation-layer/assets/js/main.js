@@ -1,15 +1,42 @@
+function beginSession(redi) {
+    $.ajax({
+        type: 'POST',
+        url: '/admin/startProductCatalogSession',
+        data: {
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        },
+    });
+}
+
+function endSession(redi) {
+    $.ajax({
+        type: 'POST',
+        url: '/admin/endProductCatalogSession',
+        data: {
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        },
+    });
+}
+
 function deleteProdSpec(prodType, modelNumber, redi) {
-            $.post({
-                url: '/admin/deleteProdSpec',
-                data: {
-                    prodType: prodType,
-                    model: modelNumber,
-                    redi: redi,
-                },
-                success: function(response) {
-                    window.location.href = response.redirect;
-                }
-            });
+    $.ajax({
+        type: 'POST',
+        url: '/admin/deleteProdSpec',
+        data: {
+            prodType: prodType,
+            model: modelNumber,
+            redi: redi,
+        },
+        success: function(response) {
+            window.location.href = response.redirect;
+        }
+    });
 }
 
 function updateProdSpec(prodType, data, redi) {
@@ -159,6 +186,11 @@ $( document ).ready(function() {
                     model: modelNumber,
                     type: prodType,
                 },
+                success: function(response) {
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    }
+                },
             });
         });
     });
@@ -167,7 +199,7 @@ $( document ).ready(function() {
 		$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
 	  }, function() {
 		$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
-	  });
+      });
 
 
     function detailsView(row, prodType) {
