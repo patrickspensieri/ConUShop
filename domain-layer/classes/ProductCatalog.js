@@ -45,6 +45,7 @@ class ProductCatalog {
      * @param {string} camera camera information of product.
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
+     * @return {*} returns message
      */
     addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         if (this.productCatalogSessionIsComplete()) {
@@ -88,6 +89,7 @@ class ProductCatalog {
      * @param {string} camera camera information of product.
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
+     * @return {*} returns message
      */
     updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         if (this.productCatalogSessionIsComplete()) {
@@ -118,7 +120,8 @@ class ProductCatalog {
 
     /**
      * @param {string} productType product Type
-     * @param {string} modelNumber model number of product.
+     * @param {string} modelNumber model number of product
+     * @return {*} returns message.
      */
     deleteProductSpecification(productType, modelNumber) {
         if (this.productCatalogSessionIsComplete()) {
@@ -235,6 +238,7 @@ class ProductCatalog {
     /**
      * @param {string} serialNumber of product
      * @param {string} modelNumber model number of product specification
+     * @return {*} a message
      */
     addItem(serialNumber, modelNumber) {
         if (this.productCatalogSessionIsComplete()) {
@@ -247,10 +251,10 @@ class ProductCatalog {
 
     /**
      * @param {string} serialNumber of product
+     * @return {*} a message
      */
     deleteItem(serialNumber) {
         if (this.productCatalogSessionIsComplete()) {
-
             let itemObject = itemMapper.create(serialNumber);
             itemMapper.makeDeletion(itemObject);
         } else {
@@ -293,7 +297,7 @@ class ProductCatalog {
 
     /**
      * Gets and item and locks it
-     * @param {*} modelNumber 
+     * @param {string} serialNumber 
      * @param {*} callback 
      */
     getItem(serialNumber, callback) {
@@ -350,19 +354,30 @@ class ProductCatalog {
         }
     }
 
+    /**
+     * Starts a product catalog session
+     */
     startProductCatalogSession() {
         this.isComplete = true;
     }
+
+    /**
+     * End a product catalog session
+     */
     endProductCatalogSession() {
         this.isComplete = false;
     }
+
+    /**
+     * Complete a product catalog seesion
+     * @return {boolean} is complete
+     */
     productCatalogSessionIsComplete() {
-        if(this.isComplete == null){
+        if (this.isComplete == null) {
             return false;
         }
         return this.isComplete;
     }
-
 }
 
 module.exports = ProductCatalog;

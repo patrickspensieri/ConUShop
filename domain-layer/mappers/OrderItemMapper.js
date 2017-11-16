@@ -58,6 +58,7 @@ class OrderItemMapper extends AbstractMapper {
   /**
    * Maps all returned values into objects of type OrderItem.
    * @static
+   * @param {string} orderId of the user
    * @param {function} callback function that holds array of OrderItem object
    */
     static findAll(orderId, callback) {

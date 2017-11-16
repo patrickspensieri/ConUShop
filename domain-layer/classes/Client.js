@@ -35,6 +35,7 @@ class Client extends User {
     /**
      * Function that allows clients to purchase items from the product Catalog
      * @param {*} callback 
+     * @return {*} callback
      */
     makePurchase(callback) {
         if (this.shoppingcart.cart.length > 0) {
@@ -58,6 +59,11 @@ class Client extends User {
         }
     }
 
+    /**
+     * Returns the item
+     * @param {string} orderItemId 
+     * @param {*} callback 
+     */
     returnItem(orderItemId, callback) {
         OrderItemMapper.find(orderItemId, function(err, result) {
             if (result.isReturned == true) {

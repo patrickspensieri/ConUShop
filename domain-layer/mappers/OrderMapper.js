@@ -57,6 +57,7 @@ class OrderMapper extends AbstractMapper {
   /**
    * Maps all returned values into objects of type Order.
    * @static
+   * @param {string} userId of the user
    * @param {function} callback function that holds array of Order object
    */
     static findAll(userId, callback) {
