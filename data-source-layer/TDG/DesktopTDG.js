@@ -106,6 +106,14 @@ class DesktopTDG {
             }
             return callback(err, result);
         });
+
+      // db.query('UPDATE desktop SET version=$2 + 1 WHERE model=$1', [model, version], (err, result) => {
+      //     console.log('updating version');
+      //     if (err) {
+      //         console.log(err.message);
+      //     }
+      //     return callback(err, result);
+      // });
     }
 
   /**

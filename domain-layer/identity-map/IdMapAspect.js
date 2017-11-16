@@ -129,15 +129,10 @@ function updateAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
+    let idMapVersion = idMap.get(className,id).version;
+    console.log(className);
+    console.log(idMapVersion);
 
-    classTDG.findVersion(id, function (err, result) {
-        if (err) {
-            console.log('Error during findVersion query', null);
-        } else {
-            remoteVersion = result[0].version;
-            console.log(remoteVersion);
-        }
-    });
 
 
     classTDG.update(...getObjectAttributesHelper(object, className), function (err, result) {
