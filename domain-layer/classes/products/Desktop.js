@@ -19,8 +19,8 @@ class Desktop extends Computer {
      * @param {number} weight weight of desktop.
      * @param {number} price price of desktop.
      */
-    constructor(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
-        super(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+    constructor(model, brand, processor, ram, storage, cores, dimensions, weight, price, version) {
+        super(model, brand, processor, ram, storage, cores, dimensions, weight, price, version);
     }
 }
 

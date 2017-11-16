@@ -10,12 +10,15 @@ class ElectronicDevice {
      * @param {string} brand brand of electronic device.
      * @param {number} weight weight of electronic device.
      * @param {number} price price of electronic device.
+     * @param {number} version version of electronic device.
      */
-    constructor(model, brand, weight, price) {
+    constructor(model, brand, weight, price, version) {
         this.model = model;
         this.brand = brand;
         this.weight = weight;
         this.price = price;
+        this.price = version;
+
     }
 }
 

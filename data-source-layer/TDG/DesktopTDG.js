@@ -22,6 +22,22 @@ class DesktopTDG {
         });
     }
 
+    /**
+     * Finds version of one object from the desktop table.
+     * @static
+     * @param {string} modelNumber model number of desktop to be found.
+     * @param {function} callback function that holds desktop object.
+     */
+    static findVersion(modelNumber, callback) {
+        db.query('SELECT version FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                return callback(null, result.rows);
+            }
+        });
+    }
+
   /**
    * Finds all objects from the desktop table.
    * @static
@@ -36,6 +52,8 @@ class DesktopTDG {
             }
         });
     }
+
+
 
   /**
    * Inserts an object into the desktop table.
@@ -75,11 +93,12 @@ class DesktopTDG {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
+   * @param {number} version version of desktop.
    * @param {function} callback function
    */
-    static update(model, brand, processor, ram, storage, cores, dimensions, weight, price, callback) {
-        let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, weight=$8, price=$9 WHERE model=$1';
-        let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
+    static update(model, brand, processor, ram, storage, cores, dimensions, weight, price, version, callback) {
+        let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, weight=$8, price=$9, version=$10 WHERE model=$1';
+        let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price, version];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
@@ -122,6 +141,7 @@ class DesktopTDG {
             }
         });
     }
+
 }
 
 module.exports = DesktopTDG;
