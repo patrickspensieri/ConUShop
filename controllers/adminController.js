@@ -46,7 +46,7 @@ module.exports = {
     },
 
     clients: function(req, res) {
-        UserMapper.findAllClients(function(err,data){
+        UserMapper.findAllClients(function(err, data) {
             res.render('admin/clients', {
                 data: data,
             });
@@ -60,8 +60,16 @@ module.exports = {
     },
 
     addItem: function(req, res) {
-        let otherMsg = req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
-        req.flash('otherSess_msg', otherMsg);
+        req.checkBody('modelNumber', 'Model Number should not be empty').notEmpty();
+        req.checkBody('serialNumber', 'Serial Number should not be empty').notEmpty();
+
+        req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
+
+        let errors = req.validationErrors();
+        if (errors) {
+            req.flash('validationErrors', errors);
+        }
+
         res.redirect(req.get('referer'));
     },
 
@@ -83,75 +91,42 @@ module.exports = {
         let touch = req.body.touch;
         let size = req.body.size;
 
-        switch (this.prodType) {
-            case 'Desktop':
-                // Validation
-                req.checkBody('model', 'Can not be empty').notEmpty();
-                req.checkBody('brand', 'Can not be empty').notEmpty();
-                req.checkBody('processor', 'Can not be empty').notEmpty();
-                req.checkBody('ram', 'Can not be empty').notEmpty();
-                req.checkBody('storage', 'Can not be empty').notEmpty();
-                req.checkBody('cores', 'Can not be empty').notEmpty();
-                req.checkBody('dimensions', 'Can not be empty').notEmpty();
-                req.checkBody('weight', 'Can not be empty').notEmpty();
-                req.checkBody('price', 'Can not be empty').notEmpty();
-                break;
-            case 'Laptop':
-                // Validation
-                req.checkBody('model', 'Can not be empty').notEmpty();
-                req.checkBody('brand', 'Can not be empty').notEmpty();
-                req.checkBody('processor', 'Can not be empty').notEmpty();
-                req.checkBody('ram', 'Can not be empty').notEmpty();
-                req.checkBody('storage', 'Can not be empty').notEmpty();
-                req.checkBody('cores', 'Can not be empty').notEmpty();
-                req.checkBody('dimensions', 'Can not be empty').notEmpty();
-                req.checkBody('weight', 'Can not be empty').notEmpty();
-                req.checkBody('price', 'Can not be empty').notEmpty();
-                req.checkBody('display', 'Can not be empty').notEmpty();
-                req.checkBody('os', 'Can not be empty').notEmpty();
-                req.checkBody('battery', 'Can not be empty').notEmpty();
-                req.checkBody('camera', 'Can not be empty').notEmpty();
-                req.checkBody('touch', 'Can not be empty').notEmpty();
-                break;
-            case 'Monitor':
-                // Validation
-                req.checkBody('model', 'Can not be empty').notEmpty();
-                req.checkBody('brand', 'Can not be empty').notEmpty();
-                req.checkBody('weight', 'Can not be empty').notEmpty();
-                req.checkBody('price', 'Can not be empty').notEmpty();
-                req.checkBody('size', 'Can not be empty').notEmpty();
-                break;
-            case 'Tablet':
-                // Validation
-                req.checkBody('model', 'Can not be empty').notEmpty();
-                req.checkBody('brand', 'Can not be empty').notEmpty();
-                req.checkBody('processor', 'Can not be empty').notEmpty();
-                req.checkBody('ram', 'Can not be empty').notEmpty();
-                req.checkBody('storage', 'Can not be empty').notEmpty();
-                req.checkBody('cores', 'Can not be empty').notEmpty();
-                req.checkBody('dimensions', 'Can not be empty').notEmpty();
-                req.checkBody('weight', 'Can not be empty').notEmpty();
-                req.checkBody('price', 'Can not be empty').notEmpty();
-                req.checkBody('display', 'Can not be empty').notEmpty();
-                req.checkBody('os', 'Can not be empty').notEmpty();
-                req.checkBody('battery', 'Can not be empty').notEmpty();
-                req.checkBody('camera', 'Can not be empty').notEmpty();
-                break;
+        req.checkBody('model', 'Model can not be empty').notEmpty();
+        req.checkBody('brand', 'Brand can not be empty').notEmpty();
+        req.checkBody('weight', 'Weight can not be empty').notEmpty();
+        req.checkBody('price', 'Price can not be empty').notEmpty();
+
+        if (prodType == 'Desktop' || prodType == 'Laptop' || prodType == 'Tablet') {
+            req.checkBody('processor', 'Processor can not be empty').notEmpty();
+            req.checkBody('ram', 'Ram can not be empty').notEmpty();
+            req.checkBody('storage', 'Storage can not be empty').notEmpty();
+            req.checkBody('cores', 'Cores can not be empty').notEmpty();
+            req.checkBody('dimensions', 'Dimensions can not be empty').notEmpty();
+        }
+
+        if (prodType == 'Tablet' || prodType == 'Laptop') {
+            req.checkBody('display', 'Display can not be empty').notEmpty();
+            req.checkBody('os', 'OS can not be empty').notEmpty();
+            req.checkBody('battery', 'Battery can not be empty').notEmpty();
+            req.checkBody('camera', 'Camera can not be empty').notEmpty();
+        }
+
+        if (prodType == 'Laptop') {
+            req.checkBody('touch', 'Touch can not be empty').notEmpty();
+        }
+
+        if (prodType == 'Monitor') {
+            req.checkBody('size', 'Size can not be empty').notEmpty();
         }
 
         let errors = req.validationErrors();
-
         if (errors) {
-            req.flash('otherSess_msg', errors);
-            res.redirect(req.get('referer'));
-
+            req.flash('validationErrors', errors);
         } else {
-            let otherMsg = req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+            req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
                 weight, price, display, os, battery, camera, touch, size);
-            req.flash('otherSess_msg', otherMsg);
-            res.redirect(req.get('referer'));
-
         }
+        res.redirect(req.get('referer'));
     },
 
     deleteProdSpec: function(req, res) {
