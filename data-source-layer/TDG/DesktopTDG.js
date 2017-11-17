@@ -82,7 +82,7 @@ class DesktopTDG {
    */
     static update(model, brand, processor, ram, storage, cores, dimensions, weight, price, version, callback) {
         let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, weight=$8, price=$9, version=$10 WHERE model=$1';
-        let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price, 2];
+        let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price, version];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {

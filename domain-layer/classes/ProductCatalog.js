@@ -89,12 +89,12 @@ class ProductCatalog {
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
      */
-    updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
+    updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
         if (this.productCatalogSessionIsComplete()) {
             switch (productType) {
                 case 'Desktop':
-                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price, version);
-                    desktopMapper.makeUpdate(this.desktop);
+                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price, 666);
+                    desktopMapper.update(this.desktop);
                     break;
                 case 'Laptop':
                     this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
