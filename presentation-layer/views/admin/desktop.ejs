@@ -3,6 +3,7 @@
 <head>
     <title>ConUshop | Home </title>
     <% include ../components/header.ejs %>
+
 </head>
 <body>
 <!-- navigator -->
@@ -16,6 +17,7 @@
         <li class="active"><a data-toggle="tab" href="#edit">Edit</a></li>
         <li><a data-toggle="tab" href="#view">View</a></li>
     </ul>
+    <p id="message"></p>
 </div>
 
 <!-- flash messages -->
@@ -88,7 +90,7 @@
             <h1 class="well">Register a  new DESKTOP</h1>
             <div class="col-lg-12 well">
                 <div class="row">
-                    <form method="post" action="/admin/addProdSpec">
+                    <form data-toggle="validator" role="form" method="post" action="/admin/addProdSpec">
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-6 AddDesktop">
@@ -96,8 +98,11 @@
                                     <input type="text" class="form-control" name="formProductType" value="Desktop" readonly>
                                 </div>
                                 <div class="col-sm-6 AddDesktop">
-                                    <label>Model Number</label>
-                                    <input type="text" class="form-control" name="model" placeholder="model">
+                                    <div class="form-group">
+                                        <label>Model Number</label>
+                                        <input type="text" class="form-control" name="model" placeholder="model" pattern="^DES\d{1,7}$" data-error="model invalid" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="AddDesktop">
@@ -110,34 +115,55 @@
                                     <input type="text" class="form-control" name="processor" placeholder="processor">
                                 </div>
                                 <div class="col-sm-3 AddDesktop">
-                                    <label>Ram</label>
-                                    <input type="text" class="form-control" name="ram" placeholder="ram">
+                                    <div class="form-group">
+                                        <label>Ram</label>
+                                        <input type="text" class="form-control" name="ram" placeholder="ram" pattern="(2|4|8|12|16|20|24|32|64)"  data-error="ram invalid" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-3 AddDesktop">
-                                    <label>Storage</label>
-                                    <input type="text" class="form-control" name="storage" placeholder="storage">
+                                    <div class="form-group">
+                                        <label>Storage</label>
+                                        <input type="text" class="form-control" name="storage" placeholder="storage" pattern="(8|16|32|60|64|80|100|120|128|160|240|250|256|500|480|512|1000|1500|2000|3000)" data-error="storage invalid" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-3 AddDesktop">
-                                    <label>Cores</label>
-                                    <input type="text" class="form-control" name="cores" placeholder="cores">
+                                    <div class="form-group">
+                                        <label>Cores</label>
+                                        <input type="text" class="form-control" name="cores" placeholder="cores" pattern="(2|4|8)" data-error="cores invalid" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddDesktop">
-                                    <label>Dimensions</label>
-                                    <input type="text" class="form-control" name="dimensions" placeholder="dimensions">
+                                    <div class="form-group">
+                                        <label>Dimensions</label>
+                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions" pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" data-error="cores invalid" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
+
                                 <div class="col-sm-6 AddDesktop">
-                                    <label>Weight</label>
-                                    <input type="text" class="form-control" name="weight" placeholder="weight">
+                                    <div class="form-group">
+                                        <label>Weight</label>
+                                        <input type="text" class="form-control" name="weight" placeholder="weight"  pattern="[^-]\d+\.\d*" data-error="cores invalid" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
-                        <div class="AddDesktop">
-                            <label>Price</label>
-                            <input type="text" class="form-control" name="price" placeholder="price">
-                        </div><br>
+                                <div class="AddDesktop">
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <input type="text" class="form-control" name="price" placeholder="price"  pattern="[^-]\d+\.\d*" data-error="cores invalid" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            <br>
                         <button type="submit" class="btn btn-lg btn-success">Add desktop</button>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -151,6 +177,7 @@
                     <h2 class="text-center">Desktop Catalog</h2>
                     <p class="text-center">Simply modify any field and click edit to save</p>
                     <br>
+                    <form data-toggle="validator" role="form">
                     <table class="table table-striped table-condensed" contenteditable="true" id="prodTable">
                         <thead>
                         <tr>
@@ -171,20 +198,56 @@
                         <% for(var i = 0; i < data.length; i++) { %>
                         <tr>
                             <td class="model" contenteditable="false"><%= data[i].model %></td>
-                            <td class="brand"><%= data[i].brand %></td>
-                            <td class="processor"><%= data[i].processor %></td>
-                            <td class="ram"><%= data[i].ram %></td>
-                            <td class="storage"><%= data[i].storage %></td>
-                            <td class="cores"><%= data[i].cores %></td>
-                            <td class="dimensions"><%= data[i].dimensions %></td>
-                            <td class="weight"><%= data[i].weight %></td>
-                            <td class="price"><%= data[i].price %></td>
+                            <td class="brand">
+                                <input type="text" value="<%= data[i].brand %>">
+                            </td>
+                            <td class="processor">
+                                <input type="text" value="<%= data[i].processor %>">
+                            </td>
+                            <td class="ram">
+                                <input type="number" value="<%= data[i].ram %>">
+                            </td>
+                            <td class="storage">
+                                <input type="text" value="<%= data[i].storage %>">
+                            </td>
+                            <td class="cores">
+                                <input type="text" value="<%= data[i].cores %>">
+                            </td>
+                            <td class="dimensions">
+                                <input type="text" value="<%= data[i].dimensions %>">
+                            </td>
+                            <td class="weight">
+                                <input type="text" value="<%= data[i].weight %>">
+                            </td>
+                            <td class="price">
+                                <input type="text" pattern="^[1-9]\.[1-9]\d*$" value="<%= data[i].price %>">
+                            </td>
                             <td contenteditable="false"><button class="btn btn-warning" onclick="updateProdSpec('Desktop', $(this).closest('tr'), '/admin/desktops')">Edit</button></td>
                             <td contenteditable="false"><button class="btn btn-danger" onclick="deleteProdSpec('Desktop', '<%= data[i].model%>', '/admin/desktops')">Delete</button></td>
                         </tr>
                         <% } %>
                         </tbody>
                     </table>
+                    </form>
+
+                    <!--<script>-->
+                    <!--tried with Ajax-->
+                        <!--$(document).ready(function() {-->
+                           <!--$("button").click(function(event){-->
+                              <!--event.preventDefault();-->
+                              <!--var brand = $("#brand").val();-->
+                              <!--var processor = $("#processor").val();-->
+                              <!--var ram = $("#ram").val();-->
+                              <!--var storage = $("#storage").val();-->
+                              <!--var cores = $("#cores").val();-->
+                              <!--var dimension = $("#dimension").val();-->
+                              <!--var weight = $("#weight").val();-->
+                              <!--var price = $("#price").val();-->
+
+                              <!--$(".message").load("")-->
+                           <!--});-->
+                        <!--});-->
+                    <!--</script>-->
                 </div>
                 <% } %>
             </div>
