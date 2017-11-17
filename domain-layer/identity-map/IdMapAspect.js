@@ -49,7 +49,6 @@ function findAdvice(methodCall) {
                     } else {
                         let object = classMapper.create(...getAttributesHelper(value, className));
                         idMap.add(object, id);
-                        console.log(object);
                         return callback(null, object);
                     }
                 }

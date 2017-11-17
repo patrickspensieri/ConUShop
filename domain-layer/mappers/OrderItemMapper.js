@@ -43,7 +43,6 @@ class OrderItemMapper extends AbstractMapper {
                     } else {
                         let orderItem = new OrderItem(value.order_item_id, value.order_id, value.serialnumber, value.price,
                             value.isreturned);
-                        idMap.add(orderItem, orderItem.orderItemId);
                         return callback(null, orderItem);
                     }
                 }
