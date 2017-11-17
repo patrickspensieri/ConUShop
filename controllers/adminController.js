@@ -167,7 +167,7 @@ module.exports = {
             case 'Desktop':
                 otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
                     req.body.processor, req.body.ram, req.body.storage, req.body.cores,
-                    req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
+                    req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null, req.body.version);
                 break;
             case 'Laptop':
                 otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,

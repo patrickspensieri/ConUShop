@@ -22,22 +22,6 @@ class DesktopTDG {
         });
     }
 
-    /**
-     * Finds version of one object from the desktop table.
-     * @static
-     * @param {string} modelNumber model number of desktop to be found.
-     * @param {function} callback function that holds desktop object.
-     */
-    static findVersion(modelNumber, callback) {
-        db.query('SELECT version FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
-            if (err) {
-                console.log(err.message);
-            } else {
-                return callback(null, result.rows);
-            }
-        });
-    }
-
   /**
    * Finds all objects from the desktop table.
    * @static
@@ -98,7 +82,7 @@ class DesktopTDG {
    */
     static update(model, brand, processor, ram, storage, cores, dimensions, weight, price, version, callback) {
         let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, weight=$8, price=$9, version=$10 WHERE model=$1';
-        let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price, version];
+        let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price, 2];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
@@ -106,14 +90,6 @@ class DesktopTDG {
             }
             return callback(err, result);
         });
-
-      // db.query('UPDATE desktop SET version=$2 + 1 WHERE model=$1', [model, version], (err, result) => {
-      //     console.log('updating version');
-      //     if (err) {
-      //         console.log(err.message);
-      //     }
-      //     return callback(err, result);
-      // });
     }
 
   /**

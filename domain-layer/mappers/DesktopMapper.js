@@ -129,27 +129,13 @@ class DesktopMapper extends AbstractMapper {
                 console.log('Error during item findAll query', null);
             } else {
                 for (let value of result) {
-                    desktop.push(new Desktop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
+                    desktop.push(new Desktop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price, value.version));
                 }
                 return callback(null, desktop);
             }
         });
     }
 
-    static getVersion(modelNumber,callback){
-        console.log('getVersion: Desktop');
-        DesktopTDG.findVersion(modelNumber, function(err, result) {
-            let value = result[0];
-            let version = value.version;
-            if (err) {
-                console.log('Error during desktop findVersion query', null);
-            } else if (result == null) {
-                return callback(err, null);
-            } else {
-                return callback(null, version);
-            }
-        });
-    }
 }
 
 module.exports = DesktopMapper;

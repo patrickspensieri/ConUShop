@@ -17,7 +17,7 @@ class ElectronicDevice {
         this.brand = brand;
         this.weight = weight;
         this.price = price;
-        this.version = version
+        this.version = version;
     }
 }
 
