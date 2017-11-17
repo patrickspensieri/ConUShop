@@ -40,10 +40,6 @@ class LaptopMapper extends AbstractMapper {
    * @return {function} callback result
    */
     static find(modelNumber, callback) {
-        let laptop = idMap.get('Laptop', modelNumber);
-        if (laptop != null) {
-            return callback(null, laptop);
-        } else {
             LaptopTDG.find(modelNumber, function(err, result) {
                 if (err) {
                     console.log('Error during laptop find query', null);
@@ -56,12 +52,10 @@ class LaptopMapper extends AbstractMapper {
                             value.ram, value.storage, value.cores, value.os,
                             value.battery, value.camera, value.touch, value.dimensions,
                             value.weight, value.price);
-                        idMap.add(laptop, laptop.model);
                         return callback(null, laptop);
                     }
                 }
             });
-        }
     }
 
   /**
@@ -81,9 +75,6 @@ class LaptopMapper extends AbstractMapper {
                         value.battery, value.camera, value.touch, value.dimensions,
                         value.weight, value.price);
                     laptops.push(laptop);
-                    if (idMap.get('Laptop', laptop.model) == null) {
-                        idMap.add(laptop, laptop.model);
-                    }
                 }
                 return callback(null, laptops);
             }
@@ -100,8 +91,8 @@ class LaptopMapper extends AbstractMapper {
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
             laptopObject.weight, laptopObject.price, function(err, result) {
-                if (!err) {
-                    idMap.add(laptopObject, laptopObject.model);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -116,8 +107,8 @@ class LaptopMapper extends AbstractMapper {
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
             laptopObject.weight, laptopObject.price, function(err, result) {
-                if (!err) {
-                    idMap.update(laptopObject, laptopObject.model);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -129,8 +120,8 @@ class LaptopMapper extends AbstractMapper {
    */
     static delete(laptopObject) {
         LaptopTDG.delete(laptopObject.model, function(err, result) {
-            if (!err) {
-                idMap.delete(laptopObject, laptopObject.model);
+            if (err) {
+               console.log(err);
             }
         });
     }

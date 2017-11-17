@@ -29,10 +29,6 @@ class ItemMapper extends AbstractMapper {
      * @return {function} callback result
      */
     static find(serialNumber, callback) {
-        let item = idMap.get('Item', serialNumber);
-        if (item != null) {
-            return callback(null, item);
-        } else {
             ItemTDG.find(serialNumber, function(err, result) {
                 if (err) {
                     console.log('Error during item find query', null);
@@ -42,12 +38,10 @@ class ItemMapper extends AbstractMapper {
                         return callback(err, null);
                     } else {
                         let item = new Item(value.serialnumber, value.model, value.islocked);
-                        idMap.add(item, item.serialNumber);
                         return callback(null, item);
                     }
                 }
             });
-        }
     }
 
     /**
@@ -64,9 +58,6 @@ class ItemMapper extends AbstractMapper {
                 for (let value of result) {
                     let item = new Item(value.serialnumber, value.model, value.islocked);
                     items.push(item);
-                    if (idMap.get('Item', item.serialNumber) == null) {
-                        idMap.add(item, item.serialNumber);
-                    }
                 }
                 return callback(null, items);
             }
@@ -80,8 +71,8 @@ class ItemMapper extends AbstractMapper {
      */
     static insert(itemObject) {
         ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber, function(err, result) {
-            if (!err) {
-                idMap.add(itemObject, itemObject.serialNumber);
+            if (err) {
+                console.log(err);
             }
         });
     }
@@ -93,8 +84,8 @@ class ItemMapper extends AbstractMapper {
      */
     static update(itemObject) {
         ItemTDG.update(itemObject.serialNumber, itemObject.modelNumber, itemObject.isLocked, function(err, result) {
-                if (!err) {
-                    idMap.update(itemObject, itemObject.serialNumber);
+                if (err) {
+                    console.log(err);
                 }
         });
     }
@@ -106,8 +97,8 @@ class ItemMapper extends AbstractMapper {
      */
     static delete(itemObject) {
         ItemTDG.delete(itemObject.serialNumber, function(err, result) {
-            if (!err) {
-                idMap.delete(itemObject, itemObject.serialNumber);
+            if (err) {
+                console.log(err);
             }
         });
     }
