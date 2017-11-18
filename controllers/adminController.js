@@ -192,25 +192,23 @@ function validateForm(req) {
         req.checkBody('camera', 'Camera can not be empty').notEmpty();
     }
 
-    switch (this.prodType) {
+    switch (prodType) {
         case 'Desktop':
-            // Validation
-            req.checkBody('model', 'Can not be empty').notEmpty();
-            req.checkBody('brand', 'Can not be empty').notEmpty();
-            req.checkBody('processor', 'Can not be empty').notEmpty();
-            req.checkBody('ram', 'Can not be empty').notEmpty();
-            req.checkBody('storage', 'Can not be empty').notEmpty();
-            req.checkBody('cores', 'Can not be empty').notEmpty();
-            req.checkBody('dimensions', 'Can not be empty').notEmpty();
-            req.checkBody('weight', 'Can not be empty').notEmpty();
-            req.checkBody('price', 'Can not be empty').notEmpty();
+            // Model Number
+            req.checkBody('model', 'Provided model number format is not supported. Format must be : DES##').matches(/^DES\d{1,7}$/);
             break;
         case 'Laptop':
+            // Model Number
+            req.checkBody('model', 'Provided model number format is not supported. Format must be : LAP##').matches(/^LAP\d{1,7}$/);
+
             // Touch
             req.checkBody('touch', 'Touch can not be empty').notEmpty();
             req.checkBody('touch', 'Touch must be true or false').isBoolean();
             break;
         case 'Monitor':
+            // Model Number
+            req.checkBody('model', 'Provided model number format is not supported. Format must be : MON##').matches(/^MON\d{1,7}$/);
+            
             // Size
             req.checkBody('size', 'Size can not be empty').notEmpty();
             req.checkBody('size', 'Size is impossible').isIn([5, 7, 10, 10.1, 10.4, 13.3, 14, 14.4, 15, 15.6, 16, 17, 17.3, 18.5, 18.9, 19,
@@ -218,7 +216,10 @@ function validateForm(req) {
                                                                     27, 28, 28.8, 29, 29.5, 30, 31, 31.5, 32]);
             break;
         case 'Tablet':
-            // Validation
+            // Model Number
+            req.checkBody('model', 'Provided model number format is not supported. Format must be : TAB##').matches(/^TAB\d{1,7}$/);
+
+            // Display
             req.checkBody('display', 'Display Size is impossible').isIn([7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13,
                                                                          13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4]);
             break;
