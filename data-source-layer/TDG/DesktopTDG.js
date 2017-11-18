@@ -22,6 +22,22 @@ class DesktopTDG {
         });
     }
 
+    /**
+     * Finds one object from the desktop table.
+     * @static
+     * @param {string} modelNumber model number of desktop to be found.
+     * @param {function} callback function that holds desktop object.
+     */
+    static findVersion(modelNumber, callback) {
+        db.query('SELECT version FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                return callback(null, result.rows[0].version);
+            }
+        });
+    }
+
   /**
    * Finds all objects from the desktop table.
    * @static

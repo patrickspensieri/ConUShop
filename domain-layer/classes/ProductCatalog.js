@@ -93,7 +93,7 @@ class ProductCatalog {
         if (this.productCatalogSessionIsComplete()) {
             switch (productType) {
                 case 'Desktop':
-                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price, 666);
+                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price);
                     desktopMapper.update(this.desktop);
                     break;
                 case 'Laptop':

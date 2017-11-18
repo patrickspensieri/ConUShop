@@ -129,14 +129,18 @@ function updateAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    let idMapVersion = idMap.get(className,id).version;
+    let idMapVersion = idMap.get(className, id).version;
+    let attributeArr = [...getObjectAttributesHelper(object, className)];
+    let dbVersion = null;
+    attributeArr[attributeArr.length - 1] = idMapVersion;
     // console.log(object);
     // console.log(className);
     // console.log(idMapVersion);
-    console.log(...getObjectAttributesHelper(object, className));
+    console.log(attributeArr);
 
 
-    classTDG.update(...getObjectAttributesHelper(object, className), function (err, result) {
+    console.log(dbVersion);
+    classTDG.update(...attributeArr, function (err, result) {
         if (!err) {
             idMap.update(object, id);
         }
