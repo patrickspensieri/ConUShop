@@ -93,7 +93,7 @@ module.exports = {
         let size = req.body.size;
 
         let errors = validateForm(req);
-        console.log(errors);
+
         if (errors) {
             req.flash('validationErrors', errors);
         } else {
@@ -155,9 +155,17 @@ function validateForm(req) {
     let prodType = req.body.prodType;
 
     req.checkBody('model', 'Model can not be empty').notEmpty();
+
+    // Brand
     req.checkBody('brand', 'Brand can not be empty').notEmpty();
+
+    // Weight
     req.checkBody('weight', 'Weight can not be empty').notEmpty();
+    req.checkBody('weight', 'Weight value must be a positive number').isInt({min: 0});
+
+    // Price
     req.checkBody('price', 'Price can not be empty').notEmpty();
+    req.checkBody('price', 'Price value must be a positive number').isInt({min: 0});
 
     if (prodType == 'Desktop' || prodType == 'Laptop' || prodType == 'Tablet') {
         // Processor
@@ -165,30 +173,33 @@ function validateForm(req) {
 
         // Ram
         req.checkBody('ram', 'Ram can not be empty').notEmpty();
-        req.checkBody('ram', 'Ram value is impossible').isDivisibleBy(2).isIn([2, 4, 8, 12, 16, 20, 24, 32, 64]);
+        req.checkBody('ram', 'Ram value is impossible').isInt({min: 0}).isDivisibleBy(2).isIn([2, 4, 8, 12, 16, 20, 24, 32, 64]);
 
         // Storage
         req.checkBody('storage', 'Storage can not be empty').notEmpty();
-        req.checkBody('storage', 'Storage value is impossible').isDivisibleBy(8).isDivisibleBy(10).
+        req.checkBody('storage', 'Storage value is impossible').isInt({min: 0}).isDivisibleBy(8).isDivisibleBy(10).
                         isIn([8, 16, 32, 60, 64, 80, 100, 120, 128, 160, 240, 250, 256, 500, 480, 512, 1000, 1500, 2000, 3000]);
         
         // Cores
         req.checkBody('cores', 'Cores can not be empty').notEmpty();
-        req.checkBody('cores', 'Cores value is impossible').isDivisibleBy(2).isIn([2, 4, 6, 8, 10, 12, 16]);
+        req.checkBody('cores', 'Cores value is impossible').isInt({min: 0}).isDivisibleBy(2).isIn([2, 4, 6, 8, 10, 12, 16]);
 
         // Dimensions
         req.checkBody('dimensions', 'Dimensions can not be empty').notEmpty();
         req.checkBody('dimensions', 'Dimensions must be of the form "# x # x #"').matches(/^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$/);
-
     }
 
     if (prodType == 'Tablet' || prodType == 'Laptop') {
         // Display size
         req.checkBody('display', 'Display can not be empty').notEmpty();
-        req.checkBody('display', 'Display Size is impossible').isIn([7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13,
+        req.checkBody('display', 'Display Size is impossible').isInt({min: 0}).isIn([7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13,
                                                                     13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4]);
         req.checkBody('os', 'OS can not be empty').notEmpty();
+
+        // Battery
         req.checkBody('battery', 'Battery can not be empty').notEmpty();
+        req.checkBody('battery', 'Battery value must be positive').isInt({min: 0});
+
         req.checkBody('camera', 'Camera can not be empty').notEmpty();
     }
 
@@ -204,6 +215,9 @@ function validateForm(req) {
             // Touch
             req.checkBody('touch', 'Touch can not be empty').notEmpty();
             req.checkBody('touch', 'Touch must be true or false').isBoolean();
+
+            // Camera
+            req.checkBody('camera', 'Camera must be true or false').isBoolean();
             break;
         case 'Monitor':
             // Model Number
@@ -211,17 +225,14 @@ function validateForm(req) {
             
             // Size
             req.checkBody('size', 'Size can not be empty').notEmpty();
-            req.checkBody('size', 'Size is impossible').isIn([5, 7, 10, 10.1, 10.4, 13.3, 14, 14.4, 15, 15.6, 16, 17, 17.3, 18.5, 18.9, 19,
+            req.checkBody('size', 'Size is impossible').isInt({min: 0}).isIn([5, 7, 10, 10.1, 10.4, 13.3, 14, 14.4, 15, 15.6, 16, 17, 17.3, 18.5, 18.9, 19,
                                                                     19.1, 19.5, 20, 20.7, 21, 21.3, 21.5, 22, 23, 23.6, 23.8, 24, 24.1, 25, 24.5,
                                                                     27, 28, 28.8, 29, 29.5, 30, 31, 31.5, 32]);
             break;
         case 'Tablet':
             // Model Number
             req.checkBody('model', 'Provided model number format is not supported. Format must be : TAB##').matches(/^TAB\d{1,7}$/);
-
-            // Display
-            req.checkBody('display', 'Display Size is impossible').isIn([7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13,
-                                                                         13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4]);
+            req.checkBody('camera', 'Camera value is impossible').isInt({min: 0});
             break;
     }
     req.validationErrors();
