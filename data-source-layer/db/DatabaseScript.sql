@@ -63,42 +63,11 @@ INSERT INTO Product VALUES('LAP09');
 INSERT INTO Product VALUES('LAP10');
 INSERT INTO Product VALUES('LAP11');
 
-/* ------------------------------------------ BRAND TABLE QUERIES --------------------------------------------- */
-
-CREATE TABLE Brand (
-    BRAND VARCHAR(10) PRIMARY KEY NOT NULL
-);
-INSERT INTO Brand VALUES ('Dell');
-INSERT INTO Brand VALUES ('HP');
-INSERT INTO Brand VALUES ('Acer');
-INSERT INTO Brand VALUES ('Asus');
-INSERT INTO Brand VALUES ('Apple');
-INSERT INTO Brand VALUES ('Microsoft');
-INSERT INTO Brand VALUES ('Lenovo');
-INSERT INTO Brand VALUES ('Insignia');
-INSERT INTO Brand VALUES ('Samsung');
-INSERT INTO Brand VALUES ('Sony');
-INSERT INTO Brand VALUES ('Sharp');
-INSERT INTO Brand VALUES ('Toshiba');
-INSERT INTO Brand VALUES ('LG');
-
-/* ------------------------------------------ OS TABLE QUERIES --------------------------------------------- */
-
-CREATE TABLE OS (
-    OS VARCHAR(10) PRIMARY KEY NOT NULL
-);
-INSERT INTO OS VALUES ('Windows 10');
-INSERT INTO OS VALUES ('MacOS');
-INSERT INTO OS VALUES ('iOS 10');
-INSERT INTO OS VALUES ('iOS 9');
-INSERT INTO OS VALUES ('Android 5');
-INSERT INTO OS VALUES ('Android 6');
-
 /* ------------------------------------------ DESKTOP TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE Desktop (
     Model VARCHAR(10) PRIMARY KEY REFERENCES PRODUCT(MODEL) NOT NULL,
-    Brand VARCHAR(10) REFERENCES BRAND(BRAND) NOT NULL,
+    Brand VARCHAR(10) NOT NULL,
     Processor VARCHAR(20) NOT NULL,
     RAM INTEGER NOT NULL,
     Storage INTEGER NOT NULL,
@@ -135,7 +104,7 @@ INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES20'),  (S
 
 CREATE TABLE Monitor (
     Model VARCHAR(10) PRIMARY KEY REFERENCES PRODUCT(MODEL) NOT NULL,
-    Brand VARCHAR(10) REFERENCES BRAND(BRAND) NOT NULL,
+    Brand VARCHAR(10) NOT NULL,
     Size INTEGER NOT NULL,
     Weight DECIMAL NOT NULL,
     Price DECIMAL NOT NULL,
@@ -158,13 +127,13 @@ INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON10'), (SE
 
 CREATE TABLE Tablet (
     Model VARCHAR(10) PRIMARY KEY REFERENCES PRODUCT(MODEL) NOT NULL,
-    Brand VARCHAR(10) REFERENCES BRAND(BRAND) NOT NULL,
+    Brand VARCHAR(10) NOT NULL,
     Display DECIMAL NOT NULL,
     Processor VARCHAR(17) NOT NULL,
     RAM INTEGER NOT NULL,
     Storage INT NOT NULL,
     Cores INT NOT NULL,
-    OS VARCHAR(10) REFERENCES OS(OS) NOT NULL,
+    OS VARCHAR(10) NOT NULL,
     Battery DECIMAL NOT NULL,
     Camera INT NOT NULL,
     Dimensions VARCHAR(25) NOT NULL,
@@ -190,13 +159,13 @@ INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB11'), (SELE
 
 CREATE TABLE Laptop (
     Model VARCHAR(10) PRIMARY KEY REFERENCES PRODUCT(MODEL) NOT NULL,
-    Brand VARCHAR(10) REFERENCES BRAND(BRAND) NOT NULL,
+    Brand VARCHAR(10) NOT NULL,
     Display DECIMAL NOT NULL,
     Processor VARCHAR(15) NOT NULL,
     RAM INTEGER NOT NULL,
     Storage INTEGER NOT NULL,
     Cores INTEGER NOT NULL,
-    OS VARCHAR(10) REFERENCES OS(OS) NOT NULL,
+    OS VARCHAR(10) NOT NULL,
     Battery INTEGER NOT NULL,
     Camera BOOLEAN NOT NULL,
     Touch BOOLEAN NOT NULL,
@@ -524,19 +493,6 @@ CREATE TABLE ACTIVEUSERS(
     PRIMARY KEY (user_id)
 );
 
-
-/* ------------------------------------------ CART TABLE QUERIES --------------------------------------------- */
-/*
-CREATE TABLE CART (
-    user_id VARCHAR(60) REFERENCES ACTIVEUSERS(user_id) NOT NULL,
-    cart_item_id SERIAL NOT NULL,
-    serialNumber VARCHAR(10) REFERENCES ITEM(serialNumber) NOT NULL UNIQUE,
-    price DECIMAL NOT NULL,
-    entryTime TIMESTAMP NOT NULL DEFAULT now(),
-    PRIMARY KEY(cart_item_id)
-);
-*/
-
 /* ------------------------------------------ ORDER TABLE QUERIES --------------------------------------------- */
 CREATE TABLE ORDERS (
     order_id BIGINT NOT NULL UNIQUE,
@@ -558,16 +514,6 @@ CREATE TABLE ORDERITEM (
     PRIMARY KEY (order_item_id)
 );
 
-/* ------------------------------------------ RETURN TABLE QUERIES --------------------------------------------- */
-/*
-CREATE TABLE RETURNS (
-    return_id SERIAL PRIMARY KEY NOT NULL,
-    order_id BIGINT REFERENCES ORDERS(order_id) NOT NULL,
-    user_id SERIAL REFERENCES ACTIVEUSERS(user_id) NOT NULL,
-    order_item_id VARCHAR(60) REFERENCES ORDERITEM(order_item_id) NOT NULL
-);
-*/
-
 /* ------------------------------------------ TRIGGER FUNCTIONS --------------------------------------------- */
 /* ------------ modelCheck() FUNCTIONS, CHECKS IF MODEL FORMAT IS GOOD & IF PRODUCT EXISTS */
 CREATE OR REPLACE FUNCTION desktopModelCheck() RETURNS TRIGGER AS
@@ -575,9 +521,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NEW.model !~ '^DES\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
     END IF;
     IF(EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
         RAISE EXCEPTION 'Provided model number already exists';
@@ -592,9 +535,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NEW.model !~ '^LAP\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : LAP##';
-    END IF;
     IF(EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
         RAISE EXCEPTION 'Provided model number already exists';
     END IF;
@@ -608,9 +548,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NEW.model !~ '^MON\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : MON##';
-    END IF;
     IF(EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
         RAISE EXCEPTION 'Provided model number already exists';
     END IF;
@@ -623,9 +560,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NEW.model !~ '^TAB\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : TAB##';
     END IF;
     IF(EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
         RAISE EXCEPTION 'Provided model number already exists';
@@ -641,21 +575,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64)  ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible.';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
-    END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
@@ -666,27 +585,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system. Try using an upper case letter as the first letter and lower case for the rest';
-    END IF;
-    IF(NEW.display NOT IN (7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13, 13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4)) THEN
-        RAISE EXCEPTION 'Provided Display value is impossible.';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64) ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible. Possible values: 2, 4, 8, 16 ';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM OS WHERE OS=NEW.os)) THEN
-        RAISE EXCEPTION 'Provided OS does not exist in the system.';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
-    END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
@@ -695,12 +593,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system';
-    END IF;
-    IF(NEW.size NOT IN (5,7,10,10.1,10.4,13.3,14,14.4,15,15.6,16,17,17.3,18.5,18.9,19,19.1,19.5,20,20.7,21,21.3,21.5,22,23,23.6,23.8,24,24.1,25,24.5,27,28,28.8,29,29.5,30,31,31.5,32) ) THEN
-        RAISE EXCEPTION 'Provided Size value is impossible.';
     END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -711,27 +603,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NEW.model !~ '^DES\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number does not exist';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64)  ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible.';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
     END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
@@ -744,33 +615,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NEW.model !~ '^LAP\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number does not exist';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system. Try using an upper case letter as the first letter and lower case for the rest';
-    END IF;
-    IF(NEW.display NOT IN (7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13, 13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4)) THEN
-        RAISE EXCEPTION 'Provided Display value is impossible.';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64) ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible. Possible values: 2, 4, 8, 16 ';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM OS WHERE OS=NEW.os)) THEN
-        RAISE EXCEPTION 'Provided OS does not exist in the system.';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
-    END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -782,33 +626,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NEW.model !~ '^TAB\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number does not exist';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system. Try using an upper case letter as the first letter and lower case for the rest';
-    END IF;
-    IF(NEW.display NOT IN (7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13, 13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4)) THEN
-        RAISE EXCEPTION 'Provided Display value is impossible.';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64) ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible. Possible values: 2, 4, 8, 16 ';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM OS WHERE OS=NEW.os)) THEN
-        RAISE EXCEPTION 'Provided OS does not exist in the system.';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
-    END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -819,18 +636,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NEW.model !~ '^MON\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number does not exist';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system';
-    END IF;
-    IF(NEW.size NOT IN (5,7,10,10.1,10.4,13.3,14,14.4,15,15.6,16,17,17.3,18.5,18.9,19,19.1,19.5,20,20.7,21,21.3,21.5,22,23,23.6,23.8,24,24.1,25,24.5,27,28,28.8,29,29.5,30,31,31.5,32) ) THEN
-        RAISE EXCEPTION 'Provided Size value is impossible.';
     END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
@@ -857,82 +662,6 @@ BEGIN
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
-
-/* ------------ setItemPrice() FUNCTION, SETS THE PRICE OF THE ITEMS ACCORDING TO THEIR SPECIFICATIONS */
-CREATE OR REPLACE FUNCTION setItemPrice() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^MON\d{1,7}$') THEN
-        NEW.price = (SELECT PRICE FROM MONITOR WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
-        RETURN NEW;
-    END IF;
-    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^LAP\d{1,7}$') THEN
-        NEW.price = (SELECT PRICE FROM LAPTOP WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
-        RETURN NEW;
-    END IF;
-    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^TAB\d{1,7}$') THEN
-        NEW.price = (SELECT PRICE FROM TABLET WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
-        RETURN NEW;
-    END IF;
-    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^DES\d{1,7}$') THEN
-        NEW.price = (SELECT PRICE FROM DESKTOP WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
-        RETURN NEW;
-     END IF;
-END $BODY$ LANGUAGE 'plpgsql';
-
-/* ------------ orderItemsCreate() FUNCTION, PUSHES THE ITEMS IN THE CART TO THE ORDERITEM TABLE, CALCULATES THE TOTAL PRICE OF AN ORDER AND EMPTIES THE CART  */
-CREATE OR REPLACE FUNCTION orderItemsCreate() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    ALTER SEQUENCE orderitem_order_item_id_seq RESTART WITH 1;
-    IF(EXISTS(SELECT * FROM CART)) THEN
-        LOOP
-            INSERT INTO ORDERITEM (order_id, serialNumber, price) VALUES (NEW.order_id , (SELECT SERIALNUMBER FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART)), (SELECT PRICE FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART)));
-            UPDATE ITEM SET isSold = TRUE WHERE serialNumber = (SELECT SERIALNUMBER FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART));
-            DELETE FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART);
-            EXIT WHEN (NOT EXISTS(SELECT * FROM CART));
-        END LOOP;
-    END IF;
-    ALTER SEQUENCE cart_cart_item_id_seq RESTART WITH 1;
-    UPDATE ORDERS SET TOTAL = (SELECT SUM(price) FROM ORDERITEM);
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-/* ------------ checkIsSold() FUNCTION -------------------- */
-CREATE OR REPLACE FUNCTION checkIsSold() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT ISSOLD FROM ITEM WHERE SERIALNUMBER = NEW.serialNumber) = true) THEN
-        RAISE EXCEPTION 'You cannot buy this item since it has already been sold';
-    END IF;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-/* ------------ returnHandle() FUNCTION, CHANGES THE ISSOLD AND ISRETURNED VALUES ACCORDINGLY */
-CREATE OR REPLACE FUNCTION returnHandle() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT ISRETURNED FROM ORDERITEM WHERE (ORDER_ITEM_ID = NEW.order_item_id) = TRUE)) THEN
-        RAISE EXCEPTION 'Cannot return this item since it has already been returned';
-    END IF;
-    UPDATE ORDERITEM SET ISRETURNED = TRUE WHERE (ORDER_ITEM_ID = NEW.order_item_id);
-    UPDATE ITEM SET ISSOLD= FALSE WHERE (SERIALNUMBER = (SELECT SERIALNUMBER FROM ORDERITEM WHERE ORDER_ITEM_ID = NEW.order_item_id)) ;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-
 /* ------------ updateSession() FUNCTION, UPDATES SESSION_ID WHEN USER SIGNS IN FROM DIFFERENT DEVICE */
 /*
 CREATE OR REPLACE FUNCTION updateSession() RETURNS TRIGGER AS
@@ -948,80 +677,6 @@ BEGIN
     RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 */
-
-/* ------------ cartAdminCheck() FUNCTION, CHECKS IF CLIENT ADDING TO CART IS A CUSTOMER AND NOT AN ADMIN */
-CREATE OR REPLACE FUNCTION cartAdminCheck() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT isAdmin FROM USERS WHERE ID = (SELECT USER_ID FROM ACTIVEUSERS WHERE SESSION_ID = NEW.session_id))) THEN
-       RAISE EXCEPTION 'An admin cannot put items on the cart!';
-       RETURN NULL;
-    END IF;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-
-/* ------------ maxNumberCart() FUNCTION, CHECKS IF THERE'S 7 ITEMS IN THE CART  */
-CREATE OR REPLACE FUNCTION maxNumberCart() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT COUNT(*) FROM CART) = 7) THEN
-        RAISE EXCEPTION 'Shopping Cart is full. You cannot add other items. Delete an item first.';
-        RETURN NULL;
-    END IF;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-
-/* ------------ resetCartSerial() FUNCTIONs --------------  */
-
-
-
-CREATE OR REPLACE FUNCTION resetCartSerial() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 1))) THEN
-        NEW.cart_item_id = 1;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 2))) THEN
-         NEW.cart_item_id = 2;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 3))) THEN
-        NEW.cart_item_id = 3;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 4))) THEN
-        NEW.cart_item_id = 4;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 5))) THEN
-        NEW.cart_item_id = 5;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 6))) THEN
-        NEW.cart_item_id = 6;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 7))) THEN
-        NEW.cart_item_id = 7;
-        RETURN NEW;
-    END IF;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-
-
 
 /* ------------ productDelete() FUNCTION, DELETES ALL PRODUCT SPECS AND ITEMS WITH THE PASSED PRODUCT MODEL */
 /* HIGHLY DANGEROUS FUNCTION, DELETES EVERYTHING RELATED TO THE MODEL */
@@ -1136,74 +791,12 @@ BEFORE UPDATE ON USERS
 FOR EACH ROW
 EXECUTE PROCEDURE adminCheckUpdate();
 
-/* ------------ setItemPrice() TRIGGERS ----------------- */
-/*
-CREATE TRIGGER setCartItemPrice
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE setItemPrice();
-*/
-/*
-CREATE TRIGGER setOrderItemPrice
-BEFORE INSERT ON ORDERITEM
-FOR EACH ROW
-EXECUTE PROCEDURE setItemPrice();
-*/
-
-/* ------------ orderItemsCreate() TRIGGER ----------------- */
-/*
-CREATE TRIGGER orderItemsCreate
-AFTER INSERT ON ORDERS
-FOR EACH ROW
-EXECUTE PROCEDURE orderItemsCreate();
-*/
-
-/* ------------ checkIsSold() TRIGGER ----------------- */
-/*
-CREATE TRIGGER checkIsSold
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE checkIsSold();
-*/
-
-/* ------------ returnHandle() TRIGGER ----------------- */
-/*
-CREATE TRIGGER returnHandle
-AFTER INSERT ON RETURNS
-FOR EACH ROW
-EXECUTE PROCEDURE returnHandle();
-*/
-
 /* ------------ updateSession() TRIGGER ----------------- */
 /*
 CREATE TRIGGER updateSession
 BEFORE INSERT ON ACTIVEUSERS
 FOR EACH ROW
 EXECUTE PROCEDURE updateSession();
-*/
-
-/* ------------ cartAdminCheck() TRIGGER ----------------- */
-/*
-CREATE TRIGGER cartAdminCheck
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE cartAdminCheck();
-*/
-
-/* ------------ maxNumberCart() TRIGGER ----------------- */
-/*
-CREATE TRIGGER maxNumberCart
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE maxNumberCart();
-*/
-
-/* ------------ resetCartSerial() TRIGGERS ----------------- */
-/*
-CREATE TRIGGER resetCartSerial
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE resetCartSerial();
 */
 
 /* ------------ productDelete() TRIGGER ----------------- */
