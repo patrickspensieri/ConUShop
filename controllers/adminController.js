@@ -1,4 +1,5 @@
 let UserMapper = require('../domain-layer/mappers/UserMapper');
+let {validationResult} = require('express-validator/check');
 
 module.exports = {
     dashboard: function(req, res) {
@@ -92,7 +93,7 @@ module.exports = {
         let size = req.body.size;
 
         let errors = validateForm(req);
-        
+        console.log(errors);
         if (errors) {
             req.flash('validationErrors', errors);
         } else {
@@ -222,7 +223,7 @@ function validateForm(req) {
                                                                          13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4]);
             break;
     }
-
-    let errors = req.validationErrors();
+    req.validationErrors();
+    let errors = validationResult(req).array({onlyFirstError: true});
     return errors;
-}
+};
