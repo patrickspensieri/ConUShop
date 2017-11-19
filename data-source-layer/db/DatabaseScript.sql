@@ -674,22 +674,22 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN OLD;
     END IF;
-    IF(OLD.model !~ ('^(LAP|DES|MON|TAB)\d{1,7}$')) THEN
+    IF(OLD.model !~ ('^(LAP|DES|MON|TAB)\w{3,7}$')) THEN
         RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##, TAB##, LAP## OR MON##';
     END IF;
     IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=OLD.model)) THEN
         RAISE EXCEPTION 'Provided model number does not exist';
     END IF;
-    IF(OLD.model ~ '^LAP\d{1,7}$' AND EXISTS(SELECT * FROM LAPTOP WHERE MODEL = OLD.model)) THEN
+    IF(OLD.model ~ '^LAP\w{3,7}$' AND EXISTS(SELECT * FROM LAPTOP WHERE MODEL = OLD.model)) THEN
         DELETE FROM LAPTOP WHERE MODEL = OLD.model;
     END IF;
-    IF(OLD.model ~ '^MON\d{1,7}$' AND EXISTS(SELECT * FROM MONITOR WHERE MODEL = OLD.model)) THEN
+    IF(OLD.model ~ '^MON\w{3,7}$' AND EXISTS(SELECT * FROM MONITOR WHERE MODEL = OLD.model)) THEN
         DELETE FROM MONITOR WHERE MODEL = OLD.model;
     END IF;
-    IF(OLD.model ~ '^TAB\d{1,7}$' AND EXISTS(SELECT * FROM TABLET WHERE MODEL = OLD.model)) THEN
+    IF(OLD.model ~ '^TAB\w{3,7}$' AND EXISTS(SELECT * FROM TABLET WHERE MODEL = OLD.model)) THEN
         DELETE FROM TABLET WHERE MODEL = OLD.model;
     END IF;
-    IF(OLD.model ~ '^DES\d{1,7}$' AND EXISTS(SELECT * FROM DESKTOP WHERE MODEL = OLD.model)) THEN
+    IF(OLD.model ~ '^DES\w{3,7}$' AND EXISTS(SELECT * FROM DESKTOP WHERE MODEL = OLD.model)) THEN
         DELETE FROM DESKTOP WHERE MODEL = OLD.model;
     END IF;
     /*
