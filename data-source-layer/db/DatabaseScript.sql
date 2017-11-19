@@ -191,7 +191,7 @@ INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP11'),  'Len
 /* ------------------------------------------ ITEM TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE Item(
-    SerialNumber VARCHAR(10) PRIMARY KEY NOT NULL,
+    SerialNumber VARCHAR(16) PRIMARY KEY NOT NULL,
     Model VARCHAR(10) REFERENCES PRODUCT(MODEL) NOT NULL,
     isSold BOOLEAN DEFAULT FALSE,
     isLocked BOOLEAN DEFAULT FALSE
@@ -508,7 +508,7 @@ CREATE TABLE ORDERS (
 CREATE TABLE ORDERITEM (
     order_item_id VARCHAR(60) NOT NULL UNIQUE,
     order_id BIGINT REFERENCES ORDERS(order_id) NOT NULL,
-    serialNumber VARCHAR(10) NOT NULL,
+    serialNumber VARCHAR(16) NOT NULL,
     price DECIMAL NOT NULL,
     isReturned BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (order_item_id)
