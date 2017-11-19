@@ -77,7 +77,7 @@ module.exports = {
         if (!modelError) {
             req.checkBody('modelNumber', 'Model Number should not be empty').notEmpty();
             req.checkBody('serialNumber', 'Serial Number should not be empty').notEmpty();
-            req.checkBody('serialNumber', 'Serial Number must be alphanumeric').isAlphanumeric().not().isInt();
+            req.checkBody('serialNumber', 'Serial Number must be alphanumeric (8 to 16 characters)').matches(/^(\w{8,16})$/);
     
             req.validationErrors();
             let errors = validationResult(req).array({onlyFirstError: true});
