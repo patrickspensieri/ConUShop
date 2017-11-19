@@ -3,6 +3,7 @@ let DesktopMapper = require('../domain-layer/mappers/DesktopMapper');
 let LaptopMapper = require('../domain-layer/mappers/LaptopMapper');
 let MonitorMapper = require('../domain-layer/mappers/MonitorMapper');
 let TabletMapper = require('../domain-layer/mappers/TabletMapper');
+let ItemMapper = require('../domain-layer/mappers/ItemMapper');
 let {validationResult} = require('express-validator/check');
 
 module.exports = {
@@ -65,16 +66,28 @@ module.exports = {
     },
 
     addItem: function(req, res) {
-        req.checkBody('modelNumber', 'Model Number should not be empty').notEmpty();
-        req.checkBody('serialNumber', 'Serial Number should not be empty').notEmpty();
-
-        req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
-
-        let errors = req.validationErrors();
-        if (errors) {
-            req.flash('validationErrors', errors);
+        let modelError = false;
+        ItemMapper.find(req.body.serialNumber, function(err, result) {
+            if (result != null) {
+                req.flash('validationErrors', {msg: 'Serial Number ' + req.body.serialNumber + ' already exists!'});
+                modelError = true;
+            }
+        });
+        
+        if (!modelError) {
+            req.checkBody('modelNumber', 'Model Number should not be empty').notEmpty();
+            req.checkBody('serialNumber', 'Serial Number should not be empty').notEmpty();
+            req.checkBody('serialNumber', 'Serial Number must be alphanumeric').isAlphanumeric().not().isInt();
+    
+            req.validationErrors();
+            let errors = validationResult(req).array({onlyFirstError: true});
+    
+            if (errors.length > 0) {
+                req.flash('validationErrors', errors);
+            } else {
+                req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
+            }
         }
-
         res.redirect(req.get('referer'));
     },
 
