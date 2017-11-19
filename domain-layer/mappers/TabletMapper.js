@@ -24,10 +24,11 @@ class TabletMapper extends AbstractMapper {
    * @param {string} dimensions dimensions of tablet.
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet
+   * @param {number} version version of tablet
    * @return {tablet} tablet object.
    */
-    static create(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
-        let tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+    static create(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version) {
+        let tablet = new Tablet(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version);
         return tablet;
     }
 
@@ -54,7 +55,7 @@ class TabletMapper extends AbstractMapper {
                         let tablet = new Tablet(value.model, value.brand, value.display, value.processor,
                             value.ram, value.storage, value.cores, value.os,
                             value.battery, value.camera, value.dimensions,
-                            value.weight, value.price);
+                            value.weight, value.price, value.version);
                         idMap.add(tablet, tablet.model);
                         return callback(null, tablet);
                     }
@@ -114,7 +115,7 @@ class TabletMapper extends AbstractMapper {
         TabletTDG.update(tabletObject.model, tabletObject.brand, tabletObject.display, tabletObject.processor,
             tabletObject.ram, tabletObject.storage, tabletObject.cores, tabletObject.os,
             tabletObject.battery, tabletObject.camera, tabletObject.dimensions,
-            tabletObject.weight, tabletObject.price, function(err, result) {
+            tabletObject.weight, tabletObject.price, tabletObject.version, function(err, result) {
                 if (!err) {
                     idMap.update(tabletObject, tabletObject.model);
                 }
@@ -142,10 +143,10 @@ class TabletMapper extends AbstractMapper {
         TabletTDG.getTablet(function(err, result) {
             let tablet = [];
             if (err) {
-                console.log('Error during item findAll query', null);
+                console.log('Error during getTablet query', null);
             } else {
                 for (let value of result) {
-                    tablet.push(new Tablet(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.dimensions, value.weight, value.price));
+                    tablet.push(new Tablet(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.dimensions, value.weight, value.price, value.version));
                 }
                 return callback(null, tablet);
             }

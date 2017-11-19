@@ -37,6 +37,22 @@ class LaptopTDG {
         });
     }
 
+    /**
+     * Finds laptop version from the laptop table.
+     * @static
+     * @param {string} modelNumber model number of laptop to be found.
+     * @param {function} callback function that holds laptop object.
+     */
+    static findVersion(modelNumber, callback) {
+        db.query('SELECT version FROM laptop WHERE model=$1', [modelNumber], (err, result) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                return callback(null, result.rows);
+            }
+        });
+    }
+
   /**
    * Inserts an object into the laptop table.
    * @static
@@ -88,9 +104,9 @@ class LaptopTDG {
    * @param {number} price price of laptop
    * @param {function} callback function
    */
-    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, callback) {
-        let queryString = 'UPDATE laptop SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, touch=$11, dimensions=$12, weight=$13, price=$14 WHERE model=$1';
-        let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price];
+    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, version, callback) {
+        let queryString = 'UPDATE laptop SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, touch=$11, dimensions=$12, weight=$13, price=$14, version=$15 WHERE model=$1';
+        let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, version];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
@@ -121,7 +137,7 @@ class LaptopTDG {
     * @param {function} callback 
     */
     static getLaptop(callback) {
-        db.query('SELECT DISTINCT d.model, d.brand, d.display, d.processor, d.ram, d.storage, d.cores, d.os, d.battery, d.camera, d.touch, d.dimensions, d.weight, d.price FROM laptop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
+        db.query('SELECT DISTINCT d.model, d.brand, d.display, d.processor, d.ram, d.storage, d.cores, d.os, d.battery, d.camera, d.touch, d.dimensions, d.weight, d.price, d.version FROM laptop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {
                 console.log(err.message);
             } else {

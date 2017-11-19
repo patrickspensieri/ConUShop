@@ -126,7 +126,7 @@ class DesktopMapper extends AbstractMapper {
         DesktopTDG.getDesktop(function(err, result) {
             let desktop = [];
             if (err) {
-                console.log('Error during item findAll query', null);
+                console.log('Error during getDesktop query', null);
             } else {
                 for (let value of result) {
                     desktop.push(new Desktop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price, value.version));

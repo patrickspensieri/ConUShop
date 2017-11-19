@@ -25,10 +25,11 @@ class LaptopMapper extends AbstractMapper {
    * @param {string} dimensions dimensions of laptop.
    * @param {number} weight weight of laptop.
    * @param {number} price price of laptop
+   * @param {number} version version of tablet
    * @return {laptop} laptop object.
    */
-    static create(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
-        let laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
+    static create(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, version) {
+        let laptop = new Laptop(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, version);
         return laptop;
     }
 
@@ -55,7 +56,7 @@ class LaptopMapper extends AbstractMapper {
                         let laptop = new Laptop(value.model, value.brand, value.display, value.processor,
                             value.ram, value.storage, value.cores, value.os,
                             value.battery, value.camera, value.touch, value.dimensions,
-                            value.weight, value.price);
+                            value.weight, value.price, value.version);
                         idMap.add(laptop, laptop.model);
                         return callback(null, laptop);
                     }
@@ -79,7 +80,7 @@ class LaptopMapper extends AbstractMapper {
                     let laptop = new Laptop(value.model, value.brand, value.display, value.processor,
                         value.ram, value.storage, value.cores, value.os,
                         value.battery, value.camera, value.touch, value.dimensions,
-                        value.weight, value.price);
+                        value.weight, value.price, value.version);
                     laptops.push(laptop);
                     if (idMap.get('Laptop', laptop.model) == null) {
                         idMap.add(laptop, laptop.model);
@@ -115,7 +116,7 @@ class LaptopMapper extends AbstractMapper {
         LaptopTDG.update(laptopObject.model, laptopObject.brand, laptopObject.display, laptopObject.processor,
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
-            laptopObject.weight, laptopObject.price, function(err, result) {
+            laptopObject.weight, laptopObject.price, laptopObject.version, function(err, result) {
                 if (!err) {
                     idMap.update(laptopObject, laptopObject.model);
                 }
@@ -143,10 +144,10 @@ class LaptopMapper extends AbstractMapper {
         LaptopTDG.getLaptop(function(err, result) {
             let laptop = [];
             if (err) {
-                console.log('Error during item findAll query', null);
+                console.log('Error during getLaptop query', null);
             } else {
                 for (let value of result) {
-                    laptop.push(new Laptop(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.touch, value.dimensions, value.weight, value.price));
+                    laptop.push(new Laptop(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.touch, value.dimensions, value.weight, value.price, value.version));
                 }
                 return callback(null, laptop);
             }

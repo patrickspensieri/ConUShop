@@ -191,17 +191,17 @@ let getAttributesHelper = function (value, className) {
             return [value.model, value.brand, value.display, value.processor,
                 value.ram, value.storage, value.cores, value.os,
                 value.battery, value.camera, value.touch, value.dimensions,
-                value.weight, value.price];
+                value.weight, value.price, value.version];
             break;
         case 'Monitor':
             return [value.model, value.brand, value.size,
-                value.weight, value.price];
+                value.weight, value.price, value.version];
             break;
         case 'Tablet':
             return [value.model, value.brand, value.display, value.processor,
                 value.ram, value.storage, value.cores, value.os,
                 value.battery, value.camera, value.dimensions,
-                value.weight, value.price];
+                value.weight, value.price, value.version];
             break;
         case 'User':
             return [value.firstname, value.lastname, value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id];
@@ -229,17 +229,17 @@ let getObjectAttributesHelper = function (value, className) {
             return [value.model, value.brand, value.display, value.processor,
                 value.ram, value.storage, value.cores, value.os,
                 value.battery, value.camera, value.touch, value.dimensions,
-                value.weight, value.price];
+                value.weight, value.price, value.version];
             break;
         case 'Monitor':
             return [value.model, value.brand, value.size,
-                value.weight, value.price];
+                value.weight, value.price, value.version];
             break;
         case 'Tablet':
             return [value.model, value.brand, value.display, value.processor,
                 value.ram, value.storage, value.cores, value.os,
                 value.battery, value.camera, value.dimensions,
-                value.weight, value.price];
+                value.weight, value.price, value.version];
             break;
         case 'User':
             return [value.firstname,

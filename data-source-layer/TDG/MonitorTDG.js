@@ -37,7 +37,24 @@ class MonitorTDG {
         });
     }
 
-  /**
+    /**
+     * Finds monitor version from the monitor table.
+     * @static
+     * @param {string} modelNumber model number of monitor to be found.
+     * @param {function} callback function that holds monitor object.
+     */
+    static findVersion(modelNumber, callback) {
+        db.query('SELECT version FROM monitor WHERE model=$1', [modelNumber], (err, result) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                return callback(null, result.rows);
+            }
+        });
+    }
+
+
+    /**
    * Inserts an object into the monitor table.
    * @static
    * @param {string} model model number of monitor.
@@ -67,11 +84,12 @@ class MonitorTDG {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
+   * @param {number} version version of monitor.
    * @param {function} callback
    */
-    static update(model, brand, size, weight, price, callback) {
-        let queryString = 'UPDATE monitor SET brand=$2, size=$3, weight=$4, price=$5 WHERE model=$1';
-        let queryValues = [model, brand, size, weight, price];
+    static update(model, brand, size, weight, price, version, callback) {
+        let queryString = 'UPDATE monitor SET brand=$2, size=$3, weight=$4, price=$5, version=$6 WHERE model=$1';
+        let queryValues = [model, brand, size, weight, price, version];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
@@ -102,7 +120,7 @@ class MonitorTDG {
      * @param {function} callback 
      */
     static getMonitor(callback) {
-        db.query('SELECT DISTINCT d.model, d.brand, d.size, d.weight, d.price FROM monitor d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
+        db.query('SELECT DISTINCT d.model, d.brand, d.size, d.weight, d.price, d.version FROM monitor d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {
                 console.log(err.message);
             } else {

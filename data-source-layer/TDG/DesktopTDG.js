@@ -22,23 +22,6 @@ class DesktopTDG {
         });
     }
 
-    /**
-     * Finds one object from the desktop table.
-     * @static
-     * @param {string} modelNumber model number of desktop to be found.
-     * @param {function} callback function that holds desktop object.
-     */
-    static findVersion(modelNumber, callback) {
-        db.query('SELECT version FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
-            if (err) {
-                console.log(err.message);
-            } else {
-                return callback(null, result.rows);
-            }
-        });
-    }
-
-
   /**
    * Finds all objects from the desktop table.
    * @static
@@ -54,7 +37,21 @@ class DesktopTDG {
         });
     }
 
-
+    /**
+     * Finds desktop version from the desktop table.
+     * @static
+     * @param {string} modelNumber model number of desktop to be found.
+     * @param {function} callback function that holds desktop object.
+     */
+    static findVersion(modelNumber, callback) {
+        db.query('SELECT version FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                return callback(null, result.rows);
+            }
+        });
+    }
 
   /**
    * Inserts an object into the desktop table.
@@ -133,7 +130,7 @@ class DesktopTDG {
      * @param {function} callback function
      */
     static getDesktop(callback){
-        db.query('SELECT DISTINCT d.model, d.brand, d.processor, d.ram, d.storage, d.cores, d.dimensions, d.weight, d.price FROM desktop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
+        db.query('SELECT DISTINCT d.model, d.brand, d.processor, d.ram, d.storage, d.cores, d.dimensions, d.weight, d.price, d.version FROM desktop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {
                 console.log(err.message);
             } else {
