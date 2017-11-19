@@ -22,9 +22,10 @@ class PortableComputer extends Computer {
    * @param {string} dimensions dimensions of portable computer.
    * @param {number} weight weight of portable computer.
    * @param {number} price price of portable computer
+   * @param {number} version version of portable computer
    */
-    constructor(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
-        super(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+    constructor(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version) {
+        super(model, brand, processor, ram, storage, cores, dimensions, weight, price, version);
         this.display = display;
         this.os = os;
         this.battery = battery;

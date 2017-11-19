@@ -22,9 +22,10 @@ class Tablet extends PortableComputer {
    * @param {string} dimensions dimensions of tablet.
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet
+   * @param {number} version version of tablet
    */
-    constructor(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
-        super(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+    constructor(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version) {
+        super(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version);
     }
 }
 
