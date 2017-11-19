@@ -1,4 +1,8 @@
 let UserMapper = require('../domain-layer/mappers/UserMapper');
+let DesktopMapper = require('../domain-layer/mappers/DesktopMapper');
+let LaptopMapper = require('../domain-layer/mappers/LaptopMapper');
+let MonitorMapper = require('../domain-layer/mappers/MonitorMapper');
+let TabletMapper = require('../domain-layer/mappers/TabletMapper');
 let {validationResult} = require('express-validator/check');
 
 module.exports = {
@@ -92,14 +96,53 @@ module.exports = {
         let touch = req.body.touch;
         let size = req.body.size;
 
-        let errors = validateForm(req);
-
-        if (errors) {
-            req.flash('validationErrors', errors);
-        } else {
-            req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
-                weight, price, display, os, battery, camera, touch, size);
+        let modelError = false;
+        switch (prodType) {
+            case 'Desktop':
+                DesktopMapper.find(model, function(err, result) {
+                    if (result != null) {
+                        req.flash('validationErrors', {msg: 'Desktop model ' + model + ' already exists!'});
+                        modelError = true;
+                    }
+                });
+                break;
+            case 'Laptop':
+                LaptopMapper.find(model, function(err, result) {
+                    if (result != null) {
+                        req.flash('validationErrors', {msg: 'Laptop model ' + model + ' already exists!'});
+                        modelError = true;
+                    }
+                });
+                break;
+            case 'Monitor':
+                MonitorMapper.find(model, function(err, result) {
+                    if (result != null) {
+                        req.flash('validationErrors', {msg: 'Monitor model ' + model + ' already exists!'});
+                        modelError = true;
+                    }
+                });
+                break;
+            case 'Tablet':
+                TabletMapper.find(model, function(err, result) {
+                    if (result != null) {
+                        req.flash('validationErrors', {msg: 'Tablet model ' + model + ' already exists!'});
+                        modelError = true;
+                    }
+                });
+                break;
         }
+
+        if (!modelError) {
+            let errors = validateForm(req);
+
+            if (errors.length > 0) {
+                req.flash('validationErrors', errors);
+            } else {
+                req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+                    weight, price, display, os, battery, camera, touch, size);
+            }
+        }
+
         res.redirect(req.get('referer'));
     },
 
@@ -112,7 +155,7 @@ module.exports = {
 
     updateProdSpec: function(req, res) {
         let errors = validateForm(req);
-        
+
         if (errors) {
             req.flash('validationErrors', errors);
         } else {
@@ -154,10 +197,13 @@ module.exports = {
 function validateForm(req) {
     let prodType = req.body.prodType;
 
+    // Model
     req.checkBody('model', 'Model can not be empty').notEmpty();
+    req.checkBody('model', 'Model must be alphanumeric').isAlphanumeric().not().isInt();
 
     // Brand
     req.checkBody('brand', 'Brand can not be empty').notEmpty();
+    req.checkBody('brand', 'Brand must only contain letters').isAlpha();
 
     // Weight
     req.checkBody('weight', 'Weight can not be empty').notEmpty();
@@ -170,6 +216,7 @@ function validateForm(req) {
     if (prodType == 'Desktop' || prodType == 'Laptop' || prodType == 'Tablet') {
         // Processor
         req.checkBody('processor', 'Processor can not be empty').notEmpty();
+        req.checkBody('processor', 'Processor must be alphanumeric').isAlphanumeric().not().isInt();
 
         // Ram
         req.checkBody('ram', 'Ram can not be empty').notEmpty();
@@ -177,9 +224,8 @@ function validateForm(req) {
 
         // Storage
         req.checkBody('storage', 'Storage can not be empty').notEmpty();
-        req.checkBody('storage', 'Storage value is impossible').isInt({min: 0}).isDivisibleBy(8).isDivisibleBy(10).
-                        isIn([8, 16, 32, 60, 64, 80, 100, 120, 128, 160, 240, 250, 256, 500, 480, 512, 1000, 1500, 2000, 3000]);
-        
+        req.checkBody('storage', 'Storage value is impossible').isInt({min: 8}).isDivisibleBy(2);
+
         // Cores
         req.checkBody('cores', 'Cores can not be empty').notEmpty();
         req.checkBody('cores', 'Cores value is impossible').isInt({min: 0}).isDivisibleBy(2).isIn([2, 4, 6, 8, 10, 12, 16]);
@@ -194,7 +240,11 @@ function validateForm(req) {
         req.checkBody('display', 'Display can not be empty').notEmpty();
         req.checkBody('display', 'Display Size is impossible').isInt({min: 0}).isIn([7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13,
                                                                     13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4]);
+
+
+        // Operating system
         req.checkBody('os', 'OS can not be empty').notEmpty();
+        req.checkBody('os', 'OS must be alphanumeric').isAlphanumeric().not().isInt();
 
         // Battery
         req.checkBody('battery', 'Battery can not be empty').notEmpty();
@@ -222,7 +272,7 @@ function validateForm(req) {
         case 'Monitor':
             // Model Number
             req.checkBody('model', 'Provided model number format is not supported. Format must be : MON##').matches(/^MON\d{1,7}$/);
-            
+
             // Size
             req.checkBody('size', 'Size can not be empty').notEmpty();
             req.checkBody('size', 'Size is impossible').isInt({min: 0}).isIn([5, 7, 10, 10.1, 10.4, 13.3, 14, 14.4, 15, 15.6, 16, 17, 17.3, 18.5, 18.9, 19,
