@@ -216,20 +216,20 @@ function validateForm(req) {
 
     // Brand
     req.checkBody('brand', 'Brand can not be empty').notEmpty();
-    req.checkBody('brand', 'Brand must only contain letters').matches(/^(\D+)?/);
+    req.checkBody('brand', 'Brand must only contain letters').matches(/^(\D+)$/);
 
     // Weight
     req.checkBody('weight', 'Weight can not be empty').notEmpty();
-    req.checkBody('weight', 'Weight value must be a positive number').matches(/^(?=.*[1-9])(\s*\d+(\.\d{2})*\s*)?/);
+    req.checkBody('weight', 'Weight value must be a positive number (2 decimal points)').matches(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/);
 
     // Price
     req.checkBody('price', 'Price can not be empty').notEmpty();
-    req.checkBody('price', 'Price value must be a positive number').matches(/^(?=.*[1-9])(\s*\d+(\.\d{2})*\s*)?/);
+    req.checkBody('price', 'Price value must be a positive number (2 decimal points)').matches(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/);
 
     if (prodType == 'Desktop' || prodType == 'Laptop' || prodType == 'Tablet') {
         // Processor
         req.checkBody('processor', 'Processor can not be empty').notEmpty();
-        req.checkBody('processor', 'Processor must be alphanumeric').matches(/^(\D+(\w*\s*)+)?/);
+        req.checkBody('processor', 'Processor must be alphanumeric').matches(/^(\D+(\w*\s*)+)$/);
 
         // Ram
         req.checkBody('ram', 'Ram can not be empty').notEmpty();
@@ -257,7 +257,7 @@ function validateForm(req) {
 
         // Operating system
         req.checkBody('os', 'OS can not be empty').notEmpty();
-        req.checkBody('os', 'OS must be alphanumeric').matches(/^(\D+(\w*\s*)+)?/);
+        req.checkBody('os', 'OS must be alphanumeric').matches(/^(\D+(\w*\s*)+)$/);
 
         // Battery
         req.checkBody('battery', 'Battery can not be empty').notEmpty();
