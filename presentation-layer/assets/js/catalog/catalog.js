@@ -38,7 +38,6 @@ let updateList = function() {
     let touch = $('.touchSelect').val();
     let camera = $('.cameraSelect').val();
 
-    console.log(!processor);
     // filter the appropriate list
     getList().filter(function(item) {
         return (_(brand).contains(item.values().brand) || !brand)
@@ -82,7 +81,6 @@ $(function() {
         allStorage.push(item.values().storage);
         allTouch.push(item.values().touch);
         allCamera.push(item.values().camera);
-
     });
     // remove any duplicates from all select properties
     allOS = _(allOS).uniq();

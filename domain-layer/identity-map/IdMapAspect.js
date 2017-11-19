@@ -5,11 +5,15 @@ let MonitorMapper = require('../mappers/MonitorMapper');
 let TabletMapper = require('../mappers/TabletMapper');
 let ItemMapper = require('../mappers/ItemMapper');
 let UserMapper = require('../mappers/UserMapper');
+let OrderMapper = require('../mappers/OrderItemMapper');
+let OrderItemMapper = require('../mappers/OrderItemMapper');
 let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
 let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
 let LaptopTDG = require('../../data-source-layer/TDG/LaptopTDG');
 let MonitorTDG = require('../../data-source-layer/TDG/MonitorTDG');
 let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
+let OrderTDG = require('../../data-source-layer/TDG/OrderTDG');
+let OrderItemTDG = require('../../data-source-layer/TDG/OrderItemTDG');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
 
 
@@ -142,7 +146,7 @@ function updateAdvice(methodCall) {
  * @return {string} Class name
  */
 let getClassNameHelper = function(targetName) {
-    let classNames = ['Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item'];
+    let classNames = ['Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item', 'Order', 'OrderItem'];
     for (name of classNames) {
         if (targetName.includes(name)) {
             return name;
@@ -182,8 +186,16 @@ let getAttributesHelper = function(value, className) {
             return [value.firstname,
                 value.lastname, value.address, value.email, value.phone, value.password, value.isadmin, value.sessionid, value.id];
             break;
-        case 'Item':
+        case 'Item': /* Item object attributes different than database result*/
             return [value.serialnumber, value.model, value.islocked];
+            break;
+        case 'Order': /* Item object attributes different than database result*/
+            return [value.order_id, value.user_id, value.orderdate,
+                value.total, value.shoppingCart];
+            break;
+        case 'OrderItem': /* Item object attributes different than database result*/
+            return [value.order_item_id, value.order_id, value.serialnumber, value.price,
+                value.isreturned];
             break;
         }
 };
@@ -223,6 +235,14 @@ let getObjectAttributesHelper = function(value, className) {
         case 'Item': /* Item object attributes different than database result*/
             return [value.serialNumber, value.modelNumber, value.isLocked];
             break;
+        case 'Order': /* Item object attributes different than database result*/
+            return [value.orderId, value.userId, value.orderDate,
+                value.total, value.shoppingCart];
+            break;
+        case 'OrderItem': /* Item object attributes different than database result*/
+            return [value.orderItemId, value.orderId, value.serialNumber, value.price,
+                value.isReturned];
+            break;
         }
 };
 
@@ -251,6 +271,12 @@ let getTDGHelper = function(className) {
         case 'User':
             return UserTDG;
             break;
+        case 'Order':
+            return OrderTDG;
+            break;
+        case 'OrderItem':
+            return OrderItemTDG;
+            break;
     }
 };
 
@@ -278,6 +304,12 @@ let getMapperHelper = function(className) {
             break;
         case 'User':
             return UserMapper;
+            break;
+        case 'Order':
+            return OrderMapper;
+            break;
+        case 'OrderItem':
+            return OrderItemMapper;
             break;
     }
 };

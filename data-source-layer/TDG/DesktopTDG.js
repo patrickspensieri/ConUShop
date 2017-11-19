@@ -104,22 +104,6 @@ class DesktopTDG {
           return callback(err, result);
       });
     }
-
-    /**
-     * Get all desktop objects
-     * @static
-     * @param {function} callback function
-     */
-    static getDesktop(callback) {
-        db.query('SELECT DISTINCT d.model, d.brand, d.processor, d.ram, d.storage, d.cores, d.dimensions, d.weight, d.price FROM desktop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
-            if (err) {
-                console.log(err.message);
-            } else {
-                console.log('Desktop success');
-                return callback(null, result.rows);
-            }
-        });
-    }
 }
 
 module.exports = DesktopTDG;
