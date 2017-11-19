@@ -36,7 +36,6 @@ class TabletMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of tablet to be found.
    * @param {function} callback function that holds Tablet object.
-   * @return {function} callback object
    */
     static find(modelNumber, callback) {
             TabletTDG.find(modelNumber, function(err, result) {
@@ -121,24 +120,6 @@ class TabletMapper extends AbstractMapper {
         TabletTDG.delete(tabletObject.model, function(err, result) {
             if (err) {
                     console.log(err);
-            }
-        });
-    }
-
-    /**
-     * Retuns a tablet object
-     * @param {function} callback 
-     */
-    static getTablet(callback) {
-        TabletTDG.getTablet(function(err, result) {
-            let tablet = [];
-            if (err) {
-                console.log('Error during item findAll query', null);
-            } else {
-                for (let value of result) {
-                    tablet.push(new Tablet(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.dimensions, value.weight, value.price));
-                }
-                return callback(null, tablet);
             }
         });
     }

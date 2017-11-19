@@ -28,7 +28,6 @@ class MonitorMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of monitor to be found.
    * @param {function} callback function that holds monitor object
-   * @return {function} callback object
    */
     static find(modelNumber, callback) {
             MonitorTDG.find(modelNumber, function(err, result) {
@@ -106,24 +105,6 @@ class MonitorMapper extends AbstractMapper {
         MonitorTDG.delete(monitorObject.model, function(err, result) {
             if (err) {
                 console.log(err);
-            }
-        });
-    }
-
-    /**
-     * Returns a monitor object
-     * @param {function} callback 
-     */
-    static getMonitor(callback) {
-        MonitorTDG.getMonitor(function(err, result) {
-            let monitor = [];
-            if (err) {
-                console.log('Error during item findAll query', null);
-            } else {
-                for (let value of result) {
-                    monitor.push(new Monitor(value.model, value.brand, value.size, value.weight, value.price));
-                }
-                return callback(null, monitor);
             }
         });
     }

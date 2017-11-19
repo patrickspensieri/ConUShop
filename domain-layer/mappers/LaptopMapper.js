@@ -37,7 +37,6 @@ class LaptopMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of laptop to be found.
    * @param {function} callback function that holds laptop object
-   * @return {function} callback result
    */
     static find(modelNumber, callback) {
             LaptopTDG.find(modelNumber, function(err, result) {
@@ -122,24 +121,6 @@ class LaptopMapper extends AbstractMapper {
         LaptopTDG.delete(laptopObject.model, function(err, result) {
             if (err) {
                console.log(err);
-            }
-        });
-    }
-
-    /**
-     * Returns a laptop object
-     * @param {function} callback 
-     */
-    static getLaptop(callback) {
-        LaptopTDG.getLaptop(function(err, result) {
-            let laptop = [];
-            if (err) {
-                console.log('Error during item findAll query', null);
-            } else {
-                for (let value of result) {
-                    laptop.push(new Laptop(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.touch, value.dimensions, value.weight, value.price));
-                }
-                return callback(null, laptop);
             }
         });
     }

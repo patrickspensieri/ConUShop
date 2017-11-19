@@ -35,7 +35,7 @@ class DesktopMapper extends AbstractMapper {
    */
     static find(modelNumber, callback) {
             DesktopTDG.find(modelNumber, function(err, result) {
-                if(err){
+                if (err) {
                     console.log('Error during desktop find query', null);
                 } else {
                     let value = result[0];
@@ -112,25 +112,6 @@ class DesktopMapper extends AbstractMapper {
         DesktopTDG.delete(desktopObject.model, function(err, result) {
             if (err) {
                 console.log(err);
-            }
-        });
-    }
-
-    /**
-     * Get all desktop objects
-     * @static
-     * @param {function} callback
-     */
-    static getDesktop(callback) {
-        DesktopTDG.getDesktop(function(err, result) {
-            let desktop = [];
-            if (err) {
-                console.log('Error during item findAll query', null);
-            } else {
-                for (let value of result) {
-                    desktop.push(new Desktop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
-                }
-                return callback(null, desktop);
             }
         });
     }

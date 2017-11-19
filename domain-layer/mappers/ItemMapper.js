@@ -26,7 +26,6 @@ class ItemMapper extends AbstractMapper {
      * @static
      * @param {string} serialNumber serial number of item to be found.
      * @param {function} callback function that returns item object.
-     * @return {function} callback result
      */
     static find(serialNumber, callback) {
             ItemTDG.find(serialNumber, function(err, result) {
@@ -105,8 +104,8 @@ class ItemMapper extends AbstractMapper {
 
     /**
      *  Gets item from model
-     * @param {*} modelNumber 
-     * @param {*} callback 
+     * @param {*} modelNumber
+     * @param {*} callback
      */
     static getItemFromModel(modelNumber, callback) {
         ItemTDG.getItemFromModel(modelNumber, function(err, result) {
@@ -131,8 +130,8 @@ class ItemMapper extends AbstractMapper {
 
     /**
      * Unlocks an item
-     * @param {Object} object 
-     * @param {*} callback 
+     * @param {Object} object
+     * @param {*} callback
      * @return {*} callback
      */
     static unlockItem(object, callback) {
@@ -144,7 +143,7 @@ class ItemMapper extends AbstractMapper {
 
     /**
      * Locks an item
-     * @param {Object} object 
+     * @param {Object} object
      * @param {*} callback
      * @return {*} callback
      */
