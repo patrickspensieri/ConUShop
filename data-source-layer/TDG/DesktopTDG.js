@@ -33,10 +33,11 @@ class DesktopTDG {
             if (err) {
                 console.log(err.message);
             } else {
-                return callback(null, result.rows[0].version);
+                return callback(null, result.rows);
             }
         });
     }
+
 
   /**
    * Finds all objects from the desktop table.

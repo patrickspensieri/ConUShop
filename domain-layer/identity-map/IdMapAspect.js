@@ -127,26 +127,38 @@ function deleteAdvice(methodCall) {
 function updateAdvice(methodCall) {
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
+    let classMapper = getMapperHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
     let idMapVersion = idMap.get(className, id).version;
     let attributeArr = [...getObjectAttributesHelper(object, className)];
-    let dbVersion = null;
     attributeArr[attributeArr.length - 1] = idMapVersion;
-    // console.log(object);
-    // console.log(className);
-    // console.log(idMapVersion);
-    console.log(attributeArr);
 
-
-    console.log(dbVersion);
-    classTDG.update(...attributeArr, function (err, result) {
+    classTDG.findVersion(id, function (err, result) {
         if (!err) {
-            idMap.update(object, id);
+            let dbVersion = result[0].version;
+            if (idMapVersion === dbVersion) {
+                attributeArr[attributeArr.length - 1] = idMapVersion + 1;
+                classTDG.update(...attributeArr, function (err, result) {
+                    if (!err) {
+                        object.version = idMapVersion + 1;
+                        idMap.update(object, id);
+                    }
+                });
+                console.log("Update Successful")
+            } else {
+                classTDG.find(id, function(err,result){
+                    let value = result[0];
+                    if (!err) {
+                        let object = classMapper.create(...getAttributesHelper(value, className));
+                        idMap.update(object, id);
+                    }
+
+                });
+                console.log("Error during update, desktop is not current ")
+            }
         }
     });
-
-
 }
 
 /**
