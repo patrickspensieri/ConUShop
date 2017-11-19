@@ -99,16 +99,16 @@ class ProductCatalog {
                 case 'Laptop':
                     this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                         touch, dimensions, weight, price);
-                    laptopMapper.makeUpdate(this.laptop);
+                    laptopMapper.update(this.laptop);
                     break;
                 case 'Monitor':
                     this.monitor = monitorMapper.create(model, brand, size, weight, price);
-                    monitorMapper.makeUpdate(this.monitor);
+                    monitorMapper.update(this.monitor);
                     break;
                 case 'Tablet':
                     this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                         dimensions, weight, price);
-                    tabletMapper.makeUpdate(this.tablet);
+                    tabletMapper.update(this.tablet);
                     break;
             }
         } else {

@@ -135,13 +135,10 @@ function updateAdvice(methodCall) {
     attributeArr[attributeArr.length - 1] = idMapVersion;
 
     classTDG.findVersion(id, function (err, result) {
-        console.log(object);
         if (!err) {
             let dbVersion = result[0].version;
             if (idMapVersion === dbVersion) {
                 attributeArr[attributeArr.length - 1] = idMapVersion + 1;
-                console.log(dbVersion);
-                console.log(attributeArr);
                 classTDG.update(...attributeArr, function (err, result) {
                     if (!err) {
                         object.version = idMapVersion + 1;
