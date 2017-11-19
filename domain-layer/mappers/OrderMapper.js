@@ -28,7 +28,6 @@ class OrderMapper extends AbstractMapper {
    * @static
    * @param {string} orderId id number of Order to be found.
    * @param {function} callback function that holds Order object
-   * @return {function} callback object
    */
     static find(orderId, callback) {
             OrderTDG.find(orderId, function(err, result) {
@@ -51,6 +50,7 @@ class OrderMapper extends AbstractMapper {
   /**
    * Maps all returned values into objects of type Order.
    * @static
+   * @param {Integer} userId
    * @param {function} callback function that holds array of Order object
    */
     static findAll(userId, callback) {
@@ -61,7 +61,6 @@ class OrderMapper extends AbstractMapper {
             } else {
                 for (let value of result) {
                     value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
-                    console.log(value.orderdate);
                     let order = new Order(value.order_id, value.user_id, value.orderdate,
                         value.total);
                     orders.push(order);
@@ -114,9 +113,9 @@ class OrderMapper extends AbstractMapper {
 
     /**
      * Inserts purchase to UOW
-     * @param {*} orderObject 
-     * @param {*} orderItemsArray 
-     * @param {*} callback 
+     * @param {*} orderObject
+     * @param {*} orderItemsArray
+     * @param {*} callback
      * @return {*} callback
      */
     static insertPurchase(orderObject, orderItemsArray, callback) {

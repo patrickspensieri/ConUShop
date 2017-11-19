@@ -99,14 +99,13 @@ class MonitorTDG {
 
     /**
      * Returns a monitor object
-     * @param {function} callback 
+     * @param {function} callback
      */
     static getMonitor(callback) {
         db.query('SELECT DISTINCT d.model, d.brand, d.size, d.weight, d.price FROM monitor d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
             if (err) {
                 console.log(err.message);
             } else {
-                console.log('Monitor success');
                 return callback(null, result.rows);
             }
         });

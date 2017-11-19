@@ -10,13 +10,13 @@ let AbstractMapper = require('./AbstractMapper');
 class OrderItemMapper extends AbstractMapper {
     /**
      * Creates a new OrderItem
-     * @param {string} orderItemId 
-     * @param {string} orderId 
-     * @param {string} serialNumber 
-     * @param {number} price 
-     * @param {boolean} isReturned 
-     * @param {Object} itemObj 
-     * @param {Date} itemTimeout 
+     * @param {string} orderItemId
+     * @param {string} orderId
+     * @param {string} serialNumber
+     * @param {number} price
+     * @param {boolean} isReturned
+     * @param {Object} itemObj
+     * @param {Date} itemTimeout
      * @param {Object} productCatalog
      * @return {Object} order item
      */
@@ -30,7 +30,6 @@ class OrderItemMapper extends AbstractMapper {
    * @static
    * @param {string} orderItemId id number of OrderItem to be found.
    * @param {function} callback function that holds OrderItem object
-   * @return {function} callback object
    */
     static find(orderItemId, callback) {
             OrderItemTDG.find(orderItemId, function(err, result) {
@@ -52,6 +51,7 @@ class OrderItemMapper extends AbstractMapper {
   /**
    * Maps all returned values into objects of type OrderItem.
    * @static
+   * @param {Integer} orderId
    * @param {function} callback function that holds array of OrderItem object
    */
     static findAll(orderId, callback) {

@@ -122,7 +122,6 @@ class TabletTDG {
             if (err) {
                 console.log(err.message);
             } else {
-                console.log('Tablet success');
                 return callback(null, result.rows);
             }
         });

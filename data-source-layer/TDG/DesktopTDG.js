@@ -115,7 +115,6 @@ class DesktopTDG {
             if (err) {
                 console.log(err.message);
             } else {
-                console.log('Desktop success');
                 return callback(null, result.rows);
             }
         });
