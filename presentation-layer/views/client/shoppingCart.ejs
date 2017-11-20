@@ -18,6 +18,7 @@
                     <thead>
                         <tr>
                             <th>Product</th>
+                            <th class="text-center">Timeout</th>
                             <th class="text-center">Price</th>
                             <th> </th>
                         </tr>
@@ -33,6 +34,34 @@
                                     <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                                 </div>
                             </div></td>
+                            <td class="col-sm-1 col-md-1 text-center" id='<%= data[i].serialNumber %>'><strong></strong></td>
+                            <script>
+                                $(function(){
+                                    var calcNewYear = setInterval(function(){
+                                        let date = <%-JSON.stringify(data[i].itemTimeout)%>;
+                                        
+                                        date_future = new Date(date+1000);
+                                        date_now = new Date();
+
+                                        seconds = Math.floor((date_future - (date_now))/1000);
+                                        minutes = Math.floor(seconds/60);
+                                        hours = Math.floor(minutes/60);
+                                        days = Math.floor(hours/24);
+                                        
+                                        hours = hours-(days*24);
+                                        minutes = minutes-(days*24*60)-(hours*60);
+                                        seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+
+                                        if (minutes == 0 && seconds == 0 ){
+                                            location.reload();
+                                        }
+                                        if (seconds < 10) {
+                                            seconds = '0' + seconds;
+                                        }
+                                        $("#<%= data[i].serialNumber %>").text(minutes + ":" + seconds + " Mins");
+                                    },1000);
+                                });
+                            </script>
                             <td class="col-sm-1 col-md-1 text-center"><strong><%= data[i].specification.price %></strong></td>
                             <td class="col-sm-1 col-md-1">
                                 <form method="get" action="/client/deleteFromShoppingCart/<%= data[i].serialNumber %>">
@@ -45,10 +74,12 @@
                         <% } %>
                         <tr>
                             <td>   </td>
+                            <td>   </td>
                             <td><h3>Total</h3></td>
                             <td class="text-right"><h3><strong>$<%= total %></strong></h3></td>
                         </tr>
                         <tr>
+                            <td>   </td>
                             <td>   </td>
                             <td>
                                 <button type="button" class="btn btn-default" onclick="window.location.href='/catalog/desktops'">

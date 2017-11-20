@@ -61,7 +61,6 @@ module.exports = {
     viewOrderDetails: function(req, res) {
         let orderId = req.params.id;
         req.clientUser.orderCatalog.getOrderDetails(orderId, function(err, result) {
-            console.log(result);
             res.render('client/orderDetails', {
                 data: result,
             });
@@ -71,7 +70,6 @@ module.exports = {
     returnItem: function(req, res) {
         let orderItemId = req.params.id;
         req.clientUser.returnItem(orderItemId, function(err, result) {
-            console.log(result);
             res.redirect(req.get('referer'));
         });
     },

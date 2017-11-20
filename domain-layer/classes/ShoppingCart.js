@@ -32,9 +32,13 @@ class ShoppingCart {
         self.getItem(modelNumber, type, function(err, result) {
             if (result != null) {
                 self.cart.push(result);
-                self.timeouts.push(
-                    setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {
-                }));
+
+                let now = new Date();
+                let timerExpiresAt = now.getTime() + 120000;
+                let timeout = setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {});
+                self.timeouts.push(timeout);
+                result.itemTimeout = timerExpiresAt;
+
                 return callback(null, result);
             }
             return callback(err, null);
