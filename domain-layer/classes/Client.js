@@ -30,6 +30,7 @@ class Client extends User {
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
         this.shoppingcart = new ShoppingCart(this.productCatalog, this);
         this.orderCatalog = new OrderCatalog();
+
     }
 
     /**
