@@ -82,19 +82,21 @@ module.exports = {
         res.locals.isAuthenticated = req.isAuthenticated();
         if (req.isAuthenticated()) {
             UserMapper.find(req.user.email, function(err, user) {
-                if (err) throw err;
-                if (user.isadmin) {
-                    res.locals.isadmin = true;
-                    res.locals.isclient = false;
-                    req.adminUser = user;
-                    res.locals.editIsOn = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
-                } else {
-                    res.locals.isadmin = false;
-                    res.locals.isclient = true;
-                    req.clientUser = user;
+                if (user.exists == null){
+                    if (err) throw err;
+                    if (user.isadmin) {
+                        res.locals.isadmin = true;
+                        res.locals.isclient = false;
+                        req.adminUser = user;
+                        res.locals.editIsOn = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
+                    } else {
+                        res.locals.isadmin = false;
+                        res.locals.isclient = true;
+                        req.clientUser = user;
+                    }
+                    res.locals.name = user.firstname + ' ' + user.lastname;
+                    req.guestUser = user;
                 }
-                res.locals.name = user.firstname + ' ' + user.lastname;
-                req.guestUser = user;
             });
         } else {
             res.locals.isadmin = false;

@@ -148,11 +148,12 @@ class UserTDG {
         }
         console.log("User session timeout");
       });
-      db.query('DELETE FROM users WHERE email=$1', [email], (err, result) =>{
+
+      db.query('UPDATE users SET exists=$2 WHERE email=$1', [email,true], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
-          console.log('User has been deleted from the database');
+          console.log('This account has been deactivated');
           return callback(err, result);
       });
     }
