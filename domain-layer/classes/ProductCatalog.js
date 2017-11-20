@@ -93,26 +93,22 @@ class ProductCatalog {
         if (this.productCatalogSessionIsComplete()) {
             switch (productType) {
                 case 'Desktop':
-                    console.log('before create');
                     this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price, version);
-                    console.log('after create');
-                    console.log('before update');
-                    desktopMapper.update(this.desktop);
-                    console.log('after update');
+                    desktopMapper.makeUpdate(this.desktop);
                     break;
                 case 'Laptop':
                     this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                         touch, dimensions, weight, price);
-                    laptopMapper.update(this.laptop);
+                    laptopMapper.makeUpdate(this.laptop);
                     break;
                 case 'Monitor':
                     this.monitor = monitorMapper.create(model, brand, size, weight, price);
-                    monitorMapper.update(this.monitor);
+                    monitorMapper.makeUpdate(this.monitor);
                     break;
                 case 'Tablet':
                     this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                         dimensions, weight, price);
-                    tabletMapper.update(this.tablet);
+                    tabletMapper.makeUpdate(this.tablet);
                     break;
             }
         } else {
