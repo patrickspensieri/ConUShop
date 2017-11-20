@@ -55,6 +55,7 @@ function updateProdSpec(prodType, data, redi) {
     let camera = data.find('.camera').text();
     let touch = data.find('.touch').text();
     let size = data.find('.size').text();
+    let version = data.find('.version').text();
 
     switch (prodType) {
         case 'Desktop':
@@ -72,6 +73,7 @@ function updateProdSpec(prodType, data, redi) {
                     dimensions: dimensions,
                     weight: weight,
                     price: price,
+                    version: version,
                     redi: redi,
                 },
                 success: function(response) {
@@ -99,6 +101,7 @@ function updateProdSpec(prodType, data, redi) {
                     dimensions: dimensions,
                     weight: weight,
                     price: price,
+                    version: version,
                     redi: redi
                 },
                 success: function(response) {
@@ -117,6 +120,7 @@ function updateProdSpec(prodType, data, redi) {
                     size: size,
                     weight: weight,
                     price: price,
+                    version: version,
                     redi: redi
                 },
                 success: function(response) {
@@ -143,6 +147,7 @@ function updateProdSpec(prodType, data, redi) {
                     dimensions: dimensions,
                     weight: weight,
                     price: price,
+                    version: version,
                     redi: redi
                 },
                 success: function(response) {
