@@ -13,7 +13,7 @@ class MonitorTDG {
    * @param {function} callback function that holds monitor object.
    */
     static find(modelNumber, callback) {
-        db.query('SELECT * FROM monitor WHERE model=$1', [modelNumber], (err, result) => {
+        db.query('SELECT * FROM monitor WHERE model=$1, isDeleted=FALSE', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -28,7 +28,7 @@ class MonitorTDG {
    * @param {function} callback function that holds array of monitor object.
    */
     static findAll(callback) {
-        db.query('SELECT * FROM monitor', (err, result) => {
+        db.query('SELECT * FROM monitor WHERE isDeleted=FALSE', (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -70,7 +70,7 @@ class MonitorTDG {
    * @param {function} callback
    */
     static update(model, brand, size, weight, price, callback) {
-        let queryString = 'UPDATE monitor SET brand=$2, size=$3, weight=$4, price=$5 WHERE model=$1';
+        let queryString = 'UPDATE monitor SET brand=$2, size=$3, weight=$4, price=$5 WHERE model=$1, isDeleted=FALSE';
         let queryValues = [model, brand, size, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {
@@ -88,7 +88,7 @@ class MonitorTDG {
    * @param {function} callback
    */
     static delete(id, callback) {
-      db.query('DELETE FROM monitor WHERE model=$1', [id], (err, result) =>{
+      db.query('UPDATE monitor SET isDeleted=TRUE WHERE model=$1', [id], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
