@@ -122,7 +122,7 @@ class DesktopMapper extends AbstractMapper {
      * @static
      * @param {function} callback
      */
-    static getDesktop(modelNumber,callback) {
+    static getDesktop(callback) {
         DesktopTDG.getDesktop(function(err, result) {
             let desktop = [];
             if (err) {
