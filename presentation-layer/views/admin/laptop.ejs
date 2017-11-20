@@ -100,7 +100,7 @@
             <h1 class="well">Register a  new LAPTOP</h1>
             <div class="col-lg-12 well">
                 <div class="row">
-                    <form method="post" action="/admin/addProdSpec">
+                    <form data-toggle="validator" role="form" method="post" action="/admin/addProdSpec">
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-6 AddLaptop">
@@ -108,8 +108,11 @@
                                     <input type="text" class="form-control" name="formProductType" value="Laptop" readonly>
                                 </div>
                                 <div class="col-sm-6 AddLaptop">
-                                    <label>Model Number</label>
-                                    <input type="text" class="form-control" name="model" placeholder="model">
+
+                                        <label>Model Number</label>
+                                        <input type="text" class="form-control" name="model" placeholder="model" pattern="^LAP\d{1,7}$" required>
+
+
                                 </div>
                             </div>
                             <div class="AddLaptop">
@@ -119,7 +122,7 @@
                             <div class="row">
                                 <div class="col-sm-3 AddLaptop">
                                     <label>Display</label>
-                                    <input type="text" class="form-control" name="display" placeholder="display">
+                                    <input type="text" class="form-control" name="display" placeholder="display" pattern="(7|8|10|10.1|10.4|10.5|10.8|11|11.6|12|12.1|12.3|12.5|13|13.1|13.3|13.5|14|14.1|15|15.4|15.5|15.6|17|17.3|18.4)" required>
                                 </div>
                                 <div class="col-sm-3 AddLaptop">
                                     <label>Processor</label>
@@ -127,17 +130,17 @@
                                 </div>
                                 <div class="col-sm-3 AddLaptop">
                                     <label>Ram</label>
-                                    <input type="text" class="form-control" name="ram" placeholder="ram">
+                                    <input type="text" class="form-control" name="ram" placeholder="ram" pattern="(2|4|8|12|16|20|24|32|64)" required>
                                 </div>
                                 <div class="col-sm-3 AddLaptop">
                                     <label>Storage</label>
-                                    <input type="text" class="form-control" name="storage" placeholder="storage">
+                                    <input type="text" class="form-control" name="storage" placeholder="storage" pattern="(8|16|32|60|64|80|100|120|128|160|240|250|256|500|480|512|1000|1500|2000|3000)" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddLaptop">
                                     <label>Cores</label>
-                                    <input type="text" class="form-control" name="cores" placeholder="cores">
+                                    <input type="text" class="form-control" name="cores" placeholder="cores" pattern="(2|4|8)" required>
                                 </div>
                                 <div class="col-sm-6 AddLaptop">
                                     <label>OS</label>
@@ -161,17 +164,17 @@
                                 </div>
                                 <div class="col-sm-6 AddLaptop">
                                     <label>Dimensions</label>
-                                    <input type="text" class="form-control" name="dimensions" placeholder="dimensions">
+                                    <input type="text" class="form-control" name="dimensions" placeholder="dimensions" pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddLaptop">
                                     <label>Weight</label>
-                                    <input type="text" class="form-control" name="weight" placeholder="weight">
+                                    <input type="text" class="form-control" name="weight" placeholder="weight" pattern="[^-]\d+\.\d*" required>
                                 </div>
                                 <div class="col-sm-6 AddLaptop">
                                     <label>Price</label>
-                                    <input type="text" class="form-control" name="price" placeholder="price">
+                                    <input type="text" class="form-control" name="price" placeholder="price" pattern="[^-]\d+\.\d*" required>
                                 </div>
                             </div><br>
                             <button type="submit" class="btn btn-lg btn-success">Add Laptop</button>
