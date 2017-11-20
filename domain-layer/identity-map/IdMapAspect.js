@@ -134,32 +134,34 @@ function updateAdvice(methodCall) {
     let attributeArr = [...getObjectAttributesHelper(object, className)];
     attributeArr[attributeArr.length - 1] = idMapVersion;
 
-    classTDG.findVersion(id, function (err, result) {
-        if (!err) {
-            let dbVersion = result[0].version;
-            if (idMapVersion === dbVersion) {
-                attributeArr[attributeArr.length - 1] = idMapVersion + 1;
-                classTDG.update(...attributeArr, function (err, result) {
-                    if (!err) {
-                        object.version = idMapVersion + 1;
-                        idMap.update(object, id);
-                    }
-                });
-                console.log("Update Successful")
-            } else {
-                classTDG.find(id, function(err,result){
-                    let value = result[0];
-                    if (!err) {
-                        let object = classMapper.create(...getAttributesHelper(value, className));
-                        console.log(object)
-                        idMap.update(object, id);
-                    }
+    if(classTDG !== ItemTDG) {
+        classTDG.findVersion(id, function (err, result) {
+            if (!err) {
+                let dbVersion = result[0].version;
+                if (idMapVersion === dbVersion) {
+                    attributeArr[attributeArr.length - 1] = idMapVersion + 1;
+                    classTDG.update(...attributeArr, function (err, result) {
+                        if (!err) {
+                            object.version = idMapVersion + 1;
+                            idMap.update(object, id);
+                        }
+                    });
+                    console.log("Update Successful");
+                } else {
+                    classTDG.find(id, function (err, result) {
+                        let value = result[0];
+                        if (!err) {
+                            let object = classMapper.create(...getAttributesHelper(value, className));
+                            console.log(object);
+                            idMap.update(object, id);
+                        }
 
-                });
-                console.log("Error during update, object is not current ")
+                    });
+                    console.log("Error during update, object is not current ");
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 /**
