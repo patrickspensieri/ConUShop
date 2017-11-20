@@ -70,6 +70,34 @@ class ShoppingCart {
     }
 
     /**
+     * Remove all items from the shopping cart
+     * @param {string} serialNumber
+     * @param {*} callback
+     */
+    removeAllFromCart(callback) {
+        contract.precondition(this.cart.length > 0);
+        const self = this;
+        for (let i = 0; i < self.cart.length; i++) {
+           let serialNumber =  self.cart[i].serialNumber;
+
+            this.productCatalog.unlockItem(serialNumber, function (err, result) {
+                if (!err) {
+                    for (let j = 0; j < self.cart.length; j++) {
+                        if (self.cart[j].serialNumber == serialNumber) {
+                            self.cart.splice(j, self.cart.length);
+                            clearTimeout(self.timeouts[j]);
+                            self.timeouts.splice(j, self.cart.length);
+                            break;
+                        }
+                    }
+                    return callback(err, 'Success');
+                }
+            });
+        }
+    }
+
+
+    /**
      * Get an item from the shopping cart
      * @param {string} modelNumber 
      * @param {string} type 

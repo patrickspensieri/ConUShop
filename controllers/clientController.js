@@ -26,6 +26,12 @@ module.exports = {
         });
     },
 
+    deleteAllFromShoppingCart: function(req, res) {
+        req.clientUser.shoppingcart.removeAllFromCart( function(err, data) {
+            res.redirect(req.get('referer'));
+        });
+    },
+
     viewShoppingCart: function(req, res) {
         let data = req.clientUser.shoppingcart.cart;
         let total = req.clientUser.shoppingcart.getTotal();
@@ -41,6 +47,11 @@ module.exports = {
         });
     },
 
+    canceelPurchase: function(req, res) {
+        req.clientUser.cancelPurchase(function(err, result) {
+            res.redirect(req.get('referer'));
+        });
+    },
     confirmPurchase: function(req, res) {
 
     },
