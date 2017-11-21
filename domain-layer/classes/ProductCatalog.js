@@ -359,6 +359,7 @@ class ProductCatalog {
      */
     startProductCatalogSession() {
         this.isComplete = true;
+        return 'Started Product Catalog Session. You can now make changes to Product Catalog';
     }
 
     /**
@@ -366,6 +367,7 @@ class ProductCatalog {
      */
     endProductCatalogSession() {
         this.isComplete = false;
+        return 'Ended Product Catalog Session. You can no longer make changes to Product Catalog';
     }
 
     /**
