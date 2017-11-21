@@ -240,7 +240,7 @@ class ProductCatalog {
      * @param {string} modelNumber model number of product specification
      * @return {string}
      */
-    addItem(serialNumber, modelNumber) {
+    addProductToCatalog(serialNumber, modelNumber) {
         if (this.productCatalogSessionIsComplete()) {
             this.item = itemMapper.create(serialNumber, modelNumber);
             itemMapper.makeInsertion(this.item);
@@ -253,7 +253,7 @@ class ProductCatalog {
      * @param {string} serialNumber of product
      * @return {string}
      */
-    deleteItem(serialNumber) {
+    deleteItemFromCatalog(serialNumber) {
         if (this.productCatalogSessionIsComplete()) {
             let itemObject = itemMapper.create(serialNumber);
             itemMapper.makeDeletion(itemObject);

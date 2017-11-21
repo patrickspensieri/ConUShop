@@ -59,13 +59,13 @@ module.exports = {
         });
      },
 
-    deleteItem: function(req, res) {
-        let otherMsg = req.adminUser.getProductCatalog().deleteItem(req.body.serialNumber);
+    deleteItemFromCatalog: function(req, res) {
+        let otherMsg = req.adminUser.getProductCatalog().deleteItemFromCatalog(req.body.serialNumber);
         req.flash('otherSess_msg', otherMsg);
         res.redirect(req.get('referer'));
     },
 
-    addItem: function(req, res) {
+    addProductToCatalog: function(req, res) {
         let modelError = false;
         ItemMapper.find(req.body.serialNumber, function(err, result) {
             if (result != null) {
@@ -85,7 +85,7 @@ module.exports = {
             if (errors.length > 0) {
                 req.flash('validationErrors', errors);
             } else {
-                req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
+                req.adminUser.getProductCatalog().addProductToCatalog(req.body.serialNumber, req.body.modelNumber);
             }
         }
         res.redirect(req.get('referer'));
