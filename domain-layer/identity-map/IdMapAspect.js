@@ -127,42 +127,19 @@ function deleteAdvice(methodCall) {
 function updateAdvice(methodCall) {
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
-    let classMapper = getMapperHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
     let objectVersion = parseInt(object.version);
     let attributeArr = [...getObjectAttributesHelper(object, className)];
-    attributeArr[attributeArr.length - 1] = objectVersion;
+    attributeArr[attributeArr.length - 1] = objectVersion + 1;
 
-    if(classTDG !== ItemTDG) {
-        classTDG.findVersion(id, function (err, result) {
-            if (!err) {
-                let dbVersion = result[0].version;
-                if (objectVersion === dbVersion) {
-                    attributeArr[attributeArr.length - 1] = objectVersion + 1;
-                    classTDG.update(...attributeArr, function (err, result) {
-                        if (!err) {
-                            object.version = objectVersion + 1;
-                            idMap.update(object, id);
-                        }
-                    });
-                    console.log("Update Successful");
-
-
-                } else {
-                    classTDG.find(id, function (err, result) {
-                        let value = result[0];
-                        if (!err) {
-                            let object = classMapper.create(...getAttributesHelper(value, className));
-                            idMap.update(object, id);
-                        }
-
-                    });
-                    console.log("Error during update, object is not current ");
-                }
-            }
-        });
-    }
+    classTDG.update(...attributeArr, function (err, result) {
+        if (!err) {
+            object.version++;
+            idMap.update(object, id);
+            console.log("Update Successful");
+        }
+    });
 }
 
 /**
