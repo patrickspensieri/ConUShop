@@ -46,23 +46,23 @@ class ProductCatalog {
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
      */
-    addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
+    addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
         if (this.productCatalogSessionIsComplete()) {
             switch (productType) {
                 case 'Desktop':
-                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price, version);
                     desktopMapper.makeInsertion(this.desktop);
                     break;
                 case 'Laptop':
-                    this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price);
+                    this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, version);
                     laptopMapper.makeInsertion(this.laptop);
                     break;
                 case 'Monitor':
-                    this.monitor = monitorMapper.create(model, brand, size, weight, price);
+                    this.monitor = monitorMapper.create(model, brand, size, weight, price, version);
                     monitorMapper.makeInsertion(this.monitor);
                     break;
                 case 'Tablet':
-                    this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+                    this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version);
                     tabletMapper.makeInsertion(this.tablet);
                     break;
             }
@@ -89,26 +89,26 @@ class ProductCatalog {
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
      */
-    updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size) {
+    updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
         if (this.productCatalogSessionIsComplete()) {
             switch (productType) {
                 case 'Desktop':
-                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price);
-                    desktopMapper.update(this.desktop);
+                    this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price, version);
+                    desktopMapper.makeUpdate(this.desktop);
                     break;
                 case 'Laptop':
                     this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                         touch, dimensions, weight, price);
-                    laptopMapper.update(this.laptop);
+                    laptopMapper.makeUpdate(this.laptop);
                     break;
                 case 'Monitor':
                     this.monitor = monitorMapper.create(model, brand, size, weight, price);
-                    monitorMapper.update(this.monitor);
+                    monitorMapper.makeUpdate(this.monitor);
                     break;
                 case 'Tablet':
                     this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                         dimensions, weight, price);
-                    tabletMapper.update(this.tablet);
+                    tabletMapper.makeUpdate(this.tablet);
                     break;
             }
         } else {

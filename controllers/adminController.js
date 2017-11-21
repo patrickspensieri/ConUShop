@@ -167,19 +167,19 @@ module.exports = {
             case 'Desktop':
                 otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
                     req.body.processor, req.body.ram, req.body.storage, req.body.cores,
-                    req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
+                    req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null, req.body.version);
                 break;
             case 'Laptop':
                 otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
-                    req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
+                    req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null, req.body.version);
                 break;
             case 'Monitor':
                 otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
-                    null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
+                    null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size, req.body.version);
                 break;
             case 'Tablet':
                 otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
-                    req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null);
+                    req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null, req.body.version);
                 break;
         }
         req.flash('otherSess_msg', otherMsg);

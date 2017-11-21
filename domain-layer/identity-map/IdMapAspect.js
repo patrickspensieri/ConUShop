@@ -130,29 +130,30 @@ function updateAdvice(methodCall) {
     let classMapper = getMapperHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    let idMapVersion = idMap.get(className, id).version;
+    let objectVersion = parseInt(object.version);
     let attributeArr = [...getObjectAttributesHelper(object, className)];
-    attributeArr[attributeArr.length - 1] = idMapVersion;
+    attributeArr[attributeArr.length - 1] = objectVersion;
 
     if(classTDG !== ItemTDG) {
         classTDG.findVersion(id, function (err, result) {
             if (!err) {
                 let dbVersion = result[0].version;
-                if (idMapVersion === dbVersion) {
-                    attributeArr[attributeArr.length - 1] = idMapVersion + 1;
+                if (objectVersion === dbVersion) {
+                    attributeArr[attributeArr.length - 1] = objectVersion + 1;
                     classTDG.update(...attributeArr, function (err, result) {
                         if (!err) {
-                            object.version = idMapVersion + 1;
+                            object.version = objectVersion + 1;
                             idMap.update(object, id);
                         }
                     });
                     console.log("Update Successful");
+
+
                 } else {
                     classTDG.find(id, function (err, result) {
                         let value = result[0];
                         if (!err) {
                             let object = classMapper.create(...getAttributesHelper(value, className));
-                            console.log(object);
                             idMap.update(object, id);
                         }
 
