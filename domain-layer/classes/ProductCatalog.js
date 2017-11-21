@@ -92,9 +92,6 @@ class ProductCatalog {
     updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
         let idMapVersion = parseInt(idMap.get(productType, model).version);
         let isVersion = parseInt(version) === idMapVersion;
-        console.log('version = ' + version);
-        console.log('version idMap= ' + idMapVersion);
-        console.log(isVersion);
         if (this.productCatalogSessionIsComplete()) {
             switch (productType) {
                 case 'Desktop':

@@ -193,7 +193,8 @@ module.exports = {
             } else {
                 req.flash('error_msg', otherMsg);
             }
-        }else{req.flash('otherSess_msg', otherMsg);
+        }else{
+            req.flash('otherSess_msg', otherMsg);
         }
 
 
