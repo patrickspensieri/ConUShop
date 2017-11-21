@@ -27,7 +27,6 @@ class User {
         this.password = password;
         this.session_id = session_id;
         this.id = id;
-        this.productCatalog = ProductCatalog.getProductCatalogInstance();
     }
 
     /**
@@ -37,7 +36,8 @@ class User {
      * @return {Object} product catalog's inventory
      */
     getProductInventory(productType, callback) {
-        return this.productCatalog.getAllProductInventory(productType, callback);
+        let productCatalog = ProductCatalog.getProductCatalogInstance();
+        return productCatalog.getAllProductInventory(productType, callback);
     }
 }
 
