@@ -169,7 +169,7 @@ module.exports = {
     updateProdSpec: function(req, res) {
         let errors = validateForm(req);
 
-        if (errors) {
+        if (errors.length > 0) {
             req.flash('validationErrors', errors);
         } else {
             switch (req.body.prodType) {
@@ -229,7 +229,7 @@ function validateForm(req) {
     if (prodType == 'Desktop' || prodType == 'Laptop' || prodType == 'Tablet') {
         // Processor
         req.checkBody('processor', 'Processor can not be empty').notEmpty();
-        req.checkBody('processor', 'Processor must be alphanumeric').matches(/^(\D+(\w*\s*)+)$/);
+        req.checkBody('processor', 'Processor must be alphanumeric').matches(/^(\D+(\w*\s*\-*)+)$/);
 
         // Ram
         req.checkBody('ram', 'Ram can not be empty').notEmpty();
@@ -251,7 +251,7 @@ function validateForm(req) {
     if (prodType == 'Tablet' || prodType == 'Laptop') {
         // Display size
         req.checkBody('display', 'Display can not be empty').notEmpty();
-        req.checkBody('display', 'Display Size is impossible').isInt({min: 0}).isIn([7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13,
+        req.checkBody('display', 'Display Size is impossible').isFloat({min: 0}).isIn([7, 7.9, 8, 9, 9.6, 9.7, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13,
                                                                     13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4]);
 
 
@@ -261,7 +261,7 @@ function validateForm(req) {
 
         // Battery
         req.checkBody('battery', 'Battery can not be empty').notEmpty();
-        req.checkBody('battery', 'Battery value must be positive').isInt({min: 0});
+        req.checkBody('battery', 'Battery value must be positive').isFloat({min: 0});
 
         req.checkBody('camera', 'Camera can not be empty').notEmpty();
     }
@@ -288,7 +288,7 @@ function validateForm(req) {
 
             // Size
             req.checkBody('size', 'Size can not be empty').notEmpty();
-            req.checkBody('size', 'Size is impossible').isInt({min: 0}).isIn([5, 7, 10, 10.1, 10.4, 13.3, 14, 14.4, 15, 15.6, 16, 17, 17.3, 18.5, 18.9, 19,
+            req.checkBody('size', 'Size is impossible').isFloat({min: 0}).isIn([5, 7, 10, 10.1, 10.4, 13.3, 14, 14.4, 15, 15.6, 16, 17, 17.3, 18.5, 18.9, 19,
                                                                     19.1, 19.5, 20, 20.7, 21, 21.3, 21.5, 22, 23, 23.6, 23.8, 24, 24.1, 25, 24.5,
                                                                     27, 28, 28.8, 29, 29.5, 30, 31, 31.5, 32]);
             break;
