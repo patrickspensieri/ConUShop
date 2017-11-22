@@ -115,21 +115,6 @@ class LaptopTDG {
             return callback(err, result);
         });
     }
-
-   /**
-    * Return a laptop object
-    * @param {function} callback 
-    */
-    static getLaptop(callback) {
-        db.query('SELECT DISTINCT d.model, d.brand, d.display, d.processor, d.ram, d.storage, d.cores, d.os, d.battery, d.camera, d.touch, d.dimensions, d.weight, d.price, d.version FROM laptop d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
-            if (err) {
-                console.log(err.message);
-            } else {
-                console.log('Laptop success');
-                return callback(null, result.rows);
-            }
-        });
-    }
 }
 
 module.exports = LaptopTDG;

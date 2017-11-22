@@ -15,27 +15,27 @@ let ItemMapper = require('../mappers/ItemMapper');
 class Client extends User {
     /**
      * Creates a client user
-     * @param {string} firstname 
-     * @param {string} lastname 
-     * @param {string} address 
-     * @param {string} email 
-     * @param {string} phone 
-     * @param {string} password 
-     * @param {boolean} isadmin 
-     * @param {string} sessionid 
-     * @param {string} id 
+     * @param {string} firstname
+     * @param {string} lastname
+     * @param {string} address
+     * @param {string} email
+     * @param {string} phone
+     * @param {string} password
+     * @param {boolean} isadmin
+     * @param {string} sessionid
+     * @param {string} id
      */
     constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
         super(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
-        this.productCatalog = ProductCatalog.getProductCatalogInstance();
-        this.shoppingcart = new ShoppingCart(this.productCatalog, this);
+        this.shoppingcart = new ShoppingCart(ProductCatalog.getProductCatalogInstance(), this);
         this.orderCatalog = new OrderCatalog();
 
     }
 
     /**
      * Function that allows clients to purchase items from the product Catalog
-     * @param {*} callback 
+     * @param {*} callback
+     * @return {*}
      */
     makePurchase(callback) {
         if (this.shoppingcart.cart.length > 0) {
@@ -59,6 +59,10 @@ class Client extends User {
         }
     }
 
+    /**
+     * @param {Integer} orderItemId
+     * @param {*} callback
+     */
     returnItem(orderItemId, callback) {
         OrderItemMapper.find(orderItemId, function(err, result) {
             if (result.isReturned == true) {
@@ -66,7 +70,6 @@ class Client extends User {
                 return callback(err, null);
             } else {
                 result.isReturned = true;
-                console.log(result);
                 UOW.registerDirty(result);
                 ItemMapper.find(result.serialNumber, function(err, result2) {
                     result2.isLocked = false;

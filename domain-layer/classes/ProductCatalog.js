@@ -45,6 +45,7 @@ class ProductCatalog {
      * @param {string} camera camera information of product.
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
+     * @return {string}
      */
     addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
         if (this.productCatalogSessionIsComplete()) {
@@ -88,6 +89,7 @@ class ProductCatalog {
      * @param {string} camera camera information of product.
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
+     * @return {string}
      */
     updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
         let idMapVersion = parseInt(idMap.get(productType, model).version);
@@ -141,6 +143,7 @@ class ProductCatalog {
     /**
      * @param {string} productType product Type
      * @param {string} modelNumber model number of product.
+     * @return {string}
      */
     deleteProductSpecification(productType, modelNumber) {
         if (this.productCatalogSessionIsComplete()) {
@@ -258,6 +261,7 @@ class ProductCatalog {
     /**
      * @param {string} serialNumber of product
      * @param {string} modelNumber model number of product specification
+     * @return {string}
      */
     addItem(serialNumber, modelNumber) {
         if (this.productCatalogSessionIsComplete()) {
@@ -270,10 +274,10 @@ class ProductCatalog {
 
     /**
      * @param {string} serialNumber of product
+     * @return {string}
      */
     deleteItem(serialNumber) {
         if (this.productCatalogSessionIsComplete()) {
-
             let itemObject = itemMapper.create(serialNumber);
             itemMapper.makeDeletion(itemObject);
         } else {
@@ -316,7 +320,7 @@ class ProductCatalog {
 
     /**
      * Gets and item and locks it
-     * @param {*} modelNumber
+     * @param {*} serialNumber
      * @param {*} callback
      */
     getItem(serialNumber, callback) {
@@ -351,43 +355,52 @@ class ProductCatalog {
     getAllProductInventory(productType, callback) {
         switch (productType) {
             case 'Desktop':
-                desktopMapper.getDesktop(function (err, data) {
-                    return callback(null, data);
-                });
+                desktopMapper.findAll(function(err, data) {
+                return callback(null, data);
+            });
                 break;
             case 'Laptop':
-                laptopMapper.getLaptop(function (err, data) {
+                laptopMapper.findAll(function(err, data) {
                     return callback(null, data);
                 });
                 break;
             case 'Monitor':
-                monitorMapper.getMonitor(function (err, data) {
+                monitorMapper.findAll(function(err, data) {
                     return callback(null, data);
                 });
                 break;
             case 'Tablet':
-                tabletMapper.getTablet(function (err, data) {
+                tabletMapper.findAll(function(err, data) {
                     return callback(null, data);
                 });
                 break;
         }
     }
 
+    /**
+     * Start product catalog session.
+     */
     startProductCatalogSession() {
         this.isComplete = true;
     }
 
+    /**
+     * End product catalog session.
+     */
     endProductCatalogSession() {
         this.isComplete = false;
     }
 
+    /**
+     * Return true if session is complete.
+     * @return {Boolean}
+     */
     productCatalogSessionIsComplete() {
         if (this.isComplete == null) {
             return false;
         }
         return this.isComplete;
     }
-
 }
 
 module.exports = ProductCatalog;

@@ -35,18 +35,19 @@ class DesktopMapper extends AbstractMapper {
    * @param {function} callback function that holds desktop object.
    */
     static find(modelNumber, callback) {
-        console.log('proceeding from DesktopMapper...');
             DesktopTDG.find(modelNumber, function(err, result) {
-                let value = result[0];
-                let desktop = new Desktop(value.model, value.brand, value.processor,
-                    value.ram, value.storage, value.cores, value.dimensions,
-                    value.weight, value.price, value.version);
                 if (err) {
                     console.log('Error during desktop find query', null);
-                } else if (result == null) {
-                        return callback(err, null);
                 } else {
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let desktop = new Desktop(value.model, value.brand, value.processor,
+                            value.ram, value.storage, value.cores, value.dimensions,
+                            value.weight, value.price);
                         return callback(null, desktop);
+                    }
                 }
             });
     }
@@ -116,26 +117,6 @@ class DesktopMapper extends AbstractMapper {
             }
         });
     }
-
-    /**
-     * Get all desktop objects
-     * @static
-     * @param {function} callback
-     */
-    static getDesktop(callback) {
-        DesktopTDG.getDesktop(function(err, result) {
-            let desktop = [];
-            if (err) {
-                console.log('Error during getDesktop query', null);
-            } else {
-                for (let value of result) {
-                    desktop.push(new Desktop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price, value.version));
-                }
-                return callback(null, desktop);
-            }
-        });
-    }
-
 }
 
 module.exports = DesktopMapper;

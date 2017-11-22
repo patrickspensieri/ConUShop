@@ -30,3 +30,12 @@
     <%= otherSess_msg %>
 </div>
 <% } %>
+
+<% if (validationErrors && validationErrors.length > 0) { %>
+    <% for(var i = 0; i < validationErrors.length; i++) { %>
+    <div class="alert_validation alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <%= validationErrors[i].msg %>
+    </div>
+    <% } %>
+<% } %>

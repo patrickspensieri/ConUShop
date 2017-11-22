@@ -37,13 +37,8 @@ class TabletMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of tablet to be found.
    * @param {function} callback function that holds Tablet object.
-   * @return {function} callback object
    */
     static find(modelNumber, callback) {
-        let tablet = idMap.get('Tablet', modelNumber);
-        if (tablet != null) {
-            return callback(null, tablet);
-        } else {
             TabletTDG.find(modelNumber, function(err, result) {
                 if (err) {
                     console.log('Error during tablet find query', null);
@@ -55,13 +50,11 @@ class TabletMapper extends AbstractMapper {
                         let tablet = new Tablet(value.model, value.brand, value.display, value.processor,
                             value.ram, value.storage, value.cores, value.os,
                             value.battery, value.camera, value.dimensions,
-                            value.weight, value.price, value.version);
-                        idMap.add(tablet, tablet.model);
+                            value.weight, value.price);
                         return callback(null, tablet);
                     }
                 }
             });
-        }
     }
 
   /**
@@ -81,9 +74,6 @@ class TabletMapper extends AbstractMapper {
                         value.battery, value.camera, value.dimensions,
                         value.weight, value.price);
                     tablets.push(tablet);
-                    if (idMap.get('Tablet', tablet.model) == null) {
-                        idMap.add(tablet, tablet.model);
-                    }
                 }
                 return callback(null, tablets);
             }
@@ -100,8 +90,8 @@ class TabletMapper extends AbstractMapper {
             tabletObject.ram, tabletObject.storage, tabletObject.cores, tabletObject.os,
             tabletObject.battery, tabletObject.camera, tabletObject.dimensions,
             tabletObject.weight, tabletObject.price, function(err, result) {
-                if (!err) {
-                    idMap.add(tabletObject, tabletObject.model);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -115,9 +105,9 @@ class TabletMapper extends AbstractMapper {
         TabletTDG.update(tabletObject.model, tabletObject.brand, tabletObject.display, tabletObject.processor,
             tabletObject.ram, tabletObject.storage, tabletObject.cores, tabletObject.os,
             tabletObject.battery, tabletObject.camera, tabletObject.dimensions,
-            tabletObject.weight, tabletObject.price, tabletObject.version, function(err, result) {
-                if (!err) {
-                    idMap.update(tabletObject, tabletObject.model);
+            tabletObject.weight, tabletObject.price, function(err, result) {
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -129,26 +119,8 @@ class TabletMapper extends AbstractMapper {
    */
     static delete(tabletObject) {
         TabletTDG.delete(tabletObject.model, function(err, result) {
-            if (!err) {
-                idMap.delete(tabletObject, tabletObject.model);
-            }
-        });
-    }
-
-    /**
-     * Retuns a tablet object
-     * @param {function} callback 
-     */
-    static getTablet(callback) {
-        TabletTDG.getTablet(function(err, result) {
-            let tablet = [];
             if (err) {
-                console.log('Error during getTablet query', null);
-            } else {
-                for (let value of result) {
-                    tablet.push(new Tablet(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.dimensions, value.weight, value.price, value.version));
-                }
-                return callback(null, tablet);
+                    console.log(err);
             }
         });
     }

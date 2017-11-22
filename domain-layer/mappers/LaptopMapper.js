@@ -38,13 +38,8 @@ class LaptopMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of laptop to be found.
    * @param {function} callback function that holds laptop object
-   * @return {function} callback result
    */
     static find(modelNumber, callback) {
-        let laptop = idMap.get('Laptop', modelNumber);
-        if (laptop != null) {
-            return callback(null, laptop);
-        } else {
             LaptopTDG.find(modelNumber, function(err, result) {
                 if (err) {
                     console.log('Error during laptop find query', null);
@@ -56,13 +51,11 @@ class LaptopMapper extends AbstractMapper {
                         let laptop = new Laptop(value.model, value.brand, value.display, value.processor,
                             value.ram, value.storage, value.cores, value.os,
                             value.battery, value.camera, value.touch, value.dimensions,
-                            value.weight, value.price, value.version);
-                        idMap.add(laptop, laptop.model);
+                            value.weight, value.price);
                         return callback(null, laptop);
                     }
                 }
             });
-        }
     }
 
   /**
@@ -82,9 +75,6 @@ class LaptopMapper extends AbstractMapper {
                         value.battery, value.camera, value.touch, value.dimensions,
                         value.weight, value.price, value.version);
                     laptops.push(laptop);
-                    if (idMap.get('Laptop', laptop.model) == null) {
-                        idMap.add(laptop, laptop.model);
-                    }
                 }
                 return callback(null, laptops);
             }
@@ -101,8 +91,8 @@ class LaptopMapper extends AbstractMapper {
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
             laptopObject.weight, laptopObject.price, function(err, result) {
-                if (!err) {
-                    idMap.add(laptopObject, laptopObject.model);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -116,9 +106,9 @@ class LaptopMapper extends AbstractMapper {
         LaptopTDG.update(laptopObject.model, laptopObject.brand, laptopObject.display, laptopObject.processor,
             laptopObject.ram, laptopObject.storage, laptopObject.cores, laptopObject.os,
             laptopObject.battery, laptopObject.camera, laptopObject.touch, laptopObject.dimensions,
-            laptopObject.weight, laptopObject.price, laptopObject.version, function(err, result) {
-                if (!err) {
-                    idMap.update(laptopObject, laptopObject.model);
+            laptopObject.weight, laptopObject.price, function(err, result) {
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -130,26 +120,8 @@ class LaptopMapper extends AbstractMapper {
    */
     static delete(laptopObject) {
         LaptopTDG.delete(laptopObject.model, function(err, result) {
-            if (!err) {
-                idMap.delete(laptopObject, laptopObject.model);
-            }
-        });
-    }
-
-    /**
-     * Returns a laptop object
-     * @param {function} callback 
-     */
-    static getLaptop(callback) {
-        LaptopTDG.getLaptop(function(err, result) {
-            let laptop = [];
             if (err) {
-                console.log('Error during getLaptop query', null);
-            } else {
-                for (let value of result) {
-                    laptop.push(new Laptop(value.model, value.brand, value.display, value.processor, value.ram, value.storage, value.cores, value.os, value.battery, value.camera, value.touch, value.dimensions, value.weight, value.price, value.version));
-                }
-                return callback(null, laptop);
+               console.log(err);
             }
         });
     }

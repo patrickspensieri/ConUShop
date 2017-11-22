@@ -29,13 +29,8 @@ class MonitorMapper extends AbstractMapper {
    * @static
    * @param {string} modelNumber model number of monitor to be found.
    * @param {function} callback function that holds monitor object
-   * @return {function} callback object
    */
     static find(modelNumber, callback) {
-        let monitor = idMap.get('Monitor', modelNumber);
-        if (monitor != null) {
-            return callback(null, monitor);
-        } else {
             MonitorTDG.find(modelNumber, function(err, result) {
                 if (err) {
                     console.log('Error during monitor find query', null);
@@ -51,7 +46,6 @@ class MonitorMapper extends AbstractMapper {
                     }
                 }
             });
-        }
     }
 
   /**
@@ -69,9 +63,6 @@ class MonitorMapper extends AbstractMapper {
                     let monitor = new Monitor(value.model, value.brand, value.size,
                         value.weight, value.price, value.version);
                     monitors.push(monitor);
-                    if (idMap.get('Monitor', monitor.model) == null) {
-                        idMap.add(monitor, monitor.model);
-                    }
                 }
                 return callback(null, monitors);
             }
@@ -86,8 +77,8 @@ class MonitorMapper extends AbstractMapper {
     static insert(monitorObject) {
         MonitorTDG.insert(monitorObject.model, monitorObject.brand, monitorObject.size,
             monitorObject.weight, monitorObject.price, function(err, result) {
-                if (!err) {
-                    idMap.add(monitorObject, monitorObject.model);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -99,9 +90,9 @@ class MonitorMapper extends AbstractMapper {
    */
     static update(monitorObject) {
         MonitorTDG.update(monitorObject.model, monitorObject.brand, monitorObject.size,
-            monitorObject.weight, monitorObject.price, monitorObject.version, function(err, result) {
-                if (!err) {
-                    idMap.update(monitorObject, monitorObject.model);
+            monitorObject.weight, monitorObject.price, function(err, result) {
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -113,26 +104,8 @@ class MonitorMapper extends AbstractMapper {
    */
     static delete(monitorObject) {
         MonitorTDG.delete(monitorObject.model, function(err, result) {
-            if (!err) {
-                idMap.delete(monitorObject, monitorObject.model);
-            }
-        });
-    }
-
-    /**
-     * Returns a monitor object
-     * @param {function} callback 
-     */
-    static getMonitor(callback) {
-        MonitorTDG.getMonitor(function(err, result) {
-            let monitor = [];
             if (err) {
-                console.log('Error during item findAll query', null);
-            } else {
-                for (let value of result) {
-                    monitor.push(new Monitor(value.model, value.brand, value.size, value.weight, value.price, value.version));
-                }
-                return callback(null, monitor);
+                console.log(err);
             }
         });
     }
