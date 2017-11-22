@@ -13,7 +13,7 @@ class TabletTDG {
    * @param {function} callback function that holds tablet object.
    */
     static find(modelNumber, callback) {
-        db.query('SELECT * FROM tablet WHERE model=$1, isDeleted=FALSE', [modelNumber], (err, result) => {
+        db.query('SELECT * FROM tablet WHERE model=$1 AND isDeleted=FALSE', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -86,7 +86,7 @@ class TabletTDG {
    * @param {function} callback
    */
     static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, callback) {
-        let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13 WHERE model=$1, isDeleted=FALSE';
+        let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13 WHERE model=$1 AND isDeleted=FALSE';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {
