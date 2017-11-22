@@ -27,10 +27,12 @@ class ShoppingCart {
      */
     addToCart(modelNumber, type, callback) {
         const self = this;
+        contract.invariant(this.cart.length <= 7);
         contract.precondition(this.cart.length < 7);
 
         self.getItem(modelNumber, type, function(err, result) {
             if (result != null) {
+                const preLength = self.cart.length;
                 self.cart.push(result);
 
                 let now = new Date();
@@ -39,6 +41,7 @@ class ShoppingCart {
                 self.timeouts.push(timeout);
                 result.itemTimeout = timerExpiresAt;
 
+                contract.postcondition(self.cart.length == preLength + 1);
                 return callback(null, result);
             }
             return callback(err, null);
@@ -51,11 +54,13 @@ class ShoppingCart {
      * @param {*} callback 
      */
     removeFromCart(serialNumber, callback) {
+        contract.invariant(this.cart.length <= 7);
         contract.precondition(this.cart.length > 0);
 
         const self = this;
         this.productCatalog.unlockItem(serialNumber, function(err, result) {
             if (!err) {
+                const preLength = self.cart.length;
                 for (let i = 0; i < self.cart.length; i++) {
                     if (self.cart[i].serialNumber == serialNumber) {
                         self.cart.splice(i, 1);
@@ -64,6 +69,7 @@ class ShoppingCart {
                         break;
                      }
                 }
+                contract.postcondition(self.cart.length == preLength - 1);
                 return callback(err, 'Success');
             }
         });
@@ -76,6 +82,9 @@ class ShoppingCart {
      * @param {*} callback 
      */
     getItem(modelNumber, type, callback) {
+        contract.invariant(this.cart.length <= 7);
+        contract.precondition(this.cart.length < 7);
+
         this.productCatalog.getItemAndLock(modelNumber, function(err, result) {
             if (!err) {
                 result.type = type;
