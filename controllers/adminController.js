@@ -1,71 +1,71 @@
 let UserMapper = require('../domain-layer/mappers/UserMapper');
 
 module.exports = {
-    dashboard: function (req, res) {
+    dashboard: function(req, res) {
         res.render('admin/dashboard');
     },
 
-    desktop: function (req, res) {
-        req.adminUser.getProductCatalog().getAllProductSpecification('Desktop', function (err, data) {
+    desktop: function(req, res) {
+        req.adminUser.getProductCatalog().getAllProductSpecification('Desktop', function(err, data) {
             res.render('admin/desktop', {
                 data: data,
             });
         });
     },
 
-    laptop: function (req, res) {
-        req.adminUser.getProductCatalog().getAllProductSpecification('Laptop', function (err, data) {
+    laptop: function(req, res) {
+        req.adminUser.getProductCatalog().getAllProductSpecification('Laptop', function(err, data) {
             res.render('admin/laptop', {
                 data: data,
             });
         });
     },
 
-    monitor: function (req, res) {
-        req.adminUser.getProductCatalog().getAllProductSpecification('Monitor', function (err, data) {
+    monitor: function(req, res) {
+        req.adminUser.getProductCatalog().getAllProductSpecification('Monitor', function(err, data) {
             res.render('admin/monitor', {
                 data: data,
             });
         });
     },
 
-    tablet: function (req, res) {
-        req.adminUser.getProductCatalog().getAllProductSpecification('Tablet', function (err, data) {
+    tablet: function(req, res) {
+        req.adminUser.getProductCatalog().getAllProductSpecification('Tablet', function(err, data) {
             res.render('admin/tablet', {
                 data: data,
             });
         });
     },
 
-    inventory: function (req, res) {
-        req.adminUser.getProductCatalog().getItems(function (err, data) {
+    inventory: function(req, res) {
+        req.adminUser.getProductCatalog().getItems(function(err, data) {
             res.render('admin/inventory', {
                 data: data,
             });
         });
     },
 
-    clients: function (req, res) {
-        UserMapper.findAllClients(function (err, data) {
+    clients: function(req, res) {
+        UserMapper.findAllClients(function(err, data) {
             res.render('admin/clients', {
                 data: data,
             });
         });
     },
 
-    deleteItem: function (req, res) {
+    deleteItem: function(req, res) {
         let otherMsg = req.adminUser.getProductCatalog().deleteItem(req.body.serialNumber);
         req.flash('otherSess_msg', otherMsg);
         res.redirect(req.get('referer'));
     },
 
-    addItem: function (req, res) {
+    addItem: function(req, res) {
         let otherMsg = req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
         req.flash('otherSess_msg', otherMsg);
         res.redirect(req.get('referer'));
     },
 
-    addProdSpec: function (req, res) {
+    addProdSpec: function(req, res) {
         let prodType = req.body.formProductType;
         let model = req.body.model;
         let brand = req.body.brand;
@@ -144,29 +144,28 @@ module.exports = {
         if (errors) {
             req.flash('otherSess_msg', errors);
             res.redirect(req.get('referer'));
-
         } else {
             let otherMsg = req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
                 weight, price, display, os, battery, camera, touch, size);
             req.flash('otherSess_msg', otherMsg);
             res.redirect(req.get('referer'));
-
         }
     },
 
-    deleteProdSpec: function (req, res) {
+    deleteProdSpec: function(req, res) {
         let admin = req.adminUser;
-        let otherMsg = admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
-        req.flash('otherSess_msg', otherMsg);
+        if (idMap.get(req.body.prodType, req.body.model) !== null) {
+            let msg = admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+            req.flash('success_msg', msg);
+        } else {
+            req.flash('error_msg', 'Object no longer exists, Product Specifications are not current');
+        }
         res.send({redirect: req.body.redi});
     },
 
-    updateProdSpec: function (req, res) {
+    updateProdSpec: function(req, res) {
         let otherMsg;
-
-
-        if(idMap.get(req.body.prodType, req.body.model) !== null) {
-
+        if (idMap.get(req.body.prodType, req.body.model) !== null) {
             let idMapVersion = parseInt(idMap.get(req.body.prodType, req.body.model).version);
             let clientVersion = parseInt(req.body.version);
             let isSessionComplete = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
@@ -199,17 +198,17 @@ module.exports = {
             } else {
                 req.flash('otherSess_msg', otherMsg);
             }
-        } else{
+        } else {
             req.flash('error_msg', 'Object no longer exists, Product Specification is not current');
         }
         res.send({redirect: req.body.redi});
     },
-    startProductCatalogSession: function (req, res) {
+    startProductCatalogSession: function(req, res) {
         req.adminUser.getProductCatalog().startProductCatalogSession();
         req.flash('sessStart_msg', 'Started Product Catalog Session. You can now make changes to Product Catalog');
         res.send({redirect: req.body.redi});
     },
-    endProductCatalogSession: function (req, res) {
+    endProductCatalogSession: function(req, res) {
         req.adminUser.getProductCatalog().endProductCatalogSession();
         req.flash('sessEnd_msg', 'Ended Product Catalog Session. You can no longer make changes to Product Catalog');
         res.send({redirect: req.body.redi});

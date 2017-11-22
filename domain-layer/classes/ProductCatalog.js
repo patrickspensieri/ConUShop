@@ -160,6 +160,7 @@ class ProductCatalog {
                         break;
                 }
             });
+            return ('Specification ' + modelNumber +' succesfully deleted');
         } else {
             return ('Begin Product Catalog Session to edit.');
         }
