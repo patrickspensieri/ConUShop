@@ -81,34 +81,49 @@
             <h1 class="well">Register a  new MONITOR</h1>
             <div class="col-lg-12 well">
                 <div class="row">
-                    <form method="post" action="/admin/addProdSpec">
+                    <form data-toggle="validator" method="post" action="/admin/addProdSpec">
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-6 AddMonitor">
-                                    <label>Product Table: </label>
-                                    <input type="text" class="form-control" name="formProductType" value="Monitor" readonly>
+                                        <label>Product Table: </label>
+                                        <input type="text" class="form-control" name="formProductType" value="Monitor" readonly>
                                 </div>
                                 <div class="col-sm-6 AddMonitor">
-                                    <label>Model Number</label>
-                                    <input type="text" class="form-control" name="model" placeholder="model">
+                                    <div class="form-group">
+                                        <label>Model Number</label>
+                                        <input type="text" class="form-control" name="model" placeholder="model" pattern="^MON\d{1,7}$" data-error="Please enter valid model." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="AddMonitor">
-                                <label>Brand</label>
-                                <input type="text" class="form-control" name="brand" placeholder="brand">
+                                <div class="form-group">
+                                    <label>Brand</label>
+                                    <input type="text" class="form-control" name="brand" placeholder="brand" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 AddMonitor">
-                                    <label>Size</label>
-                                    <input type="text" class="form-control" name="size" placeholder="size" pattern="(5|7|10|10.1|10.4|13.3|14|14.4|15|15.6|16|17|17.3|18.5|18.9|19|19.1|19.5|20|20.7|21|21.3|21.5|22|23|23.6|23.8|24|24.1|25|24.5|27|28|28.8|29|29.5|30|31|31.5|32)" required>
+                                    <div class="form-group">
+                                        <label>Size</label>
+                                        <input type="text" class="form-control" name="size" placeholder="size"  required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-4 AddMonitor">
-                                    <label>Weight</label>
-                                    <input type="text" class="form-control" name="weight" placeholder="weight" pattern="[^-]\d+\.\d*" required>
+                                    <div class="form-group">
+                                        <label>Weight</label>
+                                        <input type="text" class="form-control" name="weight" placeholder="weight" pattern="[^-]\d+\.{0,1}\d{0,2}" data-error="Please enter valid price." data-error="Please enter valid weight." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-4 AddMonitor">
-                                    <label>Price</label>
-                                    <input type="text" class="form-control" name="price" placeholder="price" pattern="[^-]\d+\.\d*" required>
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <input type="text" class="form-control" name="price" placeholder="price" pattern="[^-]\d+\.{0,1}\d{0,2}" data-error="Please enter valid price." data-error="Please enter valid price." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div><br>
                             <button type="submit" class="btn btn-lg btn-success">Add monitor</button>

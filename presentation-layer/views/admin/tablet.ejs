@@ -98,74 +98,114 @@
             <h1 class="well">Register a  new TABLET</h1>
             <div class="col-lg-12 well">
                 <div class="row">
-                    <form method="post" action="/admin/addProdSpec">
+                    <form data-toggle="validator" method="post" action="/admin/addProdSpec">
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-6 AddTablet">
                                     <label>Product Table: </label>
                                     <input type="text" class="form-control" name="formProductType" value="Tablet" readonly>
+
                                 </div>
                                 <div class="col-sm-6 AddTablet">
-                                    <label>Model Number</label>
-                                    <input type="text" class="form-control" name="model" placeholder="model">
+                                    <div class="form-group">
+                                        <label>Model Number</label>
+                                        <input type="text" class="form-control" name="model" placeholder="model" pattern="^TAB\d{1,7}$" data-error="Please enter valid model." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="AddTablet">
-                                <label>Brand</label>
-                                <input type="text" class="form-control" name="brand" placeholder="brand">
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 AddTablet">
-                                    <label>Display</label>
-                                    <input type="text" class="form-control" name="display" placeholder="display" pattern="(7|8|10|10.1|10.4|10.5|10.8|11|11.6|12|12.1|12.3|12.5|13|13.1|13.3|13.5|14|14.1|15|15.4|15.5|15.6|17|17.3|18.4)" required>
-                                </div>
-                                <div class="col-sm-3 AddTablet">
-                                    <label>Processor</label>
-                                    <input type="text" class="form-control" name="processor" placeholder="processor">
-                                </div>
-                                <div class="col-sm-3 AddTablet">
-                                    <label>Ram</label>
-                                    <input type="text" class="form-control" name="ram" placeholder="ram" pattern="(2|4|8|12|16|20|24|32|64)" required>
-                                </div>
-                                <div class="col-sm-3 AddTablet">
-                                    <label>Storage</label>
-                                    <input type="text" class="form-control" name="storage" placeholder="storage">
+                                <div class="form-group">
+                                    <label>Brand</label>
+                                    <input type="text" class="form-control" name="brand" placeholder="brand" required>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6 AddTablet">
-                                    <label>Cores</label>
-                                    <input type="text" class="form-control" name="cores" placeholder="cores" pattern="(8|16|32|60|64|80|100|120|128|160|240|250|256|500|480|512|1000|1500|2000|3000)" required>
+                                <div class="col-sm-3 AddTablet">
+                                    <div class="form-group">
+                                        <label>Display</label>
+                                        <input type="text" class="form-control" name="display" placeholder="display"  required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6 AddTablet">
-                                    <label>OS</label>
-                                    <input type="text" class="form-control" name="os" placeholder="os">
+                                <div class="col-sm-3 AddTablet">
+                                    <div class="form-group">
+                                        <label>Processor</label>
+                                        <input type="text" class="form-control" name="processor" placeholder="processor"required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 AddTablet">
+                                    <div class="form-group">
+                                        <label>Ram</label>
+                                        <input type="text" class="form-control" name="ram" placeholder="ram" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 AddTablet">
+                                    <div class="form-group">
+                                        <label>Storage</label>
+                                        <input type="text" class="form-control" name="storage" placeholder="storage" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddTablet">
-                                    <label>Battery</label>
-                                    <input type="text" class="form-control" name="battery" placeholder="battery">
+                                    <div class="form-group">
+                                        <label>Cores</label>
+                                        <input type="text" class="form-control" name="cores" placeholder="cores" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6 AddTablet">
-                                    <label>Camera</label>
-                                    <input type="text" class="form-control" name="camera" placeholder="camera">
+                                    <div class="form-group">
+                                        <label>OS</label>
+                                        <input type="text" class="form-control" name="os" placeholder="os" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 AddTablet">
+                                    <div class="form-group">
+                                        <label>Battery</label>
+                                        <input type="text" class="form-control" name="battery" placeholder="battery" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 AddTablet">
+                                    <div class="form-group">
+                                        <label>Camera</label>
+                                        <input type="text" class="form-control" name="camera" placeholder="camera" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 AddTablet">
-                                    <label>Dimensions</label>
-                                    <input type="text" class="form-control" name="dimensions" placeholder="dimensions"pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" required>
+                                    <div class="form-group">
+                                        <label>Dimensions</label>
+                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions"pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" data-error="Please enter valid dimension." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddTablet">
-                                    <label>Weight</label>
-                                    <input type="text" class="form-control" name="weight" placeholder="weight">
+                                    <div class="form-group">
+                                        <label>Weight</label>
+                                        <input type="text" class="form-control" name="weight" placeholder="weight" pattern="[^-]\d+\.{0,1}\d{0,2}" data-error="Please enter valid price." data-error="Please enter valid weight." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6 AddTablet">
-                                    <label>Price</label>
-                                    <input type="text" class="form-control" name="price" placeholder="price">
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <input type="text" class="form-control" name="price" placeholder="price" pattern="[^-]\d+\.{0,1}\d{0,2}" data-error="Please enter valid price." data-error="Please enter valid price." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-lg btn-success">Add tablet</button>
