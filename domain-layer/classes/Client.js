@@ -46,7 +46,7 @@ class Client extends User {
             let order = OrderMapper.create(orderId, self.id, date, total);
             for (let i = 0; i < this.shoppingcart.cart.length; i++) {
                 this.shoppingcart.cart[i].setOrderItemId(orderId);
-                clearTimeout(this.shoppingcart.timeouts[i]);
+                clearTimeout(this.shoppingcart.timeots[i]);
             }
             this.shoppingcart.timeouts = [];
             OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {

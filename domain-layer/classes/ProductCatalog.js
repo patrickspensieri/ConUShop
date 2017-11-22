@@ -92,8 +92,43 @@ class ProductCatalog {
      * @return {string}
      */
     updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
-        let idMapVersion = parseInt(idMap.get(productType, model).version);
+        let idMapVersion = 0;
+
+        switch(productType){
+            case 'Desktop':
+                desktopMapper.find(model,function (err,res) {
+                    if(!err){
+                        idMapVersion = parseInt(res.version);
+                    }
+                });
+                break;
+            case 'Laptop':
+                laptopMapper.find(model,function (err,res) {
+                    if(!err){
+                        idMapVersion = parseInt(res.version);
+                    }
+                });
+                break;
+
+            case 'Monitor':
+                monitorMapper.find(model,function (err,res) {
+                    if(!err){
+                        idMapVersion = parseInt(res.version);
+                    }
+                });
+                break;
+
+            case 'Tablet':
+                tabletMapper.find(model,function (err,res) {
+                    if(!err){
+                        idMapVersion = parseInt(res.version);
+                    }
+                });
+                break;
+
+        }
         let isVersion = parseInt(version) === idMapVersion;
+
         if (this.productCatalogSessionIsComplete()) {
             switch (productType) {
                 case 'Desktop':
@@ -401,6 +436,8 @@ class ProductCatalog {
         }
         return this.isComplete;
     }
+
+
 }
 
 module.exports = ProductCatalog;
