@@ -166,6 +166,7 @@ module.exports = {
 
 
         if(idMap.get(req.body.prodType, req.body.model) !== null) {
+
             let idMapVersion = parseInt(idMap.get(req.body.prodType, req.body.model).version);
             let clientVersion = parseInt(req.body.version);
             let isSessionComplete = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();

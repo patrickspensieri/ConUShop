@@ -38,23 +38,6 @@ class MonitorTDG {
     }
 
     /**
-     * Finds monitor version from the monitor table.
-     * @static
-     * @param {string} modelNumber model number of monitor to be found.
-     * @param {function} callback function that holds monitor object.
-     */
-    static findVersion(modelNumber, callback) {
-        db.query('SELECT version FROM monitor WHERE model=$1', [modelNumber], (err, result) => {
-            if (err) {
-                console.log(err.message);
-            } else {
-                return callback(null, result.rows);
-            }
-        });
-    }
-
-
-    /**
    * Inserts an object into the monitor table.
    * @static
    * @param {string} model model number of monitor.

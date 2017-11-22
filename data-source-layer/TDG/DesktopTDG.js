@@ -37,22 +37,6 @@ class DesktopTDG {
         });
     }
 
-    /**
-     * Finds desktop version from the desktop table.
-     * @static
-     * @param {string} modelNumber model number of desktop to be found.
-     * @param {function} callback function that holds desktop object.
-     */
-    static findVersion(modelNumber, callback) {
-        db.query('SELECT version FROM desktop WHERE model=$1', [modelNumber], (err, result) => {
-            if (err) {
-                console.log(err.message);
-            } else {
-                return callback(null, result.rows);
-            }
-        });
-    }
-
   /**
    * Inserts an object into the desktop table.
    * @static

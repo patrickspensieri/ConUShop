@@ -37,22 +37,6 @@ class LaptopTDG {
         });
     }
 
-    /**
-     * Finds laptop version from the laptop table.
-     * @static
-     * @param {string} modelNumber model number of laptop to be found.
-     * @param {function} callback function that holds laptop object.
-     */
-    static findVersion(modelNumber, callback) {
-        db.query('SELECT version FROM laptop WHERE model=$1', [modelNumber], (err, result) => {
-            if (err) {
-                console.log(err.message);
-            } else {
-                return callback(null, result.rows);
-            }
-        });
-    }
-
   /**
    * Inserts an object into the laptop table.
    * @static

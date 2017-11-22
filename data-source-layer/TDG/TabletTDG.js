@@ -36,22 +36,6 @@ class TabletTDG {
             }
         });
     }
-
-    /**
-     * Finds tablet version from the tablet table.
-     * @static
-     * @param {string} modelNumber model number of tablet to be found.
-     * @param {function} callback function that holds tablet object.
-     */
-    static findVersion(modelNumber, callback) {
-        db.query('SELECT version FROM tablet WHERE model=$1', [modelNumber], (err, result) => {
-            if (err) {
-                console.log(err.message);
-            } else {
-                return callback(null, result.rows);
-            }
-        });
-    }
     
   /**
    * Inserts an object into the tablet table.

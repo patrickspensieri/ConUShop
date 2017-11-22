@@ -106,7 +106,7 @@ class ProductCatalog {
                 case 'Laptop':
                     if (isVersion) {
                         this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
-                            touch, dimensions, weight, price);
+                            touch, dimensions, weight, price,version);
                         laptopMapper.makeUpdate(this.laptop);
                         return ('Laptop Specification Update was Successful');
                     } else {
@@ -115,7 +115,7 @@ class ProductCatalog {
                     break;
                 case 'Monitor':
                     if (isVersion) {
-                        this.monitor = monitorMapper.create(model, brand, size, weight, price);
+                        this.monitor = monitorMapper.create(model, brand, size, weight, price, version);
                         monitorMapper.makeUpdate(this.monitor);
                         return ('Monitor Specification Update was Successful');
                     } else {
@@ -125,7 +125,7 @@ class ProductCatalog {
                 case 'Tablet':
                     if (isVersion) {
                         this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
-                            dimensions, weight, price);
+                            dimensions, weight, price, version);
                         tabletMapper.makeUpdate(this.tablet);
                         return ('Tablet Specification Update was Successful');
                     } else {
