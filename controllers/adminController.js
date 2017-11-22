@@ -65,7 +65,7 @@ module.exports = {
         res.redirect(req.get('referer'));
     },
 
-    addProductToCatalog: function(req, res) {
+    addItemToCatalog: function(req, res) {
         let modelError = false;
         ItemMapper.find(req.body.serialNumber, function(err, result) {
             if (result != null) {
@@ -85,7 +85,7 @@ module.exports = {
             if (errors.length > 0) {
                 req.flash('validationErrors', errors);
             } else {
-                req.adminUser.getProductCatalog().addProductToCatalog(req.body.serialNumber, req.body.modelNumber);
+                req.adminUser.getProductCatalog().addItemToCatalog(req.body.serialNumber, req.body.modelNumber);
             }
         }
         res.redirect(req.get('referer'));

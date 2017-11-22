@@ -240,7 +240,7 @@ class ProductCatalog {
      * @param {string} modelNumber model number of product specification
      * @return {string}
      */
-    addProductToCatalog(serialNumber, modelNumber) {
+    addItemToCatalog(serialNumber, modelNumber) {
         if (this.productCatalogSessionIsComplete()) {
             this.item = itemMapper.create(serialNumber, modelNumber);
             itemMapper.makeInsertion(this.item);

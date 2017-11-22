@@ -12,7 +12,7 @@ router.get('/items', adminController.inventory);
 router.get('/clients', adminController.clients);
 
 router.post('/deleteItemFromCatalog', adminController.deleteItemFromCatalog);
-router.post('/addProductToCatalog', adminController.addProductToCatalog);
+router.post('/addItemToCatalog', adminController.addItemToCatalog);
 
 router.post('/addProdSpec', adminController.addProdSpec);
 router.post('/deleteProdSpec', adminController.deleteProdSpec);
