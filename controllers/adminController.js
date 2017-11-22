@@ -268,11 +268,11 @@ function validateForm(req) {
     switch (prodType) {
         case 'Desktop':
             // Model Number
-            req.checkBody('model', 'Provided model number format is not supported. Format must be : DES##').matches(/^DES[a-zA-Z0-9]{1,7}$/);
+            req.checkBody('model', 'Provided model number format is not supported. Format must be : DESX where X is an alphanumeric model number (max length 7)').matches(/^DES[a-zA-Z0-9]{1,7}$/);
             break;
         case 'Laptop':
             // Model Number
-            req.checkBody('model', 'Provided model number format is not supported. Format must be : LAP##').matches(/^LAP[a-zA-Z0-9]{1,7}$/);
+            req.checkBody('model', 'Provided model number format is not supported. Format must be : LAPX where X is an alphanumeric model number (max length 7)').matches(/^LAP[a-zA-Z0-9]{1,7}$/);
 
             // Touch
             req.checkBody('touch', 'Touch can not be empty').notEmpty();
@@ -283,7 +283,7 @@ function validateForm(req) {
             break;
         case 'Monitor':
             // Model Number
-            req.checkBody('model', 'Provided model number format is not supported. Format must be : MON##').matches(/^MON[a-zA-Z0-9]{1,7}$/);
+            req.checkBody('model', 'Provided model number format is not supported. Format must be : MONX where X is an alphanumeric model number (max length 7)').matches(/^MON[a-zA-Z0-9]{1,7}$/);
 
             // Size
             req.checkBody('size', 'Size can not be empty').notEmpty();
@@ -291,7 +291,7 @@ function validateForm(req) {
             break;
         case 'Tablet':
             // Model Number
-            req.checkBody('model', 'Provided model number format is not supported. Format must be : TAB##').matches(/^TAB[a-zA-Z0-9]{1,7}$/);
+            req.checkBody('model', 'Provided model number format is not supported. Format must be : TABX where X is an alphanumeric model number (max length 7)').matches(/^TAB[a-zA-Z0-9]{1,7}$/);
             req.checkBody('camera', 'Camera value should be a positive whole number').isInt({min: 1});
             break;
     }
