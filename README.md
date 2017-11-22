@@ -8,15 +8,15 @@ www.conu.shop
 
 ### Admin Accounts
 
-1. Email: CC@hotmail.com Password: 1234
-2. Email: zeusontop@hotmail.com Password: ZeusAboveAll
-3. Email: larak@hotmail.com Password: HabsForLife
+1. Email: `admin1@hotmail.com` Password: `1234`
+2. Email: `admin2@hotmail.com` Password: `1234`
+3. Email: `admin3@hotmail.com` Password: `1234`
 
 ### Client Accounts
 
-1. Email: donalduck@hotmail.com Password: GlobalWarming
-2. Email: adrianna@hotmail.com Password: 1234
-3. Email: vidhi@hotmail.com Password: 1234
+1. Email: `client1@hotmail.com` Password: `1234`
+2. Email: `client1@hotmail.com` Password: `1234`
+3. Email: `client1@hotmail.com` Password: `1234`
 
 ### Installation
 
@@ -26,15 +26,16 @@ www.conu.shop
 
 ### Usage
 
-1. npm install
-2. npm start || heroku local
-3. open browser to localhost:5000
+1. configure `.env` file
+2. `npm install`
+3. `npm start || heroku local`
+4. open browser to `localhost:5000`
 
 
 ### Excecute unit tests
 
-1. npm install   
-2. npm test
+1. `npm install`   
+2. `npm test`
 
 
 ### Credits
