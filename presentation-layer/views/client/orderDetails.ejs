@@ -32,9 +32,11 @@
                                 <td class="brand"><%= data[i].price %></td>
                                 <td class="brand"><%= data[i].isReturned %></td>
                                 <td>
-                                    <form method="get" action="/client/startReturn/<%= data[i].orderItemId %>">
+                                    <% if (data[i].isReturned == false) { %>
+                                    <form method="get" action="/client/item/startReturn/<%= data[i].orderItemId %>/<%= data[i].orderId %>">
                                         <button type="submit" class="btn btn-danger">Return</button>
                                     </form>
+                                    <% } %>
                                 </td>
                             </tr>
                         <% } %>

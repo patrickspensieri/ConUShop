@@ -93,23 +93,39 @@ module.exports = {
 
     returnItem: function(req, res) {
         let orderItemId = req.params.id;
+        let orderId = req.params.orderId;
         req.clientUser.returnItem(orderItemId, function(err, result) {
-            res.redirect(req.get('referer'));
+            res.redirect('/client/order/details/'+orderId);
         });
     },
 
     startReturn: function(req, res) {
         let orderItemId = req.params.id;
-        req.clientUser.returnItem(orderItemId, function(err, result) {
-            res.redirect(req.get('referer'));
+        let orderId = req.params.orderId;
+        let catalog = req.clientUser.orderCatalog.orders;
+        let result = null;
+        for (let i = 0; i < catalog.length; i++) {
+            if (orderId == catalog[i].orderId) {
+                catalog[i].startReturnSession();
+                result = catalog[i].getOrderItem(orderItemId);
+                break;
+            }
+        }
+        res.render('client/confirmReturn', {
+            data: result,
         });
     },
 
     cancelReturn: function(req, res) {
-        let orderItemId = req.params.id;
-        req.clientUser.returnItem(orderItemId, function(err, result) {
-            res.redirect(req.get('referer'));
-        });
+        let orderId = req.params.orderId;
+        let catalog = req.clientUser.orderCatalog.orders;
+        for (let i = 0; i < catalog.length; i++) {
+            if (orderId == catalog[i].orderId) {
+                catalog[i].endReturnSession();
+                break;
+            }
+        }
+        res.redirect('/client/order/details/'+orderId);
     },
     
     deleteAccount: function(req, res) {

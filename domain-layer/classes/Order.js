@@ -20,6 +20,7 @@ class Order {
        this.total = total;
        this.isCompleted = false;
        this.orderItems = null;
+       this.isLocked = false;
     }
 
     getOrderItems(callback) {
@@ -28,6 +29,22 @@ class Order {
             self.orderItems = result;
             return callback(err, result);
         });
+    }
+
+    getOrderItem(orderItemId) {
+        for (let i = 0; i < this.orderItems.length; i++) {
+            if (orderItemId == this.orderItems[i].orderItemId) {
+                return this.orderItems[i];
+            }
+        }
+    }
+
+    startReturnSession() {
+        this.isLocked = true;
+    }
+
+    endReturnSession() {
+        this.isLocked = false;
     }
 }
 

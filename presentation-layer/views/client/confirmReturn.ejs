@@ -25,22 +25,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <% for(var i = 0; i < data.length; i++) { %>
                             <tr>
-                                <td class="serial"><%= data[i].serialNumber %></td>
-                                <td class="model"><%= data[i].itemObj.modelNumber%></td>
-                                <td class="brand"><%= data[i].price %></td>
-                                <td class="brand"><%= data[i].isReturned %></td>
+                                <td class="serial"><%= data.serialNumber %></td>
+                                <td class="model"><%= data.itemObj.modelNumber%></td>
+                                <td class="brand"><%= data.price %></td>
+                                <td class="brand"><%= data.isReturned %></td>
                                 <td>
-                                    <form method="get" action="/client/item/return/<%= data[i].orderItemId %>">
+                                    <form method="get" action="/client/item/return/<%= data.orderItemId %>/<%= data.orderId %>">
                                         <button type="submit" class="btn btn-success">Confirm <span class="glyphicon glyphicon-ok"></span> </button>
                                     </form>
-                                    <form method="get" action="/client/item/cancelReturn/<%= data[i].orderItemId %>">
+                                    <form method="get" action="/client/item/cancelReturn/<%= data.orderId %>">
                                         <button type="submit" class="btn btn-danger">Cancel <span class="glyphicon glyphicon-remove"></span> </button>
                                     </form>
                                 </td>
                             </tr>
-                        <% } %>
                         </tbody>
                     </table>
                 <% } %>
