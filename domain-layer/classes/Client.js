@@ -6,6 +6,7 @@ let moment = require('moment');
 let OrderCatalog = require('./OrderCatalog');
 let OrderItemMapper = require('../mappers/OrderItemMapper');
 let ItemMapper = require('../mappers/ItemMapper');
+let contract = require('obligations');
 
 /**
  * Class describes a Client.
@@ -34,28 +35,26 @@ class Client extends User {
     /**
      * Function that allows clients to purchase items from the product Catalog
      * @param {*} callback
-     * @return {*}
      */
     makePurchase(callback) {
-        if (this.shoppingcart.cart.length > 0) {
-            let self = this;
-            let total = this.shoppingcart.getTotal();
-            let orderId = self.shoppingcart.generateOrderId(self.id);
-            let date = moment().format('YYYY-MM-DD');
-            let order = OrderMapper.create(orderId, self.id, date, total);
-            for (let i = 0; i < this.shoppingcart.cart.length; i++) {
-                this.shoppingcart.cart[i].setOrderItemId(orderId);
-                clearTimeout(this.shoppingcart.timeouts[i]);
-            }
-            this.shoppingcart.timeouts = [];
-            OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {
-                self.shoppingcart.cart = [];
-                return callback(null, null);
-            });
-        } else {
-            console.log('Shopping cart empty');
-            return callback(null, null);
+        contract.invariant(this.constructor.name == 'Client');
+        contract.precondition(this.shoppingcart.cart.length > 0);
+
+        let self = this;
+        let total = this.shoppingcart.getTotal();
+        let orderId = self.shoppingcart.generateOrderId(self.id);
+        let date = moment().format('YYYY-MM-DD');
+        let order = OrderMapper.create(orderId, self.id, date, total);
+        for (let i = 0; i < this.shoppingcart.cart.length; i++) {
+            this.shoppingcart.cart[i].setOrderItemId(orderId);
+            clearTimeout(this.shoppingcart.timeouts[i]);
         }
+        this.shoppingcart.timeouts = [];
+        OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {
+            self.shoppingcart.cart = [];
+            contract.postcondition(self.shoppingcart.cart.length == 0);
+            return callback(null, null);
+        });
     }
 
     /**
