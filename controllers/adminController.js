@@ -59,13 +59,13 @@ module.exports = {
         });
      },
 
-    deleteItem: function(req, res) {
-        let otherMsg = req.adminUser.getProductCatalog().deleteItem(req.body.serialNumber);
+    deleteItemFromCatalog: function(req, res) {
+        let otherMsg = req.adminUser.getProductCatalog().deleteItemFromCatalog(req.body.serialNumber);
         req.flash('otherSess_msg', otherMsg);
         res.redirect(req.get('referer'));
     },
 
-    addItem: function(req, res) {
+    addItemToCatalog: function(req, res) {
         let modelError = false;
         ItemMapper.find(req.body.serialNumber, function(err, result) {
             if (result != null) {
@@ -85,7 +85,7 @@ module.exports = {
             if (errors.length > 0) {
                 req.flash('validationErrors', errors);
             } else {
-                req.adminUser.getProductCatalog().addItem(req.body.serialNumber, req.body.modelNumber);
+                req.adminUser.getProductCatalog().addItemToCatalog(req.body.serialNumber, req.body.modelNumber);
             }
         }
         res.redirect(req.get('referer'));
@@ -196,13 +196,13 @@ module.exports = {
         res.send({redirect: req.body.redi});
     },
     startProductCatalogSession: function(req, res) {
-        req.adminUser.getProductCatalog().startProductCatalogSession();
-        req.flash('sessStart_msg', 'Started Product Catalog Session. You can now make changes to Product Catalog');
+        let msg = req.adminUser.getProductCatalog().startProductCatalogSession();
+        req.flash('sessStart_msg', msg);
         res.send({redirect: req.body.redi});
     },
     endProductCatalogSession: function(req, res) {
-        req.adminUser.getProductCatalog().endProductCatalogSession();
-        req.flash('sessEnd_msg', 'Ended Product Catalog Session. You can no longer make changes to Product Catalog');
+        let msg = req.adminUser.getProductCatalog().endProductCatalogSession();
+        req.flash('sessEnd_msg', msg);
         res.send({redirect: req.body.redi});
     },
 };
