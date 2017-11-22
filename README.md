@@ -15,8 +15,8 @@ www.conu.shop
 ### Client Accounts
 
 1. Email: `client1@hotmail.com` Password: `1234`
-2. Email: `client1@hotmail.com` Password: `1234`
-3. Email: `client1@hotmail.com` Password: `1234`
+2. Email: `client2@hotmail.com` Password: `1234`
+3. Email: `client3@hotmail.com` Password: `1234`
 
 ### Installation
 
