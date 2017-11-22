@@ -478,11 +478,15 @@ Admin:
     3. Email: larak@hotmail.com Password: HabsForLife
 Client:
     1. Email: donalduck@hotmail.com Password: GlobalWarming
+    2. Email: adriana@hotmail.com Password: 1234
+    3. Email: vidhi@hotmail.com Password: 1234
 */
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'C', 'C', 'Concordia University', 'cc@hotmail.com', '5143184562', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', '$2a$10$UpoxaHPzla6e80MeSKHeYumgh4xe7tiLOk3vjhLK5Wb6TxZNsfuBe');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$YfHMABFbSnL5HaEjlhWCXOlqGDuV4vOpl8TOEvl3cU6G08/vW/h2W');
 INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$0xjuhHOiXj32lyS9Zml9melW4mHyHIxzgYWNBvQELk8zA9SlAoo8O');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (FALSE, 'Adrianna', 'D', 'Concordia University', 'adrianna@hotmail.com', '5147654321', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (FALSE, 'Vidhi', 'M', 'Concordia University', 'vidhi@hotmail.com', '5141234567', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
 
 /* ------------------------------------------ ACTIVEUSERS TABLE QUERIES --------------------------------------------- */
 

@@ -15,8 +15,8 @@ www.conu.shop
 ### Client Accounts
 
 1. Email: donalduck@hotmail.com Password: GlobalWarming
-2. Email:  Password: 
-3. Email:  Password: 
+2. Email: adrianna@hotmail.com Password: 1234
+3. Email: vidhi@hotmail.com Password: 1234
 
 ### Installation
 
@@ -29,6 +29,12 @@ www.conu.shop
 1. npm install
 2. npm start || heroku local
 3. open browser to localhost:5000
+
+
+### Excecute unit tests
+
+1. npm install   
+2. npm test
 
 
 ### Credits
