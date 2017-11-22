@@ -30,6 +30,7 @@ class User {
     }
 
     /**
+     * Get the product catalog inventory
      * @param {string} productType string of the Object
      * @param {function} callback function
      * @return {Object} product catalog's inventory
