@@ -90,9 +90,6 @@ class ShoppingCart {
             });
 
             if (++removed == self.cart.length) {
-                for (let i = 0; i < self.cart.length; i++) {
-                    clearTimeout(self.timeouts[i]);
-                }
                 self.cart = [];
                 return callback(null, 'Success');
             }
@@ -100,10 +97,22 @@ class ShoppingCart {
     }
 
     startPurchaseSession() {
+        for (let i = 0; i < this.cart.length; i++) {
+            clearTimeout(this.timeouts[i]);
+        }
+        this.timeouts = [];
+
+        let now = new Date();
+        let timerExpiresAt = now.getTime() + 120000;
+        let timeout = setTimeout(this.removeAllFromCart.bind(this), 120000, function(err, result) {});
+        this.timeouts.push(timeout);
+        this.timeouts[0].timeout = timerExpiresAt;
+
         this.isLocked = true;
     }
 
     endPurchaseSession() {
+
         this.isLocked = false;
     }
 

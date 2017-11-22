@@ -38,8 +38,8 @@ module.exports = {
     checkout: function(req, res) {
         let data = req.clientUser.shoppingcart.cart;
         let total = req.clientUser.shoppingcart.getTotal();
-
         req.clientUser.shoppingcart.startPurchaseSession();
+        console.log(req.user.shoppingcart.timeouts);
         res.render('client/confirmation', {
             data: data,
             total: total,
