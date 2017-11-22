@@ -15,7 +15,7 @@ describe('Unit Tests: User class', function() {
         expect(user).to.have.own.property('email');
         expect(user).to.have.own.property('phone');
         expect(user).to.have.own.property('password');
-        expect(user).to.have.own.property('sessionid');
+        expect(user).to.have.own.property('session_id');
         expect(user).to.have.own.property('id');
     });
 });
