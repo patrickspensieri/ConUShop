@@ -36,13 +36,16 @@ module.exports = {
     },
     
     checkout: function(req, res) {
+        req.clientUser.shoppingcart.startPurchaseSession();
         let data = req.clientUser.shoppingcart.cart;
         let total = req.clientUser.shoppingcart.getTotal();
-        req.clientUser.shoppingcart.startPurchaseSession();
-        console.log(req.user.shoppingcart.timeouts);
-        res.render('client/confirmation', {
+        let timeout = req.clientUser.shoppingcart.timeouts[0].timeout;
+        let locked = req.clientUser.shoppingcart.isLocked;
+        res.render('client/confirmPurchase', {
             data: data,
             total: total,
+            timeout: timeout,
+            locked: locked,
         });
     },
 
@@ -54,9 +57,12 @@ module.exports = {
     },
 
     cancelPurchase: function(req, res) {
-        req.clientUser.shoppingcart.removeAllFromCart(function(err, data) {
-            res.redirect('shoppingCart');
-        });
+        if (req.clientUser.shoppingcart.isLocked) {
+            req.clientUser.shoppingcart.removeAllFromCart(function(err, data) {
+                req.clientUser.shoppingcart.endPurchaseSession();
+            });
+        }
+        res.redirect('shoppingCart');
     },
 
     confirmPurchase: function(req, res) {
@@ -92,6 +98,20 @@ module.exports = {
         });
     },
 
+    startReturn: function(req, res) {
+        let orderItemId = req.params.id;
+        req.clientUser.returnItem(orderItemId, function(err, result) {
+            res.redirect(req.get('referer'));
+        });
+    },
+
+    cancelReturn: function(req, res) {
+        let orderItemId = req.params.id;
+        req.clientUser.returnItem(orderItemId, function(err, result) {
+            res.redirect(req.get('referer'));
+        });
+    },
+    
     deleteAccount: function(req, res) {
         UserMapper.makeDeletion(req.clientUser);
         req.flash('success_msg', 'Your account has been successfully deleted');

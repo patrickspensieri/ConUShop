@@ -32,8 +32,11 @@
                                 <td class="brand"><%= data[i].price %></td>
                                 <td class="brand"><%= data[i].isReturned %></td>
                                 <td>
-                                    <form method="get" action="/client/startReturn/<%= data[i].orderItemId %>">
-                                        <button type="submit" class="btn btn-danger">Return</button>
+                                    <form method="get" action="/client/item/return/<%= data[i].orderItemId %>">
+                                        <button type="submit" class="btn btn-success">Confirm <span class="glyphicon glyphicon-ok"></span> </button>
+                                    </form>
+                                    <form method="get" action="/client/item/cancelReturn/<%= data[i].orderItemId %>">
+                                        <button type="submit" class="btn btn-danger">Cancel <span class="glyphicon glyphicon-remove"></span> </button>
                                     </form>
                                 </td>
                             </tr>

@@ -38,6 +38,7 @@ class Client extends User {
      * @return {*}
      */
     makePurchase(callback) {
+        console.log(this.shoppingcart);
         if (this.shoppingcart.cart.length > 0) {
             let self = this;
             let total = this.shoppingcart.getTotal();
@@ -47,7 +48,6 @@ class Client extends User {
             for (let i = 0; i < this.shoppingcart.cart.length; i++) {
                 this.shoppingcart.cart[i].setOrderItemId(orderId);
             }
-
             OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {
                 self.shoppingcart.cart = [];
                 return callback(null, null);

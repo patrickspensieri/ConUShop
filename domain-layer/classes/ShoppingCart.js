@@ -77,11 +77,11 @@ class ShoppingCart {
      */
     removeAllFromCart(callback) {
         contract.precondition(this.cart.length > 0);
-
+        console.log('called');
         const self = this;
         let removed = 0;
         for (let i = 0; i < self.cart.length; i++) {
-           let serialNumber = self.cart[i].serialNumber;
+            let serialNumber = self.cart[i].serialNumber;
 
             this.productCatalog.unlockItem(serialNumber, function(err, result) {
                 if (err) {
@@ -97,7 +97,7 @@ class ShoppingCart {
     }
 
     startPurchaseSession() {
-        for (let i = 0; i < this.cart.length; i++) {
+        for (let i = 0; i < this.timeouts.length; i++) {
             clearTimeout(this.timeouts[i]);
         }
         this.timeouts = [];
@@ -112,7 +112,10 @@ class ShoppingCart {
     }
 
     endPurchaseSession() {
-
+        for (let i = 0; i < this.timeouts.length; i++) {
+            clearTimeout(this.timeouts[i]);
+        }
+        this.timeouts = [];
         this.isLocked = false;
     }
 

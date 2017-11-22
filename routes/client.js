@@ -12,6 +12,8 @@ router.get('/checkout', clientController.checkout);
 router.get('/orders', clientController.viewOrders);
 router.get('/order/details/:id', clientController.viewOrderDetails);
 router.get('/item/return/:id', clientController.returnItem);
+router.get('/item/startReturn/:id', clientController.startReturn);
+router.get('/item/cancelReturn/:id', clientController.cancelReturn);
 router.get('/account', clientController.viewAccount);
 router.get('/deleteAccount', clientController.deleteAccount);
 
