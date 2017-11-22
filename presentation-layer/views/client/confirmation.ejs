@@ -1,0 +1,103 @@
+<html lang="en">
+        <head>
+            <title>ConUshop | Home </title>
+            <% include ../components/header.ejs %>
+        </head>
+        <body>
+        <% include ../components/navigator.ejs %>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="client_content container">
+            <h1>Confirm Purchase</h1>
+            <% if (typeof data!='undefined' && data.length > 0) { %>
+            <div class="content row">
+                <div class="col-sm-12 col-md-10 col-md-offset-1">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-center">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="#"><%= data[i].itemObj.modelNumber %></a></h4>
+                                        <h5 class="media-heading"> by <a href="#"><%= data[i].specification.brand %></a></h5>
+                                        <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                                    </div>
+                                </div></td>
+                                <!-- <script>
+                                    $(function(){
+                                        var calcNewYear = setInterval(function(){
+                                            let date = <%-JSON.stringify(data[i].itemTimeout)%>;
+                                            
+                                            date_future = new Date(date+1000);
+                                            date_now = new Date();
+    
+                                            seconds = Math.floor((date_future - (date_now))/1000);
+                                            minutes = Math.floor(seconds/60);
+                                            hours = Math.floor(minutes/60);
+                                            days = Math.floor(hours/24);
+                                            
+                                            hours = hours-(days*24);
+                                            minutes = minutes-(days*24*60)-(hours*60);
+                                            seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+    
+                                            if (minutes == 0 && seconds == 0 ){
+                                                location.reload();
+                                            }
+                                            if (seconds < 10) {
+                                                seconds = '0' + seconds;
+                                            }
+                                            $("#<%= data[i].serialNumber %>").text(minutes + ":" + seconds + " Mins");
+                                        },1000);
+                                    });
+                                </script> -->
+                                <td class="col-sm-1 col-md-1 text-center"><strong><%= data[i].specification.price %></strong></td>
+                            </tr>
+                            <% } %>
+                            <tr>
+                                <td><h3>Total</h3></td>
+                                <td class="text-right"><h3><strong>$<%= total %></strong></h3></td>
+                            </tr>
+                            <tr>
+                                <td>   </td>
+                                <td>
+                                    <form method="get" action="/client/makePurchase">
+                                        <button type="submit" class="btn btn-success">
+                                                Purchase <span class="glyphicon glyphicon-play"></span>
+                                        </button>
+                                    </form>
+                                    <form method="get" action="/client/cancelPurchase">
+                                        <button type="submit" class="btn btn-danger">
+                                                Cancel <span class="glyphicon glyphicon-play"></span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <% } else { %>
+                <div class="content row">
+                        <div class="alert alert-info">
+                                <strong>Your Cart Is Empty: </strong> Add items into your Shopping Cart to make a new purchase!
+                        </div>
+                </div>
+            <% } %>
+        </div>
+    
+        
+        <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
+        <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
+        <script type="text/javascript" src="/js/catalog/catalog.js"></script>
+        <% include ../components/footer.ejs %>
+        </body>
+        </html>

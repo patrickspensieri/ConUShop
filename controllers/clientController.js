@@ -26,12 +26,6 @@ module.exports = {
         });
     },
 
-    deleteAllFromShoppingCart: function(req, res) {
-        req.clientUser.shoppingcart.removeAllFromCart( function(err, data) {
-            res.redirect(req.get('referer'));
-        });
-    },
-
     viewShoppingCart: function(req, res) {
         let data = req.clientUser.shoppingcart.cart;
         let total = req.clientUser.shoppingcart.getTotal();
@@ -40,25 +34,38 @@ module.exports = {
             total: total,
         });
     },
+    
+    checkout: function(req, res) {
+        let data = req.clientUser.shoppingcart.cart;
+        let total = req.clientUser.shoppingcart.getTotal();
+
+        req.clientUser.shoppingcart.startPurchaseSession();
+        res.render('client/confirmation', {
+            data: data,
+            total: total,
+        });
+    },
 
     makePurchase: function(req, res) {
         req.clientUser.makePurchase(function(err, result) {
-            res.redirect(req.get('referer'));
+            req.clientUser.shoppingcart.endPurchaseSession();
+            res.redirect('shoppingCart');
         });
     },
 
-    canceelPurchase: function(req, res) {
-        req.clientUser.cancelPurchase(function(err, result) {
-            res.redirect(req.get('referer'));
+    cancelPurchase: function(req, res) {
+        req.clientUser.shoppingcart.removeAllFromCart(function(err, data) {
+            res.redirect('shoppingCart');
         });
     },
+
     confirmPurchase: function(req, res) {
 
     },
 
     viewAccount: function(req, res) {
-            res.render('client/account', {
-            });
+        res.render('client/account', {
+        });
     },
 
     viewOrders: function(req, res) {

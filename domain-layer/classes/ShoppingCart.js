@@ -17,6 +17,7 @@ class ShoppingCart {
         this.productCatalog = productCatalog;
         this.cart = [];
         this.timeouts = [];
+        this.isLocked = false;
     }
 
     /**
@@ -76,26 +77,35 @@ class ShoppingCart {
      */
     removeAllFromCart(callback) {
         contract.precondition(this.cart.length > 0);
-        const self = this;
-        for (let i = 0; i < self.cart.length; i++) {
-           let serialNumber =  self.cart[i].serialNumber;
 
-            this.productCatalog.unlockItem(serialNumber, function (err, result) {
-                if (!err) {
-                    for (let j = 0; j < self.cart.length; j++) {
-                        if (self.cart[j].serialNumber == serialNumber) {
-                            self.cart.splice(j, self.cart.length);
-                            clearTimeout(self.timeouts[j]);
-                            self.timeouts.splice(j, self.cart.length);
-                            break;
-                        }
-                    }
-                    return callback(err, 'Success');
+        const self = this;
+        let removed = 0;
+        for (let i = 0; i < self.cart.length; i++) {
+           let serialNumber = self.cart[i].serialNumber;
+
+            this.productCatalog.unlockItem(serialNumber, function(err, result) {
+                if (err) {
+                    console.log(err);
                 }
             });
+
+            if (++removed == self.cart.length) {
+                for (let i = 0; i < self.cart.length; i++) {
+                    clearTimeout(self.timeouts[i]);
+                }
+                self.cart = [];
+                return callback(null, 'Success');
+            }
         }
     }
 
+    startPurchaseSession() {
+        this.isLocked = true;
+    }
+
+    endPurchaseSession() {
+        this.isLocked = false;
+    }
 
     /**
      * Get an item from the shopping cart
