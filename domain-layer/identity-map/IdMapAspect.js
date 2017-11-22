@@ -88,7 +88,13 @@ function insertAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    classTDG.insert(...getObjectAttributesHelper(object, className), function (err, result) {
+    let attributeArr = [...getObjectAttributesHelper(object, className)];
+
+    if(className == 'Tablet' || className == 'Item' ||  className == 'Monitor' ||  className == 'Laptop' ||  className == 'Desktop') {
+        attributeArr.pop();
+    }
+
+    classTDG.insert(...attributeArr, function (err, result) {
         if (!err) {
             idMap.add(object, id);
         }

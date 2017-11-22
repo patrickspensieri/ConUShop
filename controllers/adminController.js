@@ -197,8 +197,6 @@ module.exports = {
             req.flash('otherSess_msg', otherMsg);
         }
 
-
-
         res.send({redirect: req.body.redi});
     },
     startProductCatalogSession: function (req, res) {
