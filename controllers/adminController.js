@@ -163,40 +163,44 @@ module.exports = {
 
     updateProdSpec: function (req, res) {
         let otherMsg;
-        let idMapVersion = parseInt(idMap.get(req.body.prodType, req.body.model).version);
-        let clientVersion = parseInt(req.body.version);
-        let isSessionComplete = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
-        let isVersion = idMapVersion === clientVersion;
 
-        switch (req.body.prodType) {
-            case 'Desktop':
-                otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
-                    req.body.processor, req.body.ram, req.body.storage, req.body.cores,
-                    req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null, req.body.version);
-                break;
-            case 'Laptop':
-                otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
-                    req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null, req.body.version);
-                break;
-            case 'Monitor':
-                otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
-                    null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size, req.body.version);
-                break;
-            case 'Tablet':
-                otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
-                    req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null, req.body.version);
-                break;
-        }
-        if (isSessionComplete) {
-            if (isVersion) {
-                req.flash('success_msg', otherMsg);
-            } else {
-                req.flash('error_msg', otherMsg);
+
+        if(idMap.get(req.body.prodType, req.body.model) !== null) {
+            let idMapVersion = parseInt(idMap.get(req.body.prodType, req.body.model).version);
+            let clientVersion = parseInt(req.body.version);
+            let isSessionComplete = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
+            let isVersion = idMapVersion === clientVersion;
+            switch (req.body.prodType) {
+                case 'Desktop':
+                    otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+                        req.body.processor, req.body.ram, req.body.storage, req.body.cores,
+                        req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null, req.body.version);
+                    break;
+                case 'Laptop':
+                    otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                        req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null, req.body.version);
+                    break;
+                case 'Monitor':
+                    otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+                        null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size, req.body.version);
+                    break;
+                case 'Tablet':
+                    otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                        req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null, req.body.version);
+                    break;
             }
-        }else{
-            req.flash('otherSess_msg', otherMsg);
+            if (isSessionComplete) {
+                if (isVersion) {
+                    req.flash('success_msg', otherMsg);
+                } else {
+                    req.flash('error_msg', otherMsg);
+                }
+            } else {
+                req.flash('otherSess_msg', otherMsg);
+            }
+        } else{
+            req.flash('error_msg', 'Object no longer exists, Product Specification is not current');
         }
-
         res.send({redirect: req.body.redi});
     },
     startProductCatalogSession: function (req, res) {
