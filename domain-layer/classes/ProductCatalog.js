@@ -67,6 +67,7 @@ class ProductCatalog {
                     tabletMapper.makeInsertion(this.tablet);
                     break;
             }
+            return ('Product Specification has been created');
         } else {
             return ('Begin Product Catalog Session to add Specifications.');
         }
@@ -113,6 +114,8 @@ class ProductCatalog {
                     tabletMapper.makeUpdate(this.tablet);
                     break;
             }
+            return ('Product Specification has been updated');
+
         } else {
             return ('Begin Product Catalog Session to edit.');
         }
@@ -141,6 +144,7 @@ class ProductCatalog {
                         break;
                 }
             });
+            return ('Product Specification has been deleted');
         } else {
             return ('Begin Product Catalog Session to edit.');
         }
@@ -242,8 +246,57 @@ class ProductCatalog {
      */
     addItemToCatalog(serialNumber, modelNumber) {
         if (this.productCatalogSessionIsComplete()) {
-            this.item = itemMapper.create(serialNumber, modelNumber);
-            itemMapper.makeInsertion(this.item);
+            let prodType = modelNumber.substring(0, 3);
+            let item = null;
+            switch (prodType) {
+                case 'DES':
+                    desktopMapper.find(modelNumber, function(err, result) {
+                        if (err) {
+                            console.log('Error during desktop find query', null);
+                        } else {
+                            item = itemMapper.create(serialNumber, modelNumber);
+                            itemMapper.makeInsertion(item);
+                            return ('Item has been added to productCatalog');
+                        }
+                    });
+                    break;
+
+                case 'LAP':
+                    laptopMapper.find(modelNumber, function(err, result) {
+                        if (err) {
+                            console.log('Error during laptop find query', null);
+                        } else {
+                            item = itemMapper.create(serialNumber, modelNumber);
+                            itemMapper.makeInsertion(item);
+                            return ('Item has been added to productCatalog');}
+                    });
+                    break;
+
+                case 'MON':
+                    monitorMapper.find(modelNumber, function(err, result) {
+                        if (err) {
+                            console.log('Error during monitor find query', null);
+                        } else {
+                            item = itemMapper.create(serialNumber, modelNumber);
+                            itemMapper.makeInsertion(item);
+                            return ('Item has been added to productCatalog');
+                        }
+                    });
+                    break;
+                case 'TAB':
+                    tabletMapper.find(modelNumber, function(err, result) {
+                        if (err) {
+                            console.log('Error during tablet find query', null);
+                        } else {
+                            item = itemMapper.create(serialNumber, modelNumber);
+                            itemMapper.makeInsertion(item);
+                            return ('Item has been added to productCatalog');
+                        }
+                    });
+                    break;
+                default:
+                    return ('Incorrect model Number, can not add this item to catalog');
+            }
         } else {
             return ('Begin Product Catalog Session to add items to catalog.');
         }
@@ -257,6 +310,7 @@ class ProductCatalog {
         if (this.productCatalogSessionIsComplete()) {
             let itemObject = itemMapper.create(serialNumber);
             itemMapper.makeDeletion(itemObject);
+            return ('Item has been deleted');
         } else {
             return ('Begin Product Catalog Session to delete items from catalog.');
         }
