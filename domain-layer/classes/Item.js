@@ -17,14 +17,6 @@ class Item {
         this.type = null;
         this.price = null;
     }
-
-    /**
-     * Price setter
-     * @param {number} price 
-     */
-    setPrice(price) {
-        this.price = price;
-    }
 }
 
 module.exports = Item;
