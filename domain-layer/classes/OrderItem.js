@@ -16,7 +16,6 @@ class OrderItem {
      * @param {Date} itemTimeout 
      * @param {Object} productCatalog 
      */
-    
     constructor(orderItemId, orderId, serialNumber, price, isReturned, itemObj, itemTimeout) {
         this.orderItemId = orderItemId;
         this.orderId = orderId;
@@ -26,11 +25,11 @@ class OrderItem {
         this.itemObj = itemObj;
         this.specification = null;
         this.productCatalog = ProductCatalog.getProductCatalogInstance();
-        this.itemTimeout = itemTimeout; //timer for each items
+        this.itemTimeout = itemTimeout; // timer for each items
     }
 
     /**
-     * 
+     * OderItem accessor
      * @return {string} returns item object id
      */
     getOrderItemId() {
@@ -38,13 +37,17 @@ class OrderItem {
     }
 
     /**
-     * 
+     * ItemObject accessor
      * @return {Object} returns item object
      */
     getItemObject() {
        return itemObj;
     }
 
+    /**
+     * ItemObject mutator
+     * @param {*} callback 
+     */
     setItemObject(callback) {
         let self = this;
         this.productCatalog.getItem(this.serialNumber, function(err, result) {
@@ -53,6 +56,10 @@ class OrderItem {
         });
     }
 
+    /**
+     * Specification mutator
+     * @param {*} callback 
+     */
     setSpecification(callback) {
         let self = this;
         this.productCatalog.getProductSpecification(this.itemObj.type, this.itemObj.modelNumber, function(err, result) {
@@ -65,7 +72,7 @@ class OrderItem {
     }
 
     /**
-     * 
+     * OrderItemId mutator
      * @param {*} orderId 
      */
     setOrderItemId(orderId) {
@@ -74,8 +81,8 @@ class OrderItem {
     }
 
     /**
-     * 
-     * @return {string} OOID
+     * Generates an OIID
+     * @return {string} OIID
      */
     generateOIID() {
         let ooid = this.orderId + '' + this.serialNumber;

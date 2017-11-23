@@ -22,7 +22,6 @@ class UserTDG {
         });
     }
 
-// TODO: update query to select from activeusers as well
   /**
    * Finds all objects from the user table.
    * @static
@@ -53,26 +52,24 @@ class UserTDG {
         });
     }
 
-  /**
-   * Inserts an object into the user table.
-   * @static
-   * @param {boolean} isadmin is user client or admin
-   * @param {string} firstname first name of user
-   * @param {string} lastname last name of user
-   * @param {string} address home address of user
-   * @param {string} email email of user
-   * @param {number} phone phone number of user
-   * @param {string} password password of user
-   * @param {function} callback
-   * @param {string} session_id session_id for login
-   */
+
+    /**
+     * Inserts an object in the user table.
+     * @param {string} firstname of user
+     * @param {string} lastname of user
+     * @param {string} address of user
+     * @param {string} email of user
+     * @param {number} phone of user
+     * @param {string} password of user
+     * @param {boolean} isadmin is user client or admin
+     * @param {string} sessionid of user
+     * @param {string} id of user
+     * @param {*} callback 
+     */
     static insert(firstname, lastname, address, email, phone, password, isadmin, sessionid, id, callback) {
         let queryString = 'INSERT INTO users (isadmin, firstname, lastname, address, email, phone, password) VALUES($1, $2, $3, $4, $5, $6, $7)';
         let queryValues = [isadmin, firstname, lastname, address, email, phone, password];
 
-        // TODO update userObject ID once query completed
-        // OR
-        // query to get next available primary key
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
                 console.log(err.message);
@@ -81,18 +78,19 @@ class UserTDG {
         });
     }
 
-  /**
-   * Updates an object in the user table.
-   * @static
-   * @param {boolean} isadmin is user client or admin
-   * @param {string} firstname first name of user
-   * @param {string} lastname last name of user
-   * @param {string} address home address of user
-   * @param {string} email email of user
-   * @param {number} phone phone number of user
-   * @param {function} callback
-   * @param {string} session_id session_id for login
-   */
+    /**
+     * Updates an object in the user table.
+     * @param {string} firstname of user
+     * @param {string} lastname of user
+     * @param {string} address of user
+     * @param {string} email of user
+     * @param {number} phone of user
+     * @param {string} password of user
+     * @param {boolean} isadmin is user client or admin
+     * @param {string} sessionid of user
+     * @param {string} id of user
+     * @param {*} callback 
+     */
     static update(firstname, lastname, address, email, phone, password, isadmin, sessionid, id, callback) {
         let queryString = 'UPDATE users SET isadmin=$1, firstname=$2, lastname=$3, address=$4, phone=$6 WHERE email=$5 AND isDeleted=FALSE';
         let queryValues = [isadmin, firstname, lastname, address, email, phone];
@@ -146,7 +144,7 @@ class UserTDG {
         if (err) {
             console.log(err.message);
         }
-        console.log("User session timeout");
+        console.log('User session timeout');
       });
 
       db.query('UPDATE users SET isDeleted=$2 WHERE email=$1', [email,true], (err, result) =>{
