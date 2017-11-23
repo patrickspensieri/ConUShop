@@ -8,7 +8,6 @@ let MemoryStore = require('./config/memoryStore');
 
 let UnitOfWork = require('./domain-layer/unit-of-work/unitOfWork');
 let IdentityMap = require('./domain-layer/identity-map/idMap');
-let IdentityMapAspect = require('./domain-layer/identity-map/IdMapAspect');
 
 let express = require('express');
 let app = express();
