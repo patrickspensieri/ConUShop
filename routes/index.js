@@ -24,4 +24,9 @@ router.get('/',
         res.render('pages/index');
 });
 
+router.use(function(req, res, next) {
+    res.status(404);
+    res.render('pages/404');
+});
+
 module.exports = router;

@@ -240,7 +240,7 @@ class ProductCatalog {
      * @param {string} modelNumber model number of product specification
      * @return {string}
      */
-    addItem(serialNumber, modelNumber) {
+    addItemToCatalog(serialNumber, modelNumber) {
         if (this.productCatalogSessionIsComplete()) {
             this.item = itemMapper.create(serialNumber, modelNumber);
             itemMapper.makeInsertion(this.item);
@@ -253,7 +253,7 @@ class ProductCatalog {
      * @param {string} serialNumber of product
      * @return {string}
      */
-    deleteItem(serialNumber) {
+    deleteItemFromCatalog(serialNumber) {
         if (this.productCatalogSessionIsComplete()) {
             let itemObject = itemMapper.create(serialNumber);
             itemMapper.makeDeletion(itemObject);
@@ -359,6 +359,7 @@ class ProductCatalog {
      */
     startProductCatalogSession() {
         this.isComplete = true;
+        return 'Started Product Catalog Session. You can now make changes to Product Catalog';
     }
 
     /**
@@ -366,6 +367,7 @@ class ProductCatalog {
      */
     endProductCatalogSession() {
         this.isComplete = false;
+        return 'Ended Product Catalog Session. You can no longer make changes to Product Catalog';
     }
 
     /**

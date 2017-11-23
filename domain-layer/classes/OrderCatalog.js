@@ -12,7 +12,12 @@ class OrderCatalog {
     constructor() {
        this.orders = null;
     }
-    
+
+    /**
+     * Orders accessor
+     * @param {string} userId 
+     * @param {*} callback 
+     */
     getOrders(userId, callback) {
         let self = this;
         OrderMapper.findAll(userId, function(err, result) {
@@ -21,6 +26,11 @@ class OrderCatalog {
         });
     }
 
+    /**
+     * Oder accessor
+     * @param {string} orderId 
+     * @param {*} callback 
+     */
     getOrderDetails(orderId, callback) {
         for (let i = 0; i < this.orders.length; i++) {
             if (this.orders[i].orderId == orderId) {

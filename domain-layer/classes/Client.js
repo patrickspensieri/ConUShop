@@ -27,8 +27,7 @@ class Client extends User {
      */
     constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
         super(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
-        this.productCatalog = ProductCatalog.getProductCatalogInstance();
-        this.shoppingcart = new ShoppingCart(this.productCatalog, this);
+        this.shoppingcart = new ShoppingCart(ProductCatalog.getProductCatalogInstance(), this);
         this.orderCatalog = new OrderCatalog();
     }
 

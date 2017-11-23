@@ -15,15 +15,16 @@ let app = express();
 // read environment values from .env
 require('dotenv').config();
 
+// Instantiate the unit of work and identity map
+// as global variables on the server
+UOW = new UnitOfWork();
+idMap = new IdentityMap();
+
 // set port from .env, default to 5000
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/presentation-layer/assets'));
 app.set('views', __dirname + '/presentation-layer/views');
 app.set('view engine', 'ejs');
-
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
-});
 
 // BodyParser Middleware
 app.use(bodyParser.json());
@@ -65,12 +66,14 @@ app.use(expressValidator({
     },
 }));
 
-UOW = new UnitOfWork();
-idMap = new IdentityMap();
-
 app.use(require('./routes'));
 // run the startup tasks
 let startup = require('./config/startup');
 startup.run();
+
+// start the express server
+app.listen(app.get('port'), function() {
+    console.log('Node app is running on port', app.get('port'));
+  });
 
 module.exports = {app};

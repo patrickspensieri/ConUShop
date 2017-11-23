@@ -23,6 +23,10 @@ class Order {
        this.isLocked = false;
     }
 
+    /**
+     * OrderItems accessor
+     * @param {*} callback 
+     */
     getOrderItems(callback) {
         let self = this;
         OrderItemMapper.findAll(this.orderId, function(err, result) {
