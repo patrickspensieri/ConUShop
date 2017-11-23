@@ -90,7 +90,7 @@ class MonitorMapper extends AbstractMapper {
    */
     static update(monitorObject) {
         MonitorTDG.update(monitorObject.model, monitorObject.brand, monitorObject.size,
-            monitorObject.weight, monitorObject.price, function(err, result) {
+            monitorObject.weight, monitorObject.price, monitorObject.version, function(err, result) {
                 if (err) {
                     console.log(err);
                 }
