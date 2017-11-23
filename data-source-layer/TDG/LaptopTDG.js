@@ -54,10 +54,11 @@ class LaptopTDG {
    * @param {string} dimensions dimensions of laptop.
    * @param {number} weight weight of laptop.
    * @param {number} price price of laptop.
+   * @param {number} version
    * @param {function} callback function
    */
     static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight,
-                  price, callback) {
+                  price, version, callback) {
         let queryString = 'INSERT INTO laptop (model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price];
 

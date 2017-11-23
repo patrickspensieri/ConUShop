@@ -45,6 +45,7 @@ class ProductCatalog {
      * @param {string} camera camera information of product.
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
+     * @param {number} version
      * @return {string}
      */
     addProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
@@ -89,85 +90,33 @@ class ProductCatalog {
      * @param {string} camera camera information of product.
      * @param {boolean} touch is display touch or not.
      * @param {string} size is size of product
+     * @param {number} version
      * @return {string}
      */
     updateProductSpecification(productType, model, brand, processor, ram, storage, cores, dimensions, weight, price, display, os, battery, camera, touch, size, version) {
-        let idMapVersion = 0;
-
-        switch(productType){
-            case 'Desktop':
-                desktopMapper.find(model,function (err,res) {
-                    if(!err){
-                        idMapVersion = parseInt(res.version);
-                    }
-                });
-                break;
-            case 'Laptop':
-                laptopMapper.find(model,function (err,res) {
-                    if(!err){
-                        idMapVersion = parseInt(res.version);
-                    }
-                });
-                break;
-
-            case 'Monitor':
-                monitorMapper.find(model,function (err,res) {
-                    if(!err){
-                        idMapVersion = parseInt(res.version);
-                    }
-                });
-                break;
-
-            case 'Tablet':
-                tabletMapper.find(model,function (err,res) {
-                    if(!err){
-                        idMapVersion = parseInt(res.version);
-                    }
-                });
-                break;
-
-        }
-        let isVersion = parseInt(version) === idMapVersion;
-
         if (this.productCatalogSessionIsComplete()) {
             switch (productType) {
                 case 'Desktop':
-                    if (isVersion) {
                         this.desktop = desktopMapper.create(model, brand, processor, ram, storage, cores, dimensions, weight, price, version);
                         desktopMapper.makeUpdate(this.desktop);
                         return ('Desktop Specification Update was Successful');
-                    } else {
-                        return ('Error, Desktop Specification is not Current');
-                    }
                     break;
                 case 'Laptop':
-                    if (isVersion) {
                         this.laptop = laptopMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
-                            touch, dimensions, weight, price,version);
+                            touch, dimensions, weight, price, version);
                         laptopMapper.makeUpdate(this.laptop);
                         return ('Laptop Specification Update was Successful');
-                    } else {
-                        return ('Error, Laptop Specification is not Current');
-                    }
                     break;
                 case 'Monitor':
-                    if (isVersion) {
                         this.monitor = monitorMapper.create(model, brand, size, weight, price, version);
                         monitorMapper.makeUpdate(this.monitor);
                         return ('Monitor Specification Update was Successful');
-                    } else {
-                        return ('Error, Monitor Specification is not Current');
-                    }
                     break;
                 case 'Tablet':
-                    if (isVersion) {
                         this.tablet = tabletMapper.create(model, brand, display, processor, ram, storage, cores, os, battery, camera,
                             dimensions, weight, price, version);
                         tabletMapper.makeUpdate(this.tablet);
                         return ('Tablet Specification Update was Successful');
-                    } else {
-                        return ('Error, Tablet Specification is not Current');
-                    }
                     break;
             }
         } else {
@@ -212,7 +161,7 @@ class ProductCatalog {
     getProductSpecification(productType, modelNumber, callback) {
         switch (productType) {
             case 'Desktop':
-                desktopMapper.find(modelNumber, function (err, result) {
+                desktopMapper.find(modelNumber, function(err, result) {
                     if (err) {
                         console.log('Error during desktop find query', null);
                     } else {
@@ -222,7 +171,7 @@ class ProductCatalog {
                 break;
 
             case 'Laptop':
-                laptopMapper.find(modelNumber, function (err, result) {
+                laptopMapper.find(modelNumber, function(err, result) {
                     if (err) {
                         console.log('Error during laptop find query', null);
                     } else {
@@ -232,7 +181,7 @@ class ProductCatalog {
                 break;
 
             case 'Monitor':
-                monitorMapper.find(modelNumber, function (err, result) {
+                monitorMapper.find(modelNumber, function(err, result) {
                     if (err) {
                         console.log('Error during monitor find query', null);
                     } else {
@@ -241,7 +190,7 @@ class ProductCatalog {
                 });
                 break;
             case 'Tablet':
-                tabletMapper.find(modelNumber, function (err, result) {
+                tabletMapper.find(modelNumber, function(err, result) {
                     if (err) {
                         console.log('Error during tablet find query', null);
                     } else {
@@ -259,7 +208,7 @@ class ProductCatalog {
     getAllProductSpecification(productType, callback) {
         switch (productType) {
             case 'Desktop':
-                desktopMapper.findAll(function (err, data) {
+                desktopMapper.findAll(function(err, data) {
                     if (err) {
                         throw err;
                     }
@@ -267,7 +216,7 @@ class ProductCatalog {
                 });
                 break;
             case 'Laptop':
-                laptopMapper.findAll(function (err, data) {
+                laptopMapper.findAll(function(err, data) {
                     if (err) {
                         throw err;
                     }
@@ -275,7 +224,7 @@ class ProductCatalog {
                 });
                 break;
             case 'Monitor':
-                monitorMapper.findAll(function (err, data) {
+                monitorMapper.findAll(function(err, data) {
                     if (err) {
                         throw err;
                     }
@@ -283,7 +232,7 @@ class ProductCatalog {
                 });
                 break;
             case 'Tablet':
-                tabletMapper.findAll(function (err, data) {
+                tabletMapper.findAll(function(err, data) {
                     if (err) {
                         throw err;
                     }
@@ -315,6 +264,7 @@ class ProductCatalog {
         if (this.productCatalogSessionIsComplete()) {
             let itemObject = itemMapper.create(serialNumber);
             itemMapper.makeDeletion(itemObject);
+            return 'Item successfully deleted';
         } else {
             return ('Begin Product Catalog Session to delete items from catalog.');
         }
@@ -324,7 +274,7 @@ class ProductCatalog {
      * @param {function} callback function
      */
     getItems(callback) {
-        itemMapper.findAll(function (err, data) {
+        itemMapper.findAll(function(err, data) {
             if (err) {
                 throw err;
             }
@@ -338,9 +288,9 @@ class ProductCatalog {
      * @param {*} callback
      */
     getItemAndLock(modelNumber, callback) {
-        itemMapper.getItemFromModel(modelNumber, function (err, result) {
+        itemMapper.getItemFromModel(modelNumber, function(err, result) {
             if (!err) {
-                itemMapper.lockItem(result, function (err, result) {
+                itemMapper.lockItem(result, function(err, result) {
                     if (err) {
                         console.log(err);
                         return callback(err, null);
@@ -359,7 +309,7 @@ class ProductCatalog {
      * @param {*} callback
      */
     getItem(serialNumber, callback) {
-        itemMapper.find(serialNumber, function (err, result) {
+        itemMapper.find(serialNumber, function(err, result) {
             if (!err) {
                 return callback(null, result);
             }
@@ -372,8 +322,8 @@ class ProductCatalog {
      * @param {*} callback
      */
     unlockItem(serialNumber, callback) {
-        itemMapper.find(serialNumber, function (err, result) {
-            itemMapper.unlockItem(result, function (err, result) {
+        itemMapper.find(serialNumber, function(err, result) {
+            itemMapper.unlockItem(result, function(err, result) {
                 if (err) {
                     console.log(err);
                     return callback(err, null);
@@ -414,6 +364,7 @@ class ProductCatalog {
 
     /**
      * Start product catalog session.
+     * @return {string}
      */
     startProductCatalogSession() {
         this.isComplete = true;
@@ -422,6 +373,7 @@ class ProductCatalog {
 
     /**
      * End product catalog session.
+     * @return {string}
      */
     endProductCatalogSession() {
         this.isComplete = false;
@@ -438,8 +390,6 @@ class ProductCatalog {
         }
         return this.isComplete;
     }
-
-
 }
 
 module.exports = ProductCatalog;

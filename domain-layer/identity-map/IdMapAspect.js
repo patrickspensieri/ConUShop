@@ -39,7 +39,7 @@ function findAdvice(methodCall) {
     if (object != null) {
         return callback(null, object);
     } else {
-        classTDG.find(id, function (err, result) {
+        classTDG.find(id, function(err, result) {
             if (err) {
                 console.log('Error during find query', null);
             } else {
@@ -65,7 +65,7 @@ function findAllAdvice(methodCall) {
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let classMapper = getMapperHelper(className);
-    classTDG.findAll(function (err, result) {
+    classTDG.findAll(function(err, result) {
         let objects = [];
         if (err) {
             console.log('Error during desktop findALL query', null);
@@ -92,13 +92,7 @@ function insertAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    let attributeArr = [...getObjectAttributesHelper(object, className)];
-
-    if(className == 'Tablet' || className == 'Item' ||  className == 'Monitor' ||  className == 'Laptop' ||  className == 'Desktop') {
-        attributeArr.pop();
-    }
-
-    classTDG.insert(...attributeArr, function (err, result) {
+    classTDG.insert(...getObjectAttributesHelper(object, className), function(err, result) {
         if (!err) {
             idMap.add(object, id);
         }
@@ -116,18 +110,12 @@ function deleteAdvice(methodCall) {
     let id = object[Object.keys(object)[0]];
     if (className == 'User') {
         id = object[Object.keys(object)[4]];
-        classTDG.delete(id, function (err, result) {
-            if (!err) {
-                idMap.delete(object, id);
-            }
-        });
-    } else {
-        classTDG.delete(id, function (err, result) {
-            if (!err) {
-                idMap.delete(object, id);
-            }
-        });
     }
+    classTDG.delete(id, function(err, result) {
+        if (!err) {
+            idMap.delete(object, id);
+        }
+    });
 }
 
 /**
@@ -139,15 +127,12 @@ function updateAdvice(methodCall) {
     let classTDG = getTDGHelper(className);
     let object = methodCall.args[0];
     let id = object[Object.keys(object)[0]];
-    let objectVersion = parseInt(object.version);
-    let attributeArr = [...getObjectAttributesHelper(object, className)];
-    attributeArr[attributeArr.length - 1] = objectVersion + 1;
-
-    classTDG.update(...attributeArr, function (err, result) {
+    if (className == 'Tablet' || className == 'Monitor' || className == 'Laptop' || className == 'Desktop') {
+        object.version++;
+    }
+    classTDG.update(...getObjectAttributesHelper(object, className), function(err, result) {
         if (!err) {
-            object.version++;
             idMap.update(object, id);
-            console.log("Update Successful");
         }
     });
 }
@@ -172,7 +157,7 @@ let getClassNameHelper = function(targetName) {
  * @param  {[type]} className [description]
  * @return {[type]}           [description]
  */
-let getAttributesHelper = function (value, className) {
+let getAttributesHelper = function(value, className) {
     switch (className) {
         case 'Desktop':
             return [value.model, value.brand, value.processor, value.ram,
@@ -218,7 +203,7 @@ let getAttributesHelper = function (value, className) {
  * @param  {[type]} className [description]
  * @return {[type]}           [description]
  */
-let getObjectAttributesHelper = function (value, className) {
+let getObjectAttributesHelper = function(value, className) {
     switch (className) {
         case 'Desktop':
             return [value.model, value.brand, value.processor, value.ram,
@@ -263,7 +248,7 @@ let getObjectAttributesHelper = function (value, className) {
  * @param  {[type]} className [description]
  * @return {[type]}           [description]
  */
-let getTDGHelper = function (className) {
+let getTDGHelper = function(className) {
     switch (className) {
         case 'Desktop':
             return DesktopTDG;
@@ -297,7 +282,7 @@ let getTDGHelper = function (className) {
  * @param  {[type]} className [description]
  * @return {[type]}           [description]
  */
-let getMapperHelper = function (className) {
+let getMapperHelper = function(className) {
     switch (className) {
         case 'Desktop':
             return DesktopMapper;

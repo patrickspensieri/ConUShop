@@ -60,8 +60,14 @@ module.exports = {
      },
 
     deleteItemFromCatalog: function(req, res) {
-        let warningMsg = req.adminUser.getProductCatalog().deleteItemFromCatalog(req.body.serialNumber);
-        req.flash('warning_msg', warningMsg);
+        ItemMapper.find(req.body.serialNumber, function(err, result) {
+            if (result != null) {
+                let warningMsg = req.adminUser.getProductCatalog().deleteItemFromCatalog(req.body.serialNumber);
+                req.flash('success_msg', warningMsg);
+            } else {
+                req.flash('validationErrors', 'Item has been previously deleted');
+            }
+        });
         res.redirect(req.get('referer'));
     },
 
@@ -73,15 +79,15 @@ module.exports = {
                 modelError = true;
             }
         });
-        
+
         if (!modelError) {
             req.checkBody('modelNumber', 'Model Number should not be empty').notEmpty();
             req.checkBody('serialNumber', 'Serial Number should not be empty').notEmpty();
-            req.checkBody('serialNumber', 'Serial Number must be alphanumeric (8 to 16 characters)').matches(/^(\w{8,16})$/);
-    
+            req.checkBody('serialNumber', 'Serial Number must be alphanumeric (6 to 16 characters)').matches(/^(\w{6,16})$/);
+
             req.validationErrors();
             let errors = validationResult(req).array({onlyFirstError: true});
-    
+
             if (errors.length > 0) {
                 req.flash('validationErrors', errors);
             } else {
@@ -109,149 +115,98 @@ module.exports = {
         let camera = req.body.camera;
         let touch = req.body.touch;
         let size = req.body.size;
-
-        let modelError = false;
-        switch (prodType) {
-            case 'Desktop':
-                DesktopMapper.find(model, function(err, result) {
-                    if (result != null) {
-                        req.flash('validationErrors', {msg: 'Desktop model ' + model + ' already exists!'});
-                        modelError = true;
-                    }
-                });
-                break;
-            case 'Laptop':
-                LaptopMapper.find(model, function(err, result) {
-                    if (result != null) {
-                        req.flash('validationErrors', {msg: 'Laptop model ' + model + ' already exists!'});
-                        modelError = true;
-                    }
-                });
-                break;
-            case 'Monitor':
-                MonitorMapper.find(model, function(err, result) {
-                    if (result != null) {
-                        req.flash('validationErrors', {msg: 'Monitor model ' + model + ' already exists!'});
-                        modelError = true;
-                    }
-                });
-                break;
-            case 'Tablet':
-                TabletMapper.find(model, function(err, result) {
-                    if (result != null) {
-                        req.flash('validationErrors', {msg: 'Tablet model ' + model + ' already exists!'});
-                        modelError = true;
-                    }
-                });
-                break;
+        if (dimensions != null) {
+            dimensions = dimensions.trim().toLowerCase();
         }
 
-        if (!modelError) {
+        let spec = findHelper(req);
+        if (spec !== null) {
+             req.flash('validationErrors', {msg: 'Model Number ' + model + ' already exists!'});
+        } else {
             let errors = validateForm(req);
-
             if (errors.length > 0) {
                 req.flash('validationErrors', errors);
             } else {
                 let warningMsg = req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
                     weight, price, display, os, battery, camera, touch, size);
                 req.flash('warning_msg', warningMsg);
-
             }
         }
-
         res.redirect(req.get('referer'));
     },
 
     deleteProdSpec: function(req, res) {
-        let admin = req.adminUser;
-        let warningMsg = admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
-        req.flash('warning_msg', warningMsg);
+        let object = findHelper(req);
+        if (object !== null) {
+            let admin = req.adminUser;
+            let warningMsg = admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+            req.flash('warning_msg', warningMsg);
+        } else {
+            req.flash('warning_msg', 'Specification ' + req.body.model + ' has been previously deleted');
+        }
         res.send({redirect: req.body.redi});
     },
 
     updateProdSpec: function(req, res) {
-        let errors = validateForm(req);
-        let warningMsg=null;
-        if (errors.length > 0) {
-            req.flash('validationErrors', errors);
+        if (!req.adminUser.getProductCatalog().productCatalogSessionIsComplete()) {
+            req.flash('otherSess_msg', 'Begin Product Catalog Session to edit');
         } else {
-            let object = null;
-            switch (req.body.prodType) {
-                case 'Desktop':
-                    DesktopMapper.find(req.body.model, function(err, result) {
-                        if (result != null) {
-                            object = result;
+            let errors = validateForm(req);
+            let warningMsg=null;
+            if (errors.length > 0) {
+                req.flash('validationErrors', errors);
+            } else {
+                let object = findHelper(req);
+                if (object !== null) {
+                    if (isCurrentVersion(req, object)) {
+                        switch (req.body.prodType) {
+                            case 'Desktop':
+                                otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+                                    req.body.processor, req.body.ram, req.body.storage, req.body.cores,
+                                    req.body.dimensions.trim().toLowerCase(), req.body.weight, req.body.price, null, null, null, null, null, null, req.body.version);
+                                break;
+                            case 'Laptop':
+                                otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                                    req.body.cores, req.body.dimensions.trim().toLowerCase(), req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null, req.body.version);
+                                break;
+                            case 'Monitor':
+                                otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+                                    null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size, req.body.version);
+                                break;
+                            case 'Tablet':
+                                otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                                    req.body.cores, req.body.dimensions.trim().toLowerCase(), req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null, req.body.version);
+                                break;
                         }
-                    });
-                    break;
-                case 'Laptop':
-                    LaptopMapper.find(req.body.model, function(err, result) {
-                        if (result != null) {
-                            object = result;
-                        }
-                    });
-                    break;
-                case 'Monitor':
-                    MonitorMapper.find(req.body.model, function(err, result) {
-                        if (result != null) {
-                            object = result;
-                        }
-                    });
-                    break;
-                case 'Tablet':
-                    TabletMapper.find(req.body.model, function(err, result) {
-                        if (result != null) {
-                            object = result;
-                        }
-                    });
-                    break;
-            }
-            if (object !== null) {
-                let idMapVersion = parseInt(object.version);
-                let clientVersion = parseInt(req.body.version);
-                let isSessionComplete = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
-                let isVersion = idMapVersion === clientVersion;
-
-                switch (req.body.prodType) {
-                    case 'Desktop':
-                        otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
-                            req.body.processor, req.body.ram, req.body.storage, req.body.cores,
-                            req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null, req.body.version);
-                        break;
-                    case 'Laptop':
-                        otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
-                            req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null, req.body.version);
-                        break;
-                    case 'Monitor':
-                        otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
-                            null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size, req.body.version);
-                        break;
-                    case 'Tablet':
-                        otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
-                            req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null, req.body.version);
-                        break;
-                }
-                if (isSessionComplete) {
-                    if (isVersion) {
                         req.flash('success_msg', otherMsg);
                     } else {
-                        req.flash('error_msg', otherMsg);
+                        req.flash('error_msg', 'Specification ' + req.body.model + ' is not current, update not made');
                     }
                 } else {
-                    req.flash('otherSess_msg', otherMsg);
+                    req.flash('error_msg', 'Specification ' + req.body.model + ' no longer exists, update not made');
                 }
-            } else {
-                req.flash('error_msg', 'Object no longer exists, Product Specification is not current');
+                req.flash('warning_msg', warningMsg);
             }
-            req.flash('warning_msg', warningMsg);
         }
         res.send({redirect: req.body.redi});
     },
+
+    /**
+     * Start product catalog edit session.
+     * @param  {[type]} req
+     * @param  {[type]} res
+     */
     startProductCatalogSession: function(req, res) {
         let msg = req.adminUser.getProductCatalog().startProductCatalogSession();
         req.flash('sessStart_msg', msg);
         res.send({redirect: req.body.redi});
     },
+
+    /**
+     * End product catalog edit session.
+     * @param  {[type]} req
+     * @param  {[type]} res
+     */
     endProductCatalogSession: function(req, res) {
         let msg = req.adminUser.getProductCatalog().endProductCatalogSession();
         req.flash('sessEnd_msg', msg);
@@ -259,6 +214,64 @@ module.exports = {
     },
 };
 
+/**
+ * Returns true if client has most recent object version, false otherwise.
+ * @param  {[type]}  req    [description]
+ * @param  {[type]}  object [description]
+ * @return {Boolean}        [description]
+ */
+function isCurrentVersion(req, object) {
+    let objectVersion = parseInt(object.version);
+    let clientVersion = parseInt(req.body.version);
+    console.log(clientVersion);
+    return objectVersion === clientVersion;
+}
+
+/**
+ * [findHelper description]
+ * @param  {[type]} req [description]
+ * @return {[type]}     [description]
+ */
+function findHelper(req) {
+    let object = null;
+    switch (req.body.prodType) {
+        case 'Desktop':
+            DesktopMapper.find(req.body.model, function(err, result) {
+                if (result != null) {
+                    object = result;
+                }
+            });
+            break;
+        case 'Laptop':
+            LaptopMapper.find(req.body.model, function(err, result) {
+                if (result != null) {
+                    object = result;
+                }
+            });
+            break;
+        case 'Monitor':
+            MonitorMapper.find(req.body.model, function(err, result) {
+                if (result != null) {
+                    object = result;
+                }
+            });
+            break;
+        case 'Tablet':
+            TabletMapper.find(req.body.model, function(err, result) {
+                if (result != null) {
+                    object = result;
+                }
+            });
+            break;
+    }
+    return object;
+};
+
+/**
+ * Form validation for product specifications.
+ * @param  {[type]} req
+ * @return {[type]}
+ */
 function validateForm(req) {
     let prodType = req.body.prodType;
 

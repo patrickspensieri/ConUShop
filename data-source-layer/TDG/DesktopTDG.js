@@ -49,9 +49,10 @@ class DesktopTDG {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
+   * @param {number} version
    * @param {function} callback function
    */
-    static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price, callback) {
+    static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price, version, callback) {
         let queryString = 'INSERT INTO desktop (model, brand, processor, ram, storage, cores, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
         let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
 

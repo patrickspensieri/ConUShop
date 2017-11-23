@@ -45,9 +45,10 @@ class MonitorTDG {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
+   * @param {number} version
    * @param {function} callback
    */
-    static insert(model, brand, size, weight, price, callback) {
+    static insert(model, brand, size, weight, price, version, callback) {
         let queryString = 'INSERT INTO monitor (model, brand, size, weight, price) VALUES($1, $2, $3, $4, $5)';
         let queryValues = [model, brand, size, weight, price];
 
