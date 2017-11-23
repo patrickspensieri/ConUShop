@@ -27,10 +27,11 @@ class OrderMapper extends AbstractMapper {
    * Maps the returned value to an object of type Order.
    * @static
    * @param {string} orderId id number of Order to be found.
+   * @param {Integer} userId 
    * @param {function} callback function that holds Order object
    */
-    static find(orderId, callback) {
-            OrderTDG.find(orderId, function(err, result) {
+    static find(orderId, userId, callback) {
+            OrderTDG.find(orderId, userId, function(err, result) {
                 if (err) {
                     console.log('Error during Order find query', null);
                 } else {
