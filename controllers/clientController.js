@@ -36,10 +36,14 @@ module.exports = {
     },
     
     checkout: function(req, res) {
-        req.clientUser.shoppingcart.startPurchaseSession();
         let data = req.clientUser.shoppingcart.cart;
-        let total = req.clientUser.shoppingcart.getTotal();
-        let timeout = req.clientUser.shoppingcart.timeouts[0].timeout;
+        let timeout = 0;
+        let total = 0;
+        if (data.length > 0) {
+            req.clientUser.shoppingcart.startPurchaseSession();
+            timeout = req.clientUser.shoppingcart.timeouts[0].timeout;
+            total = req.clientUser.shoppingcart.getTotal();
+        }
         let locked = req.clientUser.shoppingcart.isLocked;
         res.render('client/confirmPurchase', {
             data: data,
