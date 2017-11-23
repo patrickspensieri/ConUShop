@@ -175,11 +175,43 @@ module.exports = {
         if (errors.length > 0) {
             req.flash('validationErrors', errors);
         } else {
-            if (idMap.get(req.body.prodType, req.body.model) !== null) {
-                let idMapVersion = parseInt(idMap.get(req.body.prodType, req.body.model).version);
+            let object = null;
+            switch (req.body.prodType) {
+                case 'Desktop':
+                    DesktopMapper.find(req.body.model, function(err, result) {
+                        if (result != null) {
+                            object = result;
+                        }
+                    });
+                    break;
+                case 'Laptop':
+                    LaptopMapper.find(req.body.model, function(err, result) {
+                        if (result != null) {
+                            object = result;
+                        }
+                    });
+                    break;
+                case 'Monitor':
+                    MonitorMapper.find(req.body.model, function(err, result) {
+                        if (result != null) {
+                            object = result;
+                        }
+                    });
+                    break;
+                case 'Tablet':
+                    TabletMapper.find(req.body.model, function(err, result) {
+                        if (result != null) {
+                            object = result;
+                        }
+                    });
+                    break;
+            }
+            if (object !== null) {
+                let idMapVersion = parseInt(object.version);
                 let clientVersion = parseInt(req.body.version);
                 let isSessionComplete = req.adminUser.getProductCatalog().productCatalogSessionIsComplete();
                 let isVersion = idMapVersion === clientVersion;
+
                 switch (req.body.prodType) {
                     case 'Desktop':
                         otherMsg = req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
