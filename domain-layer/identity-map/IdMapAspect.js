@@ -94,7 +94,7 @@ function insertAdvice(methodCall) {
     let id = object[Object.keys(object)[0]];
     let attributeArr = [...getObjectAttributesHelper(object, className)];
 
-    if(className == 'Tablet' || className == 'Item' ||  className == 'Monitor' ||  className == 'Laptop' ||  className == 'Desktop') {
+    if (className == 'Tablet' || className == 'Monitor' || className == 'Laptop' || className == 'Desktop') {
         attributeArr.pop();
     }
 
@@ -141,11 +141,16 @@ function updateAdvice(methodCall) {
     let id = object[Object.keys(object)[0]];
     let objectVersion = parseInt(object.version);
     let attributeArr = [...getObjectAttributesHelper(object, className)];
-    attributeArr[attributeArr.length - 1] = objectVersion + 1;
+    if (className == 'Tablet' || className == 'Monitor' || className == 'Laptop' || className == 'Desktop') {
+        attributeArr[attributeArr.length - 1] = objectVersion + 1;
+    }
 
     classTDG.update(...attributeArr, function (err, result) {
         if (!err) {
-            object.version++;
+            if (className == 'Tablet' || className == 'Monitor' || className == 'Laptop' || className == 'Desktop') {
+                object.version++;
+            }
+
             idMap.update(object, id);
             console.log("Update Successful");
         }
