@@ -105,7 +105,7 @@ class TabletMapper extends AbstractMapper {
         TabletTDG.update(tabletObject.model, tabletObject.brand, tabletObject.display, tabletObject.processor,
             tabletObject.ram, tabletObject.storage, tabletObject.cores, tabletObject.os,
             tabletObject.battery, tabletObject.camera, tabletObject.dimensions,
-            tabletObject.weight, tabletObject.price, function(err, result) {
+            tabletObject.weight, tabletObject.price, tabletObject.version, function(err, result) {
                 if (err) {
                     console.log(err);
                 }
