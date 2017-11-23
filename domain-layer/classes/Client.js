@@ -38,7 +38,6 @@ class Client extends User {
      * @return {*}
      */
     makePurchase(callback) {
-        console.log(this.shoppingcart);
         if (this.shoppingcart.cart.length > 0) {
             let self = this;
             let total = this.shoppingcart.getTotal();

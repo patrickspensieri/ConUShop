@@ -33,8 +33,6 @@
                     });
 
                     $(window).bind('beforeunload', function(){
-                        console.log(submitted);
-                        debugger;
                         let locked = <%-JSON.stringify(locked)%>;
                         if (locked && !submitted) {
                             $.ajax({
