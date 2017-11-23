@@ -24,24 +24,7 @@ class OrderItem {
         this.isReturned = isReturned;
         this.itemObj = itemObj;
         this.specification = null;
-        this.productCatalog = ProductCatalog.getProductCatalogInstance();
         this.itemTimeout = itemTimeout; // timer for each items
-    }
-
-    /**
-     * OderItem accessor
-     * @return {string} returns item object id
-     */
-    getOrderItemId() {
-        return this.orderItemId;
-    }
-
-    /**
-     * ItemObject accessor
-     * @return {Object} returns item object
-     */
-    getItemObject() {
-       return itemObj;
     }
 
     /**
@@ -50,7 +33,8 @@ class OrderItem {
      */
     setItemObject(callback) {
         let self = this;
-        this.productCatalog.getItem(this.serialNumber, function(err, result) {
+        let productCatalog = ProductCatalog.getProductCatalogInstance();
+        productCatalog.getItem(this.serialNumber, function(err, result) {
             self.itemObj = result;
             return callback(err, result);
         });
@@ -62,7 +46,8 @@ class OrderItem {
      */
     setSpecification(callback) {
         let self = this;
-        this.productCatalog.getProductSpecification(this.itemObj.type, this.itemObj.modelNumber, function(err, result) {
+        let productCatalog = ProductCatalog.getProductCatalogInstance();
+        productCatalog.getProductSpecification(this.itemObj.type, this.itemObj.modelNumber, function(err, result) {
             if (!err) {
                 self.specification = result;
                 self.price = result.price;

@@ -12,6 +12,19 @@
     <div class="client_content container">
         <h1>Shopping Cart</h1>
         <% if (typeof data!='undefined' && data.length > 0) { %>
+        <script>
+            jQuery(document).ready(function($) {
+                if (window.history && window.history.pushState) {
+
+                    window.history.pushState('forward', null, './shoppingCart');
+
+                    $(window).on('popstate', function() {
+                        location.reload(true);
+                    });
+
+                }
+            });
+        </script>
         <div class="content row">
             <div class="col-sm-12 col-md-10 col-md-offset-1">
                 <table class="table table-hover">
@@ -37,7 +50,7 @@
                             <td class="col-sm-1 col-md-1 text-center" id='<%= data[i].serialNumber %>'><strong></strong></td>
                             <script>
                                 $(function(){
-                                    var calcNewYear = setInterval(function(){
+                                    var calcTimer = setInterval(function(){
                                         let date = <%-JSON.stringify(data[i].itemTimeout)%>;
                                         
                                         date_future = new Date(date+1000);
@@ -86,9 +99,9 @@
                                     <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
                                 </button></td>
                             <td>
-                                <form method="get" action="/client/makePurchase">
+                                <form method="get" action="/client/checkout">
                                     <button type="submit" class="btn btn-success">
-                                            Purchase <span class="glyphicon glyphicon-play"></span>
+                                            Checkout <span class="glyphicon glyphicon-play"></span>
                                     </button>
                                 </form>
                             </td>
@@ -109,7 +122,6 @@
     
     <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
     <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
-    <script type="text/javascript" src="/js/catalog/catalog.js"></script>
     <% include ../components/footer.ejs %>
     </body>
     </html>

@@ -77,6 +77,7 @@ CREATE TABLE Desktop (
     Price DECIMAL NOT NULL,
     Photo VARCHAR(25) DEFAULT NULL,
     isEdited BOOLEAN DEFAULT FALSE,
+    isDeleted BOOLEAN DEFAULT FALSE,
     Version INTEGER DEFAULT 1
 );
 INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES01'), 'Apple', 'Intel i5',8,1000,4, '52.8 x 45 x 17.5',5.66,1745.49);
@@ -110,6 +111,7 @@ CREATE TABLE Monitor (
     Price DECIMAL NOT NULL,
     Photo VARCHAR(25) DEFAULT NULL,
     isEdited BOOLEAN DEFAULT FALSE,
+    isDeleted BOOLEAN DEFAULT FALSE,
     Version INTEGER DEFAULT 1
 );
 INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON01'), 'Samsung',23,5.1,199.99);
@@ -141,6 +143,7 @@ CREATE TABLE Tablet (
     Price DECIMAL NOT NULL,
     Photo VARCHAR(25) DEFAULT NULL,
     isEdited BOOLEAN DEFAULT FALSE,
+    isDeleted BOOLEAN DEFAULT FALSE,
     Version INTEGER DEFAULT 1
 );
 INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB01'), 'Apple',9.7,'A9',4,32,2,'iOS 10',32.4,8,'24 x 16.09 x 0.75',0.469,450.89);
@@ -174,6 +177,7 @@ CREATE TABLE Laptop (
     Price DECIMAL NOT NULL,
     Photo VARCHAR(25) DEFAULT NULL,
     isEdited BOOLEAN DEFAULT FALSE,
+    isDeleted BOOLEAN DEFAULT FALSE,
     Version INTEGER DEFAULT 1
 );
 INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP01'),  'HP',15.6,'AMD E2-9000e',4,500,2,'Windows 10',31,'TRUE','FALSE','2.39 x 25.37 x 38',1.95,350.89);
@@ -468,21 +472,26 @@ CREATE TABLE USERS (
     Address VARCHAR(55) NOT NULL,
     Email VARCHAR(55) NOT NULL UNIQUE,
     Phone VARCHAR(25) NOT NULL,
-    Password varchar(120) NOT NULL
+    Password varchar(120) NOT NULL,
+    isDeleted BOOLEAN DEFAULT FALSE
 );
 
 /*
 Admin:
-    1. Email: cc@hotmail.com Password: 1234
-    2. Email: zeusontop@hotmail.com Password: ZeusAboveAll
-    3. Email: larak@hotmail.com Password: HabsForLife
+    1. Email: admin1@hotmail.com Password: 1234
+    2. Email: admin2@hotmail.com Password: 1234
+    3. Email: admin3@hotmail.com Password: 1234
 Client:
-    1. Email: donalduck@hotmail.com Password: GlobalWarming
+    1. Email: client1@hotmail.com Password: 1234
+    2. Email: client2@hotmail.com Password: 1234
+    3. Email: client3@hotmail.com Password: 1234
 */
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'C', 'C', 'Concordia University', 'cc@hotmail.com', '5143184562', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', '$2a$10$UpoxaHPzla6e80MeSKHeYumgh4xe7tiLOk3vjhLK5Wb6TxZNsfuBe');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$YfHMABFbSnL5HaEjlhWCXOlqGDuV4vOpl8TOEvl3cU6G08/vW/h2W');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$0xjuhHOiXj32lyS9Zml9melW4mHyHIxzgYWNBvQELk8zA9SlAoo8O');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'Admin', '1', 'Concordia University', 'admin1@hotmail.com', '5143184562', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Admin', '2', 'Concordia University', 'admin2@hotmail.com', '1243133082', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Admin', '3', 'Concordia University', 'admin3@hotmail.com', '5141245678', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Client', '1', 'Concordia University', 'client1@hotmail.com', '5233043242', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Client', '2', 'Concordia University', 'client2@hotmail.com', '3024827549', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (FALSE, 'Client', '3', 'Concordia University', 'client3@hotmail.com', '5147654321', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
 
 /* ------------------------------------------ ACTIVEUSERS TABLE QUERIES --------------------------------------------- */
 
@@ -515,7 +524,7 @@ CREATE TABLE ORDERITEM (
 );
 
 /* ------------------------------------------ TRIGGER FUNCTIONS --------------------------------------------- */
-/* ------------ modelCheck() FUNCTIONS, CHECKS IF MODEL FORMAT IS GOOD & IF PRODUCT EXISTS */
+/* ------------ modelCheck() FUNCTIONS, CHECKS IF MODEL FORMAT IS GOOD & IF PRODUCT isDeleted */
 CREATE OR REPLACE FUNCTION desktopModelCheck() RETURNS TRIGGER AS
 $BODY$
 BEGIN

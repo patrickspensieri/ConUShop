@@ -11,6 +11,13 @@
     </div>
 <% } %>
 
+<% if (warning_message && warning_message.length > 0) { %>
+<div class="alert alert-warning alert-dismissable fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <%= warning_message %>
+</div>
+<% } %>
+
 <% if (sessStart_msg && sessStart_msg.length > 0) { %>
 <div class="alert alert-success alert-dismissable fade in text-center">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

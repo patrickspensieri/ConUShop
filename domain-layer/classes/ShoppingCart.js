@@ -17,6 +17,7 @@ class ShoppingCart {
         this.productCatalog = productCatalog;
         this.cart = [];
         this.timeouts = [];
+        this.isLocked = false;
     }
 
     /**
@@ -67,6 +68,55 @@ class ShoppingCart {
                 return callback(err, 'Success');
             }
         });
+    }
+
+    /**
+     * Remove all items from the shopping cart
+     * @param {string} serialNumber
+     * @param {*} callback
+     */
+    removeAllFromCart(callback) {
+        contract.precondition(this.cart.length > 0);
+
+        const self = this;
+        let removed = 0;
+        for (let i = 0; i < self.cart.length; i++) {
+            let serialNumber = self.cart[i].serialNumber;
+
+            this.productCatalog.unlockItem(serialNumber, function(err, result) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+
+            if (++removed == self.cart.length) {
+                self.cart = [];
+                return callback(null, 'Success');
+            }
+        }
+    }
+
+    startPurchaseSession() {
+        for (let i = 0; i < this.timeouts.length; i++) {
+            clearTimeout(this.timeouts[i]);
+        }
+        this.timeouts = [];
+
+        let now = new Date();
+        let timerExpiresAt = now.getTime() + 120000;
+        let timeout = setTimeout(this.removeAllFromCart.bind(this), 120000, function(err, result) {});
+        this.timeouts.push(timeout);
+        this.timeouts[0].timeout = timerExpiresAt;
+
+        this.isLocked = true;
+    }
+
+    endPurchaseSession() {
+        for (let i = 0; i < this.timeouts.length; i++) {
+            clearTimeout(this.timeouts[i]);
+        }
+        this.timeouts = [];
+        this.isLocked = false;
     }
 
     /**
