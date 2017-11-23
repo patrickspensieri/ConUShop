@@ -13,7 +13,7 @@ class UserTDG {
    * @param {function} callback function that holds user object.
    */
     static find(email, callback) {
-        db.query('SELECT * FROM users LEFT JOIN activeusers ON users.id = activeusers.user_id WHERE users.email=$1', [email], (err, result) => {
+        db.query('SELECT * FROM users LEFT JOIN activeusers ON users.id = activeusers.user_id WHERE users.email=$1 AND isDeleted=FALSE', [email], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -28,7 +28,7 @@ class UserTDG {
    * @param {function} callback function that holds array of user object.
    */
     static findAll(callback) {
-        db.query('SELECT * FROM users', (err, result) => {
+        db.query('SELECT * FROM users WHERE isDeleted=FALSE', (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -43,7 +43,7 @@ class UserTDG {
      * @param {function} callback function that holds array of client object.
      */
     static findAllClients(callback) {
-        db.query('SELECT * FROM users WHERE isAdmin = false', (err, result) => {
+        db.query('SELECT * FROM users WHERE isAdmin = false AND isDeleted=FALSE', (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -92,7 +92,7 @@ class UserTDG {
      * @param {*} callback 
      */
     static update(firstname, lastname, address, email, phone, password, isadmin, sessionid, id, callback) {
-        let queryString = 'UPDATE users SET isadmin=$1, firstname=$2, lastname=$3, address=$4, phone=$6 WHERE email=$5';
+        let queryString = 'UPDATE users SET isadmin=$1, firstname=$2, lastname=$3, address=$4, phone=$6 WHERE email=$5 AND isDeleted=FALSE';
         let queryValues = [isadmin, firstname, lastname, address, email, phone];
 
         db.query(queryString, queryValues, (err, result) => {
@@ -146,11 +146,12 @@ class UserTDG {
         }
         console.log('User session timeout');
       });
-      db.query('DELETE FROM users WHERE email=$1', [email], (err, result) =>{
+
+      db.query('UPDATE users SET isDeleted=$2 WHERE email=$1', [email,true], (err, result) =>{
           if (err) {
               console.log(err.message);
           }
-          console.log('User has been deleted from the database');
+          console.log('This account has been deactivated');
           return callback(err, result);
       });
     }

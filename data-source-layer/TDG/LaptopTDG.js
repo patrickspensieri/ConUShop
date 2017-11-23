@@ -13,7 +13,7 @@ class LaptopTDG {
    * @param {function} callback function that holds laptop object.
    */
     static find(modelNumber, callback) {
-        db.query('SELECT * FROM laptop WHERE model=$1', [modelNumber], (err, result) => {
+        db.query('SELECT * FROM laptop WHERE model=$1 AND isDeleted=FALSE', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -28,7 +28,7 @@ class LaptopTDG {
    * @param {function} callback function that holds array of laptop object.
    */
     static findAll(callback) {
-        db.query('SELECT * FROM laptop', (err, result) => {
+        db.query('SELECT * FROM laptop WHERE isDeleted=FALSE', (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -89,7 +89,7 @@ class LaptopTDG {
    * @param {function} callback function
    */
     static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, callback) {
-        let queryString = 'UPDATE laptop SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, touch=$11, dimensions=$12, weight=$13, price=$14 WHERE model=$1';
+        let queryString = 'UPDATE laptop SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, touch=$11, dimensions=$12, weight=$13, price=$14 WHERE model=$1 AND isDeleted=FALSE';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price];
 
         db.query(queryString, queryValues, (err, result) => {
@@ -107,7 +107,7 @@ class LaptopTDG {
    * @param {function} callback function
    */
     static delete(id, callback) {
-        db.query('DELETE FROM laptop WHERE model=$1', [id], (err, result) => {
+        db.query('UPDATE laptop SET isDeleted=TRUE WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
