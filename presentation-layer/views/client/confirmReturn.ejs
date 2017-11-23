@@ -14,6 +14,34 @@
             <h1>Order Details</h1>
             <div class="content">
                 <% if (typeof data!='undefined') { %>
+                    <script>
+                        $(document).ready(function () {
+                            var submitted = false;
+
+                            $("form").submit(function() {
+                                submitted = true;
+                            });
+
+                            $(window).bind('beforeunload', function(){
+                                let orderId = <%-JSON.stringify(data.orderId)%>;
+                                if (!submitted) {
+                                    $.ajax({
+                                        url: "/client/item/cancelReturn/<%= data.orderId %>",
+                                        type: "GET",
+                                        async: false
+                                    });
+                                }
+                            });
+
+                            $('form#return').submit(function() {
+                                submitted = true;
+                            });
+
+                            $('form#cancel').submit(function() {
+                                submitted = true;
+                            });
+                        });
+                    </script>
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -31,10 +59,10 @@
                                 <td class="brand"><%= data.price %></td>
                                 <td class="brand"><%= data.isReturned %></td>
                                 <td>
-                                    <form method="get" action="/client/item/return/<%= data.orderItemId %>/<%= data.orderId %>">
+                                    <form method="get" id="return" action="/client/item/return/<%= data.orderItemId %>/<%= data.orderId %>">
                                         <button type="submit" class="btn btn-success">Confirm <span class="glyphicon glyphicon-ok"></span> </button>
                                     </form>
-                                    <form method="get" action="/client/item/cancelReturn/<%= data.orderId %>">
+                                    <form method="get" id="cancel" action="/client/item/cancelReturn/<%= data.orderId %>">
                                         <button type="submit" class="btn btn-danger">Cancel <span class="glyphicon glyphicon-remove"></span> </button>
                                     </form>
                                 </td>

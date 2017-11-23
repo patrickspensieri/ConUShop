@@ -52,7 +52,8 @@ module.exports = {
     makePurchase: function(req, res) {
         req.clientUser.makePurchase(function(err, result) {
             req.clientUser.shoppingcart.endPurchaseSession();
-            res.redirect('shoppingCart');
+            req.flash('success_msg', 'Purchase successful.');
+            res.redirect('orders');
         });
     },
 
@@ -63,10 +64,6 @@ module.exports = {
             });
         }
         res.redirect('shoppingCart');
-    },
-
-    confirmPurchase: function(req, res) {
-
     },
 
     viewAccount: function(req, res) {

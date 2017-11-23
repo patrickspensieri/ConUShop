@@ -13,24 +13,28 @@
             <h1>Confirm Purchase</h1>
             <% if (typeof data!='undefined' && data.length > 0) { %>
             <script>
-                $(document).ready(function () {
-                    var submitted = false;
+                jQuery(document).ready(function($) {
+                    if (window.history && window.history.pushState) {
 
-                    window.onbeforeunload = function (e) {
-                        if (formHasChanged && !submitted) {
-                            var message = "You have not saved your changes.", e = e || window.event;
-                            if (e) {
-                                e.returnValue = message;
-                            }
-                            return message;
-                        }
+                        window.history.pushState('forward', null, './checkOut');
+
+                        $(window).on('popstate', function() {
+                            location.reload(true);
+                        });
+
                     }
+                });
+
+                $(document).ready(function () {
+                    submitted = false;
 
                     $("form").submit(function() {
                         submitted = true;
-                        });
+                    });
 
-                        $(window).bind('beforeunload', function(){
+                    $(window).bind('beforeunload', function(){
+                        console.log(submitted);
+                        debugger;
                         let locked = <%-JSON.stringify(locked)%>;
                         if (locked && !submitted) {
                             $.ajax({
@@ -73,7 +77,7 @@
                                 </div></td>
                                 <script>
                                     $(function(){
-                                        var calcNewYear = setInterval(function(){
+                                        var calcTimer = setInterval(function(){
                                             let date = <%-JSON.stringify(timeout)%>;
 
                                             date_future = new Date(date+1000);
@@ -89,6 +93,7 @@
                                             seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
     
                                             if (minutes == 0 && seconds == 0 ){
+                                                submitted = true;
                                                 location.reload();
                                             }
                                             if (seconds < 10) {

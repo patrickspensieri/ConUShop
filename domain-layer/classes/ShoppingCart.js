@@ -77,7 +77,7 @@ class ShoppingCart {
      */
     removeAllFromCart(callback) {
         contract.precondition(this.cart.length > 0);
-        console.log('called');
+
         const self = this;
         let removed = 0;
         for (let i = 0; i < self.cart.length; i++) {
