@@ -34,20 +34,45 @@ module.exports = {
             total: total,
         });
     },
-
-    makePurchase: function(req, res) {
-        req.clientUser.makePurchase(function(err, result) {
-            res.redirect(req.get('referer'));
+    
+    checkout: function(req, res) {
+        let data = req.clientUser.shoppingcart.cart;
+        let timeout = 0;
+        let total = 0;
+        if (data.length > 0) {
+            req.clientUser.shoppingcart.startPurchaseSession();
+            timeout = req.clientUser.shoppingcart.timeouts[0].timeout;
+            total = req.clientUser.shoppingcart.getTotal();
+        }
+        let locked = req.clientUser.shoppingcart.isLocked;
+        res.render('client/confirmPurchase', {
+            data: data,
+            total: total,
+            timeout: timeout,
+            locked: locked,
         });
     },
 
-    confirmPurchase: function(req, res) {
+    makePurchase: function(req, res) {
+        req.clientUser.makePurchase(function(err, result) {
+            req.clientUser.shoppingcart.endPurchaseSession();
+            req.flash('success_msg', 'Purchase successful.');
+            res.redirect('orders');
+        });
+    },
 
+    cancelPurchase: function(req, res) {
+        if (req.clientUser.shoppingcart.isLocked) {
+            req.clientUser.shoppingcart.removeAllFromCart(function(err, data) {
+                req.clientUser.shoppingcart.endPurchaseSession();
+            });
+        }
+        res.redirect('shoppingCart');
     },
 
     viewAccount: function(req, res) {
-            res.render('client/account', {
-            });
+        res.render('client/account', {
+        });
     },
 
     viewOrders: function(req, res) {
@@ -69,11 +94,41 @@ module.exports = {
 
     returnItem: function(req, res) {
         let orderItemId = req.params.id;
+        let orderId = req.params.orderId;
         req.clientUser.returnItem(orderItemId, function(err, result) {
-            res.redirect(req.get('referer'));
+            res.redirect('/client/order/details/'+orderId);
         });
     },
 
+    startReturn: function(req, res) {
+        let orderItemId = req.params.id;
+        let orderId = req.params.orderId;
+        let catalog = req.clientUser.orderCatalog.orders;
+        let result = null;
+        for (let i = 0; i < catalog.length; i++) {
+            if (orderId == catalog[i].orderId) {
+                catalog[i].startReturnSession();
+                result = catalog[i].getOrderItem(orderItemId);
+                break;
+            }
+        }
+        res.render('client/confirmReturn', {
+            data: result,
+        });
+    },
+
+    cancelReturn: function(req, res) {
+        let orderId = req.params.orderId;
+        let catalog = req.clientUser.orderCatalog.orders;
+        for (let i = 0; i < catalog.length; i++) {
+            if (orderId == catalog[i].orderId) {
+                catalog[i].endReturnSession();
+                break;
+            }
+        }
+        res.redirect('/client/order/details/'+orderId);
+    },
+    
     deleteAccount: function(req, res) {
         UserMapper.makeDeletion(req.clientUser);
         req.flash('success_msg', 'Your account has been successfully deleted');
