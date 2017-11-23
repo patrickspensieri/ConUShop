@@ -60,8 +60,8 @@ module.exports = {
      },
 
     deleteItemFromCatalog: function(req, res) {
-        let otherMsg = req.adminUser.getProductCatalog().deleteItemFromCatalog(req.body.serialNumber);
-        req.flash('otherSess_msg', otherMsg);
+        let warningMsg = req.adminUser.getProductCatalog().deleteItemFromCatalog(req.body.serialNumber);
+        req.flash('warning_msg', warningMsg);
         res.redirect(req.get('referer'));
     },
 
@@ -85,7 +85,8 @@ module.exports = {
             if (errors.length > 0) {
                 req.flash('validationErrors', errors);
             } else {
-                req.adminUser.getProductCatalog().addItemToCatalog(req.body.serialNumber, req.body.modelNumber);
+                let warningMsg = req.adminUser.getProductCatalog().addItemToCatalog(req.body.serialNumber, req.body.modelNumber);
+                req.flash('warning_msg', warningMsg);
             }
         }
         res.redirect(req.get('referer'));
@@ -151,8 +152,10 @@ module.exports = {
             if (errors.length > 0) {
                 req.flash('validationErrors', errors);
             } else {
-                req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
+                let warningMsg = req.adminUser.getProductCatalog().addProductSpecification(prodType, model, brand, processor, ram, storage, cores, dimensions,
                     weight, price, display, os, battery, camera, touch, size);
+                req.flash('warning_msg', warningMsg);
+
             }
         }
 
@@ -161,37 +164,37 @@ module.exports = {
 
     deleteProdSpec: function(req, res) {
         let admin = req.adminUser;
-        let otherMsg = admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
-        req.flash('otherSess_msg', otherMsg);
+        let warningMsg = admin.getProductCatalog().deleteProductSpecification(req.body.prodType, req.body.model);
+        req.flash('warning_msg', warningMsg);
         res.send({redirect: req.body.redi});
     },
 
     updateProdSpec: function(req, res) {
         let errors = validateForm(req);
-
+        let warningMsg=null;
         if (errors.length > 0) {
             req.flash('validationErrors', errors);
         } else {
             switch (req.body.prodType) {
                 case 'Desktop':
-                    otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
+                    warningMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand,
                         req.body.processor, req.body.ram, req.body.storage, req.body.cores,
                         req.body.dimensions, req.body.weight, req.body.price, null, null, null, null, null, null);
                     break;
                 case 'Laptop':
-                    otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                    warningMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                         req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, req.body.touch, null);
                     break;
                 case 'Monitor':
-                    otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
+                    warningMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, null, null, null, null,
                         null, req.body.weight, req.body.price, null, null, null, null, null, req.body.size);
                     break;
                 case 'Tablet':
-                    otherMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
+                    warningMsg=req.adminUser.getProductCatalog().updateProductSpecification(req.body.prodType, req.body.model, req.body.brand, req.body.processor, req.body.ram, req.body.storage,
                         req.body.cores, req.body.dimensions, req.body.weight, req.body.price, req.body.display, req.body.os, req.body.battery, req.body.camera, null, null);
                     break;
             }
-            req.flash('otherSess_msg', otherMsg);
+            req.flash('warning_msg', warningMsg);
         }
         res.send({redirect: req.body.redi});
     },
