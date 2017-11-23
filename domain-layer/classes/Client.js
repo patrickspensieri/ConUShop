@@ -57,6 +57,14 @@ class Client extends User {
     }
 
     /**
+     * Cancels a purchase.
+     * @param {*} callback
+     */
+    cancelPurchase(callback) {
+        this.shoppingcart.removeAllFromCart(callback);
+    }
+
+    /**
      * @param {Integer} orderItemId
      * @param {*} callback
      */
