@@ -1,9 +1,11 @@
+let ProductSpecification = require('./ProductSpecification');
+
 /**
  * Class describes an electronic device.
  * @class ElectronicDevice
  * @export
  */
-class ElectronicDevice {
+class ElectronicDevice extends ProductSpecification {
     /**
      * @constructor 
      * @param {string} model model number of electronic device.
@@ -12,6 +14,7 @@ class ElectronicDevice {
      * @param {number} price price of electronic device.
      */
     constructor(model, brand, weight, price) {
+        super();
         this.model = model;
         this.brand = brand;
         this.weight = weight;
