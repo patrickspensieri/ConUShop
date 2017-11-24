@@ -14,9 +14,10 @@ class Monitor extends ElectronicDevice {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
+   * @param {number} version version of monitor
    */
-    constructor(model, brand, size, weight, price) {
-        super(model, brand, weight, price);
+    constructor(model, brand, size, weight, price, version) {
+        super(model, brand, weight, price, version);
         this.size = size;
     }
 }

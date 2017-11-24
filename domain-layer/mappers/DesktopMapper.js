@@ -20,10 +20,11 @@ class DesktopMapper extends AbstractMapper {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
+   * @param {number} version version of desktop.
    * @return {desktop} desktop object.
    */
-    static create(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
-        let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price);
+    static create(model, brand, processor, ram, storage, cores, dimensions, weight, price, version) {
+        let desktop = new Desktop(model, brand, processor, ram, storage, cores, dimensions, weight, price, version);
         return desktop;
     }
 
@@ -34,18 +35,19 @@ class DesktopMapper extends AbstractMapper {
    * @param {function} callback function that holds desktop object.
    */
     static find(modelNumber, callback) {
-        console.log('proceeding from DesktopMapper...');
             DesktopTDG.find(modelNumber, function(err, result) {
-                let value = result[0];
-                let desktop = new Desktop(value.model, value.brand, value.processor,
-                    value.ram, value.storage, value.cores, value.dimensions,
-                    value.weight, value.price);
                 if (err) {
                     console.log('Error during desktop find query', null);
-                } else if (result == null) {
-                        return callback(err, null);
                 } else {
+                    let value = result[0];
+                    if (result.length==0) {
+                        return callback(err, null);
+                    } else {
+                        let desktop = new Desktop(value.model, value.brand, value.processor,
+                            value.ram, value.storage, value.cores, value.dimensions,
+                            value.weight, value.price);
                         return callback(null, desktop);
+                    }
                 }
             });
     }
@@ -64,7 +66,7 @@ class DesktopMapper extends AbstractMapper {
                 for (let value of result) {
                     let desktop = new Desktop(value.model, value.brand, value.processor,
                         value.ram, value.storage, value.cores, value.dimensions,
-                        value.weight, value.price);
+                        value.weight, value.price, value.version);
                     desktops.push(desktop);
                 }
                 return callback(null, desktops);
@@ -95,7 +97,8 @@ class DesktopMapper extends AbstractMapper {
     static update(desktopObject) {
         DesktopTDG.update(desktopObject.model, desktopObject.brand, desktopObject.processor,
             desktopObject.ram, desktopObject.storage, desktopObject.cores, desktopObject.dimensions,
-            desktopObject.weight, desktopObject.price, function(err, result) {
+            desktopObject.weight, desktopObject.price, desktopObject.version, function(err, result) {
+
                 if (err) {
                    console.log(err);
                 }
@@ -111,25 +114,6 @@ class DesktopMapper extends AbstractMapper {
         DesktopTDG.delete(desktopObject.model, function(err, result) {
             if (err) {
                 console.log(err);
-            }
-        });
-    }
-
-    /**
-     * Get all desktop objects
-     * @static
-     * @param {function} callback
-     */
-    static getDesktop(callback) {
-        DesktopTDG.getDesktop(function(err, result) {
-            let desktop = [];
-            if (err) {
-                console.log('Error during item findAll query', null);
-            } else {
-                for (let value of result) {
-                    desktop.push(new Desktop(value.model, value.brand, value.processor, value.ram, value.storage, value.cores, value.dimensions, value.weight, value.price));
-                }
-                return callback(null, desktop);
             }
         });
     }

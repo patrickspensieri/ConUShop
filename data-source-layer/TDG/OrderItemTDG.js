@@ -13,7 +13,7 @@ class OrderItemTDG {
    * @param {function} callback function that holds Order object.
    */
     static find(orderItemId, callback) {
-        db.query('SELECT * FROM OrderItem WHERE order_item_id=$1 AND order_id=$2', [orderItemId, orderId], (err, result) => {
+        db.query('SELECT * FROM OrderItem WHERE order_item_id=$1', [orderItemId], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {

@@ -5,10 +5,11 @@ let accountController = require('../controllers/accountController');
 router.use(function(req, res, next) {
     res.locals.error_message = req.flash('error_msg');
     res.locals.success_message = req.flash('success_msg');
+    res.locals.warning_message = req.flash('warning_msg');
     res.locals.sessStart_msg = req.flash('sessStart_msg');
     res.locals.sessEnd_msg = req.flash('sessEnd_msg');
     res.locals.otherSess_msg = req.flash('otherSess_msg');
-
+    res.locals.validationErrors = req.flash('validationErrors');
     return next();
 });
 
@@ -22,6 +23,11 @@ router.use('/client', accountController.ensureClient, require('./client'));
 router.get('/',
     function(req, res) {
         res.render('pages/index');
+});
+
+router.use(function(req, res, next) {
+    res.status(404);
+    res.render('pages/404');
 });
 
 module.exports = router;

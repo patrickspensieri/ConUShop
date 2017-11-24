@@ -102,12 +102,12 @@
                             <div class="row">
                                 <div class="col-sm-6 AddDesktop">
                                     <label>Product Table: </label>
-                                    <input type="text" class="form-control" name="formProductType" value="Desktop" readonly>
+                                    <input type="text" class="form-control" name="prodType" value="Desktop" readonly>
                                 </div>
                                 <div class="col-sm-6 AddDesktop">
                                     <div class="form-group">
                                         <label  for="model" class="control-label">Model Number</label>
-                                        <input type="text" id="model" class="form-control" name="model" placeholder="model" pattern="^DES\d{1,7}$" data-error="Please enter valid model." required>
+                                        <input type="text" id="model" class="form-control" name="model" placeholder="model" pattern="^DES\d{1,7}$" data-error="Model must be of the form DES##." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@
                                 <div class="col-sm-6 AddDesktop">
                                     <div class="form-group">
                                         <label>Dimensions</label>
-                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions" pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" data-error="Please enter valid dimension." required>
+                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions" pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" data-error="Dimension must be of the form # x # x #." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@
                                 <div class="col-sm-6 AddDesktop">
                                     <div class="form-group">
                                         <label>Weight</label>
-                                        <input type="text" class="form-control" name="weight" placeholder="weight"  pattern="([^-]\d+\.{0,1}\d{0,2})" data-error="Please enter valid weight." required>
+                                        <input type="text" class="form-control" name="weight" placeholder="weight"  pattern="[\d]+\.{1}\d{2}" data-error="Weight value be a positive number (2 decimal points)." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
                                 <div class="AddDesktop">
                                     <div class="form-group">
                                         <label>Price</label>
-                                        <input type="text" class="form-control" name="price" placeholder="price"  pattern="[^-]\d+\.{0,1}\d{0,2}" data-error="Please enter valid price." required>
+                                        <input type="text" class="form-control" name="price" placeholder="price"  pattern="[\d]+\.{1}\d{2}" data-error="Price value be a positive number (2 decimal points)." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -206,6 +206,7 @@
                             <th>Price</th>
                             <th>Edit</td>
                             <th>Delete</th>
+                            <th style="display:none;">Version</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -220,6 +221,7 @@
                             <td class="dimensions"><%= data[i].dimensions %></td>
                             <td class="weight"><%= data[i].weight %></td>
                             <td class="price"><%= data[i].price %></td>
+                            <td style="display:none;" class="version"><%= data[i].version %></td>
                             <td contenteditable="false"><button class="btn btn-warning" onclick="updateProdSpec('Desktop', $(this).closest('tr'), '/admin/desktops')">Edit</button></td>
                             <td contenteditable="false"><button class="btn btn-danger" onclick="deleteProdSpec('Desktop', '<%= data[i].model%>', '/admin/desktops')">Delete</button></td>
                         </tr>

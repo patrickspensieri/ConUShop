@@ -9,7 +9,7 @@ let OrderItemMapper = require('../mappers/OrderItemMapper');
 class ShoppingCart {
     /**
      * @constructor
-     * @param {Object} productCatalog 
+     * @param {Object} productCatalog
      * @param {Object} user
      */
     constructor(productCatalog, user) {
@@ -17,13 +17,14 @@ class ShoppingCart {
         this.productCatalog = productCatalog;
         this.cart = [];
         this.timeouts = [];
+        this.isLocked = false;
     }
 
     /**
      * Add item to cart
-     * @param {string} modelNumber 
+     * @param {string} modelNumber
      * @param {string} type
-     * @param {*} callback 
+     * @param {*} callback
      */
     addToCart(modelNumber, type, callback) {
         const self = this;
@@ -32,9 +33,13 @@ class ShoppingCart {
         self.getItem(modelNumber, type, function(err, result) {
             if (result != null) {
                 self.cart.push(result);
-                self.timeouts.push(
-                    setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {
-                }));
+
+                let now = new Date();
+                let timerExpiresAt = now.getTime() + 120000;
+                let timeout = setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {});
+                self.timeouts.push(timeout);
+                result.itemTimeout = timerExpiresAt;
+
                 return callback(null, result);
             }
             return callback(err, null);
@@ -43,8 +48,8 @@ class ShoppingCart {
 
     /**
      * Remove an item from the shopping cart
-     * @param {string} serialNumber 
-     * @param {*} callback 
+     * @param {string} serialNumber
+     * @param {*} callback
      */
     removeFromCart(serialNumber, callback) {
         contract.precondition(this.cart.length > 0);
@@ -66,10 +71,66 @@ class ShoppingCart {
     }
 
     /**
+     * Remove all items from the shopping cart
+     * @param {*} callback
+     * @return {*} callback
+     */
+    removeAllFromCart(callback) {
+        contract.precondition(this.cart.length > 0);
+
+        const self = this;
+        let removed = 0;
+        for (let i = 0; i < self.cart.length; i++) {
+            let serialNumber = self.cart[i].serialNumber;
+
+            this.productCatalog.unlockItem(serialNumber, function(err, result) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+
+            if (++removed == self.cart.length) {
+                self.cart = [];
+                return callback(null, 'Success');
+            }
+        }
+    }
+
+    /**
+     * Starts the purchase session.
+     */
+    startPurchaseSession() {
+        for (let i = 0; i < this.timeouts.length; i++) {
+            clearTimeout(this.timeouts[i]);
+        }
+        this.timeouts = [];
+
+        let now = new Date();
+        let timerExpiresAt = now.getTime() + 120000;
+        let timeout = setTimeout(this.removeAllFromCart.bind(this), 120000, function(err, result) {});
+        this.timeouts.push(timeout);
+        this.timeouts[0].timeout = timerExpiresAt;
+
+        this.isLocked = true;
+    }
+
+    /**
+     * Ends the purchase session.
+     * Called when purchase is made, or when purchase is cancelled.
+     */
+    endPurchaseSession() {
+        for (let i = 0; i < this.timeouts.length; i++) {
+            clearTimeout(this.timeouts[i]);
+        }
+        this.timeouts = [];
+        this.isLocked = false;
+    }
+
+    /**
      * Get an item from the shopping cart
-     * @param {string} modelNumber 
-     * @param {string} type 
-     * @param {*} callback 
+     * @param {string} modelNumber
+     * @param {string} type
+     * @param {*} callback
      */
     getItem(modelNumber, type, callback) {
         this.productCatalog.getItemAndLock(modelNumber, function(err, result) {

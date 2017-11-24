@@ -13,7 +13,7 @@ class TabletTDG {
    * @param {function} callback function that holds tablet object.
    */
     static find(modelNumber, callback) {
-        db.query('SELECT * FROM tablet WHERE model=$1', [modelNumber], (err, result) => {
+        db.query('SELECT * FROM tablet WHERE model=$1 AND isDeleted=FALSE', [modelNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -28,7 +28,7 @@ class TabletTDG {
    * @param {function} callback function that holds array of tablet object.
    */
     static findAll(callback) {
-        db.query('SELECT * FROM tablet', (err, result) => {
+        db.query('SELECT * FROM tablet WHERE isDeleted=FALSE', (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -53,9 +53,10 @@ class TabletTDG {
    * @param {string} dimensions dimensions of tablet.
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet.
+   * @param {number} version 
    * @param {function} callback
    */
-    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, callback) {
+    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
         let queryString = 'INSERT INTO tablet (model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
 
@@ -63,7 +64,6 @@ class TabletTDG {
             if (err) {
                 console.log(err.message);
             }
-            return callback(err, result);
         });
     }
 
@@ -83,11 +83,12 @@ class TabletTDG {
    * @param {string} dimensions dimensions of tablet.
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet
+   * @param {number} version version of tablet
    * @param {function} callback
    */
-    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, callback) {
-        let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13 WHERE model=$1';
-        let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
+    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version, callback) {
+        let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13, version=$14 WHERE model=$1 AND isDeleted=FALSE';
+        let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
@@ -104,27 +105,12 @@ class TabletTDG {
    * @param {function} callback
    */
     static delete(id, callback) {
-        db.query('DELETE FROM tablet WHERE model=$1', [id], (err, result) => {
+        db.query('UPDATE tablet SET isDeleted=TRUE WHERE model=$1', [id], (err, result) => {
             if (err) {
                 console.log(err.message);
             }
             console.log('This Tablet has been deleted from the database');
             return callback(err, result);
-        });
-    }
-
-    /**
-     * Returns a tablet object
-     * @param {function} callback
-     */
-    static getTablet(callback) {
-        db.query('SELECT DISTINCT d.model, d.brand, d.display, d.processor, d.ram, d.storage, d.cores, d.os, d.battery, d.camera, d.dimensions, d.weight, d.price FROM tablet d INNER JOIN Item i on i.model = d.model;', (err, result) =>{
-            if (err) {
-                console.log(err.message);
-            } else {
-                console.log('Tablet success');
-                return callback(null, result.rows);
-            }
         });
     }
 }

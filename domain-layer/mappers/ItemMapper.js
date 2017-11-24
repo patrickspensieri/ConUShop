@@ -26,13 +26,8 @@ class ItemMapper extends AbstractMapper {
      * @static
      * @param {string} serialNumber serial number of item to be found.
      * @param {function} callback function that returns item object.
-     * @return {function} callback result
      */
     static find(serialNumber, callback) {
-        let item = idMap.get('Item', serialNumber);
-        if (item != null) {
-            return callback(null, item);
-        } else {
             ItemTDG.find(serialNumber, function(err, result) {
                 if (err) {
                     console.log('Error during item find query', null);
@@ -42,12 +37,10 @@ class ItemMapper extends AbstractMapper {
                         return callback(err, null);
                     } else {
                         let item = new Item(value.serialnumber, value.model, value.islocked);
-                        idMap.add(item, item.serialNumber);
                         return callback(null, item);
                     }
                 }
             });
-        }
     }
 
     /**
@@ -64,9 +57,6 @@ class ItemMapper extends AbstractMapper {
                 for (let value of result) {
                     let item = new Item(value.serialnumber, value.model, value.islocked);
                     items.push(item);
-                    if (idMap.get('Item', item.serialNumber) == null) {
-                        idMap.add(item, item.serialNumber);
-                    }
                 }
                 return callback(null, items);
             }
@@ -79,9 +69,9 @@ class ItemMapper extends AbstractMapper {
      * @param {Object} itemObject an object of type item.
      */
     static insert(itemObject) {
-        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber, function(err, result) {
-            if (!err) {
-                idMap.add(itemObject, itemObject.serialNumber);
+        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber, itemObject.isLocked, function(err, result) {
+            if (err) {
+                console.log(err);
             }
         });
     }
@@ -93,8 +83,8 @@ class ItemMapper extends AbstractMapper {
      */
     static update(itemObject) {
         ItemTDG.update(itemObject.serialNumber, itemObject.modelNumber, itemObject.isLocked, function(err, result) {
-                if (!err) {
-                    idMap.update(itemObject, itemObject.serialNumber);
+                if (err) {
+                    console.log(err);
                 }
         });
     }
@@ -106,16 +96,16 @@ class ItemMapper extends AbstractMapper {
      */
     static delete(itemObject) {
         ItemTDG.delete(itemObject.serialNumber, function(err, result) {
-            if (!err) {
-                idMap.delete(itemObject, itemObject.serialNumber);
+            if (err) {
+                console.log(err);
             }
         });
     }
 
     /**
      *  Gets item from model
-     * @param {*} modelNumber 
-     * @param {*} callback 
+     * @param {*} modelNumber
+     * @param {*} callback
      */
     static getItemFromModel(modelNumber, callback) {
         ItemTDG.getItemFromModel(modelNumber, function(err, result) {
@@ -140,8 +130,8 @@ class ItemMapper extends AbstractMapper {
 
     /**
      * Unlocks an item
-     * @param {Object} object 
-     * @param {*} callback 
+     * @param {Object} object
+     * @param {*} callback
      * @return {*} callback
      */
     static unlockItem(object, callback) {
@@ -153,7 +143,7 @@ class ItemMapper extends AbstractMapper {
 
     /**
      * Locks an item
-     * @param {Object} object 
+     * @param {Object} object
      * @param {*} callback
      * @return {*} callback
      */

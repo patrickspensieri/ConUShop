@@ -20,14 +20,35 @@ class Order {
        this.total = total;
        this.isCompleted = false;
        this.orderItems = null;
+       this.isLocked = false;
     }
 
+    /**
+     * OrderItems accessor
+     * @param {*} callback 
+     */
     getOrderItems(callback) {
         let self = this;
         OrderItemMapper.findAll(this.orderId, function(err, result) {
             self.orderItems = result;
             return callback(err, result);
         });
+    }
+
+    getOrderItem(orderItemId) {
+        for (let i = 0; i < this.orderItems.length; i++) {
+            if (orderItemId == this.orderItems[i].orderItemId) {
+                return this.orderItems[i];
+            }
+        }
+    }
+
+    startReturnSession() {
+        this.isLocked = true;
+    }
+
+    endReturnSession() {
+        this.isLocked = false;
     }
 }
 

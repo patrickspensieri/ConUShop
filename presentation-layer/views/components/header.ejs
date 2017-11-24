@@ -158,11 +158,13 @@ potentially the script to start the login
         <div class="w3l_logo">
             <h1><a href="/">ConUshop<span>Your electronic store</span></a></h1>
         </div>
+        <% if (isclient) { %>
         <div class="cart cart box_1"> 
             <form action="/client/shoppingCart" method="get" class="last"> 
                 <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
             </form>   
-        </div>  
+        </div>
+        <% } %>
     </div>
 </div>
 <!-- //header -->
