@@ -223,7 +223,6 @@ module.exports = {
 function isCurrentVersion(req, object) {
     let objectVersion = parseInt(object.version);
     let clientVersion = parseInt(req.body.version);
-    console.log(clientVersion);
     return objectVersion === clientVersion;
 }
 

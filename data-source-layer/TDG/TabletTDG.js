@@ -56,7 +56,7 @@ class TabletTDG {
    * @param {number} version 
    * @param {function} callback
    */
-    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version, callback) {
+    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
         let queryString = 'INSERT INTO tablet (model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
 
@@ -64,7 +64,6 @@ class TabletTDG {
             if (err) {
                 console.log(err.message);
             }
-            return callback(err, result);
         });
     }
 

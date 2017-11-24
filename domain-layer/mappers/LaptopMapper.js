@@ -51,7 +51,7 @@ class LaptopMapper extends AbstractMapper {
                         let laptop = new Laptop(value.model, value.brand, value.display, value.processor,
                             value.ram, value.storage, value.cores, value.os,
                             value.battery, value.camera, value.touch, value.dimensions,
-                            value.weight, value.price);
+                            value.weight, value.price, value.version);
                         return callback(null, laptop);
                     }
                 }

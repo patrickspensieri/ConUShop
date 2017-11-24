@@ -48,7 +48,7 @@ class MonitorTDG {
    * @param {number} version
    * @param {function} callback
    */
-    static insert(model, brand, size, weight, price, version, callback) {
+    static insert(model, brand, size, weight, price) {
         let queryString = 'INSERT INTO monitor (model, brand, size, weight, price) VALUES($1, $2, $3, $4, $5)';
         let queryValues = [model, brand, size, weight, price];
 
@@ -56,7 +56,6 @@ class MonitorTDG {
             if (err) {
                 console.log(err.message);
             }
-            return callback(err, result);
         });
     }
 

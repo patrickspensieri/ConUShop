@@ -52,7 +52,7 @@ class DesktopTDG {
    * @param {number} version
    * @param {function} callback function
    */
-    static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price, version, callback) {
+    static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let queryString = 'INSERT INTO desktop (model, brand, processor, ram, storage, cores, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
         let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
 
@@ -60,7 +60,6 @@ class DesktopTDG {
             if (err) {
                 console.log(err.message);
             }
-            return callback(err, result);
         });
     }
 
