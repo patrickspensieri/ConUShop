@@ -23,9 +23,10 @@ class Laptop extends PortableComputer {
    * @param {string} dimensions dimensions of laptop.
    * @param {number} weight weight of laptop.
    * @param {number} price price of laptop
+   * @param {number} version version of laptop
    */
-    constructor(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price) {
-        super(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price);
+    constructor(model, brand, display, processor, ram, storage, cores, os, battery, camera, touch, dimensions, weight, price, version) {
+        super(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version);
         this.touch = touch;
     }
 }

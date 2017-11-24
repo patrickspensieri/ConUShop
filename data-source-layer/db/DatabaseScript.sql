@@ -63,42 +63,11 @@ INSERT INTO Product VALUES('LAP09');
 INSERT INTO Product VALUES('LAP10');
 INSERT INTO Product VALUES('LAP11');
 
-/* ------------------------------------------ BRAND TABLE QUERIES --------------------------------------------- */
-
-CREATE TABLE Brand (
-    BRAND VARCHAR(10) PRIMARY KEY NOT NULL
-);
-INSERT INTO Brand VALUES ('Dell');
-INSERT INTO Brand VALUES ('HP');
-INSERT INTO Brand VALUES ('Acer');
-INSERT INTO Brand VALUES ('Asus');
-INSERT INTO Brand VALUES ('Apple');
-INSERT INTO Brand VALUES ('Microsoft');
-INSERT INTO Brand VALUES ('Lenovo');
-INSERT INTO Brand VALUES ('Insignia');
-INSERT INTO Brand VALUES ('Samsung');
-INSERT INTO Brand VALUES ('Sony');
-INSERT INTO Brand VALUES ('Sharp');
-INSERT INTO Brand VALUES ('Toshiba');
-INSERT INTO Brand VALUES ('LG');
-
-/* ------------------------------------------ OS TABLE QUERIES --------------------------------------------- */
-
-CREATE TABLE OS (
-    OS VARCHAR(10) PRIMARY KEY NOT NULL
-);
-INSERT INTO OS VALUES ('Windows 10');
-INSERT INTO OS VALUES ('MacOS');
-INSERT INTO OS VALUES ('iOS 10');
-INSERT INTO OS VALUES ('iOS 9');
-INSERT INTO OS VALUES ('Android 5');
-INSERT INTO OS VALUES ('Android 6');
-
 /* ------------------------------------------ DESKTOP TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE Desktop (
     Model VARCHAR(10) PRIMARY KEY REFERENCES PRODUCT(MODEL) NOT NULL,
-    Brand VARCHAR(10) REFERENCES BRAND(BRAND) NOT NULL,
+    Brand VARCHAR(10) NOT NULL,
     Processor VARCHAR(20) NOT NULL,
     RAM INTEGER NOT NULL,
     Storage INTEGER NOT NULL,
@@ -108,63 +77,65 @@ CREATE TABLE Desktop (
     Price DECIMAL NOT NULL,
     Photo VARCHAR(25) DEFAULT NULL,
     isEdited BOOLEAN DEFAULT FALSE,
-    version SERIAL
+    isDeleted BOOLEAN DEFAULT FALSE,
+    Version INTEGER DEFAULT 1
 );
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES01'), (SELECT BRAND FROM BRAND WHERE BRAND='Apple'), 'Intel i5',8,1000,4, '52.8 x 45 x 17.5',5.66,1745.49);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES02'), (SELECT BRAND FROM BRAND WHERE BRAND='Apple'), 'Intel i7',8,1000,4, '52.8 x 45 x 17.5',5.66,1999.99);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES03'), (SELECT BRAND FROM BRAND WHERE BRAND='Apple'), 'Intel i5',8,1000,4, '65 x 51.6 x 20.5',9.44,2305.49);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES04'), (SELECT BRAND FROM BRAND WHERE BRAND='HP'), 'AMD A8-7410',8,1000,4, '39.59 x 31.9 x 10.0',4.41,501.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES05'),  (SELECT BRAND FROM BRAND WHERE BRAND='HP'), 'Intel Pentium J3710',8,1000,4, '63.09 x 49.81 x 23.9',9.03,705.49);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES06'),  (SELECT BRAND FROM BRAND WHERE BRAND='HP'), 'Intel i7',32,3000,4, '19.20 x 41.73 x 44.22',14.06,3001.99);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES07'),  (SELECT BRAND FROM BRAND WHERE BRAND='HP'), 'Intel i7',16,1000,4, '16.51 x 40.11 x 42.01',10.52,1601.99);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES08'),  (SELECT BRAND FROM BRAND WHERE BRAND='Asus'), 'Intel i7',16,1000,4, '23 x 54 x 55',17,1501.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES09'),  (SELECT BRAND FROM BRAND WHERE BRAND='Asus'), 'Intel i7',16,512,4, '15.39 x 35.31 x 30.30',13.91,2201.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES10'),  (SELECT BRAND FROM BRAND WHERE BRAND='Asus'), 'Intel i5',8,1000,4, '17.23 x 37.12 x 42.09',12.56,1371.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES11'),  (SELECT BRAND FROM BRAND WHERE BRAND='Dell'), 'Intel i7',12,1000,4, '15.22 x 36.72 x 29.87',11.54,1301.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES12'),  (SELECT BRAND FROM BRAND WHERE BRAND='Dell'), 'AMD A10-8700P',8,1000,4, '17.21 X 39.12 X 43.78',13.54,651.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES13'), (SELECT BRAND FROM BRAND WHERE BRAND='Dell'), 'Intel i7',16,2000,4, '19.20 x 42.23 x 46.65',14.18,2765.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES14'), (SELECT BRAND FROM BRAND WHERE BRAND='Dell'), 'Intel i5',8,1000,4, '17.23 x 38.12 x 39.12',11.87,1299.99);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES15'),  (SELECT BRAND FROM BRAND WHERE BRAND='Acer'), 'Intel i5',8,1000,4, '18.21 x 34.23 x 39.32',10.21,1349.99);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES16'),  (SELECT BRAND FROM BRAND WHERE BRAND='Acer'), 'Intel i7',16,2000,4, '18.85 x 43.98 x 42.37',15.39,2099.99);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES17'),  (SELECT BRAND FROM BRAND WHERE BRAND='Acer'), 'AMD A10-8700P',8,1000,4, '12.54 x 45.23 x 42.30',10.01,727.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES18'),  (SELECT BRAND FROM BRAND WHERE BRAND='Acer'), 'Intel i7',16,3000,4, '33.07 x 29.45 x 22.11',16,3109.09);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES19'),  (SELECT BRAND FROM BRAND WHERE BRAND='Microsoft'), 'Intel i7',8,1000,4, '19.20 x 45 x 34.23',14.56,1874.99);
-INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES20'),  (SELECT BRAND FROM BRAND WHERE BRAND='Microsoft'), 'Intel i5',8,1000,4, '22 x 43 x 55',13.69,1745.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES01'), 'Apple', 'Intel i5',8,1000,4, '52.8 x 45 x 17.5',5.66,1745.49);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES02'), 'Apple', 'Intel i7',8,1000,4, '52.8 x 45 x 17.5',5.66,1999.99);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES03'), 'Apple', 'Intel i5',8,1000,4, '65 x 51.6 x 20.5',9.44,2305.49);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES04'), 'HP', 'AMD A8-7410',8,1000,4, '39.59 x 31.9 x 10.0',4.41,501.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES05'), 'HP', 'Intel Pentium J3710',8,1000,4, '63.09 x 49.81 x 23.9',9.03,705.49);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES06'), 'HP', 'Intel i7',32,3000,4, '19.20 x 41.73 x 44.22',14.06,3001.99);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES07'), 'HP', 'Intel i7',16,1000,4, '16.51 x 40.11 x 42.01',10.52,1601.99);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES08'), 'Asus', 'Intel i7',16,1000,4, '23 x 54 x 55',17,1501.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES09'), 'Asus', 'Intel i7',16,512,4, '15.39 x 35.31 x 30.30',13.91,2201.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES10'), 'Asus', 'Intel i5',8,1000,4, '17.23 x 37.12 x 42.09',12.56,1371.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES11'), 'Dell', 'Intel i7',12,1000,4, '15.22 x 36.72 x 29.87',11.54,1301.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES12'), 'Dell', 'AMD A10-8700P',8,1000,4, '17.21 X 39.12 X 43.78',13.54,651.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES13'), 'Dell', 'Intel i7',16,2000,4, '19.20 x 42.23 x 46.65',14.18,2765.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES14'), 'Dell', 'Intel i5',8,1000,4, '17.23 x 38.12 x 39.12',11.87,1299.99);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES15'), 'Acer', 'Intel i5',8,1000,4, '18.21 x 34.23 x 39.32',10.21,1349.99);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES16'), 'Acer', 'Intel i7',16,2000,4, '18.85 x 43.98 x 42.37',15.39,2099.99);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES17'), 'Acer', 'AMD A10-8700P',8,1000,4, '12.54 x 45.23 x 42.30',10.01,727.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES18'), 'Acer', 'Intel i7',16,3000,4, '33.07 x 29.45 x 22.11',16,3109.09);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES19'), 'Microsoft', 'Intel i7',8,1000,4, '19.20 x 45 x 34.23',14.56,1874.99);
+INSERT INTO Desktop VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='DES20'), 'Microsoft', 'Intel i5',8,1000,4, '22 x 43 x 55',13.69,1745.09);
 
  /* ------------------------------------------ MONITOR TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE Monitor (
     Model VARCHAR(10) PRIMARY KEY REFERENCES PRODUCT(MODEL) NOT NULL,
-    Brand VARCHAR(10) REFERENCES BRAND(BRAND) NOT NULL,
+    Brand VARCHAR(10) NOT NULL,
     Size INTEGER NOT NULL,
     Weight DECIMAL NOT NULL,
     Price DECIMAL NOT NULL,
     Photo VARCHAR(25) DEFAULT NULL,
     isEdited BOOLEAN DEFAULT FALSE,
-    version SERIAL
+    isDeleted BOOLEAN DEFAULT FALSE,
+    Version INTEGER DEFAULT 1
 );
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON01'), (SELECT BRAND FROM BRAND WHERE BRAND='Samsung'),23,5.1,199.99);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON02'), (SELECT BRAND FROM BRAND WHERE BRAND='Samsung'),27,5.7,345.45);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON03'), (SELECT BRAND FROM BRAND WHERE BRAND='HP'),27,5.7,356.69);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON04'), (SELECT BRAND FROM BRAND WHERE BRAND='HP'),23,5.2,249.99);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON05'), (SELECT BRAND FROM BRAND WHERE BRAND='HP'),34,6.6,425.99);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON06'), (SELECT BRAND FROM BRAND WHERE BRAND='LG'),24,5.3,276.45);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON07'), (SELECT BRAND FROM BRAND WHERE BRAND='LG'),34,6.4,399.99);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON08'), (SELECT BRAND FROM BRAND WHERE BRAND='LG'),29,5.8,302.99);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON09'), (SELECT BRAND FROM BRAND WHERE BRAND='Lenovo'),32,6.2,405.09);
-INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON10'), (SELECT BRAND FROM BRAND WHERE BRAND='Lenovo'),24,5.3,234.49);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON01'), 'Samsung',23,5.1,199.99);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON02'), 'Samsung',27,5.7,345.45);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON03'), 'HP',27,5.7,356.69);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON04'), 'HP',23,5.2,249.99);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON05'), 'HP',34,6.6,425.99);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON06'), 'LG',24,5.3,276.45);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON07'), 'LG',34,6.4,399.99);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON08'), 'LG',29,5.8,302.99);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON09'), 'Lenovo',32,6.2,405.09);
+INSERT INTO Monitor VALUES ((SELECT MODEL FROM PRODUCT WHERE MODEL='MON10'), 'Lenovo',24,5.3,234.49);
 
 /* ------------------------------------------ TABLET TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE Tablet (
     Model VARCHAR(10) PRIMARY KEY REFERENCES PRODUCT(MODEL) NOT NULL,
-    Brand VARCHAR(10) REFERENCES BRAND(BRAND) NOT NULL,
+    Brand VARCHAR(10) NOT NULL,
     Display DECIMAL NOT NULL,
     Processor VARCHAR(17) NOT NULL,
     RAM INTEGER NOT NULL,
     Storage INT NOT NULL,
     Cores INT NOT NULL,
-    OS VARCHAR(10) REFERENCES OS(OS) NOT NULL,
+    OS VARCHAR(10) NOT NULL,
     Battery DECIMAL NOT NULL,
     Camera INT NOT NULL,
     Dimensions VARCHAR(25) NOT NULL,
@@ -172,31 +143,32 @@ CREATE TABLE Tablet (
     Price DECIMAL NOT NULL,
     Photo VARCHAR(25) DEFAULT NULL,
     isEdited BOOLEAN DEFAULT FALSE,
-    version SERIAL
+    isDeleted BOOLEAN DEFAULT FALSE,
+    Version INTEGER DEFAULT 1
 );
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB01'), (SELECT BRAND FROM BRAND WHERE BRAND='Apple'),9.7,'A9',4,32,2,(SELECT OS FROM OS WHERE OS='iOS 10'),32.4,8,'24 x 16.09 x 0.75',0.469,450.89);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB02'), (SELECT BRAND FROM BRAND WHERE BRAND='Apple'),9.7,'A9',4,128,2,(SELECT OS FROM OS WHERE OS='iOS 9'),32.4,8,'24 x 16.09 x 0.75',0.513,580.89);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB03'), (SELECT BRAND FROM BRAND WHERE BRAND='Apple'),7.9,'A8',2,32,2,(SELECT OS FROM OS WHERE OS='iOS 9'),19.1,8,'20.32 x 13.48 x 0.61',0.299,525.89);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB04'), (SELECT BRAND FROM BRAND WHERE BRAND='Apple'),7.9,'A8',2,128,2,(SELECT OS FROM OS WHERE OS='iOS 9'),19.1,8,'20.32 x 13.48 x 0.61',0.356,550.89);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB05'), (SELECT BRAND FROM BRAND WHERE BRAND='Apple'),9.7,'A9',4,128,2,(SELECT OS FROM OS WHERE OS='iOS 10'),32.4,8,'24 x 16.09 x 0.75',0.513,750.89);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB06'), (SELECT BRAND FROM BRAND WHERE BRAND='Samsung'),9.6,'Qualcoom APQ 8016',1.5,16,4,(SELECT OS FROM OS WHERE OS='Android 5'),32.4,5,'24.19 x 14.95 x 0.955',0.543,230.89);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB07'), (SELECT BRAND FROM BRAND WHERE BRAND='Samsung'),10.1,'Exynos 7870',2,16,8,(SELECT OS FROM OS WHERE OS='Android 6'),32.4,8,'25.40 x 15.53 x 0.82',0.525,330.99);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB08'), (SELECT BRAND FROM BRAND WHERE BRAND='Samsung'),9.7,'Qualcoom APQ 8096',4,32,4,(SELECT OS FROM OS WHERE OS='Android 6'),26.8,13,'23.73 x 16.9 x0.6',0.429,750.89);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB09'), (SELECT BRAND FROM BRAND WHERE BRAND='Microsoft'),12.3,'Intel i5',4,128,1,(SELECT OS FROM OS WHERE OS='Windows 10'),32.4,8,'24.08 x 6.50 x 43.51',2.34,1300.89);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB10'), (SELECT BRAND FROM BRAND WHERE BRAND='Microsoft'),12.3,'Intel Core m3',4,128,2,(SELECT OS FROM OS WHERE OS='Windows 10'),32.4,8,'38.51 x 3.99 x 23.39',0.766,800.85);
-INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB11'), (SELECT BRAND FROM BRAND WHERE BRAND='Microsoft'),13.5,'Intel i7',8,128,4,(SELECT OS FROM OS WHERE OS='Windows 10'),32.4,13,'38.51 x 3.99 x 23.39',3.12,2123.85);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB01'), 'Apple',9.7,'A9',4,32,2,'iOS 10',32.4,8,'24 x 16.09 x 0.75',0.469,450.89);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB02'), 'Apple',9.7,'A9',4,128,2,'iOS 9',32.4,8,'24 x 16.09 x 0.75',0.513,580.89);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB03'), 'Apple',7.9,'A8',2,32,2,'iOS 9',19.1,8,'20.32 x 13.48 x 0.61',0.299,525.89);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB04'), 'Apple',7.9,'A8',2,128,2,'iOS 9',19.1,8,'20.32 x 13.48 x 0.61',0.356,550.89);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB05'), 'Apple',9.7,'A9',4,128,2,'iOS 10',32.4,8,'24 x 16.09 x 0.75',0.513,750.89);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB06'), 'Samsung',9.6,'Qualcoom APQ 8016',1.5,16,4,'Android 5',32.4,5,'24.19 x 14.95 x 0.955',0.543,230.89);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB07'), 'Samsung',10.1,'Exynos 7870',2,16,8,'Android 6',32.4,8,'25.40 x 15.53 x 0.82',0.525,330.99);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB08'), 'Samsung',9.7,'Qualcoom APQ 8096',4,32,4,'Android 6',26.8,13,'23.73 x 16.9 x0.6',0.429,750.89);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB09'), 'Microsoft',12.3,'Intel i5',4,128,1,'Windows 10',32.4,8,'24.08 x 6.50 x 43.51',2.34,1300.89);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB10'), 'Microsoft',12.3,'Intel Core m3',4,128,2,'Windows 10',32.4,8,'38.51 x 3.99 x 23.39',0.766,800.85);
+INSERT INTO Tablet VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='TAB11'), 'Microsoft',13.5,'Intel i7',8,128,4,'Windows 10',32.4,13,'38.51 x 3.99 x 23.39',3.12,2123.85);
 
 /* ------------------------------------------ LAPTOP TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE Laptop (
     Model VARCHAR(10) PRIMARY KEY REFERENCES PRODUCT(MODEL) NOT NULL,
-    Brand VARCHAR(10) REFERENCES BRAND(BRAND) NOT NULL,
+    Brand VARCHAR(10) NOT NULL,
     Display DECIMAL NOT NULL,
     Processor VARCHAR(15) NOT NULL,
     RAM INTEGER NOT NULL,
     Storage INTEGER NOT NULL,
     Cores INTEGER NOT NULL,
-    OS VARCHAR(10) REFERENCES OS(OS) NOT NULL,
+    OS VARCHAR(10) NOT NULL,
     Battery INTEGER NOT NULL,
     Camera BOOLEAN NOT NULL,
     Touch BOOLEAN NOT NULL,
@@ -205,24 +177,25 @@ CREATE TABLE Laptop (
     Price DECIMAL NOT NULL,
     Photo VARCHAR(25) DEFAULT NULL,
     isEdited BOOLEAN DEFAULT FALSE,
-    version SERIAL
+    isDeleted BOOLEAN DEFAULT FALSE,
+    Version INTEGER DEFAULT 1
 );
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP01'),  (SELECT BRAND FROM BRAND WHERE BRAND='HP'),15.6,'AMD E2-9000e',4,500,2,(SELECT OS FROM OS WHERE OS='Windows 10'),31,'TRUE','FALSE','2.39 x 25.37 x 38',1.95,350.89);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP02'),  (SELECT BRAND FROM BRAND WHERE BRAND='HP'),15.6,'Intel i5',8,1000,2,(SELECT OS FROM OS WHERE OS='Windows 10'),31,'TRUE','TRUE','38 x 2.39 x 25.37',1.95,600.89);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP03'),  (SELECT BRAND FROM BRAND WHERE BRAND='Asus'),15.6,'AMD A10-9600P',12,1000,4,(SELECT OS FROM OS WHERE OS='Windows 10'),37,'TRUE','FALSE','38.1 x 2.5 x 25.7',2,700.89);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP04'),  (SELECT BRAND FROM BRAND WHERE BRAND='Apple'),13.3,'Intel i5',8,128,1.8,(SELECT OS FROM OS WHERE OS='MacOS'),37,'TRUE','FALSE','32.5 x 1.7 x 22.7 ',1.34,1200.89);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP05'),  (SELECT BRAND FROM BRAND WHERE BRAND='Apple'),13.3,'Intel i5',8,256,2,(SELECT OS FROM OS WHERE OS='MacOS'),37,'TRUE','FALSE','30.41 x 1.49 x 21.24',1.37,1600.89, FALSE,NULL);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP06'),  (SELECT BRAND FROM BRAND WHERE BRAND='Acer'),15.6,'Intel i5',8,256,2,(SELECT OS FROM OS WHERE OS='Windows 10'),31,'TRUE','FALSE','38.16 x 2.49 x 25.6',2.4,850.89);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP07'),  (SELECT BRAND FROM BRAND WHERE BRAND='Acer'),15.6,'Intel i3',8,1000,2,(SELECT OS FROM OS WHERE OS='Windows 10'),31,'TRUE','FALSE','38.16 x 3.2 x 25.9',2.23,500.89);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP08'),  (SELECT BRAND FROM BRAND WHERE BRAND='Dell'),15.6,'Intel i7',8,1000,4,(SELECT OS FROM OS WHERE OS='Windows 10'),74,'TRUE','FALSE','38.48 X 2.54 X 27.48 ',2.62,1400.89);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP09'),  (SELECT BRAND FROM BRAND WHERE BRAND='Dell'),13.3,'Intel i7 ',8,256,4,(SELECT OS FROM OS WHERE OS='Windows 10'),46,'TRUE ','TRUE','30.43 X 1.37 X 19.84',1.23,1800.89);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP10'),  (SELECT BRAND FROM BRAND WHERE BRAND='Lenovo'),15.6,'Intel i7',16,1000,4,(SELECT OS FROM OS WHERE OS='Windows 10'),74,'TRUE','FALSE','15 x 1 x 10.4',2.56,2049.9);
-INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP11'),  (SELECT BRAND FROM BRAND WHERE BRAND='Lenovo'),15.6,'Intel i5',4,500,2,(SELECT OS FROM OS WHERE OS='Windows 10'),37,'TRUE ','FALSE','37.6 x 2.54 x 26.1 ',2.3,595.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP01'),  'HP',15.6,'AMD E2-9000e',4,500,2,'Windows 10',31,'TRUE','FALSE','2.39 x 25.37 x 38',1.95,350.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP02'),  'HP',15.6,'Intel i5',8,1000,2,'Windows 10',31,'TRUE','TRUE','38 x 2.39 x 25.37',1.95,600.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP03'),  'Asus',15.6,'AMD A10-9600P',12,1000,4,'Windows 10',37,'TRUE','FALSE','38.1 x 2.5 x 25.7',2,700.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP04'),  'Apple',13.3,'Intel i5',8,128,1.8,'MacOS',37,'TRUE','FALSE','32.5 x 1.7 x 22.7 ',1.34,1200.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP05'),  'Apple',13.3,'Intel i5',8,256,2,'MacOS',37,'TRUE','FALSE','30.41 x 1.49 x 21.24',1.37,1600.89, FALSE,NULL);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP06'),  'Acer',15.6,'Intel i5',8,256,2,'Windows 10',31,'TRUE','FALSE','38.16 x 2.49 x 25.6',2.4,850.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP07'),  'Acer',15.6,'Intel i3',8,1000,2,'Windows 10',31,'TRUE','FALSE','38.16 x 3.2 x 25.9',2.23,500.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP08'),  'Dell',15.6,'Intel i7',8,1000,4,'Windows 10',74,'TRUE','FALSE','38.48 X 2.54 X 27.48 ',2.62,1400.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP09'),  'Dell',13.3,'Intel i7 ',8,256,4,'Windows 10',46,'TRUE ','TRUE','30.43 X 1.37 X 19.84',1.23,1800.89);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP10'),  'Lenovo',15.6,'Intel i7',16,1000,4,'Windows 10',74,'TRUE','FALSE','15 x 1 x 10.4',2.56,2049.9);
+INSERT INTO Laptop VALUES((SELECT MODEL FROM PRODUCT WHERE MODEL='LAP11'),  'Lenovo',15.6,'Intel i5',4,500,2,'Windows 10',37,'TRUE ','FALSE','37.6 x 2.54 x 26.1 ',2.3,595.89);
 
 /* ------------------------------------------ ITEM TABLE QUERIES --------------------------------------------- */
 
 CREATE TABLE Item(
-    SerialNumber VARCHAR(10) PRIMARY KEY NOT NULL,
+    SerialNumber VARCHAR(16) PRIMARY KEY NOT NULL,
     Model VARCHAR(10) REFERENCES PRODUCT(MODEL) NOT NULL,
     isSold BOOLEAN DEFAULT FALSE,
     isLocked BOOLEAN DEFAULT FALSE
@@ -499,21 +472,26 @@ CREATE TABLE USERS (
     Address VARCHAR(55) NOT NULL,
     Email VARCHAR(55) NOT NULL UNIQUE,
     Phone VARCHAR(25) NOT NULL,
-    Password varchar(120) NOT NULL
+    Password varchar(120) NOT NULL,
+    isDeleted BOOLEAN DEFAULT FALSE
 );
 
 /*
 Admin:
-    1. Email: cc@hotmail.com Password: 1234
-    2. Email: zeusontop@hotmail.com Password: ZeusAboveAll
-    3. Email: larak@hotmail.com Password: HabsForLife
+    1. Email: admin1@hotmail.com Password: 1234
+    2. Email: admin2@hotmail.com Password: 1234
+    3. Email: admin3@hotmail.com Password: 1234
 Client:
-    1. Email: donalduck@hotmail.com Password: GlobalWarming
+    1. Email: client1@hotmail.com Password: 1234
+    2. Email: client2@hotmail.com Password: 1234
+    3. Email: client3@hotmail.com Password: 1234
 */
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'C', 'C', 'Concordia University', 'cc@hotmail.com', '5143184562', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Zeus', 'Lightning', '100 Pantheon Boulevard', 'zeusontop@hotmail.com', '1243133082', '$2a$10$UpoxaHPzla6e80MeSKHeYumgh4xe7tiLOk3vjhLK5Wb6TxZNsfuBe');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'George', 'Larak', '230 Bully Street', 'larak@hotmail.com', '5233043242', '$2a$10$YfHMABFbSnL5HaEjlhWCXOlqGDuV4vOpl8TOEvl3cU6G08/vW/h2W');
-INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Donald', 'Mandela', '2019 Hope Avenue', 'donalduck@hotmail.com', '3024827549', '$2a$10$0xjuhHOiXj32lyS9Zml9melW4mHyHIxzgYWNBvQELk8zA9SlAoo8O');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (TRUE, 'Admin', '1', 'Concordia University', 'admin1@hotmail.com', '5143184562', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Admin', '2', 'Concordia University', 'admin2@hotmail.com', '1243133082', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (TRUE, 'Admin', '3', 'Concordia University', 'admin3@hotmail.com', '5141245678', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Client', '1', 'Concordia University', 'client1@hotmail.com', '5233043242', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password)  VALUES (FALSE, 'Client', '2', 'Concordia University', 'client2@hotmail.com', '3024827549', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
+INSERT INTO USERS(isAdmin, FirstName, LastName, Address, Email, Phone, Password) VALUES (FALSE, 'Client', '3', 'Concordia University', 'client3@hotmail.com', '5147654321', '$2a$10$cJXuuUyBQnX7JepLfxuJfeMUTg/aCDd7OHWr1agJfbrjV5M869gXO');
 
 /* ------------------------------------------ ACTIVEUSERS TABLE QUERIES --------------------------------------------- */
 
@@ -523,19 +501,6 @@ CREATE TABLE ACTIVEUSERS(
     lastActive TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (user_id)
 );
-
-
-/* ------------------------------------------ CART TABLE QUERIES --------------------------------------------- */
-/*
-CREATE TABLE CART (
-    user_id VARCHAR(60) REFERENCES ACTIVEUSERS(user_id) NOT NULL,
-    cart_item_id SERIAL NOT NULL,
-    serialNumber VARCHAR(10) REFERENCES ITEM(serialNumber) NOT NULL UNIQUE,
-    price DECIMAL NOT NULL,
-    entryTime TIMESTAMP NOT NULL DEFAULT now(),
-    PRIMARY KEY(cart_item_id)
-);
-*/
 
 /* ------------------------------------------ ORDER TABLE QUERIES --------------------------------------------- */
 CREATE TABLE ORDERS (
@@ -552,35 +517,19 @@ CREATE TABLE ORDERS (
 CREATE TABLE ORDERITEM (
     order_item_id VARCHAR(60) NOT NULL UNIQUE,
     order_id BIGINT REFERENCES ORDERS(order_id) NOT NULL,
-    serialNumber VARCHAR(10) NOT NULL,
+    serialNumber VARCHAR(16) NOT NULL,
     price DECIMAL NOT NULL,
     isReturned BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (order_item_id)
 );
 
-/* ------------------------------------------ RETURN TABLE QUERIES --------------------------------------------- */
-/*
-CREATE TABLE RETURNS (
-    return_id SERIAL PRIMARY KEY NOT NULL,
-    order_id BIGINT REFERENCES ORDERS(order_id) NOT NULL,
-    user_id SERIAL REFERENCES ACTIVEUSERS(user_id) NOT NULL,
-    order_item_id VARCHAR(60) REFERENCES ORDERITEM(order_item_id) NOT NULL
-);
-*/
-
 /* ------------------------------------------ TRIGGER FUNCTIONS --------------------------------------------- */
-/* ------------ modelCheck() FUNCTIONS, CHECKS IF MODEL FORMAT IS GOOD & IF PRODUCT EXISTS */
+/* ------------ modelCheck() FUNCTIONS, CHECKS IF MODEL FORMAT IS GOOD & IF PRODUCT isDeleted */
 CREATE OR REPLACE FUNCTION desktopModelCheck() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NEW.model !~ '^DES\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number already exists';
     END IF;
 INSERT INTO PRODUCT VALUES(NEW.model);
 RETURN NEW;
@@ -592,12 +541,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NEW.model !~ '^LAP\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : LAP##';
-    END IF;
-    IF(EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number already exists';
-    END IF;
 INSERT INTO PRODUCT VALUES(NEW.model);
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -608,12 +551,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NEW.model !~ '^MON\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : MON##';
-    END IF;
-    IF(EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number already exists';
-    END IF;
 INSERT INTO PRODUCT VALUES(NEW.model);
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -623,12 +560,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NEW.model !~ '^TAB\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : TAB##';
-    END IF;
-    IF(EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number already exists';
     END IF;
 INSERT INTO PRODUCT VALUES(NEW.model);
 RETURN NEW;
@@ -641,21 +572,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64)  ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible.';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
-    END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
@@ -666,27 +582,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system. Try using an upper case letter as the first letter and lower case for the rest';
-    END IF;
-    IF(NEW.display NOT IN (7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13, 13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4)) THEN
-        RAISE EXCEPTION 'Provided Display value is impossible.';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64) ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible. Possible values: 2, 4, 8, 16 ';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM OS WHERE OS=NEW.os)) THEN
-        RAISE EXCEPTION 'Provided OS does not exist in the system.';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
-    END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
@@ -695,12 +590,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system';
-    END IF;
-    IF(NEW.size NOT IN (5,7,10,10.1,10.4,13.3,14,14.4,15,15.6,16,17,17.3,18.5,18.9,19,19.1,19.5,20,20.7,21,21.3,21.5,22,23,23.6,23.8,24,24.1,25,24.5,27,28,28.8,29,29.5,30,31,31.5,32) ) THEN
-        RAISE EXCEPTION 'Provided Size value is impossible.';
     END IF;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -711,27 +600,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NEW.model !~ '^DES\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number does not exist';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64)  ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible.';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
     END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
@@ -744,33 +612,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NEW.model !~ '^LAP\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number does not exist';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system. Try using an upper case letter as the first letter and lower case for the rest';
-    END IF;
-    IF(NEW.display NOT IN (7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13, 13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4)) THEN
-        RAISE EXCEPTION 'Provided Display value is impossible.';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64) ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible. Possible values: 2, 4, 8, 16 ';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM OS WHERE OS=NEW.os)) THEN
-        RAISE EXCEPTION 'Provided OS does not exist in the system.';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
-    END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -782,33 +623,6 @@ BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
     END IF;
-    IF(NEW.model !~ '^TAB\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number does not exist';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system. Try using an upper case letter as the first letter and lower case for the rest';
-    END IF;
-    IF(NEW.display NOT IN (7, 8, 10, 10.1, 10.4, 10.5, 10.8, 11, 11.6, 12, 12.1, 12.3, 12.5, 13, 13.1, 13.3, 13.5, 14, 14.1, 15, 15.4, 15.5, 15.6, 17, 17.3, 18.4)) THEN
-        RAISE EXCEPTION 'Provided Display value is impossible.';
-    END IF;
-    IF(NEW.ram NOT IN (2,4,8,12,16, 20, 24, 32, 64) ) THEN
-        RAISE EXCEPTION 'Provided RAM value is impossible. Possible values: 2, 4, 8, 16 ';
-    END IF;
-    IF(NEW.storage NOT IN (8,16,32,60,64,80,100,120,128,160,240,250,256,500,480,512,1000,1500,2000,3000)) THEN
-        RAISE EXCEPTION 'Provided Storage value is impossible.';
-    END IF;
-    IF(NEW.cores NOT IN (2,4,8)) THEN
-        RAISE EXCEPTION 'Provide Cores values is impossible. Possible values: 2, 4, 8';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM OS WHERE OS=NEW.os)) THEN
-        RAISE EXCEPTION 'Provided OS does not exist in the system.';
-    END IF;
-    IF(NEW.dimensions !~ '^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$') THEN
-        RAISE EXCEPTION 'Provided Dimensions are not in right format. Format must be: #x#x# .';
-    END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
@@ -819,18 +633,6 @@ $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN NEW;
-    END IF;
-    IF(NEW.model !~ '^MON\d{1,7}$') THEN
-        RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##';
-    END IF;
-    IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=NEW.model)) THEN
-        RAISE EXCEPTION 'Provided model number does not exist';
-    END IF;
-    IF(NOT EXISTS(SELECT * FROM BRAND WHERE BRAND=NEW.brand)) THEN
-        RAISE EXCEPTION 'Provided Brand does not exist in the system';
-    END IF;
-    IF(NEW.size NOT IN (5,7,10,10.1,10.4,13.3,14,14.4,15,15.6,16,17,17.3,18.5,18.9,19,19.1,19.5,20,20.7,21,21.3,21.5,22,23,23.6,23.8,24,24.1,25,24.5,27,28,28.8,29,29.5,30,31,31.5,32) ) THEN
-        RAISE EXCEPTION 'Provided Size value is impossible.';
     END IF;
     NEW.isEdited = TRUE;
 RETURN NEW;
@@ -857,82 +659,6 @@ BEGIN
 RETURN NEW;
 END $BODY$ LANGUAGE 'plpgsql';
 
-
-/* ------------ setItemPrice() FUNCTION, SETS THE PRICE OF THE ITEMS ACCORDING TO THEIR SPECIFICATIONS */
-CREATE OR REPLACE FUNCTION setItemPrice() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^MON\d{1,7}$') THEN
-        NEW.price = (SELECT PRICE FROM MONITOR WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
-        RETURN NEW;
-    END IF;
-    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^LAP\d{1,7}$') THEN
-        NEW.price = (SELECT PRICE FROM LAPTOP WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
-        RETURN NEW;
-    END IF;
-    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^TAB\d{1,7}$') THEN
-        NEW.price = (SELECT PRICE FROM TABLET WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
-        RETURN NEW;
-    END IF;
-    IF((SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber) ~ '^DES\d{1,7}$') THEN
-        NEW.price = (SELECT PRICE FROM DESKTOP WHERE MODEL = (SELECT MODEL FROM ITEM WHERE serialNumber = NEW.serialNumber));
-        RETURN NEW;
-     END IF;
-END $BODY$ LANGUAGE 'plpgsql';
-
-/* ------------ orderItemsCreate() FUNCTION, PUSHES THE ITEMS IN THE CART TO THE ORDERITEM TABLE, CALCULATES THE TOTAL PRICE OF AN ORDER AND EMPTIES THE CART  */
-CREATE OR REPLACE FUNCTION orderItemsCreate() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    ALTER SEQUENCE orderitem_order_item_id_seq RESTART WITH 1;
-    IF(EXISTS(SELECT * FROM CART)) THEN
-        LOOP
-            INSERT INTO ORDERITEM (order_id, serialNumber, price) VALUES (NEW.order_id , (SELECT SERIALNUMBER FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART)), (SELECT PRICE FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART)));
-            UPDATE ITEM SET isSold = TRUE WHERE serialNumber = (SELECT SERIALNUMBER FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART));
-            DELETE FROM CART WHERE cart_Item_Id = (SELECT COUNT(*) FROM CART);
-            EXIT WHEN (NOT EXISTS(SELECT * FROM CART));
-        END LOOP;
-    END IF;
-    ALTER SEQUENCE cart_cart_item_id_seq RESTART WITH 1;
-    UPDATE ORDERS SET TOTAL = (SELECT SUM(price) FROM ORDERITEM);
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-/* ------------ checkIsSold() FUNCTION -------------------- */
-CREATE OR REPLACE FUNCTION checkIsSold() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT ISSOLD FROM ITEM WHERE SERIALNUMBER = NEW.serialNumber) = true) THEN
-        RAISE EXCEPTION 'You cannot buy this item since it has already been sold';
-    END IF;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-/* ------------ returnHandle() FUNCTION, CHANGES THE ISSOLD AND ISRETURNED VALUES ACCORDINGLY */
-CREATE OR REPLACE FUNCTION returnHandle() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT ISRETURNED FROM ORDERITEM WHERE (ORDER_ITEM_ID = NEW.order_item_id) = TRUE)) THEN
-        RAISE EXCEPTION 'Cannot return this item since it has already been returned';
-    END IF;
-    UPDATE ORDERITEM SET ISRETURNED = TRUE WHERE (ORDER_ITEM_ID = NEW.order_item_id);
-    UPDATE ITEM SET ISSOLD= FALSE WHERE (SERIALNUMBER = (SELECT SERIALNUMBER FROM ORDERITEM WHERE ORDER_ITEM_ID = NEW.order_item_id)) ;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-
 /* ------------ updateSession() FUNCTION, UPDATES SESSION_ID WHEN USER SIGNS IN FROM DIFFERENT DEVICE */
 /*
 CREATE OR REPLACE FUNCTION updateSession() RETURNS TRIGGER AS
@@ -949,115 +675,40 @@ BEGIN
 END $BODY$ LANGUAGE 'plpgsql';
 */
 
-/* ------------ cartAdminCheck() FUNCTION, CHECKS IF CLIENT ADDING TO CART IS A CUSTOMER AND NOT AN ADMIN */
-CREATE OR REPLACE FUNCTION cartAdminCheck() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT isAdmin FROM USERS WHERE ID = (SELECT USER_ID FROM ACTIVEUSERS WHERE SESSION_ID = NEW.session_id))) THEN
-       RAISE EXCEPTION 'An admin cannot put items on the cart!';
-       RETURN NULL;
-    END IF;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-
-/* ------------ maxNumberCart() FUNCTION, CHECKS IF THERE'S 7 ITEMS IN THE CART  */
-CREATE OR REPLACE FUNCTION maxNumberCart() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF((SELECT COUNT(*) FROM CART) = 7) THEN
-        RAISE EXCEPTION 'Shopping Cart is full. You cannot add other items. Delete an item first.';
-        RETURN NULL;
-    END IF;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-
-/* ------------ resetCartSerial() FUNCTIONs --------------  */
-
-
-
-CREATE OR REPLACE FUNCTION resetCartSerial() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF(pg_trigger_depth() <> 1 )THEN
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 1))) THEN
-        NEW.cart_item_id = 1;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 2))) THEN
-         NEW.cart_item_id = 2;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 3))) THEN
-        NEW.cart_item_id = 3;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 4))) THEN
-        NEW.cart_item_id = 4;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 5))) THEN
-        NEW.cart_item_id = 5;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 6))) THEN
-        NEW.cart_item_id = 6;
-        RETURN NEW;
-    END IF;
-    IF(NOT(EXISTS(SELECT * FROM CART WHERE CART_ITEM_ID = 7))) THEN
-        NEW.cart_item_id = 7;
-        RETURN NEW;
-    END IF;
-    RETURN NEW;
-END $BODY$ LANGUAGE 'plpgsql';
-
-
-
-
 /* ------------ productDelete() FUNCTION, DELETES ALL PRODUCT SPECS AND ITEMS WITH THE PASSED PRODUCT MODEL */
 /* HIGHLY DANGEROUS FUNCTION, DELETES EVERYTHING RELATED TO THE MODEL */
-/*
-
 CREATE OR REPLACE FUNCTION productDelete() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF(pg_trigger_depth() <> 1 )THEN
         RETURN OLD;
     END IF;
-    IF(OLD.model !~ ('^(LAP|DES|MON|TAB)\d{1,7}$')) THEN
+    IF(OLD.model !~ ('^(LAP|DES|MON|TAB)\w{3,7}$')) THEN
         RAISE EXCEPTION 'Provided model number format is not supported. Format must be : DES##, TAB##, LAP## OR MON##';
     END IF;
     IF(NOT EXISTS(SELECT MODEL FROM PRODUCT WHERE MODEL=OLD.model)) THEN
         RAISE EXCEPTION 'Provided model number does not exist';
     END IF;
-    IF(OLD.model ~ '^LAP\d{1,7}$' AND EXISTS(SELECT * FROM LAPTOP WHERE MODEL = OLD.model)) THEN
+    IF(OLD.model ~ '^LAP\w{3,7}$' AND EXISTS(SELECT * FROM LAPTOP WHERE MODEL = OLD.model)) THEN
         DELETE FROM LAPTOP WHERE MODEL = OLD.model;
     END IF;
-    IF(OLD.model ~ '^MON\d{1,7}$' AND EXISTS(SELECT * FROM MONITOR WHERE MODEL = OLD.model)) THEN
+    IF(OLD.model ~ '^MON\w{3,7}$' AND EXISTS(SELECT * FROM MONITOR WHERE MODEL = OLD.model)) THEN
         DELETE FROM MONITOR WHERE MODEL = OLD.model;
     END IF;
-    IF(OLD.model ~ '^TAB\d{1,7}$' AND EXISTS(SELECT * FROM TABLET WHERE MODEL = OLD.model)) THEN
+    IF(OLD.model ~ '^TAB\w{3,7}$' AND EXISTS(SELECT * FROM TABLET WHERE MODEL = OLD.model)) THEN
         DELETE FROM TABLET WHERE MODEL = OLD.model;
     END IF;
-    IF(OLD.model ~ '^DES\d{1,7}$' AND EXISTS(SELECT * FROM DESKTOP WHERE MODEL = OLD.model)) THEN
+    IF(OLD.model ~ '^DES\w{3,7}$' AND EXISTS(SELECT * FROM DESKTOP WHERE MODEL = OLD.model)) THEN
         DELETE FROM DESKTOP WHERE MODEL = OLD.model;
     END IF;
+    /*
     IF(OLD.model ~ '^(LAP|DES|MON|TAB)\d{1,7}$' AND EXISTS(SELECT * FROM ITEM WHERE MODEL = OLD.model)) THEN
         DELETE FROM ITEM WHERE MODEL = OLD.model;
     END IF;
+    */
 RETURN OLD;
 END $BODY$ LANGUAGE 'plpgsql';
 
-*/
 
 /* ------------------------------------------ TRIGGERS --------------------------------------------- */
 
@@ -1136,44 +787,6 @@ BEFORE UPDATE ON USERS
 FOR EACH ROW
 EXECUTE PROCEDURE adminCheckUpdate();
 
-/* ------------ setItemPrice() TRIGGERS ----------------- */
-/*
-CREATE TRIGGER setCartItemPrice
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE setItemPrice();
-*/
-/*
-CREATE TRIGGER setOrderItemPrice
-BEFORE INSERT ON ORDERITEM
-FOR EACH ROW
-EXECUTE PROCEDURE setItemPrice();
-*/
-
-/* ------------ orderItemsCreate() TRIGGER ----------------- */
-/*
-CREATE TRIGGER orderItemsCreate
-AFTER INSERT ON ORDERS
-FOR EACH ROW
-EXECUTE PROCEDURE orderItemsCreate();
-*/
-
-/* ------------ checkIsSold() TRIGGER ----------------- */
-/*
-CREATE TRIGGER checkIsSold
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE checkIsSold();
-*/
-
-/* ------------ returnHandle() TRIGGER ----------------- */
-/*
-CREATE TRIGGER returnHandle
-AFTER INSERT ON RETURNS
-FOR EACH ROW
-EXECUTE PROCEDURE returnHandle();
-*/
-
 /* ------------ updateSession() TRIGGER ----------------- */
 /*
 CREATE TRIGGER updateSession
@@ -1182,34 +795,8 @@ FOR EACH ROW
 EXECUTE PROCEDURE updateSession();
 */
 
-/* ------------ cartAdminCheck() TRIGGER ----------------- */
-/*
-CREATE TRIGGER cartAdminCheck
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE cartAdminCheck();
-*/
-
-/* ------------ maxNumberCart() TRIGGER ----------------- */
-/*
-CREATE TRIGGER maxNumberCart
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE maxNumberCart();
-*/
-
-/* ------------ resetCartSerial() TRIGGERS ----------------- */
-/*
-CREATE TRIGGER resetCartSerial
-BEFORE INSERT ON CART
-FOR EACH ROW
-EXECUTE PROCEDURE resetCartSerial();
-*/
-
 /* ------------ productDelete() TRIGGER ----------------- */
-/*
 CREATE TRIGGER productDelete
 BEFORE DELETE ON PRODUCT
 FOR EACH ROW
 EXECUTE PROCEDURE productDelete();
-*/

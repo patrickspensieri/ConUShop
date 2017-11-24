@@ -102,7 +102,7 @@
                             <div class="row">
                                 <div class="col-sm-6 AddDesktop">
                                     <label>Product Table: </label>
-                                    <input type="text" class="form-control" name="formProductType" value="Desktop" readonly>
+                                    <input type="text" class="form-control" name="prodType" value="Desktop" readonly>
                                 </div>
                                 <div class="col-sm-6 AddDesktop">
                                     <div class="form-group">
@@ -206,6 +206,7 @@
                             <th>Price</th>
                             <th>Edit</td>
                             <th>Delete</th>
+                            <th style="display:none;">Version</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -220,6 +221,7 @@
                             <td class="dimensions"><%= data[i].dimensions %></td>
                             <td class="weight"><%= data[i].weight %></td>
                             <td class="price"><%= data[i].price %></td>
+                            <td style="display:none;" class="version"><%= data[i].version %></td>
                             <td contenteditable="false"><button class="btn btn-warning" onclick="updateProdSpec('Desktop', $(this).closest('tr'), '/admin/desktops')">Edit</button></td>
                             <td contenteditable="false"><button class="btn btn-danger" onclick="deleteProdSpec('Desktop', '<%= data[i].model%>', '/admin/desktops')">Delete</button></td>
                         </tr>

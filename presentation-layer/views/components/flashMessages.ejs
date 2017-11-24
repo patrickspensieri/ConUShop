@@ -1,32 +1,48 @@
 <% if (error_message && error_message.length > 0) { %>
-    <div class="alert alert-danger alert-dismissable fade in">
+    <div class="alert alert-danger alert-dismissable fade in text-center">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <%= error_message %>
     </div>
 <% } %>
 <% if (success_message && success_message.length > 0) { %>
-    <div class="alert alert-success alert-dismissable fade in">
+    <div class="alert alert-success alert-dismissable fade in text-center">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <%= success_message %>
     </div>
 <% } %>
 
+<% if (warning_message && warning_message.length > 0) { %>
+<div class="alert alert-warning alert-dismissable fade in text-center">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <%= warning_message %>
+</div>
+<% } %>
+
 <% if (sessStart_msg && sessStart_msg.length > 0) { %>
-<div class="alert alert-success alert-dismissable fade in">
+<div class="alert alert-success alert-dismissable fade in text-center">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <%= sessStart_msg %>
 </div>
 <% } %>
 <% if (sessEnd_msg && sessEnd_msg.length > 0) { %>
-<div class="alert alert-danger alert-dismissable fade in">
+<div class="alert alert-danger alert-dismissable fade in text-center">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <%= sessEnd_msg %>
 </div>
 <% } %>
 
 <% if (otherSess_msg && otherSess_msg.length > 0) { %>
-<div class="alert alert-danger alert-dismissable fade in">
+<div class="alert alert-danger alert-dismissable fade in text-center">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <%= otherSess_msg %>
 </div>
+<% } %>
+
+<% if (validationErrors && validationErrors.length > 0) { %>
+    <% for(var i = 0; i < validationErrors.length; i++) { %>
+    <div class="alert_validation alert alert-danger alert-dismissable fade in text-center">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <%= validationErrors[i].msg %>
+    </div>
+    <% } %>
 <% } %>

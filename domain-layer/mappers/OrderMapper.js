@@ -27,15 +27,11 @@ class OrderMapper extends AbstractMapper {
    * Maps the returned value to an object of type Order.
    * @static
    * @param {string} orderId id number of Order to be found.
+   * @param {Integer} userId 
    * @param {function} callback function that holds Order object
-   * @return {function} callback object
    */
-    static find(orderId, callback) {
-        let order = idMap.get('Order', orderId);
-        if (order != null) {
-            return callback(null, order);
-        } else {
-            OrderTDG.find(orderId, function(err, result) {
+    static find(orderId, userId, callback) {
+            OrderTDG.find(orderId, userId, function(err, result) {
                 if (err) {
                     console.log('Error during Order find query', null);
                 } else {
@@ -46,17 +42,16 @@ class OrderMapper extends AbstractMapper {
                         value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
                         let order = new Order(value.order_id, value.user_id, value.orderdate,
                             value.total);
-                        idMap.add(order, order.id);
                         return callback(null, order);
                     }
                 }
             });
-        }
     }
 
   /**
    * Maps all returned values into objects of type Order.
    * @static
+   * @param {Integer} userId
    * @param {function} callback function that holds array of Order object
    */
     static findAll(userId, callback) {
@@ -67,13 +62,9 @@ class OrderMapper extends AbstractMapper {
             } else {
                 for (let value of result) {
                     value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
-                    console.log(value.orderdate);
                     let order = new Order(value.order_id, value.user_id, value.orderdate,
                         value.total);
                     orders.push(order);
-                    if (idMap.get('Order', order.orderId) == null) {
-                        idMap.add(order, order.orderId);
-                    }
                 }
                 return callback(null, orders);
             }
@@ -88,8 +79,8 @@ class OrderMapper extends AbstractMapper {
     static insert(OrderObject) {
         OrderTDG.insert(OrderObject.orderId, OrderObject.userId, OrderObject.orderDate,
             OrderObject.total, function(err, result) {
-                if (!err) {
-                    idMap.add(OrderObject, OrderObject.orderId);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -102,8 +93,8 @@ class OrderMapper extends AbstractMapper {
     static update(OrderObject) {
         OrderTDG.update(OrderObject.orderId, OrderObject.userId, OrderObject.orderDate,
             OrderObject.total, function(err, result) {
-                if (!err) {
-                    idMap.update(OrderObject, OrderObject.orderId);
+                if (err) {
+                    console.log(err);
                 }
             });
     }
@@ -115,17 +106,17 @@ class OrderMapper extends AbstractMapper {
    */
     static delete(OrderObject) {
         OrderTDG.delete(OrderObject.orderId, function(err, result) {
-            if (!err) {
-                idMap.delete(OrderObject, OrderObject.orderId);
+            if (err) {
+                console.log(err);
             }
         });
     }
 
     /**
      * Inserts purchase to UOW
-     * @param {*} orderObject 
-     * @param {*} orderItemsArray 
-     * @param {*} callback 
+     * @param {*} orderObject
+     * @param {*} orderItemsArray
+     * @param {*} callback
      * @return {*} callback
      */
     static insertPurchase(orderObject, orderItemsArray, callback) {

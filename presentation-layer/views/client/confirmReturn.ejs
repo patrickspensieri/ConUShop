@@ -1,0 +1,79 @@
+<html lang="en">
+        <head>
+            <title>ConUshop | Home </title>
+            <% include ../components/header.ejs %>
+        </head>
+        <body>
+        
+        <% include ../components/navigator.ejs %>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="client_content table-responsive">
+            <h1>Order Details</h1>
+            <div class="content">
+                <% if (typeof data!='undefined') { %>
+                    <script>
+                        $(document).ready(function () {
+                            var submitted = false;
+
+                            $("form").submit(function() {
+                                submitted = true;
+                            });
+
+                            $(window).bind('beforeunload', function(){
+                                let orderId = <%-JSON.stringify(data.orderId)%>;
+                                if (!submitted) {
+                                    $.ajax({
+                                        url: "/client/item/cancelReturn/<%= data.orderId %>",
+                                        type: "GET",
+                                        async: false
+                                    });
+                                }
+                            });
+
+                            $('form#return').submit(function() {
+                                submitted = true;
+                            });
+
+                            $('form#cancel').submit(function() {
+                                submitted = true;
+                            });
+                        });
+                    </script>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Serial Number</th>
+                                <th>Model Number</th>
+                                <th>Price</a></th>
+                                <th>Returned</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="serial"><%= data.serialNumber %></td>
+                                <td class="model"><%= data.itemObj.modelNumber%></td>
+                                <td class="brand"><%= data.price %></td>
+                                <td class="brand"><%= data.isReturned %></td>
+                                <td>
+                                    <form method="get" id="return" action="/client/item/return/<%= data.orderItemId %>/<%= data.orderId %>">
+                                        <button type="submit" class="btn btn-success">Confirm <span class="glyphicon glyphicon-ok"></span> </button>
+                                    </form>
+                                    <form method="get" id="cancel" action="/client/item/cancelReturn/<%= data.orderId %>">
+                                        <button type="submit" class="btn btn-danger">Cancel <span class="glyphicon glyphicon-remove"></span> </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <% } %>
+            </div>
+        </div>
+        
+<% include ../components/footer.ejs %>
+</body>
+</html>
+        

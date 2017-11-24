@@ -6,6 +6,7 @@ let moment = require('moment');
 let OrderCatalog = require('./OrderCatalog');
 let OrderItemMapper = require('../mappers/OrderItemMapper');
 let ItemMapper = require('../mappers/ItemMapper');
+let contract = require('obligations');
 
 /**
  * Class describes a Client.
@@ -15,28 +16,30 @@ let ItemMapper = require('../mappers/ItemMapper');
 class Client extends User {
     /**
      * Creates a client user
-     * @param {string} firstname 
-     * @param {string} lastname 
-     * @param {string} address 
-     * @param {string} email 
-     * @param {string} phone 
-     * @param {string} password 
-     * @param {boolean} isadmin 
-     * @param {string} sessionid 
-     * @param {string} id 
+     * @param {string} firstname
+     * @param {string} lastname
+     * @param {string} address
+     * @param {string} email
+     * @param {string} phone
+     * @param {string} password
+     * @param {boolean} isadmin
+     * @param {string} sessionid
+     * @param {string} id
      */
     constructor(firstname, lastname, address, email, phone, password, isadmin, sessionid, id) {
         super(firstname, lastname, address, email, phone, password, isadmin, sessionid, id);
-        this.productCatalog = ProductCatalog.getProductCatalogInstance();
-        this.shoppingcart = new ShoppingCart(this.productCatalog, this);
+        this.shoppingcart = new ShoppingCart(ProductCatalog.getProductCatalogInstance(), this);
         this.orderCatalog = new OrderCatalog();
     }
 
     /**
      * Function that allows clients to purchase items from the product Catalog
-     * @param {*} callback 
+     * @param {*} callback
+     * @return {*}
      */
     makePurchase(callback) {
+        contract.precondition(this.shoppingcart.cart.length > 0);
+
         if (this.shoppingcart.cart.length > 0) {
             let self = this;
             let total = this.shoppingcart.getTotal();
@@ -45,9 +48,7 @@ class Client extends User {
             let order = OrderMapper.create(orderId, self.id, date, total);
             for (let i = 0; i < this.shoppingcart.cart.length; i++) {
                 this.shoppingcart.cart[i].setOrderItemId(orderId);
-                clearTimeout(this.shoppingcart.timeouts[i]);
             }
-            this.shoppingcart.timeouts = [];
             OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {
                 self.shoppingcart.cart = [];
                 return callback(null, null);
@@ -56,8 +57,21 @@ class Client extends User {
             console.log('Shopping cart empty');
             return callback(null, null);
         }
+        contract.postcondition(this.shoppingcart.cart.length == 0);
     }
 
+    /**
+     * Cancels a purchase.
+     * @param {*} callback
+     */
+    cancelPurchase(callback) {
+        this.shoppingcart.removeAllFromCart(callback);
+    }
+
+    /**
+     * @param {Integer} orderItemId
+     * @param {*} callback
+     */
     returnItem(orderItemId, callback) {
         OrderItemMapper.find(orderItemId, function(err, result) {
             if (result.isReturned == true) {
@@ -65,7 +79,6 @@ class Client extends User {
                 return callback(err, null);
             } else {
                 result.isReturned = true;
-                console.log(result);
                 UOW.registerDirty(result);
                 ItemMapper.find(result.serialNumber, function(err, result2) {
                     result2.isLocked = false;

@@ -1,0 +1,186 @@
+<html lang="en">
+        <head>
+            <title>ConUshop | Home </title>
+            <% include ../components/header.ejs %>
+        </head>
+        <body>
+        <% include ../components/navigator.ejs %>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="client_content container">
+            <h1>Confirm Purchase</h1>
+            <% if (typeof data!='undefined' && data.length > 0) { %>
+            <script>
+                jQuery(document).ready(function($) {
+                    if (window.history && window.history.pushState) {
+
+                        window.history.pushState('forward', null, './checkOut');
+
+                        $(window).on('popstate', function() {
+                            location.reload(true);
+                        });
+
+                    }
+                });
+
+                $(document).ready(function () {
+                    submitted = false;
+
+                    $("form").submit(function() {
+                        submitted = true;
+                    });
+
+                    $(window).bind('beforeunload', function(){
+                        let locked = <%-JSON.stringify(locked)%>;
+                        if (locked && !submitted) {
+                            $.ajax({
+                                url: "/client/cancelPurchase",
+                                type: "GET",
+                                async: false
+                            });
+                        }
+                    });
+
+                    $('form#purchase').submit(function() {
+                        submitted = true;
+                    });
+
+                    $('form#cancel').submit(function() {
+                        submitted = true;
+                    });
+                });
+            </script>
+            <h2 class="alert alert-danger">Your purchase will automatically cancel if not confirmed in: <span class="timer"></span> minutes or if you <span>leave the page</span>.</h2>
+            <div class="content row">
+                <div class="col-sm-12 col-md-10 col-md-offset-1">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-center">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="#"><%= data[i].itemObj.modelNumber %></a></h4>
+                                        <h5 class="media-heading"> by <a href="#"><%= data[i].specification.brand %></a></h5>
+                                        <h5 class="media-heading"> Serial Number: <a href="#"><%= data[i].serialNumber %></a></h5>
+                                        <h5 class="media-heading">Info: 
+                                            <% switch (data[i].specification.constructor.name) {
+                                                case 'Tablet' : %>
+                                                        <%= data[i].specification.processor %> /
+                                                        <%= data[i].specification.ram %> gb ram /
+                                                        <%= data[i].specification.storage %> gb storage /
+                                                        <%= data[i].specification.cores %> cores /
+                                                        <%= data[i].specification.display %> inch /
+                                                        <%= data[i].specification.os %> /
+                                                        <%= data[i].specification.battery %> mAH /
+                                                        <%= data[i].specification.camera %> MP /
+                                                        <%= data[i].specification.dimensions %> /
+                                                        <%= data[i].specification.weight %> lbs
+                                                        <% break;
+                                                case 'Laptop' : %>
+                                                        <%= data[i].specification.processor %> /
+                                                        <%= data[i].specification.ram %> gb ram /
+                                                        <%= data[i].specification.storage %> gb storage /
+                                                        <%= data[i].specification.cores %> cores /
+                                                        <%= data[i].specification.display %> inch /
+                                                        <%= data[i].specification.os %> /
+                                                        <%= data[i].specification.battery %> mAH /
+                                                        camera: <%= data[i].specification.camera %> /
+                                                        <%= data[i].specification.dimensions %> /
+                                                        touch: <%= data[i].specification.touch %> /
+                                                        <%= data[i].specification.weight %> lbs
+                                                        <% break;
+                                                case 'Desktop' : %>
+                                                        <%= data[i].specification.processor %> /
+                                                        <%= data[i].specification.ram %> gb ram /
+                                                        <%= data[i].specification.storage %> gb storage /
+                                                        <%= data[i].specification.cores %>  cores /
+                                                        <%= data[i].specification.dimensions %> /
+                                                        <%= data[i].specification.weight %> lbs
+                                                        <% break;
+                                                case 'Monitor' : %>
+                                                        <%= data[i].specification.size %> inch /
+                                                        <%= data[i].specification.weight %> lbs
+                                                        <% break;
+                                            } %>
+                                        <h5>
+                                        <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                                    </div>
+                                </div></td>
+                                <script>
+                                    $(function(){
+                                        var calcTimer = setInterval(function(){
+                                            let date = <%-JSON.stringify(timeout)%>;
+
+                                            date_future = new Date(date+1000);
+                                            date_now = new Date();
+    
+                                            seconds = Math.floor((date_future - (date_now))/1000);
+                                            minutes = Math.floor(seconds/60);
+                                            hours = Math.floor(minutes/60);
+                                            days = Math.floor(hours/24);
+                                            
+                                            hours = hours-(days*24);
+                                            minutes = minutes-(days*24*60)-(hours*60);
+                                            seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+    
+                                            if (minutes == 0 && seconds == 0 ){
+                                                submitted = true;
+                                                location.reload();
+                                            }
+                                            if (seconds < 10) {
+                                                seconds = '0' + seconds;
+                                            }
+                                            $(".timer").text(minutes + ":" + seconds);
+                                        },1000);
+                                    });
+                                </script>
+                                <td class="col-sm-1 col-md-1 text-center"><strong><%= data[i].specification.price %></strong></td>
+                            </tr>
+                            <% } %>
+                            <tr>
+                                <td><h3>Total</h3></td>
+                                <td class="text-right"><h3><strong>$<%= total %></strong></h3></td>
+                            </tr>
+                            <tr>
+                                <td>   </td>
+                                <td>
+                                    <form method="get" id="purchase" action="/client/makePurchase">
+                                        <button type="submit" class="btn btn-success">
+                                                Confirm <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                    </form>
+                                    <form method="get" id="cancel" action="/client/cancelPurchase">
+                                        <button type="submit" class="btn btn-danger">
+                                                Cancel <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <% } else { %>
+                <div class="content row">
+                        <div class="alert alert-danger">
+                                <strong>There is no purchase underway.</strong>
+                        </div>
+                </div>
+            <% } %>
+        </div>
+    
+        
+        <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
+        <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
+        <% include ../components/footer.ejs %>
+        </body>
+        </html>

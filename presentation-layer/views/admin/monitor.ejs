@@ -86,8 +86,8 @@
                             <div class="row">
                                 <div class="col-sm-6 AddMonitor">
                                         <label>Product Table: </label>
-                                        <input type="text" class="form-control" name="formProductType" value="Monitor" readonly>
-                                </div>
+                                        <input type="text" class="form-control" name="prodType" value="Monitor" readonly>
+                                   </div>
                                 <div class="col-sm-6 AddMonitor">
                                     <div class="form-group">
                                         <label>Model Number</label>
@@ -151,6 +151,7 @@
                             <th>Price</th>
                             <th>Edit</th>
                             <th>Delete</th>
+                            <th style="display:none;">Version</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -161,6 +162,7 @@
                             <td class="size"><%= data[i].size %></td>
                             <td class="weight"><%= data[i].weight %></td>
                             <td class="price"><%= data[i].price %></td>
+                            <td style="display:none;" class="version"><%= data[i].version %></td>
                             <td contenteditable="false"><button class="btn btn-warning" onclick="updateProdSpec('Monitor', $(this).closest('tr'), '/admin/monitors')">Edit</button></td>
                             <td contenteditable="false"><button class="btn btn-danger" onclick="deleteProdSpec('Monitor', '<%= data[i].model%>', '/admin/monitors')">Delete</button></td>
                         </tr>

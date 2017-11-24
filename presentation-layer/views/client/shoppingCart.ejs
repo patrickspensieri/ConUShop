@@ -5,19 +5,32 @@
     </head>
     <body>
     <% include ../components/navigator.ejs %>
-    <br>
-    <br>
-    <br>
+    <!-- flash messages -->
+    <% include ../components/flashMessages.ejs %>
     <br>
     <div class="client_content container">
         <h1>Shopping Cart</h1>
         <% if (typeof data!='undefined' && data.length > 0) { %>
+        <script>
+            jQuery(document).ready(function($) {
+                if (window.history && window.history.pushState) {
+
+                    window.history.pushState('forward', null, './shoppingCart');
+
+                    $(window).on('popstate', function() {
+                        location.reload(true);
+                    });
+
+                }
+            });
+        </script>
         <div class="content row">
             <div class="col-sm-12 col-md-10 col-md-offset-1">
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Product</th>
+                            <th class="text-center">Timeout</th>
                             <th class="text-center">Price</th>
                             <th> </th>
                         </tr>
@@ -30,9 +43,79 @@
                                 <div class="media-body">
                                     <h4 class="media-heading"><a href="#"><%= data[i].itemObj.modelNumber %></a></h4>
                                     <h5 class="media-heading"> by <a href="#"><%= data[i].specification.brand %></a></h5>
+                                    <h5 class="media-heading"> Serial Number: <a href="#"><%= data[i].serialNumber %></a></h5>
+                                    <h5 class="media-heading">Info: 
+                                        <% switch (data[i].specification.constructor.name) {
+                                            case 'Tablet' : %>
+                                                    <%= data[i].specification.processor %> /
+                                                    <%= data[i].specification.ram %> gb ram /
+                                                    <%= data[i].specification.storage %> gb storage /
+                                                    <%= data[i].specification.cores %> cores /
+                                                    <%= data[i].specification.display %> inch /
+                                                    <%= data[i].specification.os %> /
+                                                    <%= data[i].specification.battery %> mAH /
+                                                    <%= data[i].specification.camera %> MP /
+                                                    <%= data[i].specification.dimensions %> /
+                                                    <%= data[i].specification.weight %> lbs
+                                                    <% break;
+                                            case 'Laptop' : %>
+                                                    <%= data[i].specification.processor %> /
+                                                    <%= data[i].specification.ram %> gb ram /
+                                                    <%= data[i].specification.storage %> gb storage /
+                                                    <%= data[i].specification.cores %> cores /
+                                                    <%= data[i].specification.display %> inch /
+                                                    <%= data[i].specification.os %> /
+                                                    <%= data[i].specification.battery %> mAH /
+                                                    camera: <%= data[i].specification.camera %> /
+                                                    <%= data[i].specification.dimensions %> /
+                                                    touch: <%= data[i].specification.touch %> /
+                                                    <%= data[i].specification.weight %> lbs
+                                                    <% break;
+                                            case 'Desktop' : %>
+                                                    <%= data[i].specification.processor %> /
+                                                    <%= data[i].specification.ram %> gb ram /
+                                                    <%= data[i].specification.storage %> gb storage /
+                                                    <%= data[i].specification.cores %>  cores /
+                                                    <%= data[i].specification.dimensions %> /
+                                                    <%= data[i].specification.weight %> lbs
+                                                    <% break;
+                                            case 'Monitor' : %>
+                                                    <%= data[i].specification.size %> inch /
+                                                    <%= data[i].specification.weight %> lbs
+                                                    <% break;
+                                        } %>
+                                    </h5>
                                     <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                                 </div>
                             </div></td>
+                            <td class="col-sm-1 col-md-1 text-center" id='<%= data[i].serialNumber %>'><strong></strong></td>
+                            <script>
+                                $(function(){
+                                    var calcTimer = setInterval(function(){
+                                        let date = <%-JSON.stringify(data[i].itemTimeout)%>;
+                                        
+                                        date_future = new Date(date+1000);
+                                        date_now = new Date();
+
+                                        seconds = Math.floor((date_future - (date_now))/1000);
+                                        minutes = Math.floor(seconds/60);
+                                        hours = Math.floor(minutes/60);
+                                        days = Math.floor(hours/24);
+                                        
+                                        hours = hours-(days*24);
+                                        minutes = minutes-(days*24*60)-(hours*60);
+                                        seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+
+                                        if (minutes == 0 && seconds == 0 ){
+                                            location.reload();
+                                        }
+                                        if (seconds < 10) {
+                                            seconds = '0' + seconds;
+                                        }
+                                        $("#<%= data[i].serialNumber %>").text(minutes + ":" + seconds + " Mins");
+                                    },1000);
+                                });
+                            </script>
                             <td class="col-sm-1 col-md-1 text-center"><strong><%= data[i].specification.price %></strong></td>
                             <td class="col-sm-1 col-md-1">
                                 <form method="get" action="/client/deleteFromShoppingCart/<%= data[i].serialNumber %>">
@@ -45,19 +128,21 @@
                         <% } %>
                         <tr>
                             <td>   </td>
+                            <td>   </td>
                             <td><h3>Total</h3></td>
                             <td class="text-right"><h3><strong>$<%= total %></strong></h3></td>
                         </tr>
                         <tr>
+                            <td>   </td>
                             <td>   </td>
                             <td>
                                 <button type="button" class="btn btn-default" onclick="window.location.href='/catalog/desktops'">
                                     <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
                                 </button></td>
                             <td>
-                                <form method="get" action="/client/makePurchase">
+                                <form method="get" action="/client/checkout">
                                     <button type="submit" class="btn btn-success">
-                                            Purchase <span class="glyphicon glyphicon-play"></span>
+                                            Checkout <span class="glyphicon glyphicon-play"></span>
                                     </button>
                                 </form>
                             </td>
@@ -78,7 +163,6 @@
     
     <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script> -->
     <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.2.0/multiple-select.js'></script> -->
-    <script type="text/javascript" src="/js/catalog/catalog.js"></script>
     <% include ../components/footer.ejs %>
     </body>
     </html>
