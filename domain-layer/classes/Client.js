@@ -6,6 +6,7 @@ let moment = require('moment');
 let OrderCatalog = require('./OrderCatalog');
 let OrderItemMapper = require('../mappers/OrderItemMapper');
 let ItemMapper = require('../mappers/ItemMapper');
+let contract = require('obligations');
 
 /**
  * Class describes a Client.
@@ -37,6 +38,8 @@ class Client extends User {
      * @return {*}
      */
     makePurchase(callback) {
+        contract.precondition(this.shoppingcart.cart.length > 0);
+
         if (this.shoppingcart.cart.length > 0) {
             let self = this;
             let total = this.shoppingcart.getTotal();
@@ -54,6 +57,7 @@ class Client extends User {
             console.log('Shopping cart empty');
             return callback(null, null);
         }
+        contract.postcondition(this.shoppingcart.cart.length == 0);
     }
 
     /**
