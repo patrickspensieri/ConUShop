@@ -39,7 +39,7 @@ function findAdvice(methodCall) {
         if (object != null) {
             return callback(null, object);
         } else {
-            if (classMapper == 'OrderMapper') {
+            if (className == 'Order') {
                 let orderId = methodCall.args[0];
                 let userId = methodCall.args[1];
                 let callback = methodCall.args[2];
@@ -52,9 +52,9 @@ function findAdvice(methodCall) {
                             return callback(err, null);
                         } else {
                             value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
-                            let order = new Order(value.order_id, value.user_id, value.orderdate,
-                                value.total);
-                            return callback(null, order);
+                            let object = classMapper.create(...getAttributesHelper(value, className));
+                            idMap.add(object, id);
+                            return callback(null, object);
                         }
                     }
                 });
@@ -86,8 +86,8 @@ function findAllAdvice(methodCall) {
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let classMapper = getMapperHelper(className);
-    if (className == 'Order' || className == 'OrderItem' )
-    {
+
+    if (className == 'Order' || className == 'OrderItem' ) {
         let uniqueID = methodCall.args[0];
         let callback = methodCall.args[1];
         classTDG.findAll(uniqueID, function(err, result) {
@@ -96,44 +96,36 @@ function findAllAdvice(methodCall) {
                 console.log('Error during OrdersItem findALL query', null);
             } else {
                 for (let value of result) {
-                    if(className == 'Order') {
-                    value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
-                    let object = OrderMapper.create(...getAttributesHelper(value, className));
+                    if (className == 'Order') {
+                        value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
+                    }
+                    let object = classMapper.create(...getAttributesHelper(value, className));
                     let id = object[Object.keys(object)[0]];
                     objects.push(object);
                     if (idMap.get(className, id) == null) {
                         idMap.add(object, id);
-                    }
-                    }
-                    if(className == 'OrderItem') {
-                    let object = OrderItemMapper.create(...getAttributesHelper(value, className));
-                    let id = object[Object.keys(object)[0]];
-                    objects.push(object);
-                    if (idMap.get(className, id) == null) {
-                        idMap.add(object, id);
-                    }
                     }
                 }
                 return callback(null, objects);
             }
         });
     } else {
-    classTDG.findAll(function(err, result) {
-        let objects = [];
-        if (err) {
-            console.log('Error during desktop findALL query', null);
-        } else {
-            for (let value of result) {
-                let object = classMapper.create(...getAttributesHelper(value, className));
-                let id = object[Object.keys(object)[0]];
-                objects.push(object);
-                if (idMap.get(className, id) == null) {
-                    idMap.add(object, id);
+        classTDG.findAll(function(err, result) {
+            let objects = [];
+            if (err) {
+                console.log('Error during desktop findALL query', null);
+            } else {
+                for (let value of result) {
+                    let object = classMapper.create(...getAttributesHelper(value, className));
+                    let id = object[Object.keys(object)[0]];
+                    objects.push(object);
+                    if (idMap.get(className, id) == null) {
+                        idMap.add(object, id);
+                    }
                 }
+                return callback(null, objects);
             }
-            return callback(null, objects);
-        }
-    });
+        });
     }
 }
 
@@ -197,7 +189,7 @@ function updateAdvice(methodCall) {
  * @return {string} Class name
  */
 let getClassNameHelper = function(targetName) {
-    let classNames = ['Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item', 'Order', 'OrderItem'];
+    let classNames = ['OrderItem', 'Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item', 'Order'];
     for (name of classNames) {
         if (targetName.includes(name)) {
             return name;
