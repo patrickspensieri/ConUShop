@@ -18,14 +18,16 @@ class Computer extends ElectronicDevice {
      * @param {string} dimensions dimensions of computer.
      * @param {number} weight weight of computer.
      * @param {number} price price of computer.
+     * @param {number} version version of computer.
      */
-    constructor(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
-        super(model, brand, weight, price);
+    constructor(model, brand, processor, ram, storage, cores, dimensions, weight, price, version) {
+        super(model, brand, weight, price, version);
         this.processor = processor;
         this.ram = ram;
         this.storage = storage;
         this.cores = cores;
         this.dimensions = dimensions;
+
     }
 }
 

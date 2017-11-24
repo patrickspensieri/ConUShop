@@ -45,9 +45,10 @@ class MonitorTDG {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
+   * @param {number} version
    * @param {function} callback
    */
-    static insert(model, brand, size, weight, price, callback) {
+    static insert(model, brand, size, weight, price) {
         let queryString = 'INSERT INTO monitor (model, brand, size, weight, price) VALUES($1, $2, $3, $4, $5)';
         let queryValues = [model, brand, size, weight, price];
 
@@ -55,7 +56,6 @@ class MonitorTDG {
             if (err) {
                 console.log(err.message);
             }
-            return callback(err, result);
         });
     }
 
@@ -67,11 +67,12 @@ class MonitorTDG {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
+   * @param {number} version version of monitor.
    * @param {function} callback
    */
-    static update(model, brand, size, weight, price, callback) {
-        let queryString = 'UPDATE monitor SET brand=$2, size=$3, weight=$4, price=$5 WHERE model=$1 AND isDeleted=FALSE';
-        let queryValues = [model, brand, size, weight, price];
+    static update(model, brand, size, weight, price, version, callback) {
+        let queryString = 'UPDATE monitor SET brand=$2, size=$3, weight=$4, price=$5, version=$6 WHERE model=$1 AND isDeleted=FALSE';
+        let queryValues = [model, brand, size, weight, price, version];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {

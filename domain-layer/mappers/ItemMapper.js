@@ -69,7 +69,7 @@ class ItemMapper extends AbstractMapper {
      * @param {Object} itemObject an object of type item.
      */
     static insert(itemObject) {
-        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber, function(err, result) {
+        ItemTDG.insert(itemObject.serialNumber, itemObject.modelNumber, itemObject.isLocked, function(err, result) {
             if (err) {
                 console.log(err);
             }

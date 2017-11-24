@@ -49,9 +49,10 @@ class DesktopTDG {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
+   * @param {number} version
    * @param {function} callback function
    */
-    static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price, callback) {
+    static insert(model, brand, processor, ram, storage, cores, dimensions, weight, price) {
         let queryString = 'INSERT INTO desktop (model, brand, processor, ram, storage, cores, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
         let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
 
@@ -59,7 +60,6 @@ class DesktopTDG {
             if (err) {
                 console.log(err.message);
             }
-            return callback(err, result);
         });
     }
 
@@ -75,11 +75,12 @@ class DesktopTDG {
    * @param {string} dimensions dimensions of desktop.
    * @param {number} weight weight of desktop.
    * @param {number} price price of desktop.
+   * @param {number} version version of desktop.
    * @param {function} callback function
    */
-    static update(model, brand, processor, ram, storage, cores, dimensions, weight, price, callback) {
-        let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, weight=$8, price=$9 WHERE model=$1 AND isDeleted=FALSE';
-        let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price];
+    static update(model, brand, processor, ram, storage, cores, dimensions, weight, price, version, callback) {
+        let queryString = 'UPDATE desktop SET brand=$2, processor=$3, ram=$4, storage=$5, cores=$6, dimensions=$7, weight=$8, price=$9, version=$10 WHERE model=$1 AND isDeleted=FALSE';
+        let queryValues = [model, brand, processor, ram, storage, cores, dimensions, weight, price, version];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {

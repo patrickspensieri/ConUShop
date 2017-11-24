@@ -16,10 +16,11 @@ class MonitorMapper extends AbstractMapper {
    * @param {number} size  size of monitor screen.
    * @param {number} weight weight of monitor.
    * @param {number} price price of monitor.
+   * @param {number} version version of tablet
    * @return {monitor} monitor object.
    */
-    static create(model, brand, size, weight, price) {
-        let monitor = new Monitor(model, brand, size, weight, price);
+    static create(model, brand, size, weight, price, version) {
+        let monitor = new Monitor(model, brand, size, weight, price, version);
         return monitor;
     }
 
@@ -39,7 +40,7 @@ class MonitorMapper extends AbstractMapper {
                         return callback(err, null);
                     } else {
                         let monitor = new Monitor(value.model, value.brand, value.size,
-                            value.weight, value.price);
+                            value.weight, value.price, value.version);
                         idMap.add(monitor, monitor.model);
                         return callback(null, monitor);
                     }
@@ -60,7 +61,7 @@ class MonitorMapper extends AbstractMapper {
             } else {
                 for (let value of result) {
                     let monitor = new Monitor(value.model, value.brand, value.size,
-                        value.weight, value.price);
+                        value.weight, value.price, value.version);
                     monitors.push(monitor);
                 }
                 return callback(null, monitors);
@@ -89,7 +90,7 @@ class MonitorMapper extends AbstractMapper {
    */
     static update(monitorObject) {
         MonitorTDG.update(monitorObject.model, monitorObject.brand, monitorObject.size,
-            monitorObject.weight, monitorObject.price, function(err, result) {
+            monitorObject.weight, monitorObject.price, monitorObject.version, function(err, result) {
                 if (err) {
                     console.log(err);
                 }

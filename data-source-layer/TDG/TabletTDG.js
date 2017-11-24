@@ -53,9 +53,10 @@ class TabletTDG {
    * @param {string} dimensions dimensions of tablet.
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet.
+   * @param {number} version 
    * @param {function} callback
    */
-    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, callback) {
+    static insert(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) {
         let queryString = 'INSERT INTO tablet (model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
         let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
 
@@ -63,7 +64,6 @@ class TabletTDG {
             if (err) {
                 console.log(err.message);
             }
-            return callback(err, result);
         });
     }
 
@@ -83,11 +83,12 @@ class TabletTDG {
    * @param {string} dimensions dimensions of tablet.
    * @param {number} weight weight of tablet.
    * @param {number} price price of tablet
+   * @param {number} version version of tablet
    * @param {function} callback
    */
-    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, callback) {
-        let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13 WHERE model=$1 AND isDeleted=FALSE';
-        let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price];
+    static update(model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version, callback) {
+        let queryString = 'UPDATE tablet SET brand=$2, display=$3, processor=$4, ram=$5, storage=$6, cores=$7, os=$8, battery=$9, camera=$10, dimensions=$11, weight=$12, price=$13, version=$14 WHERE model=$1 AND isDeleted=FALSE';
+        let queryValues = [model, brand, display, processor, ram, storage, cores, os, battery, camera, dimensions, weight, price, version];
 
         db.query(queryString, queryValues, (err, result) => {
             if (err) {
