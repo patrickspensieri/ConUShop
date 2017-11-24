@@ -38,6 +38,8 @@ www.conu.shop
 1. `npm install`   
 2. `npm test`
 
+Note: If you want access to the continuous integration send message to   
+patrickspensieri@gmail.com, since the codeship CI environment is private.
 
 ### Credits
 
