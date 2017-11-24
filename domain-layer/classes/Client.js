@@ -37,17 +37,17 @@ class Client extends User {
      * @return {*}
      */
     makePurchase(callback) {
-        if (this.shoppingcart.cart.length > 0) {
+        if (this.shoppingcart.getCart().length > 0) {
             let self = this;
             let total = this.shoppingcart.getTotal();
             let orderId = self.shoppingcart.generateOrderId(self.id);
             let date = moment().format('YYYY-MM-DD');
             let order = OrderMapper.create(orderId, self.id, date, total);
-            for (let i = 0; i < this.shoppingcart.cart.length; i++) {
-                this.shoppingcart.cart[i].setOrderItemId(orderId);
+            for (let i = 0; i < this.shoppingcart.getCart().length; i++) {
+                this.shoppingcart.getCart()[i].setOrderItemId(orderId);
             }
-            OrderMapper.insertPurchase(order, this.shoppingcart.cart, function(err, result) {
-                self.shoppingcart.cart = [];
+            OrderMapper.insertPurchase(order, this.shoppingcart.getCart(), function(err, result) {
+                self.shoppingcart.emptyCart();
                 return callback(null, null);
             });
         } else {
