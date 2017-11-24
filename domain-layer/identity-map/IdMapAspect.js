@@ -158,7 +158,7 @@ function deleteAdvice(methodCall) {
         id = object[Object.keys(object)[4]];
     }
     classTDG.delete(id, function(err, result) {
-        if (!err) {
+        if (err == null) {
             idMap.delete(object, id);
         }
     });

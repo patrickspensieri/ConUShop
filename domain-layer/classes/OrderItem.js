@@ -48,7 +48,7 @@ class OrderItem {
         let self = this;
         let productCatalog = ProductCatalog.getProductCatalogInstance();
         productCatalog.getProductSpecification(this.itemObj.type, this.itemObj.modelNumber, function(err, result) {
-            if (!err) {
+            if (result != null) {
                 self.specification = result;
                 self.price = result.price;
             }

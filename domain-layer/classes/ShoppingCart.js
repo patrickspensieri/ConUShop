@@ -30,19 +30,26 @@ class ShoppingCart {
         const self = this;
         contract.precondition(this.cart.length < 7);
 
-        self.getItem(modelNumber, type, function(err, result) {
-            if (result != null) {
-                self.cart.push(result);
-
-                let now = new Date();
-                let timerExpiresAt = now.getTime() + 120000;
-                let timeout = setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {});
-                self.timeouts.push(timeout);
-                result.itemTimeout = timerExpiresAt;
-
-                return callback(null, result);
+        self.productCatalog.getProductSpecification(type, modelNumber, function(err, result) {
+            if (result == null) {
+                let err = 'Item no longer available.';
+                return callback(err, null);
+            } else {
+                self.getItem(modelNumber, type, function(err, result) {
+                    if (result != null) {
+                        self.cart.push(result);
+        
+                        let now = new Date();
+                        let timerExpiresAt = now.getTime() + 120000;
+                        let timeout = setTimeout(self.removeFromCart.bind(self), 120000, result.serialNumber, function(err, result) {});
+                        self.timeouts.push(timeout);
+                        result.itemTimeout = timerExpiresAt;
+        
+                        return callback(null, result);
+                    }
+                    return callback(err, null);
+                });
             }
-            return callback(err, null);
         });
     }
 
