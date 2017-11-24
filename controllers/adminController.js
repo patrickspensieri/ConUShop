@@ -62,8 +62,12 @@ module.exports = {
     deleteItemFromCatalog: function(req, res) {
         ItemMapper.find(req.body.serialNumber, function(err, result) {
             if (result != null) {
-                let warningMsg = req.adminUser.getProductCatalog().deleteItemFromCatalog(req.body.serialNumber);
-                req.flash('success_msg', warningMsg);
+                if (result.isLocked == false) {
+                    let warningMsg = req.adminUser.getProductCatalog().deleteItemFromCatalog(req.body.serialNumber);
+                    req.flash('success_msg', warningMsg);
+                } else {
+                    req.flash('validationErrors', 'Item locked and connot be deleted');
+                }
             } else {
                 req.flash('validationErrors', 'Item has been previously deleted');
             }
