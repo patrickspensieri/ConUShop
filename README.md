@@ -1,3 +1,5 @@
+[![Build Status](https://app.codeship.com/projects/b8ae9790-b293-0135-f1e6-124eec6b3035/status?branch=master)](https://app.codeship.com/projects/258110)
+
 # Architecture and Design Team Project, Concordia Fall 2017
 
 A web application that allows clients to view a retailer’s catalogs and make purchases.
@@ -31,8 +33,7 @@ www.conu.shop
 3. `npm start || heroku local`
 4. open browser to `localhost:5000`
 
-
-### Excecute unit tests
+### Excecute unit tests locally
 
 1. `npm install`   
 2. `npm test`

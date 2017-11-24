@@ -9,7 +9,7 @@ let OrderItemMapper = require('../mappers/OrderItemMapper');
 class ShoppingCart {
     /**
      * @constructor
-     * @param {Object} productCatalog 
+     * @param {Object} productCatalog
      * @param {Object} user
      */
     constructor(productCatalog, user) {
@@ -22,9 +22,9 @@ class ShoppingCart {
 
     /**
      * Add item to cart
-     * @param {string} modelNumber 
+     * @param {string} modelNumber
      * @param {string} type
-     * @param {*} callback 
+     * @param {*} callback
      */
     addToCart(modelNumber, type, callback) {
         const self = this;
@@ -55,8 +55,8 @@ class ShoppingCart {
 
     /**
      * Remove an item from the shopping cart
-     * @param {string} serialNumber 
-     * @param {*} callback 
+     * @param {string} serialNumber
+     * @param {*} callback
      */
     removeFromCart(serialNumber, callback) {
         contract.precondition(this.cart.length > 0);
@@ -79,8 +79,8 @@ class ShoppingCart {
 
     /**
      * Remove all items from the shopping cart
-     * @param {string} serialNumber
      * @param {*} callback
+     * @return {*} callback
      */
     removeAllFromCart(callback) {
         contract.precondition(this.cart.length > 0);
@@ -103,6 +103,9 @@ class ShoppingCart {
         }
     }
 
+    /**
+     * Starts the purchase session.
+     */
     startPurchaseSession() {
         for (let i = 0; i < this.timeouts.length; i++) {
             clearTimeout(this.timeouts[i]);
@@ -118,6 +121,10 @@ class ShoppingCart {
         this.isLocked = true;
     }
 
+    /**
+     * Ends the purchase session.
+     * Called when purchase is made, or when purchase is cancelled.
+     */
     endPurchaseSession() {
         for (let i = 0; i < this.timeouts.length; i++) {
             clearTimeout(this.timeouts[i]);
@@ -128,9 +135,9 @@ class ShoppingCart {
 
     /**
      * Get an item from the shopping cart
-     * @param {string} modelNumber 
-     * @param {string} type 
-     * @param {*} callback 
+     * @param {string} modelNumber
+     * @param {string} type
+     * @param {*} callback
      */
     getItem(modelNumber, type, callback) {
         this.productCatalog.getItemAndLock(modelNumber, function(err, result) {
