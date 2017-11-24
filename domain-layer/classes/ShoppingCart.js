@@ -100,6 +100,7 @@ class ShoppingCart {
      * Starts the purchase session.
      */
     startPurchaseSession() {
+        contract.precondition(this.cart.length > 0);
         for (let i = 0; i < this.timeouts.length; i++) {
             clearTimeout(this.timeouts[i]);
         }
@@ -112,6 +113,7 @@ class ShoppingCart {
         this.timeouts[0].timeout = timerExpiresAt;
 
         this.isLocked = true;
+        contract.postcondition(this.isLocked == true);
     }
 
     /**
@@ -124,6 +126,7 @@ class ShoppingCart {
         }
         this.timeouts = [];
         this.isLocked = false;
+        contract.postcondition(this.isLocked == false);
     }
 
     /**

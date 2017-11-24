@@ -358,7 +358,7 @@ class ProductCatalog {
      * Start product catalog session.
      */
     startProductCatalogSession() {
-        this.isComplete = true;
+        this.isEditable = true;
         return 'Started Product Catalog Session. You can now make changes to Product Catalog';
     }
 
@@ -366,7 +366,7 @@ class ProductCatalog {
      * End product catalog session.
      */
     endProductCatalogSession() {
-        this.isComplete = false;
+        this.isEditable = false;
         return 'Ended Product Catalog Session. You can no longer make changes to Product Catalog';
     }
 
@@ -375,10 +375,10 @@ class ProductCatalog {
      * @return {Boolean}
      */
     productCatalogSessionIsComplete() {
-        if (this.isComplete == null) {
+        if (this.isEditable == null) {
             return false;
         }
-        return this.isComplete;
+        return this.isEditable;
     }
 }
 
