@@ -13,7 +13,7 @@ class ItemTDG {
      * @param {function} callback function
      */
     static find(serialNumber, callback) {
-        db.query('SELECT * FROM item WHERE serialnumber=$1 AND islocked=false', [serialNumber], (err, result) => {
+        db.query('SELECT * FROM item WHERE serialnumber=$1', [serialNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
