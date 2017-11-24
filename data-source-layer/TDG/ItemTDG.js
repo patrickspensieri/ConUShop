@@ -13,7 +13,7 @@ class ItemTDG {
      * @param {function} callback function
      */
     static find(serialNumber, callback) {
-        db.query('SELECT * FROM item WHERE serialnumber=$1', [serialNumber], (err, result) => {
+        db.query('SELECT * FROM item WHERE serialnumber=$1 AND islocked=false', [serialNumber], (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -28,7 +28,7 @@ class ItemTDG {
      * @param {function} callback function
      */
     static findAll(callback) {
-        db.query('SELECT * FROM item WHERE islocked=false;', (err, result) => {
+        db.query('SELECT * FROM item WHERE islocked=false', (err, result) => {
             if (err) {
                 console.log(err.message);
             } else {
@@ -82,7 +82,7 @@ class ItemTDG {
      * @param {function} callback function
      */
     static delete(serialNumber, callback) {
-        db.query('DELETE FROM item WHERE serialnumber=$1 AND islocked=false;', [serialNumber], (err, result) =>{
+        db.query('DELETE FROM item WHERE serialnumber=$1 AND islocked=false', [serialNumber], (err, result) =>{
             if (err) {
                 console.log(err.message);
             }
