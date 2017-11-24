@@ -44,6 +44,48 @@
                                 <div class="media-body">
                                     <h4 class="media-heading"><a href="#"><%= data[i].itemObj.modelNumber %></a></h4>
                                     <h5 class="media-heading"> by <a href="#"><%= data[i].specification.brand %></a></h5>
+                                    <h5 class="media-heading"> Serial Number: <a href="#"><%= data[i].serialNumber %></a></h5>
+                                    <h5 class="media-heading">Info: 
+                                        <% switch (data[i].specification.constructor.name) {
+                                            case 'Tablet' : %>
+                                                    <%= data[i].specification.processor %> /
+                                                    <%= data[i].specification.ram %> gb ram /
+                                                    <%= data[i].specification.storage %> gb storage /
+                                                    <%= data[i].specification.cores %> cores /
+                                                    <%= data[i].specification.display %> inch /
+                                                    <%= data[i].specification.os %> /
+                                                    <%= data[i].specification.battery %> mAH /
+                                                    <%= data[i].specification.camera %> MP /
+                                                    <%= data[i].specification.dimensions %> /
+                                                    <%= data[i].specification.weight %> lbs
+                                                    <% break;
+                                            case 'Laptop' : %>
+                                                    <%= data[i].specification.processor %> /
+                                                    <%= data[i].specification.ram %> gb ram /
+                                                    <%= data[i].specification.storage %> gb storage /
+                                                    <%= data[i].specification.cores %> cores /
+                                                    <%= data[i].specification.display %> inch /
+                                                    <%= data[i].specification.os %> /
+                                                    <%= data[i].specification.battery %> mAH /
+                                                    camera: <%= data[i].specification.camera %> /
+                                                    <%= data[i].specification.dimensions %> /
+                                                    touch: <%= data[i].specification.touch %> /
+                                                    <%= data[i].specification.weight %> lbs
+                                                    <% break;
+                                            case 'Desktop' : %>
+                                                    <%= data[i].specification.processor %> /
+                                                    <%= data[i].specification.ram %> gb ram /
+                                                    <%= data[i].specification.storage %> gb storage /
+                                                    <%= data[i].specification.cores %>  cores /
+                                                    <%= data[i].specification.dimensions %> /
+                                                    <%= data[i].specification.weight %> lbs
+                                                    <% break;
+                                            case 'Monitor' : %>
+                                                    <%= data[i].specification.size %> inch /
+                                                    <%= data[i].specification.weight %> lbs
+                                                    <% break;
+                                        } %>
+                                    </h5>
                                     <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                                 </div>
                             </div></td>
