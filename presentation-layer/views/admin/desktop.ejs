@@ -91,11 +91,7 @@
             <h1 class="well">Register a  new DESKTOP</h1>
             <div class="col-lg-12 well">
                 <div class="row">
-                    <form data-toggle="validator" role="form" method="post" action="/admin/addProdSpec" >
-
-
-
-
+                    <form data-toggle="validator" method="post" action="/admin/addProdSpec" >
 
 
                         <div class="col-sm-12">
@@ -107,7 +103,7 @@
                                 <div class="col-sm-6 AddDesktop">
                                     <div class="form-group">
                                         <label  for="model" class="control-label">Model Number</label>
-                                        <input type="text" id="model" class="form-control" name="model" placeholder="model" pattern="^DES\d{1,7}$" data-error="Please enter valid model." required>
+                                        <input type="text" id="model" class="form-control" name="model" placeholder="model" pattern="^DES\d{1,7}$" data-error="Model must be of the form DES##." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -153,7 +149,7 @@
                                 <div class="col-sm-6 AddDesktop">
                                     <div class="form-group">
                                         <label>Dimensions</label>
-                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions" pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" data-error="Please enter valid dimension." required>
+                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions" pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" data-error="Dimension must be of the form # x # x #." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -161,7 +157,7 @@
                                 <div class="col-sm-6 AddDesktop">
                                     <div class="form-group">
                                         <label>Weight</label>
-                                        <input type="text" class="form-control" name="weight" placeholder="weight"  pattern="([^-]\d+\.{0,1}\d{0,2})" data-error="Please enter valid weight." required>
+                                        <input type="text" class="form-control" name="weight" placeholder="weight"  pattern="[\d]+\.{1}\d{2}" data-error="Weight value be a positive number (2 decimal points)." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -169,7 +165,7 @@
                                 <div class="AddDesktop">
                                     <div class="form-group">
                                         <label>Price</label>
-                                        <input type="text" class="form-control" name="price" placeholder="price"  pattern="[^-]\d+\.{0,1}\d{0,2}" data-error="Please enter valid price." required>
+                                        <input type="text" class="form-control" name="price" placeholder="price"  pattern="[\d]+\.{1}\d{2}" data-error="Price value be a positive number (2 decimal points)." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>

@@ -103,12 +103,17 @@
                             <div class="row">
                                 <div class="col-sm-6 AddTablet">
                                     <label>Product Table: </label>
+<<<<<<< HEAD
                                     <input type="text" class="form-control" name="prodType" value="Tablet" readonly>
+=======
+                                    <input type="text" class="form-control" name="formProductType" value="Tablet" readonly>
+
+>>>>>>> b0a71d82c2c108e3f1f388dbf6898acae550ada8
                                 </div>
                                 <div class="col-sm-6 AddTablet">
                                     <div class="form-group">
                                         <label>Model Number</label>
-                                        <input type="text" class="form-control" name="model" placeholder="model" pattern="^TAB\d{1,7}$" data-error="Please enter valid model." required>
+                                        <input type="text" class="form-control" name="model" placeholder="model" pattern="^TAB\d{1,7}$" data-error="Model must be of the form TAB##." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -186,7 +191,7 @@
                                 <div class="col-sm-12 AddTablet">
                                     <div class="form-group">
                                         <label>Dimensions</label>
-                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions"pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" data-error="Please enter valid dimension." required>
+                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions" pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$" data-error="Dimension must be of the form # x # x #." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -195,14 +200,14 @@
                                 <div class="col-sm-6 AddTablet">
                                     <div class="form-group">
                                         <label>Weight</label>
-                                        <input type="text" class="form-control" name="weight" placeholder="weight" pattern="[^-]\d+\.{0,1}\d{0,2}" data-error="Please enter valid price." data-error="Please enter valid weight." required>
+                                        <input type="text" class="form-control" name="weight" placeholder="weight" pattern="[\d]+\.{1}\d{1}" data-error="Please enter valid weight." data-error="Weight value be a positive number (2 decimal points)." required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 AddTablet">
                                     <div class="form-group">
                                         <label>Price</label>
-                                        <input type="text" class="form-control" name="price" placeholder="price" pattern="[^-]\d+\.{0,1}\d{0,2}" data-error="Please enter valid price." data-error="Please enter valid price." required>
+                                        <input type="text" class="form-control" name="price" placeholder="price" pattern="[\d]+\.{1}\d{2}" data-error="Please enter valid price." data-error="Price value be a positive number (2 decimal points)" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
