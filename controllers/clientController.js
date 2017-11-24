@@ -34,7 +34,7 @@ module.exports = {
             total: total,
         });
     },
-    
+
     checkout: function(req, res) {
         let data = req.clientUser.shoppingcart.cart;
         let timeout = 0;
@@ -63,11 +63,12 @@ module.exports = {
 
     cancelPurchase: function(req, res) {
         if (req.clientUser.shoppingcart.isLocked) {
-            req.clientUser.shoppingcart.removeAllFromCart(function(err, data) {
+            req.clientUser.cancelPurchase(function(err, result) {
                 req.clientUser.shoppingcart.endPurchaseSession();
+                req.flash('success_msg', 'Purchase cancelled.');
+                res.redirect('shoppingCart');
             });
         }
-        res.redirect('shoppingCart');
     },
 
     viewAccount: function(req, res) {
@@ -128,7 +129,7 @@ module.exports = {
         }
         res.redirect('/client/order/details/'+orderId);
     },
-    
+
     deleteAccount: function(req, res) {
         UserMapper.makeDeletion(req.clientUser);
         req.flash('success_msg', 'Your account has been successfully deleted');

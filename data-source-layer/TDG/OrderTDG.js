@@ -10,9 +10,10 @@ class OrderTDG {
    * Finds one object from the Order table.
    * @static
    * @param {string} orderId model number of Order to be found.
+   * @param {Integer} userId 
    * @param {function} callback function that holds Order object.
    */
-    static find(orderId, callback) {
+    static find(orderId, userId, callback) {
         db.query('SELECT * FROM Orders WHERE order_id=$1 AND user_id=$2', [orderId, userId], (err, result) => {
             if (err) {
                 console.log(err.message);

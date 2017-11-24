@@ -5,7 +5,7 @@ let MonitorMapper = require('../mappers/MonitorMapper');
 let TabletMapper = require('../mappers/TabletMapper');
 let ItemMapper = require('../mappers/ItemMapper');
 let UserMapper = require('../mappers/UserMapper');
-let OrderMapper = require('../mappers/OrderItemMapper');
+let OrderMapper = require('../mappers/OrderMapper');
 let OrderItemMapper = require('../mappers/OrderItemMapper');
 let DesktopTDG = require('../../data-source-layer/TDG/DesktopTDG');
 let TabletTDG = require('../../data-source-layer/TDG/TabletTDG');
@@ -15,9 +15,9 @@ let ItemTDG = require('../../data-source-layer/TDG/ItemTDG');
 let OrderTDG = require('../../data-source-layer/TDG/OrderTDG');
 let OrderItemTDG = require('../../data-source-layer/TDG/OrderItemTDG');
 let UserTDG = require('../../data-source-layer/TDG/UserTDG');
+let moment = require('moment');
 
-
-let arrMapper = [DesktopMapper, TabletMapper, MonitorMapper, LaptopMapper, ItemMapper, UserMapper];
+let arrMapper = [DesktopMapper, TabletMapper, MonitorMapper, LaptopMapper, ItemMapper, UserMapper, OrderItemMapper, OrderMapper];
 arrMapper.map((object) => meld.around(object, ['find'], findAdvice));
 arrMapper.map((object) => meld.around(object, ['findAll'], findAllAdvice));
 arrMapper.map((object) => meld.around(object, ['insert'], insertAdvice));
@@ -35,25 +35,46 @@ function findAdvice(methodCall) {
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let classMapper = getMapperHelper(className);
-    let object = idMap.get(className, id);
-    if (object != null) {
-        return callback(null, object);
-    } else {
-        classTDG.find(id, function(err, result) {
-            if (err) {
-                console.log('Error during find query', null);
+        let object = idMap.get(className, id);
+        if (object != null) {
+            return callback(null, object);
+        } else {
+            if (className == 'Order') {
+                let orderId = methodCall.args[0];
+                let userId = methodCall.args[1];
+                let callback = methodCall.args[2];
+                OrderTDG.find(orderId, userId, function(err, result) {
+                    if (err) {
+                        console.log('Error during Order find query', null);
+                    } else {
+                        let value = result[0];
+                        if (result.length==0) {
+                            return callback(err, null);
+                        } else {
+                            value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
+                            let object = classMapper.create(...getAttributesHelper(value, className));
+                            idMap.add(object, id);
+                            return callback(null, object);
+                        }
+                    }
+                });
             } else {
-                let value = result[0];
-                if (result.length == 0) {
-                    return callback(err, null);
-                } else {
-                    let object = classMapper.create(...getAttributesHelper(value, className));
-                    idMap.add(object, id);
-                    return callback(null, object);
-                }
+                classTDG.find(id, function(err, result) {
+                    if (err) {
+                        console.log('Error during find query', null);
+                    } else {
+                        let value = result[0];
+                        if (result.length == 0) {
+                            return callback(err, null);
+                        } else {
+                            let object = classMapper.create(...getAttributesHelper(value, className));
+                            idMap.add(object, id);
+                            return callback(null, object);
+                        }
+                    }
+                });
             }
-        });
-    }
+        }
 }
 
 /**
@@ -65,22 +86,47 @@ function findAllAdvice(methodCall) {
     let className = getClassNameHelper(meld.joinpoint().target.name);
     let classTDG = getTDGHelper(className);
     let classMapper = getMapperHelper(className);
-    classTDG.findAll(function(err, result) {
-        let objects = [];
-        if (err) {
-            console.log('Error during desktop findALL query', null);
-        } else {
-            for (let value of result) {
-                let object = classMapper.create(...getAttributesHelper(value, className));
-                let id = object[Object.keys(object)[0]];
-                objects.push(object);
-                if (idMap.get(className, id) == null) {
-                    idMap.add(object, id);
+
+    if (className == 'Order' || className == 'OrderItem' ) {
+        let uniqueID = methodCall.args[0];
+        let callback = methodCall.args[1];
+        classTDG.findAll(uniqueID, function(err, result) {
+            let objects = [];
+            if (err) {
+                console.log('Error during OrdersItem findALL query', null);
+            } else {
+                for (let value of result) {
+                    if (className == 'Order') {
+                        value.orderdate = moment(value.orderdate).format('YYYY-MM-DD');
+                    }
+                    let object = classMapper.create(...getAttributesHelper(value, className));
+                    let id = object[Object.keys(object)[0]];
+                    objects.push(object);
+                    if (idMap.get(className, id) == null) {
+                        idMap.add(object, id);
+                    }
                 }
+                return callback(null, objects);
             }
-            return callback(null, objects);
-        }
-    });
+        });
+    } else {
+        classTDG.findAll(function(err, result) {
+            let objects = [];
+            if (err) {
+                console.log('Error during desktop findALL query', null);
+            } else {
+                for (let value of result) {
+                    let object = classMapper.create(...getAttributesHelper(value, className));
+                    let id = object[Object.keys(object)[0]];
+                    objects.push(object);
+                    if (idMap.get(className, id) == null) {
+                        idMap.add(object, id);
+                    }
+                }
+                return callback(null, objects);
+            }
+        });
+    }
 }
 
 /**
@@ -143,7 +189,7 @@ function updateAdvice(methodCall) {
  * @return {string} Class name
  */
 let getClassNameHelper = function(targetName) {
-    let classNames = ['Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item', 'Order', 'OrderItem'];
+    let classNames = ['OrderItem', 'Tablet', 'Monitor', 'Laptop', 'Desktop', 'User', 'Item', 'Order'];
     for (name of classNames) {
         if (targetName.includes(name)) {
             return name;
@@ -188,7 +234,7 @@ let getAttributesHelper = function(value, className) {
             break;
         case 'Order': /* Item object attributes different than database result*/
             return [value.order_id, value.user_id, value.orderdate,
-                value.total, value.shoppingCart];
+                value.total];
             break;
         case 'OrderItem': /* Item object attributes different than database result*/
             return [value.order_item_id, value.order_id, value.serialnumber, value.price,
@@ -234,7 +280,7 @@ let getObjectAttributesHelper = function(value, className) {
             break;
         case 'Order': /* Item object attributes different than database result*/
             return [value.orderId, value.userId, value.orderDate,
-                value.total, value.shoppingCart];
+                value.total];
             break;
         case 'OrderItem': /* Item object attributes different than database result*/
             return [value.orderItemId, value.orderId, value.serialNumber, value.price,
