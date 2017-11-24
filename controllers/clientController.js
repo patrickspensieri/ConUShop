@@ -4,7 +4,7 @@ module.exports = {
     addToShoppingCart: function(req, res) {
         let modelNumber = req.body.model;
         let type = req.body.type;
-        if (req.clientUser.shoppingcart.cart.length == 7) {
+        if (req.clientUser.shoppingcart.getCart().length == 7) {
             req.flash('error_msg', 'Shpping cart is full.');
             res.send({redirect: req.get('referer')});
         }
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     viewShoppingCart: function(req, res) {
-        let data = req.clientUser.shoppingcart.cart;
+        let data = req.clientUser.shoppingcart.getCart();
         let total = req.clientUser.shoppingcart.getTotal();
         res.render('client/shoppingCart', {
             data: data,
@@ -36,7 +36,7 @@ module.exports = {
     },
 
     checkout: function(req, res) {
-        let data = req.clientUser.shoppingcart.cart;
+        let data = req.clientUser.shoppingcart.getCart();
         let timeout = 0;
         let total = 0;
         if (data.length > 0) {

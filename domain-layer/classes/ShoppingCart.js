@@ -21,6 +21,22 @@ class ShoppingCart {
     }
 
     /**
+     * Get Cart
+     * @return {*} callback
+     */
+    getCart() {
+        return this.cart;
+    }
+
+    /**
+     * Empty Cart
+     * @return {*} callback
+     */
+    emptyCart() {
+        this.cart=[];
+    }
+
+    /**
      * Add item to cart
      * @param {string} modelNumber
      * @param {string} type
@@ -28,11 +44,11 @@ class ShoppingCart {
      */
     addToCart(modelNumber, type, callback) {
         const self = this;
-        contract.precondition(this.cart.length < 7);
+        contract.precondition(this.getCart().length < 7);
 
         self.getItem(modelNumber, type, function(err, result) {
             if (result != null) {
-                self.cart.push(result);
+                self.getCart().push(result);
 
                 let now = new Date();
                 let timerExpiresAt = now.getTime() + 120000;
@@ -52,14 +68,14 @@ class ShoppingCart {
      * @param {*} callback
      */
     removeFromCart(serialNumber, callback) {
-        contract.precondition(this.cart.length > 0);
+        contract.precondition(this.getCart().length > 0);
 
         const self = this;
         this.productCatalog.unlockItem(serialNumber, function(err, result) {
             if (!err) {
-                for (let i = 0; i < self.cart.length; i++) {
-                    if (self.cart[i].serialNumber == serialNumber) {
-                        self.cart.splice(i, 1);
+                for (let i = 0; i < self.getCart().length; i++) {
+                    if (self.getCart()[i].serialNumber == serialNumber) {
+                        self.getCart().splice(i, 1);
                         clearTimeout(self.timeouts[i]);
                         self.timeouts.splice(i, 1);
                         break;
@@ -76,12 +92,12 @@ class ShoppingCart {
      * @return {*} callback
      */
     removeAllFromCart(callback) {
-        contract.precondition(this.cart.length > 0);
+        contract.precondition(this.getCart().length > 0);
 
         const self = this;
         let removed = 0;
-        for (let i = 0; i < self.cart.length; i++) {
-            let serialNumber = self.cart[i].serialNumber;
+        for (let i = 0; i < self.getCart().length; i++) {
+            let serialNumber = self.getCart()[i].serialNumber;
 
             this.productCatalog.unlockItem(serialNumber, function(err, result) {
                 if (err) {
@@ -89,8 +105,8 @@ class ShoppingCart {
                 }
             });
 
-            if (++removed == self.cart.length) {
-                self.cart = [];
+            if (++removed == self.getCart().length) {
+                self.emptyCart();
                 return callback(null, 'Success');
             }
         }
@@ -152,8 +168,8 @@ class ShoppingCart {
      */
     getTotal() {
         let total = 0;
-        for (let i = 0; i < this.cart.length; i++) {
-            total += parseFloat(this.cart[i].price);
+        for (let i = 0; i < this.getCart().length; i++) {
+            total += parseFloat(this.getCart()[i].price);
         }
         total = Number(Math.round(total+'e'+2)+'e-'+2); // round to 2 decimals
         return total;
