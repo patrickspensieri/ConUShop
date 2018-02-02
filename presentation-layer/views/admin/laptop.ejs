@@ -52,6 +52,7 @@
                         <th>Dimensions</th>
                         <th>Weight</th>
                         <th>Price</th>
+                        <th style="display:none;">Version</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -71,6 +72,7 @@
                         <td class="dimensions"><%= data[i].dimensions %></td>
                         <td class="weight"><%= data[i].weight %></td>
                         <td class="price"><%= data[i].price %></td>
+                        <td style="display:none;" class="version"><%= data[i].version %></td>
                     </tr>
                     <% } %>
                     </tbody>
@@ -100,78 +102,121 @@
             <h1 class="well">Register a  new LAPTOP</h1>
             <div class="col-lg-12 well">
                 <div class="row">
-                    <form method="post" action="/admin/addProdSpec">
+                    <form data-toggle="validator" method="post" action="/admin/addProdSpec">
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-6 AddLaptop">
+
                                     <label>Product Table: </label>
                                     <input type="text" class="form-control" name="prodType" value="Laptop" readonly>
                                 </div>
                                 <div class="col-sm-6 AddLaptop">
-                                    <label>Model Number</label>
-                                    <input type="text" class="form-control" name="model" placeholder="model">
+                                    <div class="form-group">
+                                        <label>Model Number</label>
+                                        <input type="text" id="model" class="form-control" name="model" placeholder="model" pattern="^LAP\d{1,7}$" data-error="Model must be of the form LAP##." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="AddLaptop">
-                                <label>Brand</label>
-                                <input type="text" class="form-control" name="brand" placeholder="brand">
+                                <div class="form-group">
+                                    <label>Brand</label>
+                                    <input type="text" class="form-control" name="brand" placeholder="brand" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-3 AddLaptop">
-                                    <label>Display</label>
-                                    <input type="text" class="form-control" name="display" placeholder="display">
+                                    <div class="form-group">
+                                        <label>Display</label>
+                                        <input type="text" class="form-control" name="display" placeholder="display" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-3 AddLaptop">
-                                    <label>Processor</label>
-                                    <input type="text" class="form-control" name="processor" placeholder="processor">
+                                    <div class="form-group">
+                                        <label>Processor</label>
+                                        <input type="text" class="form-control" name="processor" placeholder="processor" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-3 AddLaptop">
-                                    <label>Ram</label>
-                                    <input type="text" class="form-control" name="ram" placeholder="ram">
+                                    <div class="form-group">
+                                        <label>Ram</label>
+                                        <input type="text" class="form-control" name="ram" placeholder="ram" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-3 AddLaptop">
-                                    <label>Storage</label>
-                                    <input type="text" class="form-control" name="storage" placeholder="storage">
+                                    <div class="form-group">
+                                        <label>Storage</label>
+                                        <input type="text" class="form-control" name="storage" placeholder="storage" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddLaptop">
-                                    <label>Cores</label>
-                                    <input type="text" class="form-control" name="cores" placeholder="cores">
+                                    <div class="form-group">
+                                        <label>Cores</label>
+                                        <input type="text" class="form-control" name="cores" placeholder="cores" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6 AddLaptop">
-                                    <label>OS</label>
-                                    <input type="text" class="form-control" name="os" placeholder="os">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 AddLaptop">
-                                    <label>Battery</label>
-                                    <input type="text" class="form-control" name="battery" placeholder="battery">
-                                </div>
-                                <div class="col-sm-6 AddLaptop">
-                                    <label>Camera</label>
-                                    <input type="text" class="form-control" name="camera" placeholder="camera">
+                                    <div class="form-group">
+                                        <label>OS</label>
+                                        <input type="text" class="form-control" name="os" placeholder="os" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddLaptop">
-                                    <label>Touch</label>
-                                    <input type="text" class="form-control" name="touch" placeholder="touch">
+                                    <div class="form-group">
+                                        <label>Battery</label>
+                                        <input type="text" class="form-control" name="battery" placeholder="battery" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6 AddLaptop">
-                                    <label>Dimensions</label>
-                                    <input type="text" class="form-control" name="dimensions" placeholder="dimensions">
+                                    <div class="form-group">
+                                        <label>Camera</label>
+                                        <input type="text" class="form-control" name="camera" placeholder="camera" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 AddLaptop">
-                                    <label>Weight</label>
-                                    <input type="text" class="form-control" name="weight" placeholder="weight">
+                                    <div class="form-group">
+                                        <label>Touch</label>
+                                        <input type="text" class="form-control" name="touch" placeholder="touch" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6 AddLaptop">
-                                    <label>Price</label>
-                                    <input type="text" class="form-control" name="price" placeholder="price">
+                                    <div class="form-group">
+                                        <label>Dimensions</label>
+                                        <input type="text" class="form-control" name="dimensions" placeholder="dimensions" pattern="^(\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?\sx\s\d{1,2}(\.\d{1,2})?)$"  data-error="Dimension must be of the form # x # x #." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 AddLaptop">
+                                    <div class="form-group">
+                                        <label>Weight</label>
+                                        <input type="text" class="form-control" name="weight" placeholder="weight" pattern="[\d]+\.{1}\d{2}" data-error="Weight value be a positive number (2 decimal points)."  required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 AddLaptop">
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <input type="text" class="form-control" name="price" placeholder="price" pattern="[\d]+\.{1}\d{2}" data-error="Price value be a positive number (2 decimal points)." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div><br>
                             <button type="submit" class="btn btn-lg btn-success">Add Laptop</button>
